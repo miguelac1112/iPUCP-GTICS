@@ -1,30 +1,61 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
-        <title>Editar Transportista</title>
-    </head>
-    <body>
-        <main>
-        <div class="container px-4 py-5">
-            <h1 class="pb-2 mb-3 border-bottom">Editar Transportista</h1>
-            <form method="post" th:action="@{'/shipper/save'}" class="mt-2">
-                <input th:value="${shipper.shipperId}" name="shipperId" type="hidden" />
-                <div class="mb-3">
-                    <label for="companyname" class="form-label">Nombre de la compañía</label>
-                    <input th:value="${shipper.companyname}" name="companyname" type="text" class="form-control" id="companyname" />
-                </div>
-                <div class="mb-3">
-                    <label for="phone" class="form-label">Teléfono</label>
-                    <input th:value="${shipper.phone}" name="phone" type="text" class="form-control" id="phone" />
-                </div>
-                <a th:href="@{'/shipper/list'}" class="btn btn-danger">Cancelar</a>
-                <button type="submit" class="btn btn-primary">Actualizar</button>
-            </form>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+    <title>Lista Productos</title>
+</head>
+<body>
+<main>
+    <div class="container px-4 py-5">
+        <h1 class="pb-2 border-bottom">Información de los usuarios</h1>
+        <div class="d-flex mt-3 mb-4">
+            <a class="btn btn-primary" th:href="@{'/product/new'}">Agregar Usuario</a>
         </div>
-    </main>
-        <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
-    </body>
+        <form method="post" th:action="@{/shipper/BuscarTransportistas}">
+            <input name="searchField" class="form-control mb-3" type="text" placeholder="Search"/>
+        </form>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Usuario</th>
+                <th>Código</th>
+                <th>Correo</th>
+                <th>Celular</th>
+                <th>DNI</th>
+                <th>Strikes</th>
+                <th>¿Suspender?</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <div class="d-flex align-items-center">
+                        <img
+                                src="https://mdbootstrap.com/img/new/avatars/8.jpg"
+                                alt=""
+                                style="width: 45px; height: 45px"
+                                class="rounded-circle"
+                        />
+                        <div class="ms-3">
+                            <p class="fw-bold mb-1">Angelo Ramos</p>
+                            <p class="text-muted mb-0">Alumno</p>
+                        </div>
+                    </div>
+                </td>
+                <th>20192258</th>
+                <th>a20192258@pucp.edu.pe</th>
+                <th>993606147</th>
+                <th>72673679</th>
+                <th>1</th>
+                <td><a class="btn btn-primary">Si</a></td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+</main>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
 </html>
