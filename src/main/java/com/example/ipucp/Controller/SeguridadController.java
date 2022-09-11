@@ -7,8 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/seguridad")
 public class SeguridadController {
+
     @GetMapping("/listar")
     public String probando() {
-        return "seguridad-./listar";
+        return "seguridad/seguridad";
     }
 }
