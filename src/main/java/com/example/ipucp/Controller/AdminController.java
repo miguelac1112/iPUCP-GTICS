@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/administrador")
 public class AdminController {
 
-    @GetMapping("/editar")
+    @GetMapping("/listar")
     public String probando() {
-        return "admin/editFrm";
+        return "admin/listar";
     }
 }
