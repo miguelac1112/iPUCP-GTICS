@@ -33,7 +33,7 @@
                                     a20192258@pucp.edu.pe
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-                                    <li><a class="dropdown-item" href="">Salas</a></li>
+                                    <li><a class="dropdown-item" href="">Incidencias</a></li>
                                     <li><a class="dropdown-item" href="">Cerrar Sesión</a></li>
                                 </ul>
                             </li>
@@ -50,10 +50,7 @@
     </br>
 
     <div class="container px-4 py-5">
-        <h1 class="pb-2 border-bottom">Información de los usuarios</h1>
-        <div class="d-flex mt-3 mb-4">
-            <a class="btn btn-primary" th:href="@{'/product/new'}">Agregar Usuario</a>
-        </div>
+        <h1 class="pb-2 border-bottom" style="text-align: center">Información de los usuarios</h1>
         <div class="container">
             <div class="row">
                 <div class="col-auto">
@@ -69,6 +66,9 @@
                     <form method="post" th:action="@{/shipper/BuscarTransportistas}">
                         <input name="searchField" class="form-control mb-3" type="text" placeholder="Buscar por nombre de usuario"/>
                     </form>
+                </div>
+                <div class="col-auto">
+                    <a class="btn btn-primary" th:href="@{'/product/new'}">Agregar Usuario</a>
                 </div>
             </div>
         </div>
