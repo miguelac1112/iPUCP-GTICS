@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+        <title>Estadísticas Empleados</title>
+    </head>
+    <body>
+        <main>
+            <div class="container px-4 py-5">
+                <h1 class="pb-2 border-bottom">Estadisticas empleados</h1>
+                <h4>Cantidad de empleados por región</h4>
+                <table class="table table-sm">
+                    <tr>
+                        <th>Región</th>
+                        <th>Cantidad de empleados</th>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </table>
+                <h4 class="mt-4">Cantidad de empleados por pais</h4>
+                <form class="row">
+                    <label class="col-form-label col-sm-2 col-md-1" for="filtrar">Filtrar</label>
+                    <div class="col-sm-3 col-md-2">
+                        <select class="form-select" id="filtrar">
+                            <option>Todos</option>
+                            <option>opcion 1</option>
+                        </select>
+                    </div>
+                </form>
+                <table class="table table-sm">
+                    <tr>
+                        <th>País</th>
+                        <th>Cantidad de empleados</th>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+        </main>
+        <h2>Estadisticas empleados</h2>
+        <hr/>
+
+        <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    </body>
+</html>
+
