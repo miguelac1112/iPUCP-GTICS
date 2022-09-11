@@ -1,6 +1,4 @@
 package com.example.ipucp.Controller;
 
-public class UsuarioController {
-
-
+public class SeguridadController {
 }
