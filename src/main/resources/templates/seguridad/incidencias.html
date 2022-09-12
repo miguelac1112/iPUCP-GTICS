@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link
+            rel="stylesheet"
+            th:href="@{https://use.fontawesome.com/releases/v5.15.1/css/all.css}"
+            integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp"
+            crossorigin="anonymous"
+    />
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <title>Lista de incidencias</title>
+</head>
+<body>
+<main>
+
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark"
+     style="height: 100px">
+    <div class="container">
+        <a class="navbar-brand" href="" ><img th:src="@{/img/logo.jpg}" alt="..." style="height: 65px;width: 90px;border-radius: 3px;"/></a>
+        <a class="h1" style="color: white">iPUCP</a>
+
+
+        <div class="collapse navbar-collapse " id="navbarResponsive">
+            <ul class="navbar-nav ms-auto py-4 py-lg-0">
+                <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                a20192258@pucp.edu.pe
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                                <li><a class="dropdown-item" href="">Incidencias</a></li>
+                                <li><a class="dropdown-item" href="">Cerrar Sesión</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </ul>
+        </div>
+
+    </div>
+</nav>
+
+    </br>
+    </br>
+    <h1 class="pb-2 border-bottom" style="text-align: center">Lista de incidencias</h1>
+
+    <!--descargas--->
+    <div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-auto">
+                        <select class="form-select" aria-label="Default select example">
+                            <option selected>Filtrar por categoría</option>
+                            <option value="1">Alumno</option>
+                            <option value="2">Profesor</option>
+                            <option value="3">Seguridad</option>
+                            <option value="3">JP</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <form method="post" th:action="@{/shipper/BuscarTransportistas}">
+                            <input name="searchField" class="form-control mb-3" type="text" placeholder="Buscar por nombre de usuario"/>
+                        </form>
+                    </div>
+                    <div class="col-auto">
+                        <a class="btn btn-primary" th:href="@{'/product/new'}">Agregar Usuario</a>
+                    </div>
+                </div>
+            </div>
+    </div>
+
+
+
+<div>
+     <!-- 1 card-->
+
+    <div class="card mb-3">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img th:src="@{/img/reporte1.jpg}"  class="img-fluid rounded-start" alt="...">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        Robo en pabellon A
+                    </h5>
+                    <p class="card-text">El dia de hoy un compañero dejo su laptop en el salon A201 para ir a los servicios. Al momento de su regreso su laptop no se encontraba</p>
+                    <p class="card-text">Tipo: Robo</p>
+                    <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
+                            <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"></path>
+                        </svg>
+                        Ubicar
+                    </button>
+                    <a href="#" class="btn btn-primary">Atender</a>
+                    <p class="card-text"><small class="text-muted">Publicado el 25 de agosto 2022</small></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2 card-->
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ubicacion de incidencia 00456</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mapouter"><div class="gmap_canvas"><iframe class="gmap_iframe" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?width=470&amp;height=400&amp;hl=en&amp;q=aulario pucp&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"></iframe><a href="https://mcpenation.com/">https://mcpenation.com</a></div><style>.mapouter{position:relative;text-align:right;width:470px;height:400px;}.gmap_canvas {overflow:hidden;background:none!important;width:470px;height:400px;}.gmap_iframe {width:470px!important;height:400px!important;}</style></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</main>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</main>
+</html>
