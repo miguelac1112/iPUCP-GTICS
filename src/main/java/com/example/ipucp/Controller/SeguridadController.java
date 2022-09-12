@@ -27,4 +27,9 @@ public class SeguridadController {
     public String probando3() {
         return "seguridad/lista_usuarios";
     }
+
+    @GetMapping("/detalleid")
+    public String probando4() {
+        return "seguridad/detalleid_seguridad";
+    }
 }
