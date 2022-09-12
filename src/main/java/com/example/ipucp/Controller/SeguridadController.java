@@ -12,4 +12,10 @@ public class SeguridadController {
     public String probando() {
         return "seguridad/seguridad";
     }
+
+
+    @GetMapping("/incidencias")
+    public String lista() {
+        return "seguridad/incidencias";
+    }
 }
