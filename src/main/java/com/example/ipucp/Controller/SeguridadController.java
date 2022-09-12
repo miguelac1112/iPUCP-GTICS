@@ -18,4 +18,13 @@ public class SeguridadController {
     public String lista() {
         return "seguridad/incidencias";
     }
+
+    @GetMapping("/usuarior")
+    public String probando2() {
+        return "seguridad/seguridad_reportar";
+    }
+    @GetMapping("/lista_usuarios")
+    public String probando3() {
+        return "seguridad/lista_usuarios";
+    }
 }

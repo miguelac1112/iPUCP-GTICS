@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <link
+            rel="stylesheet"
+            href="https://use.fontawesome.com/releases/v5.15.1/css/all.css"
+            integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp"
+            crossorigin="anonymous"
+    />
+    <script src="https://kit.fontawesome.com/1e18eec1cd.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/css/style.css" />
+    <title>iPUCP</title>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark"
+     style="height: 100px">
+    <div class="container">
+        <a class="navbar-brand"><img th:src="@{/img/logo.jpg}" alt="..." style="height: 65px;width: 90px;border-radius: 3px;"/></a>
+        <p class="h1" style="color: white">iPUCP</p>
+
+
+        <div class="collapse navbar-collapse " id="navbarResponsive">
+            <ul class="navbar-nav ms-auto py-4 py-lg-0">
+                <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle fw-bold" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: ghostwhite;">
+                                a20192258@pucp.edu.pe
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
+                                <li><a class="dropdown-item" th:href="@{'/admin/incidencias'}">Incidencias</a></li>
+                                <li><a class="dropdown-item" href="">Cerrar Sesión</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </ul>
+        </div>
+
+    </div>
+</nav>
+</br>
+</br>
+<div class="py-1 text-center">
+    <h2>Detalle Incdencia #2022</h2>
+</div>
+
+<div class="container offset-2 mt-4 middlearea">
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-10 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+            <div class="card">
+                <div class="card-header">
+                    <img
+                            src="https://mdbootstrap.com/img/new/avatars/8.jpg"
+                            alt=""
+                            style="width: 45px; height: 45px"
+                            class="rounded-circle"
+                    />
+                    <span class="postuserfont"><strong>20180252</strong></span>
+                </div>
+                <img
+                        src="https://blog.biletbayi.com/wp-content/uploads/2019/12/rize.jpg"
+                        class="card-img-top"
+                        alt="..."
+                />
+                <ul
+                        class="list-group list-group-horizontal mt-1"
+                        style="list-style-type: none; border: 0"
+                >
+                </ul>
+                <div class="card-body" style="margin-top: -15px">
+                    <p class="card-text postuserfont">
+                        <strong style="margin-left: -4px; margin-right: 5px"
+                        >HUAWEI ENCONTRADO EN CIA</strong
+                        >
+                    </p>
+                    <p class="card-text postuserfont">
+                        <strong style="margin-left: -4px; margin-right: 5px"
+                        >Tipo:</strong
+                        > Objeto perdido
+                    </p>
+
+                    <p class="card-text postuserfont" style="margin-top: -15px">
+                        <strong style="margin-left: -4px; margin-right: 5px"
+                        >Descripción: </strong
+                        >
+                    </p>
+                    <p class="card-text postuserfont" style="margin-top: -15px">
+                        Se ha encontrado este celular modelo Huaweii P80 en la biblioteca de CIA a las 2:40pm, creemos que ha estado aquí desde hace una hora y nadie lo reclama
+                    </p>
+                    <p
+                            class="card-text"
+                            style="
+                  margin-top: -10px;
+                  margin-left: -4px;
+                  font-size: 12px;
+                  color: rgb(139, 133, 133);
+                "
+                    >
+                        Destacado 246 veces
+                    </p>
+                </div>
+                <div
+                        class="card-footer"
+                        style="
+                color: rgb(139, 133, 133);
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI',
+                  Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans',
+                  'Helvetica Neue', sans-serif;
+                font-size: 14px;
+              "
+                >
+                    <ul
+                            class="list-group list-group-horizontal mt-1"
+                            style="list-style-type: none; border: 0"
+                    >
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"
+                            ><i
+                                    class="fa-solid fa-comment"
+                                    style="
+                      color: black;
+                      position: relative;
+                      font-size: 23px;
+                      margin-left: -11px;
+                    "
+                            ></i
+                            ></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"
+                            ><i
+                                    class="fa-solid fa-location-dot"
+                                    style="
+                      color: black;
+                      position: relative;
+                      font-size: 23px;
+                      margin-left: -11px;
+                    "
+                            ></i
+                            ></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

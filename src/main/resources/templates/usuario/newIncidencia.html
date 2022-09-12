@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.88.1">
+    <title>Checkout example · Bootstrap v5.1</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/checkout/">
+
+
+
+    <!-- Bootstrap core CSS -->
+    <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
+
+
+    <!-- Custom styles for this template -->
+    <link href="form-validation.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark"
+     style="height: 100px">
+    <div class="container">
+        <a class="navbar-brand"><img th:src="@{/img/logo.jpg}" alt="..." style="height: 65px;width: 90px;border-radius: 3px;"/></a>
+        <p class="h1" style="color: white">iPUCP</p>
+
+
+        <div class="collapse navbar-collapse " id="navbarResponsive">
+            <ul class="navbar-nav ms-auto py-4 py-lg-0">
+                <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle fw-bold" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: ghostwhite;">
+                                a20192258@pucp.edu.pe
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
+                                <li><a class="dropdown-item" th:href="@{'/admin/incidencias'}">Incidencias</a></li>
+                                <li><a class="dropdown-item" href="">Cerrar Sesión</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </ul>
+        </div>
+
+    </div>
+</nav>
+
+<div class="container">
+    <main>
+        <div class="py-5 text-center">
+            <h2>Nueva Incidencia</h2>
+            <p class="lead">Aviso de seguridad</p>
+        </div>
+
+        <div class="container offset-2 mt-4 middlearea">
+            <div class="row">
+                <div class="col-1"></div>
+                <div class="col-10 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                    <!--<h4 class="mb-3">Billing address</h4>-->
+                    <form class="needs-validation" novalidate>
+                        <div class="row g-3">
+
+                            <div class="col-12">
+                                <label for="titulo" class="form-label">Título de la incidencia </label>
+                                <input type="text" class="form-control" id="titulo" placeholder="" value="" required>
+                                <div class="invalid-feedback">
+                                    Valid first name is required.
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <h1></h1>
+                                <label for="tipo" class="form-label">Tipo</label>
+                                <select class="custom-select" id="tipo">
+                                    <option selected>tipo</option>
+                                    <option value="1">One</option>
+                                    <option value="2">Two</option>
+                                    <option value="3">Three</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    Please select a valid country.
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <h1></h1>
+                                <label for="urgencia" class="form-label">Urgencia</label>
+                                <select class="custom-select" id="urgencia">
+                                    <option selected>Urgencia</option>
+                                    <option value="1">One</option>
+                                    <option value="2">Two</option>
+                                    <option value="3">Three</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    Please select a valid country.
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <h1></h1>
+                                <label for="descripcion" class="form-label">Descripción</label>
+                                <input type="text" class="form-control" id="descripcion" placeholder="Detalle lo que ha sucedido" required>
+                                <div class="invalid-feedback">
+                                    Please enter your shipping address.
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <hr class="my-4">
+
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="same-address">
+                            <label class="form-check-label" for="same-address">Necesita asistencia médica</label>
+                        </div>
+
+                        <hr class="my-4">
+
+                        <button class="w-100 btn btn-dark btn-lg" type="submit">Registrar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="my-5 pt-5 text-muted text-center text-small">
+        <p class="mb-1">&copy; iPUCP</p>
+
+    </footer>
+</div>
+
+
+<script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="form-validation.js"></script>
+</body>
+</html>

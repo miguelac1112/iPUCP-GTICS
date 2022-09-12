@@ -72,3 +72,8 @@ position:fixed;
   text-decoration: none;
   color: lightgrey;
 }
+
+.centrarBien{
+
+  place-content: center;
+}
