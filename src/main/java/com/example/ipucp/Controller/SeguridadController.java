@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/seguridad")
 public class SeguridadController {
 
-    @GetMapping("/listar")
+    @GetMapping("/comentar_incidencia")
     public String probando() {
         return "seguridad/seguridad";
     }
