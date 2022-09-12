@@ -17,4 +17,9 @@ public class AdminController {
     public String nuevo() {
         return "admin/newFrm";
     }
+
+    @GetMapping("/incidencias")
+    public String incidencias() {
+        return "admin/incidencias";
+    }
 }
