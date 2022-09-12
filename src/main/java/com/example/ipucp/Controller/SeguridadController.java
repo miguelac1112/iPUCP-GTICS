@@ -23,13 +23,15 @@ public class SeguridadController {
     public String probando2() {
         return "seguridad/seguridad_reportar";
     }
-    @GetMapping("/lista_usuarios")
-    public String probando3() {
-        return "seguridad/lista_usuarios";
-    }
+
 
     @GetMapping("/detalleid")
     public String probando4() {
         return "seguridad/detalleid_seguridad";
+    }
+
+    @GetMapping("/lista")
+    public String probando3() {
+        return "seguridad/lista_usuarios";
     }
 }
