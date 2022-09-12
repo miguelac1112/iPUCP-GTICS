@@ -12,4 +12,9 @@ public class SeguridadController {
     public String probando() {
         return "seguridad/seguridad";
     }
+
+    @GetMapping("/usuarior")
+    public String probando2() {
+        return "seguridad/seguridad_reportar";
+    }
 }
