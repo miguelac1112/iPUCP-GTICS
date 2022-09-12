@@ -9,7 +9,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AdminController {
 
     @GetMapping("/listar")
-    public String probando() {
+    public String listar() {
         return "admin/listar";
+    }
+
+    @GetMapping("/nuevo")
+    public String nuevo() {
+        return "admin/newFrm";
     }
 }
