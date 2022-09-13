@@ -12,7 +12,7 @@ public class UsuarioController {
         return "usuario/menu_mapa";
     }
 
-    @GetMapping("/listar")
+    @GetMapping("/menu")
     public String listar() {
         return "usuario/menu";
     }
