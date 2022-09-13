@@ -7,6 +7,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/usuario")
 public class UsuarioController {
+    @GetMapping("/mapa")
+    public String mapa() {
+        return "usuario/menu_mapa";
+    }
 
     @GetMapping("/listar")
     public String listar() {
@@ -23,5 +27,13 @@ public class UsuarioController {
         return "usuario/newIncidencia";
     }
 
+    @GetMapping("/perfil")
+    public String perfil() {
+        return "usuario/perfil";
+    }
+    @GetMapping("/misIncidencias")
+    public String misIncidencias() {
+        return "seguridad/incidencias";
+    }
 
 }
