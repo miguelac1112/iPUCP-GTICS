@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/graficos_style.css}"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link
+            rel="stylesheet"
+            th:href="@{https://use.fontawesome.com/releases/v5.15.1/css/all.css}"
+            integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp"
+            crossorigin="anonymous"
+    />
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <title>Dashboard</title>
+</head>
+<body>
+<main>
+
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark "
+         style="height: 100px">
+        <div class="container">
+            <a class="navbar-brand" href="" ><img th:src="@{/img/logo.jpg}" alt="..." style="height: 65px;width: 90px;border-radius: 10%;"/></a>
+            <a class="h1" style="color: white">iPUCP</a>
+
+
+            <div class="collapse navbar-collapse " id="navbarResponsive">
+                <ul class="navbar-nav ms-auto py-4 py-lg-0">
+                    <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+
+
+                        <ul class="navbar-nav">
+
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{'/seguridad/dashboard'}"
+                                ><i class="fa-solid fa-chart-line"
+                                    style="color: white;
+                                        ">
+                                </i></a>
+                            </li>
+
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="#"
+                                ><i class="fa-solid fa-map" style="color: white;
+                                        "></i></a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{'/seguridad/lista'}"
+                                ><i class="fa-solid fa-list"
+                                    style="color: white;
+                                        ">
+                                </i></a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false"
+                                   style="color: white">a20192258@pucp.edu.pe</a>
+                                <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                                    <li><a class="dropdown-item" href="" style="color: black">Cerrar Sesión</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    </div>
+                </ul>
+            </div>
+
+        </div>
+    </nav>
+
+    </br>
+    </br>
+    <h1 class="pb-2 border-bottom" style="text-align: center">Dashdoard</h1>
+
+
+    <!---1 fila--->
+    <div class="row">
+
+        <!-- grafico de linea -->
+        <div class="col-xl-8 col-lg-7">
+            <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Tipos de incidencias</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                    <div>
+                        <canvas id="myChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Grafico torta -->
+        <div class="col-xl-4 col-lg-5">
+            <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Estados de incidencias</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                    <div>
+                        <canvas id="myChart2"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-----2 fila---->
+    <div class="row">
+
+        <!-- Area Chart -->
+        <div class="col-xl-8 col-lg-7">
+            <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Numero de reportes por mes</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                    <div>
+                        <canvas id="myChart4"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Grafico torta -->
+        <div class="col-xl-4 col-lg-5">
+            <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Nivel de incidencia</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                    <div>
+                        <canvas id="myChart3"></canvas>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+    </div>
+</main>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const labels = [
+        'Robo',
+        'Objeto perdido',
+        'Infraestructura',
+        'Ambulancia PUCP',
+        'Accidente',
+        'Otro',
+    ];
+
+    const data = {
+        labels: labels,
+        datasets: [{
+            label: 'Reportes',
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: [0, 10, 5, 2, 20, 30, 45],
+        }]
+    };
+
+    const config = {
+        type: 'line',
+        data: data,
+        options: {}
+    };
+</script>
+<script>
+    const myChart = new Chart(
+        document.getElementById('myChart'),
+        config
+    );
+</script>
+<script>
+    const data2 = {
+        labels: [
+            'Atendida',
+            'Por atender'
+        ],
+        datasets: [{
+            label: 'My First Dataset',
+            data: [534, 230],
+            backgroundColor: [
+                'rgb(54, 162, 235)',
+                'rgb(255, 99, 132)'
+            ],
+            hoverOffset: 4
+        }]
+    };
+
+    const config2 = {
+        type: 'doughnut',
+        data: data2,
+    };
+</script>
+<script>
+    const myChart2 = new Chart(
+        document.getElementById('myChart2'),
+        config2
+    );
+</script>
+<script>
+    const data3 = {
+        labels: [
+            'Leve',
+            'Moderado',
+            'Grave'
+        ],
+        datasets: [{
+            label: 'My First Dataset',
+            data: [120, 50, 30],
+            backgroundColor: [
+                'rgb(54, 162, 235)',
+                'rgb(255, 205, 86)',
+                'rgb(255, 99, 132)'
+            ],
+            hoverOffset: 4
+        }]
+    };
+
+    const config3 = {
+        type: 'doughnut',
+        data: data3,
+    };
+</script>
+<script>
+    const myChart3 = new Chart(
+        document.getElementById('myChart3'),
+        config3
+    );
+</script>
+<script>
+    const data4 = {
+        labels: [
+            'Enero',
+            'Febrero',
+            'Marzo',
+            'Abril',
+            'Mayo',
+            'Junio',
+            'Julio'
+        ],
+        datasets: [{
+            label: 'Reporte por mes',
+            data: [65, 59, 80, 81, 56, 55, 40],
+            fill: false,
+            borderColor: 'rgb(75, 192, 192)',
+            tension: 0.1
+        }]
+    };
+    const config4 = {
+        type: 'line',
+        data: data4,
+    };
+</script>
+<script>
+    const myChart4 = new Chart(
+        document.getElementById('myChart4'),
+        config4
+    );
+</script>
+</body>
+</main>
+</html>

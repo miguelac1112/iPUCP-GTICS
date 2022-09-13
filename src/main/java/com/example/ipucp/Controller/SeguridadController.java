@@ -19,6 +19,11 @@ public class SeguridadController {
         return "seguridad/incidencias";
     }
 
+    @GetMapping("/dashboard")
+    public String dashboard() {
+        return "seguridad/dashboard";
+    }
+
     @GetMapping("/usuarior")
     public String probando2() {
         return "seguridad/seguridad_reportar";
