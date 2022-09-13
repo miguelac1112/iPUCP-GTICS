@@ -36,4 +36,14 @@ public class UsuarioController {
         return "seguridad/incidencias";
     }
 
+    @GetMapping("/login")
+    public String login() {
+        return "usuario/log-in";
+    }
+
+    @GetMapping("/reset_password")
+    public String reset() {
+        return "usuario/reset-pass";
+    }
+
 }
