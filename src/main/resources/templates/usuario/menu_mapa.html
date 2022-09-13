@@ -39,19 +39,19 @@
     >
         <ul class="navbar-nav" style="margin-left:7%">
             <li class="nav-item active">
-                <a class="nav-link" href="#"
+                <a class="nav-link" th:href="@{'/usuario/listar'}"
                 ><i class="fas fa-home fa-lg mr-2 d-none d-sm-block mt-1"style="color: #9F9D81;font-size:200%"></i>
                     <span class="sr-only">(current)</span></a
                 >
             </li>
 
             <li class="nav-item" style="margin-left: 25%">
-                <a class="nav-link" href="#"
+                <a class="nav-link" th:href="@{'/usuario/mapa'}"
                 ><i class="far fa-compass fa-lg mr-2 d-none d-sm-block mt-1" style="font-size:200%;color: #B9B9B9"></i
                 ></a>
             </li>
             <li class="nav-item" style="margin-left: 25%">
-                <a class="nav-link" href="#"
+                <a class="nav-link" th:href="@{'/usuario/perfil'}"
                 ><i
                         class="far fa-fw fa-user fa-lg mr-2 d-none d-sm-block mt-1"
                         style="font-size:200%;color: #9F9D81"
@@ -70,7 +70,7 @@
 <div class="container offset-2 mt-4 middlearea"  style="margin-left: 10%;">
         <div >
             <div class="card"style="margin-top: 5%;margin-left: 1%;width:111%">
-                <div class="card-body" style="margin-top: -15px;margin-left: -1%">
+                <div class="card-body" style="margin-top: -15px;margin-left: -1%" >
                     <div class="mapouter"><div class="gmap_canvas"><iframe width="1210" height="490" id="gmap_canvas" src="https://maps.google.com/maps?q=pucp&t=&z=19&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a href="https://putlocker-is.org"></a><br><style>.mapouter{position:relative;text-align:right;height:490px;width:1210px;}</style><a href="https://www.embedgooglemap.net">how to copy and paste google maps</a><style>.gmap_canvas {overflow:hidden;background:none!important;height:490px;width:1210px;}</style></div></div>
                 <div
                         class="card-footer"
@@ -87,13 +87,13 @@
                             style="list-style-type: none; border: 0;margin-left: 35%"
                     >
                         <li >
-                            <a class="nav-link" href="#"
-                            ><button type="button" class="btn btn-dark">Añadir Incidencia</button>
+                            <a class="nav-link" th:href="@{'/usuario/newInciden'}"
+                            ><button type="button" class="btn btn-dark" >Añadir Incidencia</button>
                             </a>
                         </li>
                         <li >
-                            <a class="nav-link" href="#"
-                            ><button type="button" class="btn btn-secondary">Mis Incidencias</button></a>
+                            <a class="nav-link" th:href="@{'/usuario/misIncidencias'}"
+                            ><button type="button" class="btn btn-secondary" >Mis Incidencias</button></a>
                         </li>
                     </ul>
                 </div>
