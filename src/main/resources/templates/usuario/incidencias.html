@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <link
+            rel="stylesheet"
+            href="https://use.fontawesome.com/releases/v5.15.1/css/all.css"
+            integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp"
+            crossorigin="anonymous"
+    />
+    <script src="https://kit.fontawesome.com/1e18eec1cd.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/css/style.css" />
+    <title>MisIncidencias</title>
+</head>
+<body style="background:#D3D3D3">
+
+
+<main>
+    <nav
+            class="navbar navbar-expand-sm navbar-light border fixed-top"
+            style="background-color: #373737; height:15%"
+    >
+        <div class="ml-lg-5 ">
+
+            <a class="navbar-brand ml-lg-5 mt-1 mr-5" href="#" >
+                <div class="row" style="margin-top:4%;margin-left: 15%" >
+                    <div class="col">
+                        <img th:src="@{/img/logo-pucp1.png}" alt="..." style="width:45%; height:85%;margin-top: -3%"/>
+
+                    </div>
+                    <div  class="col" style="margin-left: -15%">
+                        <p class="h1" style="color: #B9AB7F;margin-top: 2%;margin-left: -28%"><strong>iPUCP</strong></p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div
+                class="collapse navbar-collapse ml-5 mt-2"
+                id="navbarSupportedContent"
+        >
+            <ul class="navbar-nav" style="margin-left:7%">
+                <li class="nav-item active">
+                    <a class="nav-link" th:href="@{'/usuario/listar'}"
+                    ><i class="fas fa-home fa-lg mr-2 d-none d-sm-block mt-1"style="color: #9F9D81;font-size:200%"></i>
+                        <span class="sr-only">(current)</span></a
+                    >
+                </li>
+
+                <li class="nav-item" style="margin-left: 25%">
+                    <a class="nav-link" th:href="@{'/usuario/mapa'}"
+                    ><i class="far fa-compass fa-lg mr-2 d-none d-sm-block mt-1" style="font-size:200%;color: #B9B9B9"></i
+                    ></a>
+                </li>
+                <li class="nav-item" style="margin-left: 25%">
+                    <a class="nav-link" th:href="@{'/usuario/perfil'}"
+                    ><i
+                            class="far fa-fw fa-user fa-lg mr-2 d-none d-sm-block mt-1"
+                            style="font-size:200%;color: #9F9D81"
+                    ></i
+                    ></a>
+                </li>
+                <li class="nav-item" style="margin-left: 180%">
+                    <a class="nav-link" href="#"
+                    ><i class='fas fa-sign-out-alt' style="font-size:200%;color: #9F9D81;margin-top: -120%"></i
+                    ></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+
+    </br>
+
+    <div class="container px-4 py-5">
+        <h1 class="pb-2 border-bottom" style="text-align: center">Mis Incidencias</h1>
+        <div class="container">
+            <div class="row">
+
+                <div class="col">
+                    <form method="post" th:action="@{/shipper/BuscarTransportistas}">
+                        <input name="searchField" class="form-control mb-3" type="text" placeholder="Buscar por nombre"/>
+                    </form>
+                </div>
+                <div class="col-auto">
+                    <a class="btn btn-secondary" th:href="@{'/usuario/listar'}">Regresar</a>
+                </div>
+            </div>
+        </div>
+
+        <div style="overflow-x: auto; overflow-y: auto">
+            <table class="table table-striped">
+                <thead  class="thead-dark"style="color: #393830;background: #393830">
+                <tr class="table-info">
+                    <th style="text-align: center">#</th>
+                    <th style="text-align: center">Nombre</th>
+                    <th style="text-align: center">Tipo</th>
+                    <th style="text-align: center">Estado</th>
+                    <th style="text-align: center"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <div class="ms-3">
+                                <p class="fw-bold mb-1">1</p>
+                            </div>
+                        </div>
+                    </td>
+                    <th style="text-align: center">Robo de celular Huawei</th>
+                    <th style="text-align: center">Robo</th>
+                    <th style="text-align: center">No Atendido</th>
+
+                    <td style="text-align: center"><a th:href="@{'/usuario/detalle'}"><button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#Modal1">Ver detalle</button></a></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <div class="ms-3">
+                                <p class="fw-bold mb-1">2</p>
+                            </div>
+                        </div>
+                    </td>
+                    <th style="text-align: center">Cañerías rotas</th>
+                    <th style="text-align: center">Mal Estado</th>
+                    <th style="text-align: center">Atendido</th>
+
+                    <td style="text-align: center"><a th:href="@{'/usuario/detalle'}"><button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#Modal1">Ver detalle</button></a></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <div class="ms-3">
+                                <p class="fw-bold mb-1">3</p>
+                            </div>
+                        </div>
+                    </td>
+                    <th style="text-align: center">Encontré Laptop Asus en CIA</th>
+                    <th style="text-align: center">Objetos Perdidos</th>
+                    <th style="text-align: center">No Atendido</th>
+
+                    <td style="text-align: center"><a th:href="@{'/usuario/detalle'}"><button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#Modal1">Ver detalle</button></a></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <div class="ms-3">
+                                <p class="fw-bold mb-1">4</p>
+                            </div>
+                        </div>
+                    </td>
+                    <th style="text-align: center">Alumno atropellado cerca a Mc Gregor</th>
+                    <th style="text-align: center">Accidente</th>
+                    <th style="text-align: center">No Atendido</th>
+
+                    <td style="text-align: center"><a th:href="@{'/usuario/detalle'}"><button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#Modal1">Ver detalle</button></a></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <div class="ms-3">
+                                <p class="fw-bold mb-1">5</p>
+                            </div>
+                        </div>
+                    </td>
+                    <th style="text-align: center">Encontré una billetera en el A206</th>
+                    <th style="text-align: center">Objetos Perdidos</th>
+                    <th style="text-align: center">Atendido</th>
+
+                    <td style="text-align: center"><a th:href="@{'/usuario/detalle'}"><button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#Modal1">Ver detalle</button></a></td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+
+</main>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

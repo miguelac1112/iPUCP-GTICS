@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:text-align="http://www.w3.org/1999/xhtml">
+<html lang="en">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://kit.fontawesome.com/1e18eec1cd.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" th:href="@{/css/boton.css}"/>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+<link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css}" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+<link
+        rel="stylesheet"
+        th:href="@{https://use.fontawesome.com/releases/v5.15.1/css/all.css}"
+        integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp"
+        crossorigin="anonymous"
+/>
+<link rel="stylesheet" th:href="@{/css/style.css}" />
+<link rel="stylesheet" th:href="@{https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css}"/>
+<link th:href="@{https://fonts.googleapis.com/css?family=Montserrat:500,700}" rel="stylesheet" type="text/css" />
+<link th:href="@{https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700}" rel="stylesheet" type="text/css" />
+<title>Mi perfil</title>
+<style>
+    .contenedor{
+        display: flex;
+    }
+    .img{
+        text-align: center;
+    }
+    #table-wrapper {
+        position:relative;
+    }
+    #table-scroll {
+        height:150px;
+        overflow:auto;
+        margin-top:20px;
+    }
+    #table-wrapper table {
+        width:100%;
+
+    }
+    #table-wrapper table thead th .text {
+        position:absolute;
+        top:-20px;
+        z-index:2;
+        height:20px;
+        width:35%;
+        border:1px solid red;
+    }
+</style>
+<body>
+<main>
+
+    <nav
+            class="navbar navbar-expand-sm navbar-light border fixed-top"
+            style="background-color: #373737; height:15%"
+    >
+        <div class="ml-lg-5 ">
+
+            <a class="navbar-brand ml-lg-5 mt-1 mr-5" href="#" >
+                <div class="row" style="margin-top:4%;margin-left: 15%" >
+                    <div class="col">
+                        <img th:src="@{/img/logo-pucp1.png}" alt="..." style="width:45%; height:85%;margin-top: -3%"/>
+
+                    </div>
+                    <div  class="col" style="margin-left: -15%">
+                        <p class="h1" style="color: #B9AB7F;margin-top: 2%;margin-left: -28%"><strong>iPUCP</strong></p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div
+                class="collapse navbar-collapse ml-5 mt-2"
+                id="navbarSupportedContent"
+        >
+            <ul class="navbar-nav" style="margin-left:7%">
+                <li class="nav-item active">
+                    <a class="nav-link" th:href="@{'/usuario/listar'}"
+                    ><i class="fas fa-home fa-lg mr-2 d-none d-sm-block mt-1"style="color: #9F9D81;font-size:200%"></i>
+                        <span class="sr-only">(current)</span></a
+                    >
+                </li>
+
+                <li class="nav-item" style="margin-left: 25%">
+                    <a class="nav-link" th:href="@{'/usuario/mapa'}"
+                    ><i class="far fa-compass fa-lg mr-2 d-none d-sm-block mt-1" style="font-size:200%;color: #B9B9B9"></i
+                    ></a>
+                </li>
+                <li class="nav-item" style="margin-left: 25%">
+                    <a class="nav-link" th:href="@{'/usuario/perfil'}"
+                    ><i
+                            class="far fa-fw fa-user fa-lg mr-2 d-none d-sm-block mt-1"
+                            style="font-size:200%;color: #9F9D81"
+                    ></i
+                    ></a>
+                </li>
+                <li class="nav-item" style="margin-left: 180%">
+                    <a class="nav-link" href="#"
+                    ><i class='fas fa-sign-out-alt' style="font-size:200%;color: #9F9D81;margin-top: -120%"></i
+                    ></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <div class="text-center" style="margin-top:80px;">
+            <h3 class="section-heading">Mi Perfil</h3>
+        </div>
+        </br>
+        <div class="row">
+            <div class="col-3">
+                <div class="contenedor">
+                    <div class="img">
+                        <img src="/img/roca.jpg" class="rounded float-start" style="height: 140px;width: 170px;border-radius: 3px;"  alt="...">
+                        <div class="btn" style="margin-bottom: -8%">
+                            <a  href="javascript:explorar();" >
+                                <div class="form-group"style="position: relative; left: -67px; top: 90px;">
+                                    <img src="/img/camara.png" style="width: 50px;height: 4%;"  class="rounded float-start" alt="..." title="subir imagen"id="m">
+                                    <input type="file" name="f_subir" id="f_subir" style="display:none;" >
+                                </div>
+                            </a>
+                        </div>
+                         <a th:href="@{'/usuario/misIncidencias'}">
+                        <button style="margin-top: 30%;margin-right: 30%" class="btn btn-dark" type="submit" >Mis Incidencias</button>
+                         </a>
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <span class="postuserfont"><strong>Usuario:</strong></span>
+                <div class="form-group">
+                    <input class="form-control" id="nombre_funcion" type="text" value="Diego Zuasnabar"  disabled>
+                </div>
+                </br>
+                <span class="postuserfont"><strong>Código:</strong></span>
+                <div class="form-group" style="margin-bottom: 12%">
+                    <input class="form-control" type="text" value="20202020" disabled >
+                </div>
+                <span class="postuserfont" ><strong>Cargo:</strong></span>
+                <div class="form-group">
+                    <input class="form-control" type="text" value="Alumno" disabled >
+                </div>
+            </div>
+            <div class="col-4">
+                <span class="postuserfont"><strong>Correo:</strong></span>
+                <div class="form-group">
+                    <input class="form-control" id="nombre_funcion" type="text" value="a20190459@pucp.edu.pe"  disabled>
+                </div>
+                </br>
+                <span class="postuserfont"><strong>DNI:</strong></span>
+                <div class="form-group" style="margin-bottom: 12%">
+                    <input class="form-control" id="nombre_funcion" type="text" value="42786534"  disabled>
+                </div>
+
+
+            </div>
+
+        </div>
+
+        </br>
+
+        <div class="row justify-content-center">
+            <div class="col-md-6" style="margin-left:450px">
+                <div class="row">
+                    <div class="col" id="img">
+
+                    </div>
+                    <div class="col">
+                        <div style="margin-right: 50%;margin-top: 25%;margin-left: -10%">
+                            <select class="form-select form-select-sm" aria-label=".form-select-sm example" style="margin-right: 5%" id="fruta">
+                                <option selected >Piña</option>
+                                <option value="1">Piña</option>
+                                <option value="2">Sandía</option>
+                                <option value="3">Naranja</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                </div>
+        </div>
+
+    </div>
+
+
+
+</main>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script>
+    function explorar(){
+        document.getElementById("f_subir").click()
+    }
+</script>
+<script >
+    var im = document.getElementById("img")
+    var select = document.getElementById("fruta");
+    var sel = select.options[select.selectedIndex].value;
+    if(sel==1){
+        im.innerHTML = `<img src="/img/avatar1.jpg" class="rounded float-start" style="height: 120px;width: 150px;border-radius: 8px;margin-top: 8%;"  alt="...">\n`;
+    }else if(sel==3){
+        im.innerHTML = `<img src="/img/avatar3.jpg" class="rounded float-start" style="height: 120px;width: 150px;border-radius: 8px;margin-top: 8%;"  alt="...">\n`;
+    }else if(sel==2){
+        im.innerHTML = `<img src="/img/avatar2.jpg" class="rounded float-start" style="height: 120px;width: 150px;border-radius: 8px;margin-top: 8%;"  alt="...">\n`;
+    }else{
+        im.innerHTML = `<img src="/img/avatar1.jpg" class="rounded float-start" style="height: 120px;width: 150px;border-radius: 8px;margin-top: 8%;"  alt="...">\n`;
+
+    }
+</script>
+</body>
+</html>

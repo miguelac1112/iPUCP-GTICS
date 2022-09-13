@@ -33,7 +33,7 @@ public class UsuarioController {
     }
     @GetMapping("/misIncidencias")
     public String misIncidencias() {
-        return "seguridad/incidencias";
+        return "usuario/incidencias";
     }
 
     @GetMapping("/login")
