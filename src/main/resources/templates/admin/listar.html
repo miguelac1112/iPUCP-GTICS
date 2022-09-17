@@ -3,8 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
     <link rel="stylesheet" th:href="@{/css/style.css}" />
+
+    <!-- DATATABLES -->
+    <!--  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css"> -->
+    <!-- BOOTSTRAP -->
+
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
+
+
     <title>Lista Productos</title>
 </head>
 <body>
@@ -64,8 +75,8 @@
             </div>
         </div>
 
-        <div style="overflow-x: auto; overflow-y: auto">
-            <table class="table table-striped">
+        <div >
+            <table class="table table-striped" id="tablax">
                 <thead style="color: #0095f6">
                 <tr class="table-info">
                     <th style="text-align: center">Usuario</th>
@@ -100,6 +111,8 @@
                     <th style="text-align: center">1</th>
                     <td style="text-align: center"><button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#Modal1">Si</button></td>
                 </tr>
+
+
                 <tr>
                     <td>
                         <div class="d-flex align-items-center">
@@ -214,6 +227,161 @@
                     <td style="text-align: center"><a class="btn btn-danger">-</a></td>
                 </tr>
 
+                <tr>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <img
+                                    src="https://mdbootstrap.com/img/new/avatars/6.jpg"
+                                    alt=""
+                                    style="width: 45px; height: 45px"
+                                    class="rounded-circle"
+                            />
+                            <div class="ms-3">
+                                <p class="fw-bold mb-1">Estefani Granton</p>
+                                <p class="text-muted mb-0">Seguridad</p>
+                            </div>
+                        </div>
+                    </td>
+                    <th style="text-align: center">20192259</th>
+                    <th style="text-align: center">a20192259@pucp.edu.pe</th>
+                    <th style="text-align: center">993606149</th>
+                    <th style="text-align: center">72673678</th>
+                    <th style="text-align: center">-</th>
+                    <td style="text-align: center"><a class="btn btn-danger">-</a></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <img
+                                    src="https://mdbootstrap.com/img/new/avatars/6.jpg"
+                                    alt=""
+                                    style="width: 45px; height: 45px"
+                                    class="rounded-circle"
+                            />
+                            <div class="ms-3">
+                                <p class="fw-bold mb-1">Estefani Granton</p>
+                                <p class="text-muted mb-0">Seguridad</p>
+                            </div>
+                        </div>
+                    </td>
+                    <th style="text-align: center">20192259</th>
+                    <th style="text-align: center">a20192259@pucp.edu.pe</th>
+                    <th style="text-align: center">993606149</th>
+                    <th style="text-align: center">72673678</th>
+                    <th style="text-align: center">-</th>
+                    <td style="text-align: center"><a class="btn btn-danger">-</a></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <img
+                                    src="https://mdbootstrap.com/img/new/avatars/6.jpg"
+                                    alt=""
+                                    style="width: 45px; height: 45px"
+                                    class="rounded-circle"
+                            />
+                            <div class="ms-3">
+                                <p class="fw-bold mb-1">Estefani Granton</p>
+                                <p class="text-muted mb-0">Seguridad</p>
+                            </div>
+                        </div>
+                    </td>
+                    <th style="text-align: center">20192259</th>
+                    <th style="text-align: center">a20192259@pucp.edu.pe</th>
+                    <th style="text-align: center">993606149</th>
+                    <th style="text-align: center">72673678</th>
+                    <th style="text-align: center">-</th>
+                    <td style="text-align: center"><a class="btn btn-danger">-</a></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <img
+                                    src="https://mdbootstrap.com/img/new/avatars/6.jpg"
+                                    alt=""
+                                    style="width: 45px; height: 45px"
+                                    class="rounded-circle"
+                            />
+                            <div class="ms-3">
+                                <p class="fw-bold mb-1">Estefani Granton</p>
+                                <p class="text-muted mb-0">Seguridad</p>
+                            </div>
+                        </div>
+                    </td>
+                    <th style="text-align: center">20192259</th>
+                    <th style="text-align: center">a20192259@pucp.edu.pe</th>
+                    <th style="text-align: center">993606149</th>
+                    <th style="text-align: center">72673678</th>
+                    <th style="text-align: center">-</th>
+                    <td style="text-align: center"><a class="btn btn-danger">-</a></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <img
+                                    src="https://mdbootstrap.com/img/new/avatars/6.jpg"
+                                    alt=""
+                                    style="width: 45px; height: 45px"
+                                    class="rounded-circle"
+                            />
+                            <div class="ms-3">
+                                <p class="fw-bold mb-1">Estefani Granton</p>
+                                <p class="text-muted mb-0">Seguridad</p>
+                            </div>
+                        </div>
+                    </td>
+                    <th style="text-align: center">20192259</th>
+                    <th style="text-align: center">a20192259@pucp.edu.pe</th>
+                    <th style="text-align: center">993606149</th>
+                    <th style="text-align: center">72673678</th>
+                    <th style="text-align: center">-</th>
+                    <td style="text-align: center"><a class="btn btn-danger">-</a></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <img
+                                    src="https://mdbootstrap.com/img/new/avatars/6.jpg"
+                                    alt=""
+                                    style="width: 45px; height: 45px"
+                                    class="rounded-circle"
+                            />
+                            <div class="ms-3">
+                                <p class="fw-bold mb-1">Estefani Granton</p>
+                                <p class="text-muted mb-0">Seguridad</p>
+                            </div>
+                        </div>
+                    </td>
+                    <th style="text-align: center">20192259</th>
+                    <th style="text-align: center">a20192259@pucp.edu.pe</th>
+                    <th style="text-align: center">993606149</th>
+                    <th style="text-align: center">72673678</th>
+                    <th style="text-align: center">-</th>
+                    <td style="text-align: center"><a class="btn btn-danger">-</a></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <img
+                                    src="https://mdbootstrap.com/img/new/avatars/6.jpg"
+                                    alt=""
+                                    style="width: 45px; height: 45px"
+                                    class="rounded-circle"
+                            />
+                            <div class="ms-3">
+                                <p class="fw-bold mb-1">Estefani Granton</p>
+                                <p class="text-muted mb-0">Seguridad</p>
+                            </div>
+                        </div>
+                    </td>
+                    <th style="text-align: center">20192259</th>
+                    <th style="text-align: center">a20192259@pucp.edu.pe</th>
+                    <th style="text-align: center">993606149</th>
+                    <th style="text-align: center">72673678</th>
+                    <th style="text-align: center">-</th>
+                    <td style="text-align: center"><a class="btn btn-danger">-</a></td>
+                </tr>
+
                 </tbody>
             </table>
         </div>
@@ -246,6 +414,49 @@
             </div>
         </div>
     </div>
+
+
+    <!-- JQUERY -->
+    <script src="https://code.jquery.com/jquery-3.4.1.js"
+            integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous">
+    </script>
+    <!-- DATATABLES -->
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js">
+    </script>
+    <!-- BOOTSTRAP -->
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js">
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#tablax').DataTable({
+                language: {
+                    processing: "Tratamiento en curso...",
+                    search: "Buscar&nbsp;:",
+                    lengthMenu: "Agrupar de _MENU_ items",
+                    info: "Mostrando del item _START_ al _END_ de un total de _TOTAL_ items",
+                    infoEmpty: "No existen datos.",
+                    infoFiltered: "(filtrado de _MAX_ elementos en total)",
+                    infoPostFix: "",
+                    loadingRecords: "Cargando...",
+                    zeroRecords: "No se encontraron datos con tu busqueda",
+                    emptyTable: "No hay datos disponibles en la tabla.",
+                    paginate: {
+                        first: "Primero",
+                        previous: "Anterior",
+                        next: "Siguiente",
+                        last: "Ultimo"
+                    },
+                    aria: {
+                        sortAscending: ": active para ordenar la columna en orden ascendente",
+                        sortDescending: ": active para ordenar la columna en orden descendente"
+                    }
+                },
+                scrollY: 400,
+                lengthMenu: [ [10, 25, -1], [10, 25, "All"] ],
+            });
+        });
+    </script>
+
 </main>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 </body>
