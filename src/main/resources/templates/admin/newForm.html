@@ -59,14 +59,14 @@
                                                     <div class="row">
                                                         <div class="col-md-6 mb-4">
                                                             <div class="form-outline">
-                                                                <label class="form-label" for="nombres">Nombres (*):</label>
-                                                                <input type="text" id="nombres" name="nombres" class="form-control" required/>
+                                                                <label class="form-label" for="nombre">Nombres (*):</label>
+                                                                <input type="text" id="nombre" name="nombre" class="form-control" required/>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6 mb-4">
                                                             <div class="form-outline">
-                                                                <label class="form-label" for="apellidos">Apellidos (*):</label>
-                                                                <input type="text" id="apellidos" name="apellidos" class="form-control" required/>
+                                                                <label class="form-label" for="apellido">Apellidos (*):</label>
+                                                                <input type="text" id="apellido" name="apellido" class="form-control" required/>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -75,18 +75,24 @@
                                                         <div class="col-md-6 mb-4">
                                                             <div class="form-group">
                                                                 <label class="form-label" for="cargo">Categoría (*):</label>
-                                                                <select class="form-select" id="cargo" name="cargo" required>
+                                                                <select class="form-select" id="cargo" name="cargo" required th:if="${tipoUsuario == 'seguridad'}">
                                                                     <option th:each="cargo : ${listaCargos}"
                                                                             th:text="${cargo.nombreCargo}"
-                                                                            th:value="${cargo.idcargo}">
+                                                                            th:value="${cargo.id}" th:if="${cargo.id == 6}">
+                                                                    </option>
+                                                                </select>
+                                                                <select class="form-select" id="cargo" name="cargo" required th:unless="${tipoUsuario == 'seguridad'}">
+                                                                    <option th:each="cargo : ${listaCargos}"
+                                                                            th:text="${cargo.nombreCargo}"
+                                                                            th:value="${cargo.id}" th:unless="${cargo.id == 6}">
                                                                     </option>
                                                                 </select>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6 mb-4">
                                                             <div class="form-outline">
-                                                                <label class="form-label" for="codigo">Código (*):</label>
-                                                                <input type="text" id="codigo" name="codigo" class="form-control" required/>
+                                                                <label class="form-label" for="id">Código (*):</label>
+                                                                <input type="text" id="id" name="id" class="form-control" required/>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -102,6 +108,21 @@
                                                             <div class="form-outline">
                                                                 <label class="form-label" for="telefono">N° teléfono (*):</label>
                                                                 <input type="text" id="telefono" name="telefono" class="form-control" required/>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row" th:if="${tipoUsuario == 'seguridad'}">
+                                                        <div class="col-md-6 mb-4">
+                                                            <div class="form-outline">
+                                                                <label class="form-label" for="pass1">Ingrese una contraseña (*):</label>
+                                                                <input type="text" id="pass1" name="pass1" class="form-control" required/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 mb-4">
+                                                            <div class="form-outline">
+                                                                <label class="form-label" for="pass2">Confirme la contraseña (*):</label>
+                                                                <input type="text" id="pass2" name="pass2" class="form-control" required/>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -138,7 +159,7 @@
                                                 </div>
                                                 <div class="col-md-6 mb-4 ">
                                                     <div class="form-outline">
-                                                        <button type="button" class="btn btn-success btn-lg" form="myform1" data-bs-toggle="modal" data-bs-target="#Modal1">Agregar</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" form="myform1">Agregar</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -152,36 +173,6 @@
                     </div>
                 </section>
                 </div>
-
-            <!-- Modal 1-->
-            <div class="modal fade" id="Modal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Contraseña para personal de seguridad</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-
-                            <form method="post" th:action="@{'/product/save'}" class="mt-2" id="form1">
-                                <div class="mb-3">
-                                    <label for="foto" class="form-label">Ingrese una contraseña</label>
-                                    <input type="text" id="contra" class="form-control" />
-                                </div>
-                                <div class="mb-3">
-                                    <label for="foto" class="form-label">Reescriba la contraseña</label>
-                                    <input type="text" id="contra2" class="form-control" />
-                                </div>
-                            </form>
-
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Regresar</button>
-                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#Modal2">Enviar</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
             <!-- Modal 2-->
             <div class="modal fade" id="Modal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

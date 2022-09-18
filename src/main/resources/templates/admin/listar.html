@@ -422,13 +422,17 @@
                 </div>
                 <div class="modal-body">
 
+                    <p>Usuario seguridad:</p>
+                    <p>Requerirá una contraseña inicial suministrada por el administrador</p>
                     <div class="row">
-                        <a class="btn btn-success" th:href="@{'/admin/nuevo'}">Agregar Usuario</a>
+                        <a class="btn btn-success" th:href="@{'/admin/nuevoSeguridad'}">Agregar usuario seguridad</a>
                     </div>
+                    </br>
+                    <p>Usuario normal:</p>
+                    <p>Para el resto de usuarios, la contraseña será creada directamente por ellos mismos</p>
                     <div class="row">
-                        <a class="btn btn-success" th:href="@{'/admin/nuevo'}">Agregar Usuario</a>
+                        <a class="btn btn-success" th:href="@{'/admin/nuevoNormal'}">Agregar usuario normal</a>
                     </div>
-
 
                 </div>
                 <div class="modal-footer">
