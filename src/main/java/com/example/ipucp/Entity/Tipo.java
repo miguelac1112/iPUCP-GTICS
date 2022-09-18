@@ -1,4 +1,4 @@
-package com.example.ipucp.Entity.admin;
+package com.example.ipucp.Entity;
 
 import javax.persistence.*;
 

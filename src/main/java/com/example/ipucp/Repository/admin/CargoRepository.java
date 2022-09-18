@@ -1,6 +1,6 @@
 package com.example.ipucp.Repository.admin;
 
-import com.example.ipucp.Entity.admin.Cargo;
+import com.example.ipucp.Entity.Cargo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
