@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
         <link rel="stylesheet" th:href="@{/css/style.css}"/>
-        <title>Nuevo Producto</title>
+        <title>Nuevo Usuario</title>
     </head>
     <body>
         <main>
@@ -52,21 +52,21 @@
 
                                     <div class="col-md-8 mb-4 ">
 
-                                        <form method="post" id="form2" action="<%=request.getContextPath()%>/EstadisticaServlet?a=buscarEspeciFun">
+                                        <form method="post" id="myform1" th:action="@{'/admin/save'}">
                                             <div class="row align-items-stretch mb-5">
                                                 <div class="col-md-11">
 
                                                     <div class="row">
                                                         <div class="col-md-6 mb-4">
                                                             <div class="form-outline">
-                                                                <label class="form-label" for="firstName">Nombres (*):</label>
-                                                                <input type="text" id="firstName" class="form-control" />
+                                                                <label class="form-label" for="nombres">Nombres (*):</label>
+                                                                <input type="text" id="nombres" name="nombres" class="form-control" required/>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6 mb-4">
                                                             <div class="form-outline">
-                                                                <label class="form-label" for="lastName">Apellidos (*):</label>
-                                                                <input type="text" id="lastName" class="form-control" />
+                                                                <label class="form-label" for="apellidos">Apellidos (*):</label>
+                                                                <input type="text" id="apellidos" name="apellidos" class="form-control" required/>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -74,21 +74,19 @@
                                                     <div class="row">
                                                         <div class="col-md-6 mb-4">
                                                             <div class="form-group">
-                                                                <!--Lista fija-->
-                                                                <label class="form-label" for="lastName">Categoría (*):</label>
-                                                                <select class="form-select" id="genero" name="genero" required>
-                                                                    <option value="Terror">Alumno</option>
-                                                                    <option value="Suspenso">Seguridad</option>
-                                                                    <option value="Comedia">Profesor</option>
-                                                                    <option value="Drama">JP</option>
-                                                                    <option value="Accion">Director</option>
+                                                                <label class="form-label" for="cargo">Categoría (*):</label>
+                                                                <select class="form-select" id="cargo" name="cargo" required>
+                                                                    <option th:each="cargo : ${listaCargos}"
+                                                                            th:text="${cargo.nombreCargo}"
+                                                                            th:value="${cargo.idcargo}">
+                                                                    </option>
                                                                 </select>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6 mb-4">
                                                             <div class="form-outline">
-                                                                <label class="form-label" for="lastName">Código (*):</label>
-                                                                <input type="text" id="lastName1" class="form-control" />
+                                                                <label class="form-label" for="codigo">Código (*):</label>
+                                                                <input type="text" id="codigo" name="codigo" class="form-control" required/>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -96,14 +94,14 @@
                                                     <div class="row">
                                                         <div class="col-md-6 mb-4">
                                                             <div class="form-outline">
-                                                                <label class="form-label" for="firstName">Correo (*):</label>
-                                                                <input type="text" id="firstName2" class="form-control" />
+                                                                <label class="form-label" for="correo">Correo (*):</label>
+                                                                <input type="text" id="correo" name="correo" class="form-control" required/>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6 mb-4">
                                                             <div class="form-outline">
-                                                                <label class="form-label" for="lastName">N° teléfono (*):</label>
-                                                                <input type="text" id="lastName2" class="form-control" />
+                                                                <label class="form-label" for="telefono">N° teléfono (*):</label>
+                                                                <input type="text" id="telefono" name="telefono" class="form-control" required/>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -114,7 +112,7 @@
                                                             <label for="foto" class="form-label">Foto (*):      </label>
                                                         </div>
                                                         <div class="col-md-6 mb-4 ">
-                                                            <input type="file" class="btn btn-primary" name="foto" style="background-color:grey; border-color:grey" id="foto" required>
+                                                            <input type="file" accept="image/png, image/gif, image/jpeg" class="btn btn-primary" name="foto" style="background-color:grey; border-color:grey" id="foto" required>
                                                         </div>
                                                     </div>
 
@@ -140,7 +138,7 @@
                                                 </div>
                                                 <div class="col-md-6 mb-4 ">
                                                     <div class="form-outline">
-                                                        <button type="button" class="btn btn-success btn-lg" data-bs-toggle="modal" data-bs-target="#Modal1">Agregar</button>
+                                                        <button type="button" class="btn btn-success btn-lg" form="myform1" data-bs-toggle="modal" data-bs-target="#Modal1">Agregar</button>
                                                     </div>
                                                 </div>
                                             </div>
