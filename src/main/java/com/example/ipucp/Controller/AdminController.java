@@ -21,8 +21,16 @@ public class AdminController {
         return "admin/listar";
     }
 
-    @GetMapping("/nuevo")
-    public String nuevo(Model model) {
+    @GetMapping("/nuevoSeguridad")
+    public String nuevoSeguridad(Model model) {
+        model.addAttribute("tipoUsuario","seguridad");
+        model.addAttribute("listaCargos",cargoRepository.findAll());
+        return "admin/newForm";
+    }
+
+    @GetMapping("/nuevoNormal")
+    public String nuevoNormal(Model model) {
+        model.addAttribute("tipoUsuario","normal");
         model.addAttribute("listaCargos",cargoRepository.findAll());
         return "admin/newForm";
     }
