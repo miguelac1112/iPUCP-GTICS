@@ -15,6 +15,12 @@ public class Usuario {
     @Column(name = "apellido", nullable = false, length = 45)
     private String apellido;
 
+    @Column(name = "correo", nullable = false, length = 45)
+    private String correo;
+
+    @Column(name = "celular", nullable = false, length = 45)
+    private String celular;
+
     @Column(name = "contra", length = 45)
     private String contra;
 
@@ -68,6 +74,22 @@ public class Usuario {
 
     public void setApellido(String apellido) {
         this.apellido = apellido;
+    }
+
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
+
+    public String getCelular() {
+        return celular;
+    }
+
+    public void setCelular(String celular) {
+        this.celular = celular;
     }
 
     public String getContra() {
