@@ -64,19 +64,17 @@
                         <option value="3">JP</option>
                     </select>
                 </div>
-                <div class="col">
-                    <form method="post" th:action="@{/shipper/BuscarTransportistas}">
-                        <input name="searchField" class="form-control mb-3" type="text" placeholder="Buscar por nombre de usuario"/>
-                    </form>
-                </div>
+
                 <div class="col-auto">
                     <a class="btn btn-success" th:href="@{'/admin/nuevo'}">Agregar Usuario</a>
                 </div>
             </div>
         </div>
 
+        </br>
+
         <div >
-            <table class="table table-striped" id="tablax">
+            <table class="table table-striped display nowrap" id="tablax" style="overflow-x: auto; overflow-y: auto" width="100%">
                 <thead style="color: #0095f6">
                 <tr class="table-info">
                     <th style="text-align: center">Usuario</th>
@@ -259,7 +257,7 @@
                                     class="rounded-circle"
                             />
                             <div class="ms-3">
-                                <p class="fw-bold mb-1">Estefani Granton</p>
+                                <p class="fw-bold mb-1">Angelo Neira</p>
                                 <p class="text-muted mb-0">Seguridad</p>
                             </div>
                         </div>
@@ -429,9 +427,17 @@
     <script>
         $(document).ready(function () {
             $('#tablax').DataTable({
+
+                scrollX:        true,
+                scrollCollapse: true,
+
+                //"bPaginate": false,
+                //"bFilter": false,
+                //"bInfo": false,
+                //"ordering": false,
                 language: {
                     processing: "Tratamiento en curso...",
-                    search: "Buscar&nbsp;:",
+                    search: "Búsqueda específica&nbsp;:",
                     lengthMenu: "Agrupar de _MENU_ items",
                     info: "Mostrando del item _START_ al _END_ de un total de _TOTAL_ items",
                     infoEmpty: "No existen datos.",

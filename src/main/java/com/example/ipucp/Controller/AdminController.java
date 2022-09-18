@@ -20,6 +20,6 @@ public class AdminController {
 
     @GetMapping("/incidencias")
     public String incidencias() {
-        return "admin/incidencias";
+        return "admin/newForm2";
     }
 }
