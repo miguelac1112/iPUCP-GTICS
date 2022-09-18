@@ -1,27 +1,29 @@
 package com.example.ipucp.Entity;
 
-import javax.persistence.*;
-import java.util.Arrays;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "icono")
 public class Icono {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "idicono")
-    private int idicono;
-    @Basic
-    @Column(name = "imagen")
+    @Column(name = "idicono", nullable = false)
+    private Integer id;
+
+    @Column(name = "imagen", nullable = false)
     private byte[] imagen;
-    @Basic
-    @Column(name = "nombre")
+
+    @Column(name = "nombre", nullable = false, length = 45)
     private String nombre;
 
-    public int getIdicono() {
-        return idicono;
+    public Integer getId() {
+        return id;
     }
 
-    public void setIdicono(int idicono) {
-        this.idicono = idicono;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public byte[] getImagen() {
@@ -40,25 +42,4 @@ public class Icono {
         this.nombre = nombre;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Icono icono = (Icono) o;
-
-        if (idicono != icono.idicono) return false;
-        if (!Arrays.equals(imagen, icono.imagen)) return false;
-        if (nombre != null ? !nombre.equals(icono.nombre) : icono.nombre != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = idicono;
-        result = 31 * result + Arrays.hashCode(imagen);
-        result = 31 * result + (nombre != null ? nombre.hashCode() : 0);
-        return result;
-    }
 }

@@ -1,24 +1,26 @@
 package com.example.ipucp.Entity;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "cargo")
 public class Cargo {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "idcargo")
-    private int idcargo;
-    @Basic
-    @Column(name = "nombre_cargo")
+    @Column(name = "idcargo", nullable = false)
+    private Integer id;
+
+    @Column(name = "nombre_cargo", nullable = false, length = 45)
     private String nombreCargo;
 
-    public int getIdcargo() {
-        return idcargo;
+    public Integer getId() {
+        return id;
     }
 
-    public void setIdcargo(int idcargo) {
-        this.idcargo = idcargo;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getNombreCargo() {
@@ -29,23 +31,4 @@ public class Cargo {
         this.nombreCargo = nombreCargo;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Cargo cargo = (Cargo) o;
-
-        if (idcargo != cargo.idcargo) return false;
-        if (nombreCargo != null ? !nombreCargo.equals(cargo.nombreCargo) : cargo.nombreCargo != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = idcargo;
-        result = 31 * result + (nombreCargo != null ? nombreCargo.hashCode() : 0);
-        return result;
-    }
 }

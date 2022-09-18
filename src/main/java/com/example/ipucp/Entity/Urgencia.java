@@ -1,23 +1,26 @@
 package com.example.ipucp.Entity;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "urgencia")
 public class Urgencia {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "idurgencia")
-    private int idurgencia;
-    @Basic
-    @Column(name = "tipo_urgencia")
+    @Column(name = "idurgencia", nullable = false)
+    private Integer id;
+
+    @Column(name = "tipo_urgencia", nullable = false, length = 45)
     private String tipoUrgencia;
 
-    public int getIdurgencia() {
-        return idurgencia;
+    public Integer getId() {
+        return id;
     }
 
-    public void setIdurgencia(int idurgencia) {
-        this.idurgencia = idurgencia;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getTipoUrgencia() {
@@ -28,24 +31,4 @@ public class Urgencia {
         this.tipoUrgencia = tipoUrgencia;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Urgencia urgencia = (Urgencia) o;
-
-        if (idurgencia != urgencia.idurgencia) return false;
-        if (tipoUrgencia != null ? !tipoUrgencia.equals(urgencia.tipoUrgencia) : urgencia.tipoUrgencia != null)
-            return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = idurgencia;
-        result = 31 * result + (tipoUrgencia != null ? tipoUrgencia.hashCode() : 0);
-        return result;
-    }
 }

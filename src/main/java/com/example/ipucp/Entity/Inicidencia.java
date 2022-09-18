@@ -1,45 +1,47 @@
 package com.example.ipucp.Entity;
 
 import javax.persistence.*;
-import java.util.Arrays;
 
 @Entity
+@Table(name = "inicidencia")
 public class Inicidencia {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "idinicidencia")
-    private int idinicidencia;
-    @Basic
-    @Column(name = "descripcion")
-    private String descripcion;
-    @Basic
-    @Column(name = "ubicacion")
-    private String ubicacion;
-    @Basic
-    @Column(name = "localizacion")
-    private String localizacion;
-    @Basic
-    @Column(name = "nombre")
-    private String nombre;
-    @Basic
-    @Column(name = "codigo")
-    private String codigo;
-    @Basic
-    @Column(name = "foto")
-    private byte[] foto;
-    @Basic
-    @Column(name = "idurgencia")
-    private int idurgencia;
-    @Basic
-    @Column(name = "idtipo")
-    private int idtipo;
+    @Column(name = "idinicidencia", nullable = false)
+    private Integer id;
 
-    public int getIdinicidencia() {
-        return idinicidencia;
+    @Column(name = "descripcion", nullable = false, length = 45)
+    private String descripcion;
+
+    @Column(name = "ubicacion", nullable = false, length = 45)
+    private String ubicacion;
+
+    @Column(name = "localizacion", nullable = false, length = 45)
+    private String localizacion;
+
+    @Column(name = "nombre", nullable = false, length = 45)
+    private String nombre;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "codigo", nullable = false)
+    private Usuario codigo;
+
+    @Column(name = "foto", nullable = false)
+    private byte[] foto;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "idurgencia", nullable = false)
+    private Urgencia idurgencia;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "idtipo", nullable = false)
+    private Tipo idtipo;
+
+    public Integer getId() {
+        return id;
     }
 
-    public void setIdinicidencia(int idinicidencia) {
-        this.idinicidencia = idinicidencia;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getDescripcion() {
@@ -74,11 +76,11 @@ public class Inicidencia {
         this.nombre = nombre;
     }
 
-    public String getCodigo() {
+    public Usuario getCodigo() {
         return codigo;
     }
 
-    public void setCodigo(String codigo) {
+    public void setCodigo(Usuario codigo) {
         this.codigo = codigo;
     }
 
@@ -90,53 +92,20 @@ public class Inicidencia {
         this.foto = foto;
     }
 
-    public int getIdurgencia() {
+    public Urgencia getIdurgencia() {
         return idurgencia;
     }
 
-    public void setIdurgencia(int idurgencia) {
+    public void setIdurgencia(Urgencia idurgencia) {
         this.idurgencia = idurgencia;
     }
 
-    public int getIdtipo() {
+    public Tipo getIdtipo() {
         return idtipo;
     }
 
-    public void setIdtipo(int idtipo) {
+    public void setIdtipo(Tipo idtipo) {
         this.idtipo = idtipo;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Inicidencia that = (Inicidencia) o;
-
-        if (idinicidencia != that.idinicidencia) return false;
-        if (idurgencia != that.idurgencia) return false;
-        if (idtipo != that.idtipo) return false;
-        if (descripcion != null ? !descripcion.equals(that.descripcion) : that.descripcion != null) return false;
-        if (ubicacion != null ? !ubicacion.equals(that.ubicacion) : that.ubicacion != null) return false;
-        if (localizacion != null ? !localizacion.equals(that.localizacion) : that.localizacion != null) return false;
-        if (nombre != null ? !nombre.equals(that.nombre) : that.nombre != null) return false;
-        if (codigo != null ? !codigo.equals(that.codigo) : that.codigo != null) return false;
-        if (!Arrays.equals(foto, that.foto)) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = idinicidencia;
-        result = 31 * result + (descripcion != null ? descripcion.hashCode() : 0);
-        result = 31 * result + (ubicacion != null ? ubicacion.hashCode() : 0);
-        result = 31 * result + (localizacion != null ? localizacion.hashCode() : 0);
-        result = 31 * result + (nombre != null ? nombre.hashCode() : 0);
-        result = 31 * result + (codigo != null ? codigo.hashCode() : 0);
-        result = 31 * result + Arrays.hashCode(foto);
-        result = 31 * result + idurgencia;
-        result = 31 * result + idtipo;
-        return result;
-    }
 }

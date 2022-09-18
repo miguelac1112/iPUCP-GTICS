@@ -1,23 +1,26 @@
 package com.example.ipucp.Entity;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "rol")
 public class Rol {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "idrol")
-    private int idrol;
-    @Basic
-    @Column(name = "nombre_rol")
+    @Column(name = "idrol", nullable = false)
+    private Integer id;
+
+    @Column(name = "nombre_rol", nullable = false, length = 45)
     private String nombreRol;
 
-    public int getIdrol() {
-        return idrol;
+    public Integer getId() {
+        return id;
     }
 
-    public void setIdrol(int idrol) {
-        this.idrol = idrol;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getNombreRol() {
@@ -28,23 +31,4 @@ public class Rol {
         this.nombreRol = nombreRol;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Rol rol = (Rol) o;
-
-        if (idrol != rol.idrol) return false;
-        if (nombreRol != null ? !nombreRol.equals(rol.nombreRol) : rol.nombreRol != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = idrol;
-        result = 31 * result + (nombreRol != null ? nombreRol.hashCode() : 0);
-        return result;
-    }
 }
