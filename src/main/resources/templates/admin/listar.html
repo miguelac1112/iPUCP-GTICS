@@ -106,11 +106,9 @@
                     <th th:text="${usuario.celular}" style="text-align: center">993606147</th>
                     <th th:text="${usuario.dni}" style="text-align: center">72673679</th>
                     <th th:text="${usuario.strikes}" style="text-align: center">1</th>
-                    <div th:switch="${usuario.strikes}">
+                    <div th:switch="${usuario.ban}">
                         <td th:case="0" style="text-align: center"><button type="button" class="btn btn-danger" data-bs-toggle="modal" th:attr="data-bs-target=${'#Modal'+usuario.id}">Suspender</button></td>
-                        <td th:case="1" style="text-align: center"><button type="button" class="btn btn-danger" data-bs-toggle="modal" th:attr="data-bs-target=${'#Modal'+usuario.id}">Suspender</button></td>
-                        <td th:case="2" style="text-align: center"><button type="button" class="btn btn-danger" data-bs-toggle="modal" th:attr="data-bs-target=${'#Modal'+usuario.id}">Suspender</button></td>
-                        <td th:case="3" style="text-align: center"><a type="button" class="btn btn-success" th:href="@{'/admin/habilitar?id=' + ${usuario.id}}">Habilitar</a></td>
+                        <td th:case="1" style="text-align: center"><a type="button" class="btn btn-success" th:href="@{'/admin/habilitar?id=' + ${usuario.id}}">Habilitar</a></td>
                     </div>
                 </tr>
                 </tbody>
@@ -135,10 +133,9 @@
                         <form method="post" th:action="@{'/admin/suspender'}" class="mt-2" th:id="${'form'+usuario.id}">
                             <div class="mb-3">
                                 <input th:value="${usuario.id}" name="id" type="hidden"/>
-                                <p th:text="${usuario.id}"></p>
 
                                 <label for="justificacion" class="form-label">Ingrese justificación: </label>
-                                <input type="text" id="justificacion" name="justificacion" class="form-control" />
+                                <textarea class="form-control" name="justificacion" id="justificacion" rows="4"></textarea>
                             </div>
                         </form>
 

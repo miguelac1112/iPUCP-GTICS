@@ -1,6 +1,7 @@
 package com.example.ipucp.Controller;
 
 import com.example.ipucp.Entity.Rol;
+import com.example.ipucp.Entity.Tipo;
 import com.example.ipucp.Entity.Usuario;
 import com.example.ipucp.Repository.CargoRepository;
 import com.example.ipucp.Repository.TipoRepository;
@@ -74,6 +75,12 @@ public class AdminController {
     public String suspenderUsuario(@RequestParam("id") String codigo, @RequestParam("justificacion") String justificacion){
         usuarioRepository.suspenderUsuario(justificacion,codigo);
         return "redirect:/admin";
+    }
+
+    @PostMapping("/saveIncident")
+    public String guardarTipoIncidencia(Tipo tipo, RedirectAttributes attr) {
+        tipoRepository.save(tipo);
+        return "redirect:/admin/incidencias";
     }
 
 }

@@ -121,7 +121,7 @@
                 </div>
                 <div class="modal-body">
 
-                    <form method="post" th:action="@{'/product/save'}" class="mt-2" id="form1">
+                    <form method="post" th:action="@{'/admin/s'}" class="mt-2" id="form1">
                         <div class="mb-3">
                             <label for="incidencia" class="form-label">Nombre de incidencia:</label>
                             <input type="text" id="incidencia" class="form-control" value="Reporte de robo"/>
@@ -172,10 +172,10 @@
                 </div>
                 <div class="modal-body">
 
-                    <form method="post" th:action="@{'/product/save'}" class="mt-2" id="form3">
+                    <form method="post" th:action="@{'/admin/saveIncident'}" class="mt-2" id="form3">
                         <div class="mb-3">
-                            <label for="incidencia" class="form-label">Nombre de incidencia:</label>
-                            <input type="text" id="incidencia3" class="form-control" required/>
+                            <label for="tipoIncidencia" class="form-label">Nombre de incidencia:</label>
+                            <input type="text" id="tipoIncidencia" name="tipoIncidencia" class="form-control" required/>
                         </div>
                         <div class="mb-3">
                             <label for="foto" class="form-label">Imagen de incidencia:</label>
@@ -196,7 +196,7 @@
     <div class="modal fade " id="Modal4" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog ">
             <div class="modal-content ">
-                <div class="modal-header" style="background-color: red">
+                <div class="modal-header" style="background-color: green">
                     <h5 class="modal-title" id="exampleModalLabel4" style="color: white">Reporte de robo</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>

@@ -1,7 +1,12 @@
 package com.example.ipucp.Entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "tipo")
 public class Tipo {
@@ -13,20 +18,8 @@ public class Tipo {
     @Column(name = "tipo_incidencia", nullable = false, length = 45)
     private String tipoIncidencia;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getTipoIncidencia() {
-        return tipoIncidencia;
-    }
-
-    public void setTipoIncidencia(String tipoIncidencia) {
-        this.tipoIncidencia = tipoIncidencia;
-    }
+    @Lob
+    @Column(name = "foto")
+    private byte[] foto;
 
 }
