@@ -48,7 +48,7 @@ public class Usuario {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "icono_idicono")
-    private Icono iconoIdicono;
+    private Icono icono;
 
     @Column(name = "ban", nullable = false)
     private Byte ban;
