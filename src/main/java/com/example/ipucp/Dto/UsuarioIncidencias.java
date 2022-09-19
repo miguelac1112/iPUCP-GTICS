@@ -1,4 +1,4 @@
-package com.example.ipucp.Entity;
+package com.example.ipucp.Dto;
 
 public interface UsuarioIncidencias {
     int getIdinicidencia();

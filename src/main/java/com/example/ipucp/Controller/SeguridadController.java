@@ -2,7 +2,7 @@ package com.example.ipucp.Controller;
 
 import com.example.ipucp.Entity.Cargo;
 import com.example.ipucp.Entity.Usuario;
-import com.example.ipucp.Entity.UsuarioIncidencias;
+import com.example.ipucp.Dto.UsuarioIncidencias;
 import com.example.ipucp.Repository.UsuarioRepository;
 import com.example.ipucp.Repository.CargoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
