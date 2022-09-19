@@ -44,6 +44,17 @@ public class Inicidencia {
     @Column(name = "estado", nullable = false)
     private Byte estado;
 
+    @Column(name = "destacado", nullable = false)
+    private int destacado;
+
+    public int getDestacado() {
+        return destacado;
+    }
+
+    public void setDestacado(int destacado) {
+        this.destacado = destacado;
+    }
+
     public Integer getId() {
         return id;
     }

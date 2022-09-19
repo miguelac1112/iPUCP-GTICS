@@ -181,7 +181,7 @@
 
                                     <td style="text-align: center"><a type="button" class="fa-solid fa-forward-step" style="color: black;
                                         position: relative;
-                                        font-size: 23px;" th:href="@{'/seguridad/reporte' + '?id=' + ${incidencias.getIdinicidencia()}}"></a></td>
+                                        font-size: 23px;" th:href="@{'/seguridad/detalle_incidencia' + '?id=' + ${incidencias.getIdinicidencia()} +'&codigo='+${usuario.id} }"></a></td>
                                 </tr>
                             </tbody>
                         </table>
