@@ -53,6 +53,9 @@
         <section class="page-section bg-light" id="portafolio">
             <h1 class="pb-2 border-bottom" style="text-align: center">Gestión de incidencias</h1>
             </br>
+
+            <div th:if="${msg != null}" th:text="${msg}" class="alert alert-success" role="alert" ></div>
+
             <div class="container">
                 <div class="container">
                     <div class="row">
@@ -122,12 +125,12 @@
                     </div>
                     <div class="modal-body">
 
-                        <form method="post" th:action="@{'/admin/saveIncident'}" class="mt-2" th:id="${'form'+incid.id}">
+                        <form method="post" th:action="@{'/admin/updateIncident'}" class="mt-2" th:id="${'form'+incid.id}">
                             <div class="mb-3">
                                 <input th:value="${incid.id}" name="id" type="hidden" />
 
-                                <label for="tipoIncidencia" class="form-label">Nombre de incidencia:</label>
-                                <input type="text" id="tipoIncidencia"name="tipoIncidencia" class="form-control" th:value="${incid.tipoIncidencia}" required/>
+                                <label for="tipoIncidencia1" class="form-label">Nombre de incidencia:</label>
+                                <input type="text" id="tipoIncidencia1"name="tipoIncidencia" class="form-control" th:value="${incid.tipoIncidencia}" required/>
                             </div>
                             <div class="mb-3">
                                 <label for="foto" class="form-label">Imagen de incidencia:</label>
@@ -179,21 +182,21 @@
                 </div>
                 <div class="modal-body">
 
-                    <form method="post" th:action="@{'/admin/saveIncident'}" class="mt-2" id="form3">
+                    <form method="post" th:action="@{'/admin/saveIncident'}" class="mt-2" id="form33">
                         <div class="mb-3">
-                            <label for="tipoIncidencia" class="form-label">Nombre de incidencia:</label>
-                            <input type="text" id="tipoIncidencia" name="tipoIncidencia" class="form-control" required/>
+                            <label for="tipoIncidencia2" class="form-label">Nombre de incidencia:</label>
+                            <input type="text" id="tipoIncidencia2" name="tipoIncidencia2" class="form-control" required/>
                         </div>
                         <div class="mb-3">
                             <label for="foto" class="form-label">Imagen de incidencia:</label>
-                            <input type="file" class="btn btn-primary" name="foto" style="background-color:grey; border-color:grey" id="foto2">
+                            <input type="file" class="btn btn-primary" name="foto2" style="background-color:grey; border-color:grey" id="foto2">
                         </div>
                     </form>
 
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Regresar</button>
-                    <button type="submit" form="form3" class="btn btn-success" data-bs-dismiss="modal">Agregar</button>
+                    <button type="submit" form="form33" class="btn btn-success" data-bs-dismiss="modal">Agregar</button>
                 </div>
             </div>
         </div>

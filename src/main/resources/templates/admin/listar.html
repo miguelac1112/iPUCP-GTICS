@@ -54,23 +54,36 @@
         <h1 class="pb-2 border-bottom" style="text-align: center">Información de los usuarios</h1>
         <div class="container">
             <div class="row">
-                <div class="col-auto">
-                    <select class="form-select" aria-label="Default select example">
-                        <option selected>Filtrar por categoría</option>
-                        <option value="1">Alumno</option>
-                        <option value="2">Profesor</option>
-                        <option value="3">Seguridad</option>
-                        <option value="3">JP</option>
-                    </select>
+
+                <div class="col" style="display: flex; justify-content: space-around">
+                    <form class="container" method="post" th:action="@{/admin/BuscarCategoria}">
+                        <div class="row">
+                            <div class="col-auto">
+                                <select class="form-select" aria-label="Default select example" name="idcat" id="idcat">
+                                    <option value="0">Todos</option>
+                                    <option th:each="cargo : ${listaCargos}"
+                                            th:text="${cargo.nombreCargo}"
+                                            th:value="${cargo.id}"
+                                            th:selected="${cargo.id} eq ${id}">
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-auto">
+                                <button type="submit" class="btn btn-success">Filtrar Categoría</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
 
-                <div class="col-auto">
-                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#Modal2">Agregar Usuario</button>
+                <div class="col-md-6 mb-4" style="display: flex; justify-content: flex-end">
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#Modal2">Agregar nuevo usuario</button>
                 </div>
+
             </div>
         </div>
 
-        </br>
+
+        <div th:if="${msg != null}" th:text="${msg}" class="alert alert-success" role="alert"></div>
 
         <div >
             <table class="table table-striped display nowrap" id="tablax" style="overflow-x: auto; overflow-y: auto" width="100%">
