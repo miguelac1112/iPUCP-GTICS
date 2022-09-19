@@ -26,7 +26,7 @@ public class Inicidencia {
     @JoinColumn(name = "codigo", nullable = false)
     private Usuario codigo;
 
-    @Column(name = "foto", nullable = false)
+    @Column(name = "foto")
     private byte[] foto;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -36,6 +36,13 @@ public class Inicidencia {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "idtipo", nullable = false)
     private Tipo idtipo;
+
+    @Lob
+    @Column(name = "comentario")
+    private String comentario;
+
+    @Column(name = "estado", nullable = false)
+    private Byte estado;
 
     public Integer getId() {
         return id;
@@ -107,6 +114,22 @@ public class Inicidencia {
 
     public void setIdtipo(Tipo idtipo) {
         this.idtipo = idtipo;
+    }
+
+    public String getComentario() {
+        return comentario;
+    }
+
+    public void setComentario(String comentario) {
+        this.comentario = comentario;
+    }
+
+    public Byte getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Byte estado) {
+        this.estado = estado;
     }
 
 }
