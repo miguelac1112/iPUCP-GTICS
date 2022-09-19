@@ -23,6 +23,13 @@ public interface UsuarioRepository extends JpaRepository<Usuario, String> {
             nativeQuery = true)
     List<UsuarioIncidencias> obtenerUsuarioIncidencias(String id);
 
+    @Query(value = "SELECT * FROM usuario \n" +
+            "where (idcargo='1' or\n" +
+            "idcargo='3' or idcargo='4'\n" +
+            "or idcargo='5')",
+            nativeQuery = true)
+    List<Usuario> listarUsuarios();
+
     @Transactional
     @Modifying
     @Query(value = "UPDATE `ipucp`.`usuario` SET `ban` = '0', `strikes` = '0', `justificacion` = '' WHERE `codigo` = (?1);",nativeQuery = true)

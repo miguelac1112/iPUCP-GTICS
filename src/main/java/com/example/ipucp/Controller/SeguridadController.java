@@ -1,10 +1,12 @@
 package com.example.ipucp.Controller;
 
 import com.example.ipucp.Entity.Cargo;
+import com.example.ipucp.Entity.Inicidencia;
 import com.example.ipucp.Entity.Usuario;
 import com.example.ipucp.Dto.UsuarioIncidencias;
 import com.example.ipucp.Repository.UsuarioRepository;
 import com.example.ipucp.Repository.CargoRepository;
+import com.example.ipucp.Repository.InicidenciaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,6 +28,10 @@ public class SeguridadController {
     @Autowired
     CargoRepository cargoRepository;
 
+    @Autowired
+    InicidenciaRepository inicidenciaRepository;
+
+
     @GetMapping("/comentar_incidencia")
     public String probando() {
         return "seguridad/seguridad";
@@ -41,14 +47,10 @@ public class SeguridadController {
         return "seguridad/dashboard";
     }
 
-    @GetMapping("/detalleid")
-    public String probando4() {
-        return "seguridad/detalleid_seguridad";
-    }
-
     @GetMapping("/lista_usuarios")
     public String listaUsuarios(Model model) {
-        model.addAttribute("listaUsuarios", usuarioRepository.findAll());
+        List<Usuario> ListaUsuarios = usuarioRepository.listarUsuarios();
+        model.addAttribute("listaUsuarios", ListaUsuarios);
         return "seguridad/lista_usuarios";
     }
 
@@ -84,4 +86,23 @@ public class SeguridadController {
             return "redirect:/seguridad/lista_usuarios";
         }
     }
+
+    @GetMapping("/detalle_incidencia")
+    public String detalleIncidencia(Model model,
+                                 @RequestParam("id") Integer id,@RequestParam("codigo") String codigo ){
+        Optional<Inicidencia> optInicidencia = inicidenciaRepository.findById(id);
+        Optional<Usuario> optUsuario = usuarioRepository.findById(codigo);
+
+        if (optInicidencia.isPresent() && optUsuario.isPresent() ){
+            Inicidencia inicidencia = optInicidencia.get();
+
+            model.addAttribute("incidencia", inicidencia);
+
+            return "seguridad/detalleid_seguridad";
+        }else{
+            return "redirect:/seguridad/reporte?id="+codigo;
+        }
+
+    }
+
 }
