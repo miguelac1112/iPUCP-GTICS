@@ -219,9 +219,76 @@ font-size: 2em;
   margin-top: -4%;
 
 }
-
-
+.lala{
+    margin-left: 10%;
+}
+.roca{
+    height: 180px;
+    width: 190px;
+    border-radius: 10px;
+}
+.avatar{
+    height: 120px;
+    width: 150px;
+    border-radius: 8px;
+    margin-top: 8%;
+}
+.sel{
+    margin-right: 90%;
+    margin-top: 25%;
+    margin-left: -50%;
+}
 @media screen and (max-width: 768px) {
+    .ultima{
+        width: 30%;
+    }
+    .form-control{
+        font-size: 80%;
+        width: 120%;
+    }
+    .sel{
+        margin-left: -195%;
+        margin-right: 208%;
+        margin-top: -90%;
+    }
+    .roca{
+        height: 140px;
+        width: 150px;
+        border-radius: 10px;
+    }
+    .lala{
+        height: 0.5%;
+        width: 1%;
+        margin-left: 22%;
+    }
+    .camara{
+        width: 40px;
+        height: 2%;
+        margin-bottom: -47%;
+        border-radius: 3px;
+    }
+    .boton{
+        font-size: 80%;
+        padding: 4%;
+        margin-left: 20%;
+        margin-right: -70%;
+    }
+    .col-4{
+        margin-left: 24%;
+    }
+    .col-5{
+        margin-left: 49%;
+    }
+    .popo{
+        margin-bottom: -8%;
+    }
+    .avatar{
+        margin-left: -195%;
+        height: 80px;
+        width: 90px;
+        border-radius: 4px;
+        margin-top: -270%;
+    }
     .img-logo{
         width:40%;
         height:75%;

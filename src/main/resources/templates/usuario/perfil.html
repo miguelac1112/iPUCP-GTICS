@@ -91,35 +91,31 @@
 
     <div class="container">
 
-        <div class="text-center" style="margin-top:80px;">
+        <div class="text-center" style="margin-top:4%;">
             <h3 class="section-heading">Mi Perfil</h3>
         </div>
         </br>
         <div class="row">
             <div class="col-3">
                 <div class="contenedor">
-                    <div class="img">
-                        <img src="/img/roca.jpg" class="rounded float-start" style="height: 140px;width: 170px;border-radius: 3px;"  alt="...">
+                        <img src="/img/roca.jpg"  class="roca"  alt="...">
                         <div class="btn" style="margin-bottom: -8%">
                             <a  href="javascript:explorar();" >
-                                <div class="form-group"style="position: relative; left: -67px; top: 90px;">
-                                    <img src="/img/camara.png" style="width: 50px;height: 4%;"  class="rounded float-start" alt="..." title="subir imagen"id="m">
+                                <div class="form-group"style="position: relative; left: -125%; top: 70%;">
+                                    <img src="/img/camara.png" style="width: 50px;height: 4%;" class="camara" alt="..." title="subir imagen"id="m">
                                     <input type="file" name="f_subir" id="f_subir" style="display:none;" >
                                 </div>
                             </a>
                         </div>
-                         <a th:href="@{'/usuario/misIncidencias'}">
-                        <button style="margin-top: 30%;margin-right: 30%" class="btn btn-dark" type="submit" >Mis Incidencias</button>
-                         </a>
-
-
-                    </div>
                 </div>
+                <a th:href="@{'/usuario/misIncidencias'}" class="lala">
+                    <button style="margin-top: 19%;" class="btn btn-dark boton" type="submit" >Mis Incidencias</button>
+                </a>
             </div>
             <div class="col-4">
                 <span class="postuserfont"><strong>Usuario:</strong></span>
-                <div class="form-group">
-                    <input class="form-control" id="nombre_funcion" type="text" value="Diego Zuasnabar"  disabled>
+                <div class="form-group popo">
+                    <input class="form-control" id="nombre_funcion1" type="text" value="Diego Zuasnabar"  disabled>
                 </div>
                 </br>
                 <span class="postuserfont"><strong>Código:</strong></span>
@@ -131,9 +127,9 @@
                     <input class="form-control" type="text" value="Alumno" disabled >
                 </div>
             </div>
-            <div class="col-4">
+            <div class="col-5">
                 <span class="postuserfont"><strong>Correo:</strong></span>
-                <div class="form-group">
+                <div class="form-group popo">
                     <input class="form-control" id="nombre_funcion" type="text" value="a20190459@pucp.edu.pe"  disabled>
                 </div>
                 </br>
@@ -149,17 +145,17 @@
 
         </br>
 
-        <div class="row justify-content-center">
+        <div class="row justify-content-center ultima" >
             <div class="col-md-6" style="margin-left:450px">
                 <div class="row">
                     <div class="col" id="img">
+                        <img src="/img/avatar1.jpg"   class="avatar" alt="...">
 
                     </div>
                     <div class="col">
-                        <div style="margin-right: 50%;margin-top: 25%;margin-left: -10%">
+                        <div class="sel">
                             <select onchange=cambiar_imagen() class="form-select form-select-sm" aria-label=".form-select-sm example" style="margin-right: 5%" id="fruta">
                                 <option selected value="pina">Piña</option>
-                                <option value="pina">Piña</option>
                                 <option value="sandia">Sandía</option>
                                 <option value="naranja">Naranja</option>
                             </select>
@@ -191,13 +187,13 @@
         console.log(sel);
 
         if(sel=="pina"){
-            im.innerHTML = `<img src="/img/avatar1.jpg" class="rounded float-start" style="height: 120px;width: 150px;border-radius: 8px;margin-top: 8%;"  alt="...">\n`;
+            im.innerHTML = `<img src="/img/avatar1.jpg" class="avatar"  alt="...">\n`;
         }else if(sel=="naranja"){
-            im.innerHTML = `<img src="/img/avatar3.jpg" class="rounded float-start" style="height: 120px;width: 150px;border-radius: 8px;margin-top: 8%;"  alt="...">\n`;
+            im.innerHTML = `<img src="/img/avatar3.jpg"  class="avatar"  alt="...">\n`;
         }else if(sel=="sandia"){
-            im.innerHTML = `<img src="/img/avatar2.jpg" class="rounded float-start" style="height: 120px;width: 150px;border-radius: 8px;margin-top: 8%;"  alt="...">\n`;
+            im.innerHTML = `<img src="/img/avatar2.jpg" class="avatar"     alt="...">\n`;
         }else{
-            im.innerHTML = `<img src="/img/avatar1.jpg" class="rounded float-start" style="height: 120px;width: 150px;border-radius: 8px;margin-top: 8%;"  alt="...">\n`;
+            im.innerHTML = `<img src="/img/avatar1.jpg" class="avatar"  alt="...">\n`;
         }
 
     }
