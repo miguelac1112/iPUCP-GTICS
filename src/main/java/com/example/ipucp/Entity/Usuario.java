@@ -35,6 +35,7 @@ public class Usuario {
     @Column(name = "estado", nullable = false)
     private Byte estado;
 
+    @Lob
     @Column(name = "foto")
     private byte[] foto;
 
