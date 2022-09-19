@@ -1,14 +1,12 @@
 package com.example.ipucp.Entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "cargo")
 public class Cargo {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idcargo", nullable = false)
     private Integer id;
 

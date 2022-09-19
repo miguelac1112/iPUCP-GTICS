@@ -1,4 +1,4 @@
-package com.example.ipucp.Repository.admin;
+package com.example.ipucp.Repository;
 
 import com.example.ipucp.Entity.Cargo;
 import org.springframework.data.jpa.repository.JpaRepository;
