@@ -3,8 +3,10 @@ package com.example.ipucp.Repository;
 import com.example.ipucp.Entity.Usuario;
 import com.example.ipucp.Dto.UsuarioIncidencias;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -20,4 +22,14 @@ public interface UsuarioRepository extends JpaRepository<Usuario, String> {
             "and inc.codigo=?1",
             nativeQuery = true)
     List<UsuarioIncidencias> obtenerUsuarioIncidencias(String id);
+
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE `ipucp`.`usuario` SET `ban` = '0' WHERE `codigo` = (?1);",nativeQuery = true)
+    void habilitarUsuario(String codigo);
+
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE `ipucp`.`usuario` SET `ban` = '3', `justificacion` = (?1) WHERE `codigo` = (?2);",nativeQuery = true)
+    void suspenderUsuario(String justificacion, String codigo);
 }

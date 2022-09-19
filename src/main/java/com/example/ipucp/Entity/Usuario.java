@@ -51,10 +51,13 @@ public class Usuario {
     @JoinColumn(name = "icono_idicono")
     private Icono icono;
 
-    @Column(name = "ban", nullable = false)
-    private Byte ban;
+    @Column(name = "strikes", nullable = false)
+    private Byte strikes;
 
     @Lob
     @Column(name = "justificacion")
     private String justificacion;
+
+    @Column(name = "ban", nullable = false)
+    private Byte ban;
 }

@@ -3,6 +3,7 @@ package com.example.ipucp.Controller;
 import com.example.ipucp.Entity.Rol;
 import com.example.ipucp.Entity.Usuario;
 import com.example.ipucp.Repository.CargoRepository;
+import com.example.ipucp.Repository.TipoRepository;
 import com.example.ipucp.Repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,9 @@ public class AdminController {
 
     @Autowired
     UsuarioRepository usuarioRepository;
+
+    @Autowired
+    TipoRepository tipoRepository;
 
     @GetMapping(value = {"/listar",""})
     public String listar(Model model) {
@@ -54,10 +58,22 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-
     @GetMapping("/incidencias")
-    public String incidencias() {
+    public String incidencias(Model model) {
+        model.addAttribute("listaIncidencias",tipoRepository.findAll());
         return "admin/incidencias";
+    }
+
+    @GetMapping("/habilitar")
+    public String habilitarUsuario(@RequestParam("id") String codigo){
+        usuarioRepository.habilitarUsuario(codigo);
+        return "redirect:/admin";
+    }
+
+    @PostMapping("/suspender")
+    public String suspenderUsuario(@RequestParam("id") String codigo, @RequestParam("justificacion") String justificacion){
+        usuarioRepository.suspenderUsuario(justificacion,codigo);
+        return "redirect:/admin";
     }
 
 }

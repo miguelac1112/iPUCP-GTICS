@@ -90,50 +90,8 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr>
-                                            <th style="text-align: center">Reporte de robo</th>
-                                            <td style="text-align: center"><button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#Modal4">Imagen</button></td>
-                                            <td style="text-align: center"><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Modal1">Editar</button></td>
-                                            <td style="text-align: center"><button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#Modal2">Borrar</button></td>
-                                        </tr>
-                                        <tr>
-                                            <th style="text-align: center">Objetos perdidos</th>
-                                            <td style="text-align: center"><button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#Modal4">Imagen</button></td>
-                                            <td style="text-align: center"><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Modal1">Editar</button></td>
-                                            <td style="text-align: center"><button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#Modal2">Borrar</button></td>
-                                        </tr>
-                                        <tr>
-                                            <th style="text-align: center">Infraestructura mal estado</th>
-                                            <td style="text-align: center"><button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#Modal4">Imagen</button></td>
-                                            <td style="text-align: center"><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Modal1">Editar</button></td>
-                                            <td style="text-align: center"><button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#Modal2">Borrar</button></td>
-                                        </tr>
-                                        <tr>
-                                            <th style="text-align: center">Ambulancia PUCP</th>
-                                            <td style="text-align: center"><button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#Modal4">Imagen</button></td>
-                                            <td style="text-align: center"><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Modal1">Editar</button></td>
-                                            <td style="text-align: center"><button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#Modal2">Borrar</button></td>
-                                        </tr>
-                                        <tr>
-                                            <th style="text-align: center">Accidente</th>
-                                            <td style="text-align: center"><button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#Modal4">Imagen</button></td>
-                                            <td style="text-align: center"><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Modal1">Editar</button></td>
-                                            <td style="text-align: center"><button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#Modal2">Borrar</button></td>
-                                        </tr>
-                                        <tr>
-                                            <th style="text-align: center">Otro</th>
-                                            <td style="text-align: center"><button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#Modal4">Imagen</button></td>
-                                            <td style="text-align: center"><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Modal1">Editar</button></td>
-                                            <td style="text-align: center"><button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#Modal2">Borrar</button></td>
-                                        </tr>
-                                        <tr>
-                                            <th style="text-align: center">Otro</th>
-                                            <td style="text-align: center"><button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#Modal4">Imagen</button></td>
-                                            <td style="text-align: center"><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Modal1">Editar</button></td>
-                                            <td style="text-align: center"><button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#Modal2">Borrar</button></td>
-                                        </tr>
-                                        <tr>
-                                            <th style="text-align: center">Otro</th>
+                                        <tr th:each="incid : ${listaIncidencias}">
+                                            <th th:text="${incid.tipoIncidencia}" style="text-align: center">Reporte de robo</th>
                                             <td style="text-align: center"><button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#Modal4">Imagen</button></td>
                                             <td style="text-align: center"><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Modal1">Editar</button></td>
                                             <td style="text-align: center"><button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#Modal2">Borrar</button></td>
@@ -217,7 +175,7 @@
                     <form method="post" th:action="@{'/product/save'}" class="mt-2" id="form3">
                         <div class="mb-3">
                             <label for="incidencia" class="form-label">Nombre de incidencia:</label>
-                            <input type="text" id="incidencia3" class="form-control"/>
+                            <input type="text" id="incidencia3" class="form-control" required/>
                         </div>
                         <div class="mb-3">
                             <label for="foto" class="form-label">Imagen de incidencia:</label>
@@ -228,7 +186,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Regresar</button>
-                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Agregar</button>
+                    <button type="submit" form="form3" class="btn btn-success" data-bs-dismiss="modal">Agregar</button>
                 </div>
             </div>
         </div>
@@ -244,12 +202,7 @@
                 </div>
                 <div class="modal-body">
 
-                    <img
-                            src="https://mdbootstrap.com/img/new/avatars/8.jpg"
-                            alt=""
-                            style="width: 45px; height: 45px"
-                            class="rounded-circle"
-                    />
+                    <img th:src="@{/img/perfil2.jpg}" class="card-img-top" alt="...">
 
                 </div>
                 <div class="modal-footer">

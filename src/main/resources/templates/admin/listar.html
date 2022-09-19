@@ -82,7 +82,7 @@
                     <th style="text-align: center">Celular</th>
                     <th style="text-align: center">DNI</th>
                     <th style="text-align: center">Strikes</th>
-                    <th style="text-align: center">¿Suspender?</th>
+                    <th style="text-align: center">Acción</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -105,8 +105,13 @@
                     <th th:text="${usuario.correo}" style="text-align: center">a20192258@pucp.edu.pe</th>
                     <th th:text="${usuario.celular}" style="text-align: center">993606147</th>
                     <th th:text="${usuario.dni}" style="text-align: center">72673679</th>
-                    <th th:text="${usuario.ban}" style="text-align: center">1</th>
-                    <td style="text-align: center"><button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#Modal1">Si</button></td>
+                    <th th:text="${usuario.strikes}" style="text-align: center">1</th>
+                    <div th:switch="${usuario.strikes}">
+                        <td th:case="0" style="text-align: center"><button type="button" class="btn btn-danger" data-bs-toggle="modal" th:attr="data-bs-target=${'#Modal'+usuario.id}">Suspender</button></td>
+                        <td th:case="1" style="text-align: center"><button type="button" class="btn btn-danger" data-bs-toggle="modal" th:attr="data-bs-target=${'#Modal'+usuario.id}">Suspender</button></td>
+                        <td th:case="2" style="text-align: center"><button type="button" class="btn btn-danger" data-bs-toggle="modal" th:attr="data-bs-target=${'#Modal'+usuario.id}">Suspender</button></td>
+                        <td th:case="3" style="text-align: center"><a type="button" class="btn btn-success" th:href="@{'/admin/habilitar?id=' + ${usuario.id}}">Habilitar</a></td>
+                    </div>
                 </tr>
                 </tbody>
             </table>
@@ -116,30 +121,37 @@
 
 
     <!-- Modal -->
-    <div class="modal fade" id="Modal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Suspensión de cuenta</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
+    <div th:each="usuario : ${listaUsuarios}">
+        <div class="modal fade" th:id="${'Modal'+usuario.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Suspensión de cuenta</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p th:text="${'La cuenta de '+usuario.nombre+' '+usuario.apellido+' será suspendida'}">info</p>
 
-                    <form method="post" th:action="@{'/product/save'}" class="mt-2" id="form1">
-                        <div class="mb-3">
-                            <label for="justificacion" class="form-label">Ingrese justificación: </label>
-                            <textarea class="form-control" name="justificacion" id="justificacion" rows="4"></textarea>
-                        </div>
-                    </form>
+                        <form method="post" th:action="@{'/admin/suspender'}" class="mt-2" th:id="${'form'+usuario.id}">
+                            <div class="mb-3">
+                                <input th:value="${usuario.id}" name="id" type="hidden"/>
+                                <p th:text="${usuario.id}"></p>
 
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Regresar</button>
-                    <button type="submit" class="btn btn-danger" form="form1">Aceptar</button>
+                                <label for="justificacion" class="form-label">Ingrese justificación: </label>
+                                <input type="text" id="justificacion" name="justificacion" class="form-control" />
+                            </div>
+                        </form>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Regresar</button>
+                        <button type="submit" class="btn btn-danger" th:form="${'form'+usuario.id}">Aceptar</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
 
     <!-- Modal 2-->
     <div class="modal fade" id="Modal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
