@@ -49,7 +49,8 @@
     <body>
         <main>
 
-            <a th:href="@{'/seguridad/incidencias'}" ><button class="btn-wsp" target="_blank" data-bs-toggle="modal" data-bs-target="#Modal3"  style="background-color:lightsteelblue; border-color:blue" >
+            <a th:href="@{'/seguridad/incidencias'}" >
+                <button class="btn-wsp" target="_blank" data-bs-toggle="modal" data-bs-target="#Modal3"  style="background-color:lightsteelblue; border-color:blue" >
                 <i class="fa-solid fa-house"
                    style="color: black;
                    position: relative;
@@ -113,35 +114,44 @@
                     <h3 class="section-heading" th:text="${'Perfil de '+usuario.nombre+' '+ usuario.apellido}"></h3>
                 </div>
                 </br>
-                <div class="row">
-                    <div class="col-3">
-                        <div class="contenedor">
+                <div class="row justify-content-center">
+                    <div class="col-xl-4 col-lg-5">
+                        <div class="contenedor justify-content-center">
                             <div class="img">
                                 <img src="/img/pantera.jpg" class="rounded float-start" style="height: 120px;width: 120px;border-radius: 3px;"  alt="...">
                                 <h3 class="postuserfont" >Foto de perfil</h3>
                             </div>
                         </div>
                     </div>
-                    <div class="col-4">
-                        <span class="postuserfont"><strong>Usuario:</strong></span>
-                        <div class="form-group">
+                    <div class="container col-xl-8 col-lg-7 ">
+                        <div class="row justify-content-center">
+                            <div class="col-4">
+                            <span class="postuserfont"><strong>Usuario:</strong></span>
+                             <div class="form-group">
                             <input class="form-control" id="nombre" name="nombre" type="text" th:value="${usuario.nombre + ' ' + usuario.apellido}"  disabled>
+                            </div>
                         </div>
-                        </br>
-                        <span class="postuserfont"><strong>Código:</strong></span>
-                        <div class="form-group">
+
+                            <div class="col-4">
+                            <span class="postuserfont"><strong>Código:</strong></span>
+                            <div class="form-group">
                             <input class="form-control" id="id" name="id" type="text" th:value="${usuario.id}" disabled >
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-4">
-                        <span class="postuserfont"><strong>Correo:</strong></span>
-                        <div class="form-group">
-                            <input class="form-control" id="correo" name="correo" type="text" th:value="${usuario.correo}"  disabled>
                         </div>
-                        </br>
-                        <span class="postuserfont"><strong>Cargo:</strong></span>
-                        <div class="form-group">
-                            <input class="form-control" id="idcargo" name="idcargo" type="text" th:value="${usuario.cargo.getNombreCargo()}"  disabled>
+                        <div class="row justify-content-center">
+                            <div class="col-4">
+                                <span class="postuserfont"><strong>Correo:</strong></span>
+                                <div class="form-group">
+                                    <input class="form-control" id="correo" name="correo" type="text" th:value="${usuario.correo}"  disabled>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <span class="postuserfont"><strong>Cargo:</strong></span>
+                                <div class="form-group">
+                                    <input class="form-control" id="idcargo" name="idcargo" type="text" th:value="${usuario.cargo.getNombreCargo()}"  disabled>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
