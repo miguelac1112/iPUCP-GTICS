@@ -83,78 +83,24 @@
                     <th style="text-align: center">#</th>
                     <th style="text-align: center">Nombre</th>
                     <th style="text-align: center">Tipo</th>
+                    <th style="text-align: center">Urgencia</th>
                     <th style="text-align: center">Estado</th>
                     <th style="text-align: center"></th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
+                <tr th:each="incidencia,v : ${listaIncidencias}">
                     <td>
                         <div class="d-flex align-items-center">
                             <div class="ms-3">
-                                <p class="fw-bold mb-1">1</p>
+                                <p class="fw-bold mb-1" th:text="${v.index + 1}" >1</p>
                             </div>
                         </div>
                     </td>
-                    <th style="text-align: center">Robo de celular Huawei</th>
-                    <th style="text-align: center">Robo</th>
-                    <th style="text-align: center">No Atendido</th>
-
-                    <td style="text-align: center"><a th:href="@{'/usuario/detalle'}"><button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#Modal1">Ver detalle</button></a></td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="d-flex align-items-center">
-                            <div class="ms-3">
-                                <p class="fw-bold mb-1">2</p>
-                            </div>
-                        </div>
-                    </td>
-                    <th style="text-align: center">Cañerías rotas</th>
-                    <th style="text-align: center">Mal Estado</th>
-                    <th style="text-align: center">Atendido</th>
-
-                    <td style="text-align: center"><a th:href="@{'/usuario/detalle'}"><button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#Modal1">Ver detalle</button></a></td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="d-flex align-items-center">
-                            <div class="ms-3">
-                                <p class="fw-bold mb-1">3</p>
-                            </div>
-                        </div>
-                    </td>
-                    <th style="text-align: center">Encontré Laptop Asus en CIA</th>
-                    <th style="text-align: center">Objetos Perdidos</th>
-                    <th style="text-align: center">No Atendido</th>
-
-                    <td style="text-align: center"><a th:href="@{'/usuario/detalle'}"><button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#Modal1">Ver detalle</button></a></td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="d-flex align-items-center">
-                            <div class="ms-3">
-                                <p class="fw-bold mb-1">4</p>
-                            </div>
-                        </div>
-                    </td>
-                    <th style="text-align: center">Alumno atropellado cerca a Mc Gregor</th>
-                    <th style="text-align: center">Accidente</th>
-                    <th style="text-align: center">No Atendido</th>
-
-                    <td style="text-align: center"><a th:href="@{'/usuario/detalle'}"><button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#Modal1">Ver detalle</button></a></td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="d-flex align-items-center">
-                            <div class="ms-3">
-                                <p class="fw-bold mb-1">5</p>
-                            </div>
-                        </div>
-                    </td>
-                    <th style="text-align: center">Encontré una billetera en el A206</th>
-                    <th style="text-align: center">Objetos Perdidos</th>
-                    <th style="text-align: center">Atendido</th>
+                    <th style="text-align: center" th:text="${incidencia.nombre}">Robo de celular Huawei</th>
+                    <th style="text-align: center" th:text="${incidencia.idtipo.tipoIncidencia}">Robo</th>
+                    <th style="text-align: center" th:text="${incidencia.idurgencia.tipoUrgencia}">Leve</th>
+                    <th style="text-align: center" th:text="${incidencia.estado == 1}?'Atendida':'No atendida'">No Atendido</th>
 
                     <td style="text-align: center"><a th:href="@{'/usuario/detalle'}"><button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#Modal1">Ver detalle</button></a></td>
                 </tr>

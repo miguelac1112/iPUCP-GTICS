@@ -115,27 +115,27 @@
             <div class="col-4">
                 <span class="postuserfont"><strong>Usuario:</strong></span>
                 <div class="form-group popo">
-                    <input class="form-control" id="nombre_funcion1" type="text" value="Diego Zuasnabar"  disabled>
+                    <input class="form-control" id="nombre_funcion1" type="text" th:value="${userperfil.nombre} + ' ' + ${userperfil.apellido}"  disabled>
                 </div>
                 </br>
                 <span class="postuserfont"><strong>Código:</strong></span>
                 <div class="form-group" style="margin-bottom: 12%">
-                    <input class="form-control" type="text" value="20202020" disabled >
+                    <input class="form-control" type="text" th:value="${userperfil.id}" disabled >
                 </div>
                 <span class="postuserfont" ><strong>Cargo:</strong></span>
                 <div class="form-group">
-                    <input class="form-control" type="text" value="Alumno" disabled >
+                    <input class="form-control" type="text" th:value="${userperfil.cargo.nombreCargo}" disabled >
                 </div>
             </div>
             <div class="col-5">
                 <span class="postuserfont"><strong>Correo:</strong></span>
                 <div class="form-group popo">
-                    <input class="form-control" id="nombre_funcion" type="text" value="a20190459@pucp.edu.pe"  disabled>
+                    <input class="form-control" id="nombre_funcion" type="text" th:value="${userperfil.correo}"  disabled>
                 </div>
                 </br>
                 <span class="postuserfont"><strong>DNI:</strong></span>
                 <div class="form-group" style="margin-bottom: 12%">
-                    <input class="form-control" id="nombre_funcion" type="text" value="42786534"  disabled>
+                    <input class="form-control" id="nombre_funcion" type="text" th:value="${userperfil.dni}"  disabled>
                 </div>
 
 

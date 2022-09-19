@@ -1,12 +1,20 @@
 package com.example.ipucp.Controller;
 
+import com.example.ipucp.Repository.InicidenciaRepository;
+import com.example.ipucp.Repository.UsuarioRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/usuario")
 public class UsuarioController {
+    @Autowired
+    UsuarioRepository usuarioRepository;
+    @Autowired
+    InicidenciaRepository inicidenciaRepository;
     @GetMapping("/mapa")
     public String mapa() {
         return "usuario/menu_mapa";
@@ -28,11 +36,13 @@ public class UsuarioController {
     }
 
     @GetMapping("/perfil")
-    public String perfil() {
+    public String perfil(Model model) {
+        model.addAttribute("userperfil",usuarioRepository.userPerfil("20197171"));
         return "usuario/perfil";
     }
     @GetMapping("/misIncidencias")
-    public String misIncidencias() {
+    public String misIncidencias(Model model) {
+        model.addAttribute("listaIncidencias",inicidenciaRepository.userIncidencias("20197171"));
         return "usuario/incidencias";
     }
 

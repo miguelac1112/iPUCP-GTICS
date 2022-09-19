@@ -1,5 +1,6 @@
 package com.example.ipucp.Repository;
 
+import com.example.ipucp.Entity.Inicidencia;
 import com.example.ipucp.Entity.Usuario;
 import com.example.ipucp.Dto.UsuarioIncidencias;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -39,4 +40,9 @@ public interface UsuarioRepository extends JpaRepository<Usuario, String> {
     @Modifying
     @Query(value = "UPDATE `ipucp`.`usuario` SET `ban` = '1', `justificacion` = (?1) WHERE `codigo` = (?2);",nativeQuery = true)
     void suspenderUsuario(String justificacion, String codigo);
+
+    @Query(value="select * from usuario where codigo= ?1 ;",nativeQuery = true)
+    Usuario userPerfil(String codigo);
+
+
 }
