@@ -49,57 +49,45 @@
 <body>
 <main>
 
-    <nav
-            class="navbar navbar-expand-sm navbar-light border fixed-top"
-            style="background-color: #373737; height:15%"
-    >
-        <div class="ml-lg-5 ">
 
-            <a class="navbar-brand ml-lg-5 mt-1 mr-5" href="#" >
-                <div class="row" style="margin-top:4%;margin-left: 15%" >
-                    <div class="col">
-                        <img th:src="@{/img/logo-pucp1.png}" alt="..." style="width:45%; height:85%;margin-top: -3%"/>
-
+    <div class="nav-container">
+        <nav class="navbar">
+            <div class="navbar-row-container">
+                <div class="nav-logo-container">
+                    <div class="menu-toggle">
+                        <img class="img-logo" th:src="@{/img/logo-pucp1.png}" alt="..."/>
                     </div>
-                    <div  class="col" style="margin-left: -15%">
-                        <p class="h1" style="color: #B9AB7F;margin-top: 2%;margin-left: -28%"><strong>iPUCP</strong></p>
-                    </div>
+                    <div class="a-logo" href="#inicio"><h1 id="navbar-logo"><strong>iPUCP</strong></h1></div>
                 </div>
-            </a>
-        </div>
-        <div
-                class="collapse navbar-collapse ml-5 mt-2"
-                id="navbarSupportedContent"
-        >
-            <ul class="navbar-nav" style="margin-left:7%">
-                <li class="nav-item active">
-                    <a class="nav-link" th:href="@{'/usuario/listar'}"
-                    ><i class="fas fa-home fa-lg mr-2 d-none d-sm-block mt-1"style="color: #9F9D81;font-size:200%"></i>
-                        <span class="sr-only">(current)</span></a
-                    >
-                </li>
+                <ul class="nav-menu">
+                    <li>
+                        <a id="abrir-modal-cotizar-menu" class="nav-links nav-links-btn" th:href="@{'/usuario/listar'}">
+                            <i class="fas fa-home nav-links-img"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-links nav-links-btn" th:href="@{'/usuario/mapa'}">
+                            <i class="far fa-compass nav-links-img"
+                               style="color: #B9B9B9"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-links nav-links-btn" th:href="@{'/usuario/perfil'}">
+                            <i class="far fa-fw fa-user nav-links-img"
+                            ></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-links nav-links-btn">
+                            <i class="fas fa-sign-out-alt nav-links-img"
+                            ></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
 
-                <li class="nav-item" style="margin-left: 25%">
-                    <a class="nav-link" th:href="@{'/usuario/mapa'}"
-                    ><i class="far fa-compass fa-lg mr-2 d-none d-sm-block mt-1" style="font-size:200%;color: #B9B9B9"></i
-                    ></a>
-                </li>
-                <li class="nav-item" style="margin-left: 25%">
-                    <a class="nav-link" th:href="@{'/usuario/perfil'}"
-                    ><i
-                            class="far fa-fw fa-user fa-lg mr-2 d-none d-sm-block mt-1"
-                            style="font-size:200%;color: #9F9D81"
-                    ></i
-                    ></a>
-                </li>
-                <li class="nav-item" style="margin-left: 180%">
-                    <a class="nav-link" href="#"
-                    ><i class='fas fa-sign-out-alt' style="font-size:200%;color: #9F9D81;margin-top: -120%"></i
-                    ></a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+        </nav>
+    </div>
 
     <div class="container">
 
@@ -169,11 +157,11 @@
                     </div>
                     <div class="col">
                         <div style="margin-right: 50%;margin-top: 25%;margin-left: -10%">
-                            <select class="form-select form-select-sm" aria-label=".form-select-sm example" style="margin-right: 5%" id="fruta">
-                                <option selected >Piña</option>
-                                <option value="1">Piña</option>
-                                <option value="2">Sandía</option>
-                                <option value="3">Naranja</option>
+                            <select onchange=cambiar_imagen() class="form-select form-select-sm" aria-label=".form-select-sm example" style="margin-right: 5%" id="fruta">
+                                <option selected value="pina">Piña</option>
+                                <option value="pina">Piña</option>
+                                <option value="sandia">Sandía</option>
+                                <option value="naranja">Naranja</option>
                             </select>
                         </div>
 
@@ -195,18 +183,22 @@
         document.getElementById("f_subir").click()
     }
 </script>
-<script >
-    var im = document.getElementById("img")
-    var select = document.getElementById("fruta");
-    var sel = select.options[select.selectedIndex].value;
-    if(sel==1){
-        im.innerHTML = `<img src="/img/avatar1.jpg" class="rounded float-start" style="height: 120px;width: 150px;border-radius: 8px;margin-top: 8%;"  alt="...">\n`;
-    }else if(sel==3){
-        im.innerHTML = `<img src="/img/avatar3.jpg" class="rounded float-start" style="height: 120px;width: 150px;border-radius: 8px;margin-top: 8%;"  alt="...">\n`;
-    }else if(sel==2){
-        im.innerHTML = `<img src="/img/avatar2.jpg" class="rounded float-start" style="height: 120px;width: 150px;border-radius: 8px;margin-top: 8%;"  alt="...">\n`;
-    }else{
-        im.innerHTML = `<img src="/img/avatar1.jpg" class="rounded float-start" style="height: 120px;width: 150px;border-radius: 8px;margin-top: 8%;"  alt="...">\n`;
+<script>
+    function cambiar_imagen(){
+        let im = document.getElementById("img")
+        let fruta = document.getElementById("fruta");
+        let sel = fruta.value;
+        console.log(sel);
+
+        if(sel=="pina"){
+            im.innerHTML = `<img src="/img/avatar1.jpg" class="rounded float-start" style="height: 120px;width: 150px;border-radius: 8px;margin-top: 8%;"  alt="...">\n`;
+        }else if(sel=="naranja"){
+            im.innerHTML = `<img src="/img/avatar3.jpg" class="rounded float-start" style="height: 120px;width: 150px;border-radius: 8px;margin-top: 8%;"  alt="...">\n`;
+        }else if(sel=="sandia"){
+            im.innerHTML = `<img src="/img/avatar2.jpg" class="rounded float-start" style="height: 120px;width: 150px;border-radius: 8px;margin-top: 8%;"  alt="...">\n`;
+        }else{
+            im.innerHTML = `<img src="/img/avatar1.jpg" class="rounded float-start" style="height: 120px;width: 150px;border-radius: 8px;margin-top: 8%;"  alt="...">\n`;
+        }
 
     }
 </script>
