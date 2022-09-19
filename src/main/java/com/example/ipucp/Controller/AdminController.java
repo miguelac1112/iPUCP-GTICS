@@ -1,5 +1,6 @@
 package com.example.ipucp.Controller;
 
+import com.example.ipucp.Entity.Cargo;
 import com.example.ipucp.Entity.Rol;
 import com.example.ipucp.Entity.Tipo;
 import com.example.ipucp.Entity.Usuario;
@@ -12,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -31,6 +33,7 @@ public class AdminController {
     @GetMapping(value = {"/listar",""})
     public String listar(Model model) {
         model.addAttribute("listaUsuarios",usuarioRepository.findAll());
+        model.addAttribute("listaCargos",cargoRepository.findAll());
         return "admin/listar";
     }
 
@@ -58,6 +61,7 @@ public class AdminController {
             usuario.getRol().setId(1); //usuario
         }
         usuarioRepository.save(usuario);
+        attr.addFlashAttribute("msg","Usuario creado exitosamente");
         return "redirect:/admin";
     }
 
@@ -79,21 +83,45 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    @PostMapping("/saveIncident")
-    public String guardarTipoIncidencia(Tipo tipo, RedirectAttributes attr) {
+    @PostMapping("/updateIncident")
+    public String actualizarTipoIncidencia(Tipo tipo, RedirectAttributes attr) {
         tipoRepository.save(tipo);
+        attr.addFlashAttribute("msg","Tipo de incidencia actualizada correctamente");
+        return "redirect:/admin/incidencias";
+    }
+
+    @PostMapping("/saveIncident")
+    public String guardarTipoIncidencia(@RequestParam("tipoIncidencia2") String tipoIncidencia2, RedirectAttributes attr ) {
+        tipoRepository.crearTipoIncidencia(tipoIncidencia2);
+        attr.addFlashAttribute("msg","Tipo de incidencia creada exitosamente");
         return "redirect:/admin/incidencias";
     }
 
     @GetMapping("/deleteIncident")
-    public String borrarIncidencias(@RequestParam("id") int id) {
+    public String borrarIncidencias(@RequestParam("id") int id, RedirectAttributes attr) {
         Optional<Tipo> opTipo = tipoRepository.findById(id);
 
         if(opTipo.isPresent()){
             tipoRepository.deleteById(id);
+            attr.addFlashAttribute("msg","Tipo de incidencia borrada exitosamente");
         }
 
         return "redirect:/admin/incidencias";
+    }
+
+    @PostMapping("/BuscarCategoria")
+    public String buscarCategoria(@RequestParam("idcat") Integer id, Model model){
+        Optional<Cargo> optCargo = cargoRepository.findById(id);
+
+        if(optCargo.isPresent()){
+            List<Usuario> listaUsuarios = usuarioRepository.buscarUsuarioPorCat(id);
+            model.addAttribute("listaUsuarios", listaUsuarios);
+            model.addAttribute("listaCargos",cargoRepository.findAll());
+            model.addAttribute("id",id);
+            return "admin/listar";
+        }else{
+            return "redirect:/admin/listar";
+        }
     }
 
 }

@@ -22,16 +22,18 @@
     </head>
     <body>
         <main>
-
-            <button class="btn-wsp" target="_blank" data-bs-toggle="modal" data-bs-target="#Modal3" style="background-color:lightsteelblue; border-color:blue">
-                <i class="fa-solid fa-house"
-                   style="color: black;
+            <a th:href="@{'/seguridad/incidencias'}" >
+                <button class="btn-wsp" target="_blank" data-bs-toggle="modal" data-bs-target="#Modal3" style="background-color:lightsteelblue; border-color:blue">
+                    <i class="fa-solid fa-house"
+                       style="color: black;
                    position: relative;
                    font-size: 30px;
                    margin-left: 0px;
                    margin-top: -40px;">
-                </i>
-            </button>
+                    </i>
+                </button>
+            </a>
+
 
             <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark"
                  style="height: 100px">
@@ -117,7 +119,8 @@
                                     >
                                 </p>
                                 <p class="card-text postuserfont">
-                                    <strong style="margin-left: -4px; margin-right: 5px">Tipo:</strong> Objeto perdido
+                                    <strong style="margin-left: -4px; margin-right: 5px" >Tipo: </strong>
+                                    <span th:text="${incidencia.idtipo.getTipoIncidencia()}"></span>
                                 </p>
 
                                 <p class="card-text postuserfont" style="margin-top: -15px">
