@@ -31,7 +31,6 @@ public class SeguridadController {
         return "seguridad/seguridad";
     }
 
-
     @GetMapping("/incidencias")
     public String lista() {
         return "seguridad/incidencias";
