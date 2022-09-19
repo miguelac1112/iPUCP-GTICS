@@ -93,8 +93,8 @@
                                         <tr th:each="incid : ${listaIncidencias}">
                                             <th th:text="${incid.tipoIncidencia}" style="text-align: center">Reporte de robo</th>
                                             <td style="text-align: center"><button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#Modal4">Imagen</button></td>
-                                            <td style="text-align: center"><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Modal1">Editar</button></td>
-                                            <td style="text-align: center"><button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#Modal2">Borrar</button></td>
+                                            <td style="text-align: center"><button type="button" class="btn btn-primary" data-bs-toggle="modal" th:attr="data-bs-target=${'#ModalEdit'+incid.id}">Editar</button></td>
+                                            <td style="text-align: center"><button type="button" class="btn btn-danger" data-bs-toggle="modal" th:attr="data-bs-target=${'#ModalDelete'+incid.id}">Borrar</button></td>
                                         </tr>
 
                                         </tbody>
@@ -112,51 +112,58 @@
     </div>
 
     <!-- Modal 1-->
-    <div class="modal fade" id="Modal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Actualizar incidencia</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
+    <div th:each="incid : ${listaIncidencias}">
+        <div class="modal fade" th:id="${'ModalEdit'+incid.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Editar incidencia</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
 
-                    <form method="post" th:action="@{'/admin/s'}" class="mt-2" id="form1">
-                        <div class="mb-3">
-                            <label for="incidencia" class="form-label">Nombre de incidencia:</label>
-                            <input type="text" id="incidencia" class="form-control" value="Reporte de robo"/>
-                        </div>
-                        <div class="mb-3">
-                            <label for="foto" class="form-label">Imagen de incidencia:</label>
-                            <input type="file" class="btn btn-primary" name="foto" style="background-color:grey; border-color:grey" id="foto">
-                        </div>
-                    </form>
+                        <form method="post" th:action="@{'/admin/saveIncident'}" class="mt-2" th:id="${'form'+incid.id}">
+                            <div class="mb-3">
+                                <input th:value="${incid.id}" name="id" type="hidden" />
 
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Regresar</button>
-                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Cambiar</button>
+                                <label for="tipoIncidencia" class="form-label">Nombre de incidencia:</label>
+                                <input type="text" id="tipoIncidencia"name="tipoIncidencia" class="form-control" th:value="${incid.tipoIncidencia}" required/>
+                            </div>
+                            <div class="mb-3">
+                                <label for="foto" class="form-label">Imagen de incidencia:</label>
+                                <input type="file" class="btn btn-primary" name="foto" style="background-color:grey; border-color:grey" id="foto">
+                            </div>
+                        </form>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Regresar</button>
+                        <button type="submit" class="btn btn-success" data-bs-dismiss="modal" th:form="${'form'+incid.id}">Cambiar</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
+
     <!-- Modal 2-->
-    <div class="modal fade" id="Modal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header" style="background-color: red">
-                    <h5 class="modal-title" id="exampleModalLabel2" style="color: white">¿Seguro de borrar la incidencia?</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
+    <div th:each="incid : ${listaIncidencias}">
+        <div class="modal fade" th:id="${'ModalDelete'+incid.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header" style="background-color: red">
+                        <h5 class="modal-title" id="exampleModalLabel2" style="color: white">¿Seguro de borrar la incidencia?</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
 
-                    <h6 class="modal-title" >La incidencia se encuentra asociada a varios reportes y borrarla podría afectarlos.</h6>
+                        <h6 class="modal-title" >La incidencia se encuentra asociada a varios reportes y borrarla podría afectarlos.</h6>
 
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Regresar</button>
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Si, estoy de acuerdo</button>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Regresar</button>
+                        <a type="button" class="btn btn-danger" th:href="@{'/admin/deleteIncident?id=' + ${incid.id}}">Si, estoy de acuerdo</a>
+                    </div>
                 </div>
             </div>
         </div>

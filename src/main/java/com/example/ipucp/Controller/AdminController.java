@@ -12,6 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.Optional;
+
 
 @Controller
 @RequestMapping("/admin")
@@ -80,6 +82,17 @@ public class AdminController {
     @PostMapping("/saveIncident")
     public String guardarTipoIncidencia(Tipo tipo, RedirectAttributes attr) {
         tipoRepository.save(tipo);
+        return "redirect:/admin/incidencias";
+    }
+
+    @GetMapping("/deleteIncident")
+    public String borrarIncidencias(@RequestParam("id") int id) {
+        Optional<Tipo> opTipo = tipoRepository.findById(id);
+
+        if(opTipo.isPresent()){
+            tipoRepository.deleteById(id);
+        }
+
         return "redirect:/admin/incidencias";
     }
 
