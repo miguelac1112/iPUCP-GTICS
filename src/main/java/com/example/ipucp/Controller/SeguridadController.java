@@ -47,6 +47,11 @@ public class SeguridadController {
         return "seguridad/dashboard";
     }
 
+    @GetMapping("/mapa_incidencias")
+    public String mapa() {
+        return "seguridad/seguridad_mapa";
+    }
+
     @GetMapping("/lista_usuarios")
     public String listaUsuarios(Model model) {
         List<Usuario> ListaUsuarios = usuarioRepository.listarUsuarios();
