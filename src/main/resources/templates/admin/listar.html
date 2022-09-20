@@ -21,32 +21,7 @@
 <body>
 <main>
 
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark"
-         style="height: 100px">
-        <div class="container">
-            <a class="navbar-brand"><img th:src="@{/img/logo.jpg}" alt="..." style="height: 65px;width: 90px;border-radius: 3px;"/></a>
-            <p class="h1" style="color: white">iPUCP</p>
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item dropdown">
-                        <button class="nav-link dropdown-toggle fw-bold btn btn-dark" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false" >
-                            a20192258@pucp.edu.pe
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
-                            <li><a class="dropdown-item" th:href="@{'/admin/incidencias'}">Incidencias</a></li>
-                            <li><a class="dropdown-item" href="">Cerrar Sesión</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-
-        </div>
-    </nav>
+    <div th:replace="admin/fragment.html :: navbar"></div>
 
     </br>
 

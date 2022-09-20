@@ -14,118 +14,21 @@
             crossorigin="anonymous"
     />
     <link rel="stylesheet" th:href="@{/css/style2.css}" />
+    <link rel="stylesheet" th:href="@{/css/styleSeguridad.css}" />
     <link rel="stylesheet" th:href="@{https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css}"/>
     <link th:href="@{https://fonts.googleapis.com/css?family=Montserrat:500,700}" rel="stylesheet" type="text/css" />
     <link th:href="@{https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700}" rel="stylesheet" type="text/css" />
     <title>Lista de incidencias</title>
-    <style>
-        #hero {
-            width: 100%;
-            height: 100vh;
-            background: url("") top center no-repeat;
-            background-size: cover;
-            position: relative;
-            padding-top: 82px;
-        }
 
-        #hero:before {
-            content: "";
-            background: rgba(0, 0, 0, 0.6);
-            position: absolute;
-            bottom: 0;
-            top: 0;
-            left: 0;
-            right: 0;
-        }
-
-        #hero h1 {
-            margin: 0;
-            font-size: 48px;
-            font-weight: 700;
-            color: #fff;
-        }
-
-        #hero h2 {
-            color: #fff;
-            margin: 10px 0 0 0;
-            font-size: 24px;
-        }
-
-        #hero .btn-get-started {
-            font-family: "Raleway", sans-serif;
-            font-weight: 500;
-            font-size: 16px;
-            letter-spacing: 1px;
-            display: inline-block;
-            padding: 10px 30px;
-            border-radius: 4px;
-            transition: 0.5s;
-            margin-top: 30px;
-            color: #fff;
-            background: #e03a3c;
-            border: 2px solid #e03a3c;
-        }
-
-        #hero .btn-get-started:hover {
-            background: transparent;
-            border-color: #fff;
-        }
-
-        @media (max-width: 768px) {
-            #hero {
-                text-align: center;
-                padding-top: 58px;
-            }
-
-            #hero h1 {
-                font-size: 28px;
-            }
-
-            #hero h2 {
-                font-size: 18px;
-                line-height: 24px;
-            }
-        }
-
-        @media (max-height: 500px) {
-            #hero {
-                height: 120vh;
-            }
-        }
-    </style>
 </head>
 <body>
 <main>
 
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark"
-         style="height: 100px">
-        <div class="container">
-            <a class="navbar-brand"><img th:src="@{/img/logo.jpg}" alt="..." style="height: 65px;width: 90px;border-radius: 3px;"/></a>
-            <p class="h1" style="color: white">iPUCP</p>
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item dropdown">
-                        <button class="nav-link dropdown-toggle fw-bold btn btn-dark" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false" >
-                            a20192258@pucp.edu.pe
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
-                            <li><a class="dropdown-item" th:href="@{'/admin/incidencias'}">Incidencias</a></li>
-                            <li><a class="dropdown-item" href="">Cerrar Sesión</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-
-        </div>
-    </nav>
+    <div th:replace="admin/fragment.html :: navbar"></div>
 
 
     <section id="hero" class="d-flex align-items-center">
+
     <div class="container" data-aos="zoom-out" data-aos-delay="100">
         <div class="row">
             <div class="col-xl-6">
