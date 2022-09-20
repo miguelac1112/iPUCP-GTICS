@@ -30,7 +30,12 @@ public class AdminController {
     @Autowired
     TipoRepository tipoRepository;
 
-    @GetMapping(value = {"/listar",""})
+    @GetMapping("")
+    public String principal() {
+        return "admin/principalAdmin";
+    }
+
+    @GetMapping("/listar")
     public String listar(Model model) {
         model.addAttribute("listaUsuarios",usuarioRepository.findAll());
         model.addAttribute("listaCargos",cargoRepository.findAll());
