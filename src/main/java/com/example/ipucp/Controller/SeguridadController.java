@@ -38,7 +38,9 @@ public class SeguridadController {
     }
 
     @GetMapping("/incidencias")
-    public String lista() {
+    public String lista(Model model) {
+        List<Inicidencia> inicidenciaList = inicidenciaRepository.findAll();
+        model.addAttribute("ListaIncidencias", inicidenciaList);
         return "seguridad/incidencias";
     }
 
