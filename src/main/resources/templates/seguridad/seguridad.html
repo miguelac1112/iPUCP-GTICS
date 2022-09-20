@@ -14,7 +14,7 @@
             crossorigin="anonymous"
     />
     <link rel="stylesheet" th:href="@{/css/style2.css}" />
-    <title>Lista Productos</title>
+    <title>Comentar Incidencia</title>
 
   </head>
   <body>
@@ -38,44 +38,39 @@
           <a class="navbar-brand"><img th:src="@{/img/logo.jpg}" alt="..." style="height: 65px;width: 90px;border-radius: 3px;"/></a>
           <p class="h1" style="color: white">iPUCP</p>
 
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
 
-          <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav ms-auto">
-              <li class="nav-item">
-                <a class="nav-link" th:href="@{'/seguridad/dashboard'}"
-                ><i class="fa-solid fa-chart-line"
-                    style="color: white;
-                                        ">
-                </i></a>
-              </li>
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" th:href="@{'/seguridad/dashboard'}"
+              ><i class="fa-solid fa-chart-line"
+                  style="color: white;
+                                      ">
+              </i></a>
+            </li>
 
 
-              <li class="nav-item">
-                <a class="nav-link" href="#"
-                ><i class="fa-solid fa-map" style="color: white;
-                                        "></i></a>
-              </li>
+            <li class="nav-item">
+              <a class="nav-link" th:href="@{'/seguridad/mapa_incidencias'}"
+              ><i class="fa-solid fa-map" style="color: white;
+                                      "></i></a>
+            </li>
 
-              <li class="nav-item">
-                <a class="nav-link" th:href="@{'/seguridad/lista'}"
-                ><i class="fa-solid fa-list"
-                    style="color: white;
-                                        ">
-                </i></a>
-              </li>
-              <li class="nav-item dropdown">
-                <button class="nav-link dropdown-toggle fw-bold btn btn-dark" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white">
-                  a20192258@pucp.edu.pe
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
-                  <li><a class="dropdown-item" href="">Cerrar Sesión</a></li>
-                </ul>
-              </li>
-            </ul>
-          </div>
+            <li class="nav-item">
+              <a class="nav-link" th:href="@{'/seguridad/lista_usuarios'}"
+              ><i class="fa-solid fa-list"
+                  style="color: white;
+                                      ">
+              </i></a>
+            </li>
+            <li class="nav-item dropdown">
+              <button class="nav-link dropdown-toggle fw-bold btn btn-dark" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white">
+                a20192258@pucp.edu.pe
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
+                <li><a class="dropdown-item" href="">Cerrar Sesión</a></li>
+              </ul>
+            </li>
+          </ul>
 
         </div>
       </nav>
@@ -91,7 +86,7 @@
       <div class="col-xl-5 col-lg-6  ">
         <div class="card shadow mb-4">
               <div class="card-header">
-                <span class="postuserfont"><strong>Incidencia #12345</strong></span>
+                <span class="postuserfont" th:text="${'Incidencia #'+incidencia.id}"><strong></strong></span>
               </div>
               <img
                       src="https://i.insider.com/5f1b201a5af6cc7e1b741330?width=1136&format=jpeg"
@@ -106,13 +101,16 @@
               <div class="form-group">
                 <!-- Name input-->
                 <span class="postuserfont"><strong>Tipo:</strong></span>
-                <input class="form-check" id="nombre_funcion" type="text" value="Robo" style="margin-left: 21px;"  disabled>
+                <input class="form-check" id="nombre_funcion" type="text" th:value="${incidencia.idtipo.tipoIncidencia}" style="margin-left: 21px;"  disabled>
               </div>
 
               <div class="form-group">
                 <!-- Name input-->
                 <span class="postuserfont"><strong>Estado:</strong></span>
-                <input class="form-check" id="nombre_funcion2" type="text" value="Atendido" style="margin-left: 21px;" disabled>
+                <div th:switch="${incidencia.estado}">
+                  <input th:case="0" class="form-check" id="estado0" type="text" value="En Proceso" style="margin-left: 21px;" disabled>
+                  <input th:case="1" class="form-check" id="estado1" type="text" value="Atendido" style="margin-left: 21px;" disabled>
+                </div>
               </div>
 
 

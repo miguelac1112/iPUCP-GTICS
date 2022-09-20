@@ -30,44 +30,39 @@
             <a class="navbar-brand"><img th:src="@{/img/logo.jpg}" alt="..." style="height: 65px;width: 90px;border-radius: 3px;"/></a>
             <p class="h1" style="color: white">iPUCP</p>
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
 
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{'/seguridad/dashboard'}"
-                        ><i class="fa-solid fa-chart-line"
-                            style="color: white;
-                                        ">
-                        </i></a>
-                    </li>
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{'/seguridad/dashboard'}"
+                    ><i class="fa-solid fa-chart-line"
+                        style="color: white;
+                                      ">
+                    </i></a>
+                </li>
 
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"
-                        ><i class="fa-solid fa-map" style="color: white;
-                                        "></i></a>
-                    </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{'/seguridad/mapa_incidencias'}"
+                    ><i class="fa-solid fa-map" style="color: white;
+                                      "></i></a>
+                </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{'/seguridad/lista'}"
-                        ><i class="fa-solid fa-list"
-                            style="color: white;
-                                        ">
-                        </i></a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <button class="nav-link dropdown-toggle fw-bold btn btn-dark" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white">
-                            a20192258@pucp.edu.pe
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
-                            <li><a class="dropdown-item" href="">Cerrar Sesión</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{'/seguridad/lista_usuarios'}"
+                    ><i class="fa-solid fa-list"
+                        style="color: white;
+                                      ">
+                    </i></a>
+                </li>
+                <li class="nav-item dropdown">
+                    <button class="nav-link dropdown-toggle fw-bold btn btn-dark" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white">
+                        a20192258@pucp.edu.pe
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
+                        <li><a class="dropdown-item" href="">Cerrar Sesión</a></li>
+                    </ul>
+                </li>
+            </ul>
 
         </div>
     </nav>
@@ -128,20 +123,28 @@
      <!-- 1 card-->
 
     </br>
-    <div class="card mb-3">
+    <div class="card mb-3" th:each="incidencias : ${ListaIncidencias}" th:if="${incidencias.estado == 0}">
         <div class="row g-0">
             <div class="col-md-4">
                 <img th:src="@{/img/reporte1.jpg}"  class="img-fluid rounded-start" alt="...">
             </div>
             <div class="col-md-8">
                 <div class="card-body">
-                    <h5 class="card-title">
-                        Robo en pabellón A
+                    <h5 class="card-title" th:text="${incidencias.nombre}">
                     </h5>
-                    <p class="card-text">El dia de hoy un compañero dejó su laptop en el salon A201 para ir a los servicios. Al momento de su regreso su laptop no se encontraba
-                        </br><b>Tipo:</b> Robo
-                        </br><b>Ubicación:</b> Pabellón A
-                        </br><b>Reportado por:</b> Manuel Vargas
+                    <p class="card-text postuserfont" style="margin-top: -15px" th:text="${incidencias.descripcion}">
+                    </p>
+                    <p class="card-text postuserfont">
+                        <strong >Tipo: </strong>
+                        <span th:text="${incidencias.idtipo.getTipoIncidencia()}"></span>
+                    </p>
+                    <p class="card-text postuserfont" style="margin-top: -15px" >
+                        <strong >Ubicación: </strong>
+                        <span th:text="${incidencias.ubicacion}"></span>
+                    </p>
+                    <p class="card-text postuserfont" style="margin-top: -15px">
+                        <strong >Publicada por: </strong>
+                        <span th:text="${incidencias.codigo.getNombre()+' '+ incidencias.codigo.getApellido()}"></span>
                     </p>
                     <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
@@ -149,69 +152,15 @@
                         </svg>
                         Ubicar
                     </button>
-                    <a th:href="@{'/seguridad/comentar_incidencia'}" class="btn btn-primary">Atender</a>
+                    <a th:href="@{'/seguridad/comentar_incidencia' + '?id=' + ${incidencias.id}}" class="btn btn-primary">Atender</a>
                     <p class="card-text"><small class="text-muted">Publicado el 25 de agosto 2022</small></p>
+                    <p class="card-text" style="margin-top: -15px"><small class="text-muted" th:text="${'Destacado '+incidencias.destacado+' veces'}"></small></p>
                 </div>
             </div>
         </div>
     </div>
 
-    </br>
 
-    <div class="card mb-3">
-        <div class="row g-0">
-            <div class="col-md-4">
-                <img th:src="@{/img/reporte1.jpg}"  class="img-fluid rounded-start" alt="...">
-            </div>
-            <div class="col-md-8">
-                <div class="card-body">
-                    <h5 class="card-title">
-                        Robo en pabellon A
-                    </h5>
-                    <p class="card-text">El dia de hoy un compañero dejo su laptop en el salon A201 para ir a los servicios. Al momento de su regreso su laptop no se encontraba</p>
-                    <p class="card-text">Tipo: Robo</p>
-                    <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
-                            <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"></path>
-                        </svg>
-                        Ubicar
-                    </button>
-                    <a th:href="@{'/seguridad/comentar_incidencia'}" class="btn btn-primary">Atender</a>
-                    <p class="card-text"><small class="text-muted">Publicado el 25 de agosto 2022</small></p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 2 card-->
-
-    <div class="card mb-3">
-        <div class="row g-0">
-            <div class="col-md-4">
-                <img th:src="@{/img/reporte1.jpg}"  class="img-fluid rounded-start" alt="...">
-            </div>
-            <div class="col-md-8">
-                <div class="card-body">
-                    <h5 class="card-title">
-                        Robo en pabellón A
-                    </h5>
-                    <p class="card-text">El dia de hoy un compañero dejó su laptop en el salon A201 para ir a los servicios. Al momento de su regreso su laptop no se encontraba
-                        </br><b>Tipo:</b> Robo
-                        </br><b>Ubicación:</b> Pabellón A
-                        </br><b>Reportado por:</b> Manuel Vargas
-                    </p>
-                    <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
-                            <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"></path>
-                        </svg>
-                        Ubicar
-                    </button>
-                    <a href="#" class="btn btn-primary">Atender</a>
-                    <p class="card-text"><small class="text-muted">Publicado el 25 de agosto 2022</small></p>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- Modal mapa -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
@@ -280,6 +229,9 @@
 
 
 </div>
+
+    </div>
+
 </main>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 </body>

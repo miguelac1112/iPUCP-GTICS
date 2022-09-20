@@ -1,28 +1,51 @@
 package com.example.ipucp.Controller;
 
-import com.example.ipucp.Repository.InicidenciaRepository;
+import com.example.ipucp.Entity.Inicidencia;
+import com.example.ipucp.Entity.Tipo;
+import com.example.ipucp.Entity.Urgencia;
 import com.example.ipucp.Repository.UsuarioRepository;
+import com.example.ipucp.Repository.InicidenciaRepository;
+import com.example.ipucp.Repository.TipoRepository;
+import com.example.ipucp.Repository.usuario.UrgenciaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/usuario")
 public class UsuarioController {
-    @Autowired
-    UsuarioRepository usuarioRepository;
+
     @Autowired
     InicidenciaRepository inicidenciaRepository;
+    TipoRepository tipoRepository;
+    UrgenciaRepository urgenciaRepository;
+    UsuarioRepository usuarioRepository;
+
     @GetMapping("/mapa")
     public String mapa() {
         return "usuario/menu_mapa";
     }
 
     @GetMapping("/listar")
-    public String listar() {
+    public String listar(Model model) {
+
+        List<Inicidencia> lista  =inicidenciaRepository.findAll();
+        model.addAttribute("incidenciaList", lista);
+
         return "usuario/menu";
+    }
+
+
+    @PostMapping("/save")
+    public String guardarNuevaIncidencia(Inicidencia inicidencia, RedirectAttributes attr) {
+        inicidenciaRepository.save(inicidencia);
+        return "redirect:/usuario/listar";
     }
 
     @GetMapping("/detalle")
@@ -31,7 +54,13 @@ public class UsuarioController {
     }
 
     @GetMapping("/newInciden")
-    public String newInciden() {
+    public String newInciden(Model model) {
+
+        List<Tipo> listatipos  = tipoRepository.findAll();
+        model.addAttribute("tipoList", listatipos);
+        List<Urgencia> listaurgencias  = urgenciaRepository.findAll();
+        model.addAttribute("urgenciaList", listaurgencias);
+
         return "usuario/newIncidencia";
     }
 

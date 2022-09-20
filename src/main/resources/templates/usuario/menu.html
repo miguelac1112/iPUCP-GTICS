@@ -16,57 +16,44 @@
 </head>
 <body>
 
-<nav
-        class="navbar navbar-expand-sm navbar-light border fixed-top"
-        style="background-color: #373737; height:15%"
->
-    <div class="ml-lg-5 ">
-
-        <a class="navbar-brand ml-lg-5 mt-1 mr-5" href="#" >
-            <div class="row" style="margin-top:4%;margin-left: 15%" >
-                <div class="col">
-                    <img th:src="@{/img/logo-pucp1.png}" alt="..." style="width:45%; height:85%;margin-top: -3%"/>
-
+<div class="nav-container">
+    <nav class="navbar">
+        <div class="navbar-row-container">
+            <div class="nav-logo-container">
+                <div class="menu-toggle">
+                    <img class="img-logo" th:src="@{/img/logo-pucp1.png}" alt="..."/>
                 </div>
-                <div  class="col" style="margin-left: -15%">
-                    <p class="h1" style="color: #B9AB7F;margin-top: 2%;margin-left: -28%"><strong>iPUCP</strong></p>
-                </div>
+                <div class="a-logo" href="#inicio"><h1 id="navbar-logo"><strong>iPUCP</strong></h1></div>
             </div>
-        </a>
-    </div>
-    <div
-            class="collapse navbar-collapse ml-5 mt-2"
-            id="navbarSupportedContent"
-    >
-        <ul class="navbar-nav" style="margin-left:7%">
-            <li class="nav-item active">
-                <a class="nav-link" th:href="@{'/usuario/listar'}"
-                ><i class="fas fa-home fa-lg mr-2 d-none d-sm-block mt-1"style="color: #9F9D81;font-size:200%"></i>
-                    <span class="sr-only">(current)</span></a
-                >
-            </li>
+            <ul class="nav-menu">
+                <li>
+                    <a id="abrir-modal-cotizar-menu" class="nav-links nav-links-btn" th:href="@{'/usuario/listar'}">
+                        <i class="fas fa-home nav-links-img"></i>
+                    </a>
+                </li>
+                <li>
+                    <a class="nav-links nav-links-btn" th:href="@{'/usuario/mapa'}">
+                        <i class="far fa-compass nav-links-img"
+                           style="color: #B9B9B9"></i>
+                    </a>
+                </li>
+                <li>
+                    <a class="nav-links nav-links-btn" th:href="@{'/usuario/perfil'}">
+                        <i class="far fa-fw fa-user nav-links-img"
+                        ></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="nav-links nav-links-btn">
+                        <i class="fas fa-sign-out-alt nav-links-img"
+                        ></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
 
-            <li class="nav-item" style="margin-left: 25%">
-                <a class="nav-link" th:href="@{'/usuario/mapa'}"
-                ><i class="far fa-compass fa-lg mr-2 d-none d-sm-block mt-1" style="font-size:200%;color: #B9B9B9"></i
-                ></a>
-            </li>
-            <li class="nav-item" style="margin-left: 25%">
-                <a class="nav-link" th:href="@{'/usuario/perfil'}"
-                ><i
-                        class="far fa-fw fa-user fa-lg mr-2 d-none d-sm-block mt-1"
-                        style="font-size:200%;color: #9F9D81"
-                ></i
-                ></a>
-            </li>
-            <li class="nav-item" style="margin-left: 180%">
-                <a class="nav-link" href="#"
-                ><i class='fas fa-sign-out-alt' style="font-size:200%;color: #9F9D81;margin-top: -120%"></i
-                ></a>
-            </li>
-        </ul>
-    </div>
-</nav>
+    </nav>
+</div>
 </br>
 
 <div class="container offset-2 mt-4 middlearea">
@@ -89,112 +76,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-10 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-            <div class="card">
-                <div class="card-header">
-                    <img
-                            src="https://mdbootstrap.com/img/new/avatars/8.jpg"
-                            alt=""
-                            style="width: 45px; height: 45px"
-                            class="rounded-circle"
-                    />
-                    <span class="postuserfont"><strong>20182022</strong></span>
-                </div>
-                <img
-                        src="https://blog.biletbayi.com/wp-content/uploads/2019/12/rize.jpg"
-                        class="card-img-top"
-                        alt="..."
-                />
-                <ul
-                        class="list-group list-group-horizontal mt-1"
-                        style="list-style-type: none; border: 0"
-                >
-                </ul>
-                <div class="card-body" style="margin-top: -15px">
-                    <p class="card-text postuserfont">
-                        <strong style="margin-left: -4px; margin-right: 5px"
-                        >HUAWEI ENCONTRADO EN CIA</strong
-                        >
-                    </p>
-                    <p class="card-text postuserfont">
-                        <strong style="margin-left: -4px; margin-right: 5px"
-                        >Tipo:</strong
-                        > Objeto perdido
-                    </p>
-
-                    <p class="card-text postuserfont" style="margin-top: -15px">
-                        <strong style="margin-left: -4px; margin-right: 5px"
-                        >Descripción: </strong
-                        >
-                    </p>
-                    <p class="card-text postuserfont" style="margin-top: -15px">
-                        Se ha encontrado este celular modelo Huaweii P80 en la biblioteca de CIA a las 2:40pm, creemos que ha estado aquí desde hace una hora y nadie lo reclama
-                    </p>
-                    <p
-                            class="card-text"
-                            style="
-                  margin-top: -10px;
-                  margin-left: -4px;
-                  font-size: 12px;
-                  color: rgb(139, 133, 133);
-                "
-                    >
-                        Hace 1 hora
-                    </p>
-                </div>
-                <div
-                        class="card-footer"
-                        style="
-                color: rgb(139, 133, 133);
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI',
-                  Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans',
-                  'Helvetica Neue', sans-serif;
-                font-size: 14px;
-              "
-                >
-                    <div class="container-md w-50">
-                    <ul
-                            class="list-group list-group-horizontal mt-1"
-                            style="list-style-type: none; border: 0"
-                    >
-                        <li class="nav-item">
-                            <a class="nav-link" href="#"
-                            ><i
-                                    class="fa-solid fa-share"
-                                    style="color: black; position: relative; font-size: 23px"
-                            ></i
-                            ></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#"
-                            ><i
-                                    class="fa-solid fa-comment"
-                                    style="
-                      color: black;
-                      position: relative;
-                      font-size: 23px;
-                      margin-left: -11px;
-                    "
-                            ></i
-                            ></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#"
-                            ><i
-                                    class="fa-solid fa-location-dot"
-                                    style="
-                      color: black;
-                      position: relative;
-                      font-size: 23px;
-                      margin-left: -11px;
-                    "
-                            ></i
-                            ></a>
-                        </li>
-                    </ul>
-                    </div>
-                </div>
-            </div>
+        <div class="col-10 col-sm-12 col-md-6 col-lg-6 col-xl-6" th:each="incidencia : ${incidenciaList}">
             <div class="card mt-5 mb-3">
                 <div class="card-header">
                     <img
@@ -202,7 +84,7 @@
                             class="mr-2"
                             style="width: 35px; height: 35px; border-radius: 50%"
                     />
-                    <span class="postuserfont"><strong>cengizcmataraci</strong></span>
+                    <span class="postuserfont" th:text="${incidencia.codigo}"><strong>cen</strong></span>
                 </div>
                 <img
                         src="https://blog.biletbayi.com/wp-content/uploads/2019/12/rize.jpg"
@@ -215,24 +97,24 @@
                 >
                 </ul>
                 <div class="card-body" style="margin-top: -15px">
-                    <p class="card-text postuserfont">
+                    <p class="card-text postuserfont" th:text="${incidencia.nombre}">
                         <strong style="margin-left: -4px; margin-right: 5px"
-                        >HUAWEI ENCONTRADO EN CIA</strong
+                        >HUA</strong
                         >
                     </p>
-                    <p class="card-text postuserfont">
+                    <p class="card-text postuserfont" th:text="${incidencia.tipo}">
                         <strong style="margin-left: -4px; margin-right: 5px"
-                        >Tipo:</strong
-                        > Objeto perdido
+                        >tip</strong
+                        > Objeto
                     </p>
 
-                    <p class="card-text postuserfont" style="margin-top: -15px">
+                    <p class="card-text postuserfont" style="margin-top: -15px" >
                         <strong style="margin-left: -4px; margin-right: 5px"
                         >Descripción: </strong
                         >
                     </p>
-                    <p class="card-text postuserfont" style="margin-top: -15px">
-                        Se ha encontrado este celular modelo Huaweii P80 en la biblioteca de CIA a las 2:40pm, creemos que ha estado aquí desde hace una hora y nadie lo reclama
+                    <p class="card-text postuserfont" style="margin-top: -15px" th:text="${incidencia.descripcion}">
+                        Se ha encontrado este celular
                     </p>
                     <p
                             class="card-text"
