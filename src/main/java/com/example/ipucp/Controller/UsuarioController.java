@@ -21,8 +21,11 @@ public class UsuarioController {
 
     @Autowired
     InicidenciaRepository inicidenciaRepository;
+    @Autowired
     TipoRepository tipoRepository;
+    @Autowired
     UrgenciaRepository urgenciaRepository;
+    @Autowired
     UsuarioRepository usuarioRepository;
 
     @GetMapping("/mapa")
