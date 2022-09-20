@@ -27,7 +27,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, String> {
     @Query(value = "SELECT * FROM usuario \n" +
             "where (idcargo='1' or\n" +
             "idcargo='3' or idcargo='4'\n" +
-            "or idcargo='5')",
+            "or idcargo='5') and estado='1'",
             nativeQuery = true)
     List<Usuario> listarUsuarios();
 

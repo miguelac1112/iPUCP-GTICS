@@ -1,4 +1,4 @@
-package com.example.ipucp.Repository.usuario;
+package com.example.ipucp.Repository;
 
 import com.example.ipucp.Entity.Urgencia;
 import org.springframework.data.jpa.repository.JpaRepository;

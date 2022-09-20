@@ -39,53 +39,53 @@
 </head>
 <body class="bg-light">
 
-<div class="nav-container">
-    <nav class="navbar">
-        <div class="navbar-row-container">
-            <div class="nav-logo-container">
-                <div class="menu-toggle">
-                    <img class="img-logo" th:src="@{/img/logo-pucp1.png}" alt="..."/>
+    <div class="nav-container">
+        <nav class="navbar">
+            <div class="navbar-row-container">
+                <div class="nav-logo-container">
+                    <div class="menu-toggle">
+                        <img class="img-logo" th:src="@{/img/logo-pucp1.png}" alt="..."/>
+                    </div>
+                    <div class="a-logo" href="#inicio"><h1 id="navbar-logo"><strong>iPUCP</strong></h1></div>
                 </div>
-                <div class="a-logo" href="#inicio"><h1 id="navbar-logo"><strong>iPUCP</strong></h1></div>
+                <ul class="nav-menu">
+                    <li>
+                        <a id="abrir-modal-cotizar-menu" class="nav-links nav-links-btn" th:href="@{'/usuario/listar'}">
+                            <i class="fas fa-home nav-links-img"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-links nav-links-btn" th:href="@{'/usuario/mapa'}">
+                            <i class="far fa-compass nav-links-img"
+                               style="color: #B9B9B9"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-links nav-links-btn" th:href="@{'/usuario/perfil'}">
+                            <i class="far fa-fw fa-user nav-links-img"
+                            ></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-links nav-links-btn">
+                            <i class="fas fa-sign-out-alt nav-links-img"
+                            ></i>
+                        </a>
+                    </li>
+                </ul>
             </div>
-            <ul class="nav-menu">
-                <li>
-                    <a id="abrir-modal-cotizar-menu" class="nav-links nav-links-btn" th:href="@{'/usuario/listar'}">
-                        <i class="fas fa-home nav-links-img"></i>
-                    </a>
-                </li>
-                <li>
-                    <a class="nav-links nav-links-btn" th:href="@{'/usuario/mapa'}">
-                        <i class="far fa-compass nav-links-img"
-                           style="color: #B9B9B9"></i>
-                    </a>
-                </li>
-                <li>
-                    <a class="nav-links nav-links-btn" th:href="@{'/usuario/perfil'}">
-                        <i class="far fa-fw fa-user nav-links-img"
-                        ></i>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="nav-links nav-links-btn">
-                        <i class="fas fa-sign-out-alt nav-links-img"
-                        ></i>
-                    </a>
-                </li>
-            </ul>
-        </div>
 
-    </nav>
-</div>
+        </nav>
+    </div>
 
 <div class="container offset-2 mt-4 middlearea">
     <main>
-        <div class="py-5 text-center">
+        <div class="py text-center">
             <h2>Nueva Incidencia</h2>
             <p class="lead">Aviso de seguridad</p>
         </div>
 
-        <div class="container offset-2 mt-4 middlearea">
+        <div class="container offset-2 mt-4 middlearea" style="margin-top: -15px">
             <div class="row">
                 <div class="col-1"></div>
                 <div class="col-10 col-sm-12 col-md-6 col-lg-6 col-xl-6">
@@ -105,10 +105,9 @@
                                 <h1></h1>
                                 <label for="tipo" class="form-label">Tipo</label>
                                 <select class="custom-select" id="tipo">
-                                    <option selected>tipo</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
+                                    <option th:each="tipo : ${listaTipo}"
+                                            th:text="${tipo.tipoIncidencia}"
+                                            th:value="${tipo.id}">${categatory.name}</option>
                                 </select>
                                 <div class="invalid-feedback">
                                     Please select a valid country.
@@ -119,10 +118,9 @@
                                 <h1></h1>
                                 <label for="urgencia" class="form-label">Urgencia</label>
                                 <select class="custom-select" id="urgencia">
-                                    <option selected>Urgencia</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
+                                    <option th:each="urgencia : ${listaUrgencia}"
+                                            th:text="${urgencia.tipoUrgencia}"
+                                            th:value="${urgencia.id}">${categatory.name}</option>
                                 </select>
                                 <div class="invalid-feedback">
                                     Please select a valid country.
