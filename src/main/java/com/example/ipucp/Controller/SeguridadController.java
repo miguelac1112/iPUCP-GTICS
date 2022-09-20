@@ -31,6 +31,12 @@ public class SeguridadController {
     @Autowired
     InicidenciaRepository inicidenciaRepository;
 
+
+    @GetMapping("")
+    public String principal() {
+        return "seguridad/principal";
+    }
+
     @GetMapping("/incidencias")
     public String lista(Model model) {
         List<Inicidencia> inicidenciaList = inicidenciaRepository.findAll();
