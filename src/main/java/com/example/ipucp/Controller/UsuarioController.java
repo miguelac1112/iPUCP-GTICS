@@ -1,12 +1,10 @@
 package com.example.ipucp.Controller;
 
+import com.example.ipucp.Dto.UsuarioIncidencias;
 import com.example.ipucp.Entity.Inicidencia;
 import com.example.ipucp.Entity.Tipo;
 import com.example.ipucp.Entity.Urgencia;
-import com.example.ipucp.Repository.UsuarioRepository;
-import com.example.ipucp.Repository.InicidenciaRepository;
-import com.example.ipucp.Repository.TipoRepository;
-import com.example.ipucp.Repository.usuario.UrgenciaRepository;
+import com.example.ipucp.Repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -55,11 +53,6 @@ public class UsuarioController {
 
     @GetMapping("/newInciden")
     public String newInciden(Model model) {
-
-        List<Tipo> listatipos  = tipoRepository.findAll();
-        model.addAttribute("tipoList", listatipos);
-        List<Urgencia> listaurgencias  = urgenciaRepository.findAll();
-        model.addAttribute("urgenciaList", listaurgencias);
 
         return "usuario/newIncidencia";
     }
