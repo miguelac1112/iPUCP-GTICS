@@ -31,18 +31,31 @@ public class SeguridadController {
     @Autowired
     InicidenciaRepository inicidenciaRepository;
 
-
-    @GetMapping("/comentar_incidencia")
-    public String probando() {
-        return "seguridad/seguridad";
-    }
-
     @GetMapping("/incidencias")
     public String lista(Model model) {
         List<Inicidencia> inicidenciaList = inicidenciaRepository.findAll();
         model.addAttribute("ListaIncidencias", inicidenciaList);
         return "seguridad/incidencias";
     }
+
+    @GetMapping("/comentar_incidencia")
+    public String comentarIncidencia(@RequestParam("id") Integer id, Model model) {
+
+        Optional<Inicidencia> optInicidencia = inicidenciaRepository.findById(id);
+
+        if(optInicidencia.isPresent()){
+            Inicidencia inicidencia = optInicidencia.get();
+            if(inicidencia.getEstado()==0){
+                model.addAttribute("incidencia", inicidencia);
+                return "seguridad/seguridad";
+            }else{
+                return "redirect:/seguridad/incidencias";
+            }
+        }else{
+            return "redirect:/seguridad/incidencias";
+        }
+    }
+
 
     @GetMapping("/dashboard")
     public String dashboard() {

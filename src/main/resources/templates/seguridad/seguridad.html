@@ -14,7 +14,7 @@
             crossorigin="anonymous"
     />
     <link rel="stylesheet" th:href="@{/css/style2.css}" />
-    <title>Lista Productos</title>
+    <title>Comentar Incidencia</title>
 
   </head>
   <body>
@@ -91,7 +91,7 @@
       <div class="col-xl-5 col-lg-6  ">
         <div class="card shadow mb-4">
               <div class="card-header">
-                <span class="postuserfont"><strong>Incidencia #12345</strong></span>
+                <span class="postuserfont" th:text="${'Incidencia #'+incidencia.id}"><strong></strong></span>
               </div>
               <img
                       src="https://i.insider.com/5f1b201a5af6cc7e1b741330?width=1136&format=jpeg"
@@ -106,13 +106,16 @@
               <div class="form-group">
                 <!-- Name input-->
                 <span class="postuserfont"><strong>Tipo:</strong></span>
-                <input class="form-check" id="nombre_funcion" type="text" value="Robo" style="margin-left: 21px;"  disabled>
+                <input class="form-check" id="nombre_funcion" type="text" th:value="${incidencia.idtipo.tipoIncidencia}" style="margin-left: 21px;"  disabled>
               </div>
 
               <div class="form-group">
                 <!-- Name input-->
                 <span class="postuserfont"><strong>Estado:</strong></span>
-                <input class="form-check" id="nombre_funcion2" type="text" value="Atendido" style="margin-left: 21px;" disabled>
+                <div th:switch="${incidencia.estado}">
+                  <input th:case="0" class="form-check" id="estado0" type="text" value="En Proceso" style="margin-left: 21px;" disabled>
+                  <input th:case="1" class="form-check" id="estado1" type="text" value="Atendido" style="margin-left: 21px;" disabled>
+                </div>
               </div>
 
 
