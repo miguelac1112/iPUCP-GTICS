@@ -56,7 +56,10 @@ public class UsuarioController {
 
     @GetMapping("/newInciden")
     public String newInciden(Model model) {
-
+        List<Tipo> listaTipo  =tipoRepository.findAll();
+        List<Urgencia> listaUrgencia  =urgenciaRepository.findAll();
+        model.addAttribute("listaTipo", listaTipo);
+        model.addAttribute("listaUrgencia", listaUrgencia);
         return "usuario/newIncidencia";
     }
 

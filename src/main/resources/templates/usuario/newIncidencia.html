@@ -105,10 +105,9 @@
                                 <h1></h1>
                                 <label for="tipo" class="form-label">Tipo</label>
                                 <select class="custom-select" id="tipo">
-                                    <option selected>tipo</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
+                                    <option th:each="tipo : ${listaTipo}"
+                                            th:text="${tipo.tipoIncidencia}"
+                                            th:value="${tipo.id}">${categatory.name}</option>
                                 </select>
                                 <div class="invalid-feedback">
                                     Please select a valid country.
@@ -119,10 +118,9 @@
                                 <h1></h1>
                                 <label for="urgencia" class="form-label">Urgencia</label>
                                 <select class="custom-select" id="urgencia">
-                                    <option selected>Urgencia</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
+                                    <option th:each="urgencia : ${listaUrgencia}"
+                                            th:text="${urgencia.tipoUrgencia}"
+                                            th:value="${urgencia.id}">${categatory.name}</option>
                                 </select>
                                 <div class="invalid-feedback">
                                     Please select a valid country.
