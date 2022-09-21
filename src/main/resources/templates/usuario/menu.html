@@ -55,26 +55,26 @@
         </nav>
     </div>
 
-<div class="container offset-2 mt-4 middlearea">
-    <div class="row">
-        <div class="col-2">
-            <div class="col-md-5">
-                <h1></h1>
-                <label for="country" class="form-label">Ordenar:</label>
-                <select class="form-select" id="country" required>
-                    <option value="">Reciente</option>
-                    <option>Más Popular</option>
-                </select>
-            </div>
-            <div class="toast align-items-center" role="alert" aria-live="assertive" aria-atomic="true">
-                <div class="d-flex">
-                    <div class="toast-body">
-                        Hello, world! This is a toast message.
-                    </div>
-                    <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-                </div>
-            </div>
+<div class="container mt-4 middlearea">
+    <div class="row justify-content-center text-center">
+        <div class="col-4">
+            <h1></h1>
+            <label for="country" class="form-label">Ordenar:</label>
+            <select class="form-select" id="country" required>
+                <option value="">Reciente</option>
+                <option>Más Popular</option>
+            </select>
         </div>
+        <div class="col-4">
+            <a class="nav-link" th:href="@{'/usuario/newInciden'}">
+                <button type="button" class="btn btn-dark btn-lg">NUEVA INCIDENCIA</button>
+            </a>
+            <a class="nav-link" th:href="@{'/usuario/misIncidencias'}">
+                <button type="button" class="btn btn-secondary">Mis Incidencias</button>
+            </a>
+        </div>
+    </div>
+    <div class="row justify-content-center">
         <div class="col-10 col-sm-12 col-md-6 col-lg-6 col-xl-6">
             <div class="card mt-5 mb-3" th:each="incidencia : ${incidenciaList}" >
                 <div class="card-header">
@@ -183,15 +183,5 @@
     </div>
 </div>
 
-<nav class="navbar navbar-expand-sm fixed-bottom navbar-light">
-    <div class="container-md w-25">
-        <a class="nav-link" th:href="@{'/usuario/newInciden'}">
-        <button type="button" class="btn btn-dark btn-lg">NUEVA INCIDENCIA</button>
-        </a>
-        <a class="nav-link" th:href="@{'/usuario/misIncidencias'}">
-        <button type="button" class="btn btn-secondary">Mis Incidencias</button>
-        </a>
-    </div>
-</nav>
 </body>
 </html>
