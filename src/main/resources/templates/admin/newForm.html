@@ -99,7 +99,7 @@
                                                         <div class="col-md-6 mb-4">
                                                             <div class="form-outline">
                                                                 <label for="foto" class="form-label">Foto (*):      </label>
-                                                                <input type="file" accept="image/png, image/gif, image/jpeg" class="btn btn-primary" name="foto" style="background-color:grey; border-color:grey" id="foto">
+                                                                <input type="file" accept="image/png, image/gif, image/jpeg" class="btn btn-primary input-group" name="foto" style="background-color:grey; border-color:grey" id="foto">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -129,24 +129,19 @@
 
 
                                     <div class="col-md-4 mb-4">
-                                        <div class="container ">
-                                            <img th:src="@{/img/perfil2.jpg}" class="card-img-top" alt="..." style="width:300px; height:250px">
+                                        <img th:src="@{/img/perfil2.jpg}" class="card-img-top" alt="..." style="max-width: 100%; height: auto">
 
-                                            <p>(*): Obligatorio</p>
+                                        <p>(*): Obligatorio</p>
 
-                                            <div class="row">
-                                                <div class="col-md-6 mb-4 ">
-                                                    <div class="form-outline">
-                                                        <a class="btn btn-secondary btn-lg" th:href="@{'/admin/listar'}">Regresar</a>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6 mb-4 ">
-                                                    <div class="form-outline">
-                                                        <button type="submit" class="btn btn-success btn-lg" form="myform1">Agregar</button>
-                                                    </div>
-                                                </div>
+                                        <div class="row">
+                                            <div class="col-md-6 mb-4 d-grid gap-2">
+                                                <a class="btn btn-secondary btn-lg" th:href="@{'/admin/listar'}" style="max-width: 100%">Regresar</a>
+                                            </div>
+                                            <div class="col-md-6 mb-4 d-grid gap-2">
+                                                <button type="submit" class="btn btn-success btn-lg" form="myform1" style="max-width: 100%">Agregar</button>
                                             </div>
                                         </div>
+
                                     </div>
 
 

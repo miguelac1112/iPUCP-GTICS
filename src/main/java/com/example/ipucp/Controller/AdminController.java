@@ -67,7 +67,7 @@ public class AdminController {
         }
         usuarioRepository.save(usuario);
         attr.addFlashAttribute("msg","Usuario creado exitosamente");
-        return "redirect:/admin";
+        return "redirect:/admin/listar";
     }
 
     @GetMapping("/incidencias")
@@ -79,13 +79,13 @@ public class AdminController {
     @GetMapping("/habilitar")
     public String habilitarUsuario(@RequestParam("id") String codigo){
         usuarioRepository.habilitarUsuario(codigo);
-        return "redirect:/admin";
+        return "redirect:/admin/listar";
     }
 
     @PostMapping("/suspender")
     public String suspenderUsuario(@RequestParam("id") String codigo, @RequestParam("justificacion") String justificacion){
         usuarioRepository.suspenderUsuario(justificacion,codigo);
-        return "redirect:/admin";
+        return "redirect:/admin/listar";
     }
 
     @PostMapping("/updateIncident")
