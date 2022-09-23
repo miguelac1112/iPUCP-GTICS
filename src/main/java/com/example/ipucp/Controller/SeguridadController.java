@@ -8,6 +8,7 @@ import com.example.ipucp.Repository.UsuarioRepository;
 import com.example.ipucp.Repository.CargoRepository;
 import com.example.ipucp.Repository.InicidenciaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -64,7 +65,9 @@ public class SeguridadController {
 
 
     @GetMapping("/dashboard")
-    public String dashboard() {
+    public String dashboard(Model model) {
+            model.addAttribute("incidenciaEstado",inicidenciaRepository.bucarEstadoIncidencia());
+            model.addAttribute("incidenciaUrgencia",inicidenciaRepository.buscarUrgenciaIncidencia());
         return "seguridad/dashboard";
     }
 

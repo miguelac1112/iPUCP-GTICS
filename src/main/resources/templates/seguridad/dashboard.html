@@ -71,8 +71,9 @@
     <h1 class="pb-2 border-bottom" style="text-align: center">Dashdoard</h1>
 
 
-    <!---1 fila--->
-    <div class="row">
+    <div class="container">
+        <!---1 fila--->
+        <div class="row">
 
         <!-- grafico de linea -->
         <div class="col-xl-8 col-lg-7">
@@ -108,9 +109,8 @@
     </div>
 
 
-
-    <!-----2 fila---->
-    <div class="row">
+        <!-----2 fila---->
+        <div class="row">
 
         <!-- Area Chart -->
         <div class="col-xl-8 col-lg-7">
@@ -144,18 +144,25 @@
         </div>
     </div>
 
-
-
-
-
-
-
-
-
     </div>
+    </div>
+
 </main>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script th:inline="javascript">
+
+    var listaIncidenciasEstados = /*[[${incidenciaEstado}]]*/ "Test";
+    var cantidad1 = listaIncidenciasEstados[0].cantidad;
+    var cantidad2 = listaIncidenciasEstados[1].cantidad;
+
+    var listaIncidenciasUrgencia = /*[[${incidenciaUrgencia}]]*/ "Test2";
+    var urgencia = listaIncidenciasUrgencia[0].cantidad;
+    var urgencia2 = listaIncidenciasUrgencia[1].cantidad;
+    var urgencia2 = listaIncidenciasUrgencia[2].cantidad;
+
+
+</script>
 <script>
     const labels = [
         'Robo',
@@ -196,7 +203,7 @@
         ],
         datasets: [{
             label: 'My First Dataset',
-            data: [534, 230],
+            data: [cantidad1, cantidad2],
             backgroundColor: [
                 'rgb(54, 162, 235)',
                 'rgb(255, 99, 132)'
@@ -225,7 +232,7 @@
         ],
         datasets: [{
             label: 'My First Dataset',
-            data: [120, 50, 30],
+            data: [urgencia, urgencia2, urgencia2],
             backgroundColor: [
                 'rgb(54, 162, 235)',
                 'rgb(255, 205, 86)',
