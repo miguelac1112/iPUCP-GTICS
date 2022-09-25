@@ -66,10 +66,10 @@
                                                                 th:value="${cargo.id}" th:if="${cargo.id == 6}">
                                                         </option>
                                                     </select>
-                                                    <select class="form-select" id="cargo" name="cargo" required th:unless="${tipoUsuario == 'seguridad'}">
+                                                    <select class="form-select" id="cargo" name="cargo" required th:unless="${tipoUsuario == 'seguridad'}" th:field="${usuario.cargo}">
                                                         <option th:each="cargo : ${listaCargos}"
                                                                 th:text="${cargo.nombreCargo}"
-                                                                th:value="${cargo.id}" th:unless="${cargo.id == 6}">
+                                                                th:value="${cargo.id}" th:unless="${cargo.id == 6}" >
                                                         </option>
                                                     </select>
                                                 </div>
