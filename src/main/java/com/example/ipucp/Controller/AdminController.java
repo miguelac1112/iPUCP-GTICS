@@ -113,14 +113,15 @@ public class AdminController {
     }
 
     @PostMapping("/updateIncident")
-    public String actualizarTipoIncidencia(Tipo tipo, RedirectAttributes attr) {
+    public String actualizarTipoIncidencia(@ModelAttribute("tipo") @Valid Tipo tipo, BindingResult bindingResult, RedirectAttributes attr) {
         tipoRepository.save(tipo);
         attr.addFlashAttribute("msg","Tipo de incidencia actualizada correctamente");
         return "redirect:/admin/incidencias";
     }
 
     @PostMapping("/saveIncident")
-    public String guardarTipoIncidencia(@RequestParam("tipoIncidencia2") String tipoIncidencia2, RedirectAttributes attr ) {
+    public String guardarTipoIncidencia(@ModelAttribute("tipo") @Valid Tipo tipo, BindingResult bindingResult,
+                                        @RequestParam("tipoIncidencia2") String tipoIncidencia2, RedirectAttributes attr ) {
         tipoRepository.crearTipoIncidencia(tipoIncidencia2);
         attr.addFlashAttribute("msg","Tipo de incidencia creada exitosamente");
         return "redirect:/admin/incidencias";

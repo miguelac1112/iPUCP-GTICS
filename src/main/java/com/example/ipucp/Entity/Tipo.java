@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Getter
 @Setter
@@ -16,6 +18,8 @@ public class Tipo {
     private Integer id;
 
     @Column(name = "tipo_incidencia", nullable = false, length = 45)
+    @Size(max = 45, message = "Máximo 45 caracteres")
+    @NotBlank(message = "Ingrese un nombre para el tipo de incidencia")
     private String tipoIncidencia;
 
     @Lob
