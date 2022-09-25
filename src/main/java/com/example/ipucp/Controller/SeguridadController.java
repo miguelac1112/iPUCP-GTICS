@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Optional;
@@ -114,6 +115,23 @@ public class SeguridadController {
         } else {
             return "redirect:/seguridad/lista_usuarios";
         }
+    }
+
+    @PostMapping("/StrikeUsuario")
+    public String StrikeUsuario(@RequestParam("id") String id, RedirectAttributes redirectAttributes){
+        Optional<Usuario> optUsuario = usuarioRepository.findById(id);
+
+        if (optUsuario.isPresent()){
+            Usuario usuario = optUsuario.get();
+            int strike = usuario.getStrikes();
+            strike+=1;
+            usuarioRepository.strikeUsuario(strike,id);
+            redirectAttributes.addFlashAttribute("msg", "El usuario "+usuario.getNombre()+" "+usuario.getApellido()+" ha sido reportado.");
+            return "redirect:/seguridad/lista_usuarios";
+        }else{
+            return "redirect:/seguridad/reporte?id="+id;
+        }
+
     }
 
     @GetMapping("/detalle_incidencia")

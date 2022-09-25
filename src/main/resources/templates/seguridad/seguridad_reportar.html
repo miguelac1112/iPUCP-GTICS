@@ -224,18 +224,15 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Ingresar su contraseña</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Ingresar código enviado a su correo.</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
 
-                            <form method="post" th:action="@{'/product/save'}" class="mt-2" id="form1">
+                            <form method="post" th:action="@{'/seguridad/StrikeUsuario'}" class="mt-2" th:id="${'form'+usuario.id}">
                                 <div class="mb-3">
-                                    <label for="incidencia" class="form-label">Contraseña: *</label>
-                                    <input type="password" id="incidencia" class="form-control" value="" required/>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="incidencia" class="form-label">Repetir contraseña: *</label>
+                                    <input th:value="${usuario.id}" name="id" type="hidden"/>
+                                    <label for="incidencia" class="form-label">Código: *</label>
                                     <input type="password" id="incidencia" class="form-control" value="" required/>
                                 </div>
                             </form>
@@ -243,7 +240,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Regresar</button>
-                            <button type="button" class="btn btn-success" data-bs-dismiss="modal" >Registrar</button>
+                            <button type="submit" class="btn btn-success" th:form="${'form'+usuario.id}" >Registrar</button>
                         </div>
                     </div>
                 </div>

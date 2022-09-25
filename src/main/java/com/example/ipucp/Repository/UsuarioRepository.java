@@ -49,5 +49,9 @@ public interface UsuarioRepository extends JpaRepository<Usuario, String> {
     @Query(value = "UPDATE `ipucp`.`usuario` SET `contra` = SHA2((?1),256) WHERE (`codigo` = (?2));",nativeQuery = true)
     void cifradoHash(String contra, String codigo);
 
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE `ipucp`.`usuario` SET `strikes` = ?1 WHERE (`codigo` = ?2);\n",nativeQuery = true)
+    void strikeUsuario(int strike, String id);
 
 }
