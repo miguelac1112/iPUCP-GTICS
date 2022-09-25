@@ -14,7 +14,7 @@
             integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp"
             crossorigin="anonymous"
     />
-    <link rel="stylesheet" th:href="@{/css/style2.css}" />
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
     <link rel="stylesheet" th:href="@{https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css}"/>
     <link th:href="@{https://fonts.googleapis.com/css?family=Montserrat:500,700}" rel="stylesheet" type="text/css" />
     <link th:href="@{https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700}" rel="stylesheet" type="text/css" />
@@ -23,52 +23,49 @@
 <body>
 <main>
 
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark"
-         style="height: 100px">
-        <div class="container">
-            <a class="navbar-brand"><img th:src="@{/img/logo.jpg}" alt="..." style="height: 65px;width: 90px;border-radius: 3px;"/></a>
-            <p class="h1" style="color: white">iPUCP</p>
+    <div class="nav-container">
+        <nav class="navbar"
+             style="height: 80px">
+            <div class="navbar-row-container">
+                <div class="nav-logo-container">
+                    <div class="menu-toggle">
+                        <img class="img-logo" th:src="@{/img/logo-pucp1.png}" alt="..."/>
+                    </div>
+                    <div class="a-logo" href="#inicio"><h1 id="navbar-logo"><strong>iPUCP</strong></h1></div>
+                </div>
+                <ul class="nav-menu">
+                    <li>
+                        <a id="abrir-modal-cotizar-menu" class="nav-links nav-links-btn" th:href="@{'/seguridad/dashboard'}">
+                            <i class="fa-solid fa-chart-line "></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-links nav-links-btn" th:href="@{'/seguridad/mapa_incidencias'}">
+                            <i class="fa-solid fa-map"
+                               style="color: #B9B9B9"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-links nav-links-btn" th:href="@{'/seguridad/lista_usuarios'}">
+                            <i class="fa-solid fa-list"
+                            ></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-links nav-links-btn">
+                            <i class="fas fa-sign-out-alt nav-links-img"
+                            ></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
 
-
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{'/seguridad/dashboard'}"
-                    ><i class="fa-solid fa-chart-line"
-                        style="color: white;
-                                      ">
-                    </i></a>
-                </li>
-
-
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{'/seguridad/mapa_incidencias'}"
-                    ><i class="fa-solid fa-map" style="color: white;
-                                      "></i></a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{'/seguridad/lista_usuarios'}"
-                    ><i class="fa-solid fa-list"
-                        style="color: white;
-                                      ">
-                    </i></a>
-                </li>
-                <li class="nav-item dropdown">
-                    <button class="nav-link dropdown-toggle fw-bold btn btn-dark" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white">
-                        a20192258@pucp.edu.pe
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
-                        <li><a class="dropdown-item" href="">Cerrar Sesión</a></li>
-                    </ul>
-                </li>
-            </ul>
-
-        </div>
-    </nav>
+        </nav>
+    </div>
 
     </br>
     </br>
-    <h1 class="pb-2 border-bottom" style="text-align: center">Dashdoard</h1>
+    <h1 class="pb-2 border-bottom" style="text-align: center; margin-top: -30px">Dashdoard</h1>
 
 
     <div class="container">
