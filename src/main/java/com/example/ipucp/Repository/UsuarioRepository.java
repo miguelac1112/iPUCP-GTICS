@@ -44,5 +44,10 @@ public interface UsuarioRepository extends JpaRepository<Usuario, String> {
     @Query(value="select * from usuario where codigo= ?1 ;",nativeQuery = true)
     Usuario userPerfil(String codigo);
 
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE `ipucp`.`usuario` SET `contra` = SHA2((?1),256) WHERE (`codigo` = (?2));",nativeQuery = true)
+    void cifradoHash(String contra, String codigo);
+
 
 }

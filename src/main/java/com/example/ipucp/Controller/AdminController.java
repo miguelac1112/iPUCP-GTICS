@@ -10,9 +10,11 @@ import com.example.ipucp.Repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,31 +45,41 @@ public class AdminController {
     }
 
     @GetMapping("/nuevoSeguridad")
-    public String nuevoSeguridad(Model model) {
+    public String nuevoSeguridad(Model model, @ModelAttribute("usuario") Usuario usuario) {
         model.addAttribute("tipoUsuario","seguridad");
         model.addAttribute("listaCargos",cargoRepository.findAll());
         return "admin/newForm";
     }
 
     @GetMapping("/nuevoNormal")
-    public String nuevoNormal(Model model) {
+    public String nuevoNormal(Model model, @ModelAttribute("usuario") Usuario usuario) {
         model.addAttribute("tipoUsuario","normal");
         model.addAttribute("listaCargos",cargoRepository.findAll());
         return "admin/newForm";
     }
 
     @PostMapping("/save")
-    public String guardarUsuario(Usuario usuario,@RequestParam("cargo") Integer id, RedirectAttributes attr) {
-        //usuario.getCargo().setId(id);
-        usuario.setRol(new Rol());
-        if(id == 6){
-            usuario.getRol().setId(2); //seguridad
-        }else {
-            usuario.getRol().setId(1); //usuario
+    public String guardarUsuario(@ModelAttribute("usuario") @Valid Usuario usuario, BindingResult bindingResult,
+                                 @RequestParam("cargo") Integer id, RedirectAttributes attr, Model model) {
+        if(bindingResult.hasErrors()){
+            //Si se actualizará el usuario y este se vincula con esta parte del controlador, se deberia enviar la lista
+            //con los datos del usuario, en este caso el admin no actualiza, solo crea al usuario.
+            model.addAttribute("tipoUsuario","normal");
+            model.addAttribute("listaCargos",cargoRepository.findAll());
+            return "admin/newForm";
+        }else{
+            usuario.setRol(new Rol());
+            if(id == 6){
+                usuario.getRol().setId(2); //seguridad
+                usuarioRepository.save(usuario);
+                usuarioRepository.cifradoHash(usuario.getContra(),usuario.getId());
+            }else {
+                usuario.getRol().setId(1); //usuario
+                usuarioRepository.save(usuario);
+            }
+            attr.addFlashAttribute("msg","Usuario creado exitosamente");
+            return "redirect:/admin/listar";
         }
-        usuarioRepository.save(usuario);
-        attr.addFlashAttribute("msg","Usuario creado exitosamente");
-        return "redirect:/admin/listar";
     }
 
     @GetMapping("/incidencias")

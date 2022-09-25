@@ -32,13 +32,23 @@
                                             <div class="col-md-6 mb-4">
                                                 <div class="form-outline">
                                                     <label class="form-label" for="nombre">Nombres (*):</label>
-                                                    <input type="text" id="nombre" name="nombre" class="form-control" required/>
+                                                    <input th:field="${usuario.nombre}" type="text" id="nombre" name="nombre" class="form-control"
+                                                           th:classappend="${#fields.hasErrors('usuario.nombre')?'is-invalid':''}"/>
+                                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('usuario.nombre')}"
+                                                         th:errors="${usuario.nombre}">
+                                                        Please choose a username.
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 mb-4">
                                                 <div class="form-outline">
                                                     <label class="form-label" for="apellido">Apellidos (*):</label>
-                                                    <input type="text" id="apellido" name="apellido" class="form-control" required/>
+                                                    <input th:field="${usuario.apellido}" type="text" id="apellido" name="apellido" class="form-control"
+                                                           th:classappend="${#fields.hasErrors('usuario.apellido')?'is-invalid':''}"/>
+                                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('usuario.apellido')}"
+                                                         th:errors="${usuario.apellido}">
+                                                        Please choose a username.
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -64,7 +74,12 @@
                                             <div class="col-md-6 mb-4">
                                                 <div class="form-outline">
                                                     <label class="form-label" for="id">Código (*):</label>
-                                                    <input type="text" id="id" name="id" class="form-control" pattern="[0-9]{8}" required/>
+                                                    <input th:field="${usuario.id}" type="text" id="id" name="id" class="form-control"
+                                                           th:classappend="${#fields.hasErrors('usuario.id')?'is-invalid':''}"/>
+                                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('usuario.id')}"
+                                                         th:errors="${usuario.id}">
+                                                        Please choose a username.
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -73,13 +88,23 @@
                                             <div class="col-md-6 mb-4">
                                                 <div class="form-outline">
                                                     <label class="form-label" for="correo">Correo (*):</label>
-                                                    <input type="text" id="correo" name="correo" class="form-control" required/>
+                                                    <input th:field="${usuario.correo}" type="text" id="correo" name="correo" class="form-control"
+                                                           th:classappend="${#fields.hasErrors('usuario.correo')?'is-invalid':''}"/>
+                                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('usuario.correo')}"
+                                                         th:errors="${usuario.correo}">
+                                                        Please choose a username.
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 mb-4">
                                                 <div class="form-outline">
                                                     <label class="form-label" for="celular">N° celular (*):</label>
-                                                    <input type="text" id="celular" name="celular" class="form-control" pattern="[0-9]{9}" required/>
+                                                    <input th:field="${usuario.celular}" type="text" id="celular" name="celular" class="form-control"
+                                                           th:classappend="${#fields.hasErrors('usuario.celular')?'is-invalid':''}"/>
+                                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('usuario.celular')}"
+                                                         th:errors="${usuario.celular}">
+                                                        Please choose a username.
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -88,7 +113,13 @@
                                             <div class="col-md-6 mb-4">
                                                 <div class="form-outline">
                                                     <label class="form-label" for="dni">DNI (*):</label>
-                                                    <input type="text" id="dni" name="dni" class="form-control" pattern="[0-9]{8}" required/></div>
+                                                    <input th:field="${usuario.dni}" type="text" id="dni" name="dni" class="form-control"
+                                                           th:classappend="${#fields.hasErrors('usuario.dni')?'is-invalid':''}"/>
+                                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('usuario.dni')}"
+                                                         th:errors="${usuario.dni}">
+                                                        Please choose a username.
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div class="col-md-6 mb-4">
                                                 <div class="form-outline">
