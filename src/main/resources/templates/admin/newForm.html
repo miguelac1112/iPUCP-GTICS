@@ -26,6 +26,8 @@
                                         <input value="0" name="estado" type="hidden"/>
                                         <input value="0" name="ban" type="hidden"/>
                                         <input value="0" name="strikes" type="hidden"/>
+                                        <input th:value="${tipoUsuario}" name="tipoUsuario" type="hidden"/>
+                                        <input th:unless="${tipoUsuario == 'seguridad'}" value="" name="pass2" type="hidden"/>
 
 
                                         <div class="row">
@@ -134,7 +136,12 @@
                                             <div class="col-md-6 mb-4">
                                                 <div class="form-outline">
                                                     <label class="form-label" for="contra">Ingrese una contraseña (*):</label>
-                                                    <input type="password" id="contra" name="contra" class="form-control" required/>
+                                                    <input th:field="${usuario.contra}" type="password" id="contra" name="contra" class="form-control"
+                                                           th:classappend="${#fields.hasErrors('usuario.contra')?'is-invalid':''}"/>
+                                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('usuario.contra')}"
+                                                         th:errors="${usuario.contra}">
+                                                        Please choose a username.
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 mb-4">
@@ -144,6 +151,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div th:if="${msg != null}" th:text="${msg}" class="alert alert-danger" role="alert"></div>
 
                                     </div>
                                 </form>

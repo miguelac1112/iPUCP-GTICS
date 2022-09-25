@@ -60,19 +60,31 @@ public class AdminController {
 
     @PostMapping("/save")
     public String guardarUsuario(@ModelAttribute("usuario") @Valid Usuario usuario, BindingResult bindingResult,
-                                 @RequestParam("cargo") Integer id, RedirectAttributes attr, Model model) {
+                                 @RequestParam("cargo") Integer id, @RequestParam("pass2") String pass2,
+                                 @RequestParam("tipoUsuario") String tipoUsuario,RedirectAttributes attr, Model model) {
         if(bindingResult.hasErrors()){
             //Si se actualizará el usuario y este se vincula con esta parte del controlador, se deberia enviar la lista
             //con los datos del usuario, en este caso el admin no actualiza, solo crea al usuario.
-            model.addAttribute("tipoUsuario","normal");
+            if(tipoUsuario.equals("normal")){
+                model.addAttribute("tipoUsuario","normal");
+            }else{
+                model.addAttribute("tipoUsuario","seguridad");
+            }
             model.addAttribute("listaCargos",cargoRepository.findAll());
             return "admin/newForm";
         }else{
             usuario.setRol(new Rol());
             if(id == 6){
                 usuario.getRol().setId(2); //seguridad
-                usuarioRepository.save(usuario);
-                usuarioRepository.cifradoHash(usuario.getContra(),usuario.getId());
+                if(usuario.getContra().equals(pass2)){
+                    usuarioRepository.save(usuario);
+                    usuarioRepository.cifradoHash(usuario.getContra(),usuario.getId());
+                }else{
+                    model.addAttribute("tipoUsuario","seguridad");
+                    model.addAttribute("listaCargos",cargoRepository.findAll());
+                    model.addAttribute("msg","Las contraseñas no coinciden");
+                    return "admin/newForm";
+                }
             }else {
                 usuario.getRol().setId(1); //usuario
                 usuarioRepository.save(usuario);

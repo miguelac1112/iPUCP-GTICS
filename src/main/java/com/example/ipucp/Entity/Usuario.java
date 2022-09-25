@@ -40,6 +40,7 @@ public class Usuario {
     private String celular;
 
     @Column(name = "contra", length = 45)
+    @NotBlank(message = "Campo obligatorio")
     private String contra;
 
     @Column(name = "dni", nullable = false, length = 8)
