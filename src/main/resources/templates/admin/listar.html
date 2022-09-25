@@ -57,7 +57,6 @@
             </div>
         </div>
 
-
         <div th:if="${msg != null}" th:text="${msg}" class="alert alert-success" role="alert"></div>
 
         <div >
@@ -187,14 +186,14 @@
                 scrollCollapse: true,
 
                 //"bPaginate": false,
-                "bFilter": false,
+                //"bFilter": false,
                 //"bInfo": false,
                 //"ordering": false,
                 language: {
                     processing: "Tratamiento en curso...",
-                    search: "Búsqueda específica&nbsp;:",
+                    search: "Búsqueda&nbsp;:",
                     lengthMenu: "Agrupar de _MENU_ items",
-                    info: "Mostrando del item _START_ al _END_ de un total de _TOTAL_ items",
+                    info: "Mostrando item _START_ al _END_ de _TOTAL_ en total",
                     infoEmpty: "No existen datos.",
                     infoFiltered: "(filtrado de _MAX_ elementos en total)",
                     infoPostFix: "",
@@ -215,6 +214,10 @@
                 scrollY: 400,
                 lengthMenu: [ [10, 25, -1], [10, 25, "All"] ],
             });
+
+            $('.dataTables_filter input[type="search"]').css(
+                {'width':'auto','display':'inline-block'}
+            );
         });
     </script>
 
