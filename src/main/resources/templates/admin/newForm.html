@@ -28,6 +28,7 @@
                                         <input value="0" name="strikes" type="hidden"/>
                                         <input th:value="${tipoUsuario}" name="tipoUsuario" type="hidden"/>
                                         <input th:unless="${tipoUsuario == 'seguridad'}" value="" name="pass2" type="hidden"/>
+                                        <input th:unless="${tipoUsuario == 'seguridad'}" value="defaultPassword" name="contra" type="hidden" />
 
 
                                         <div class="row">

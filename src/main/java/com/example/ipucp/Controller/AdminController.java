@@ -70,6 +70,7 @@ public class AdminController {
             }else{
                 model.addAttribute("tipoUsuario","seguridad");
             }
+            //System.out.println(bindingResult.getFieldError());
             model.addAttribute("listaCargos",cargoRepository.findAll());
             return "admin/newForm";
         }else{
