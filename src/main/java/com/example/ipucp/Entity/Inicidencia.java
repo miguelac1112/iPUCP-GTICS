@@ -1,6 +1,7 @@
 package com.example.ipucp.Entity;
 
 import javax.persistence.*;
+import java.time.Instant;
 
 @Entity
 @Table(name = "inicidencia")
@@ -46,6 +47,16 @@ public class Inicidencia {
 
     @Column(name = "destacado", nullable = false)
     private int destacado;
+
+    @Column(name = "fecha")
+    private Instant fecha;
+
+    @Column(name = "em_medica")
+    private Byte emMedica;
+
+    @Lob
+    @Column(name = "comentario_usuario")
+    private String comentarioUsuario;
 
     public int getDestacado() {
         return destacado;
@@ -143,4 +154,27 @@ public class Inicidencia {
         this.estado = estado;
     }
 
+    public Instant getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Instant fecha) {
+        this.fecha = fecha;
+    }
+
+    public Byte getEmMedica() {
+        return emMedica;
+    }
+
+    public void setEmMedica(Byte emMedica) {
+        this.emMedica = emMedica;
+    }
+
+    public String getComentarioUsuario() {
+        return comentarioUsuario;
+    }
+
+    public void setComentarioUsuario(String comentarioUsuario) {
+        this.comentarioUsuario = comentarioUsuario;
+    }
 }
