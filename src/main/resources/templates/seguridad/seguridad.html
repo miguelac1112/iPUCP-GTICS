@@ -20,7 +20,7 @@
   <body>
     <main>
       <div>
-        <a th:href="@{'/seguridad/incidencias'}" ><button class="btn-wsp" target="_blank" data-bs-toggle="modal" data-bs-target="#Modal3" style="background-color:lightsteelblue; border-color:blue">
+        <a th:href="@{'/seguridad/incidencias'}" ><button class="btn-wsp fixed-bottom" target="_blank" data-bs-toggle="modal" data-bs-target="#Modal3" style="background-color:lightsteelblue; border-color:blue">
           <i class="fa-solid fa-house"
              style="color: black;
            position: relative;
@@ -37,14 +37,14 @@
              style="height: 80px">
           <div class="navbar-row-container">
             <div class="nav-logo-container">
-              <div class="menu-toggle">
-                <img class="img-logo" th:src="@{/img/logo-pucp1.png}" alt="..."/>
+              <div class="menu-toggle m-2">
+                <img class="img-logo" th:src="@{/img/logo-pucp1.png}" alt="..." style="width: 35%"/>
               </div>
               <div class="a-logo" href="#inicio"><h1 id="navbar-logo"><strong>iPUCP</strong></h1></div>
             </div>
-            <ul class="nav-menu">
+            <ul class="nav-menu ">
               <li>
-                <a id="abrir-modal-cotizar-menu" class="nav-links nav-links-btn" th:href="@{'/seguridad/dashboard'}">
+                <a class="nav-links nav-links-btn" th:href="@{'/seguridad/dashboard'}">
                   <i class="fa-solid fa-chart-line "></i>
                 </a>
               </li>
@@ -75,7 +75,7 @@
       </br>
       </br>
 
-      <div class="row justify-content-center">
+      <div class="row justify-content-center mx-auto m-2">
 
         <h1 class="pb-2 border-bottom" style="text-align: center; margin-top: -30px">Comentar Incidencia</h1>
 
@@ -99,14 +99,14 @@
 
               <div class="form-group">
                 <!-- Name input-->
-                <span class="postuserfont"><strong>Tipo:</strong></span>
+                <span class="postuserfont m-2"><strong>Tipo:</strong></span>
                 <input class="form-check" id="nombre_funcion" type="text" th:value="${incidencia.idtipo.tipoIncidencia}" style="margin-left: 21px;"  disabled>
               </div>
 
 
               <div class="form-group">
                 <!-- Name input-->
-                <span class="postuserfont"><strong> ¿Asistencia médica?</strong></span>
+                <span class="postuserfont m-2"><strong> ¿Asistencia médica?</strong></span>
                 <div th:switch="${incidencia.emMedica}" >
                   <input th:case="0" class="form-check" id="estado0" type="text" value="No" style="margin-left: 21px;" disabled>
                   <input th:case="1" class="form-check" id="estado1" type="text" value="Sí" style="margin-left: 21px;" disabled>
@@ -115,7 +115,7 @@
 
               <div class="form-group">
                 <!-- Name input-->
-                <span class="postuserfont"><strong>Estado:</strong></span>
+                <span class="postuserfont m-2"><strong>Estado:</strong></span>
                 <div th:switch="${incidencia.estado}">
                   <input th:case="0" class="form-check" id="estado0" type="text" value="En Proceso" style="margin-left: 21px;" disabled>
                   <input th:case="1" class="form-check" id="estado1" type="text" value="Atendido" style="margin-left: 21px;" disabled>
@@ -125,11 +125,11 @@
 
               <div class="form-group form-group-textarea mb-md-0">
                 <!-- Message input-->
-                <span class="postuserfont"><strong>Ingresar comentario *</strong></span>
+                <span class="postuserfont m-2"><strong>Ingresar comentario *</strong></span>
                 <input th:value="${incidencia.id}" name="id" type="hidden"/>
 
-                <textarea th:field="${incidencia.comentario}" class="form-control" type="text" id="comentario" name="comentario"
-                          th:classappend="${#fields.hasErrors('incidencia.comentario')?'is-invalid':''}" required></textarea>
+                <textarea th:field="${incidencia.comentario}" class="form-control m-2" type="text" id="comentario" name="comentario"
+                          th:classappend="${#fields.hasErrors('incidencia.comentario')?'is-invalid':''}" required style="width: 95%"></textarea>
                 <div class="invalid-feedback" th:if="${#fields.hasErrors('incidencia.comentario')}"
                      th:errors="${incidencia.comentario}">
                   Please choose a username.
@@ -137,14 +137,23 @@
 
               </div>
 
-              </br>
+
 
               <div style="text-align: center;">
                 <button type="submit" class="btn btn-success" style="width:100px;height:40px;" > Ingresar</button>
               </div>
+            <br>
+            <p>
+
+            </p>
+            <p>
+
+            </p>
+            <br>
 
 
-              </br>
+
+
 
             </form>
         </div>
