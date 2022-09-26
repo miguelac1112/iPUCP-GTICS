@@ -4,7 +4,6 @@ import com.example.ipucp.Entity.*;
 import com.example.ipucp.Dto.UsuarioIncidencias;
 import com.example.ipucp.Repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -106,35 +105,40 @@ public class SeguridadController {
     }
 
     @PostMapping("/comentar")
-    public String comentar(@RequestParam("id") Integer id, @RequestParam("comentario") String comentario,
+    public String comentar(@RequestParam("id") Integer id, @RequestParam("codigo") String codigo,
+                           @RequestParam("comentario") String comentario,
                            RedirectAttributes redirectAttributes, @ModelAttribute("incidencia") @Valid Inicidencia incidencia,
                            BindingResult bindingResult, Model model) {
 
-        if (bindingResult.hasErrors()) {
-            Optional<Inicidencia> optInicidencia = inicidenciaRepository.findById(id);
-            if(optInicidencia.isPresent()){
-                Inicidencia inicidencia = optInicidencia.get();
-                if(inicidencia.getEstado()==0){
-                    model.addAttribute("incidencia", inicidencia);
-                    return "seguridad/seguridad";
-                }else{
-                    return "redirect:/seguridad/incidencias";
-                }
+        System.out.println(id+" "+codigo);
+
+        Optional<Usuario> optusuario = usuarioRepository.findById(codigo);
+        Optional<Inicidencia> optinicidencia_flotante = inicidenciaRepository.findById(id);
+
+        if(optusuario.isPresent() && optinicidencia_flotante.isPresent()){
+
+            Usuario usuario = optusuario.get();
+            Inicidencia inicidencia_flotante = optinicidencia_flotante.get();
+            incidencia.setCodigo(usuario);
+            incidencia.setIdtipo(inicidencia_flotante.getIdtipo());
+            incidencia.setEstado(inicidencia_flotante.getEstado());
+            incidencia.setEmMedica(inicidencia_flotante.getEmMedica());
+
+            if (bindingResult.hasErrors()) {
+                model.addAttribute("incidencia", incidencia);
+                return "seguridad/seguridad";
             }else{
+                inicidenciaRepository.comentarIncidencia(comentario,incidencia.getId());
+                String texto = "La incidencia con ID "+incidencia.getId()+" del usuario con código "+ incidencia.getCodigo().getId()+" ha sido respondida.";
+                redirectAttributes.addFlashAttribute("msg",texto);
                 return "redirect:/seguridad/incidencias";
             }
         }else{
-            Optional<Inicidencia> optInicidencia = inicidenciaRepository.findById(id);
-            if(optInicidencia.isPresent()){
-                incidencia = optInicidencia.get();
-                inicidenciaRepository.comentarIncidencia(comentario,id);
-                String texto = "La incidencia con ID "+id+" del usuario con código "+ incidencia.getCodigo().getId()+" ha sido respondida.";
-                redirectAttributes.addFlashAttribute("msg",texto);
-                return "redirect:/seguridad/incidencias";
-            }else{
-                return "redirect:/seguridad/comentar_incidencia?id="+id;
-            }
+            return "redirect:/seguridad/incidencias";
         }
+
+
+
 
     }
 

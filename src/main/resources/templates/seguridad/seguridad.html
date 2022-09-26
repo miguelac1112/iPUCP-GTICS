@@ -100,7 +100,7 @@
               <div class="form-group">
                 <!-- Name input-->
                 <span class="postuserfont m-2"><strong>Tipo:</strong></span>
-                <input class="form-check" id="nombre_funcion" type="text" th:value="${incidencia.idtipo.tipoIncidencia}" style="margin-left: 21px;"  disabled>
+                <input class="form-check" id="tipo" name="tipo" type="text" th:value="${incidencia.idtipo.tipoIncidencia}" style="margin-left: 21px;"  disabled>
               </div>
 
 
@@ -108,8 +108,8 @@
                 <!-- Name input-->
                 <span class="postuserfont m-2"><strong> ¿Asistencia médica?</strong></span>
                 <div th:switch="${incidencia.emMedica}" >
-                  <input th:case="0" class="form-check" id="estado0" type="text" value="No" style="margin-left: 21px;" disabled>
-                  <input th:case="1" class="form-check" id="estado1" type="text" value="Sí" style="margin-left: 21px;" disabled>
+                  <input th:case="0" class="form-check" id="emMedica" name="emMedica" type="text" value="No" style="margin-left: 21px;" disabled>
+                  <input th:case="1" class="form-check" id="emMedica" name="emMedica" type="text" value="Sí" style="margin-left: 21px;" disabled>
                 </div>
               </div>
 
@@ -117,8 +117,8 @@
                 <!-- Name input-->
                 <span class="postuserfont m-2"><strong>Estado:</strong></span>
                 <div th:switch="${incidencia.estado}">
-                  <input th:case="0" class="form-check" id="estado0" type="text" value="En Proceso" style="margin-left: 21px;" disabled>
-                  <input th:case="1" class="form-check" id="estado1" type="text" value="Atendido" style="margin-left: 21px;" disabled>
+                  <input th:case="0" class="form-check" id="estado" name="estado" type="text" value="En Proceso" style="margin-left: 21px;" disabled>
+                  <input th:case="1" class="form-check" id="estado" name="estado" type="text" value="Atendido" style="margin-left: 21px;" disabled>
                 </div>
               </div>
 
@@ -127,6 +127,7 @@
                 <!-- Message input-->
                 <span class="postuserfont m-2"><strong>Ingresar comentario *</strong></span>
                 <input th:value="${incidencia.id}" name="id" type="hidden"/>
+                <input th:value="${incidencia.codigo.id}" name="codigo" type="hidden"/>
 
                 <textarea th:field="${incidencia.comentario}" class="form-control m-2" type="text" id="comentario" name="comentario"
                           th:classappend="${#fields.hasErrors('incidencia.comentario')?'is-invalid':''}" required style="width: 95%"></textarea>
