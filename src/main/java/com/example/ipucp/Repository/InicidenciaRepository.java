@@ -28,6 +28,12 @@ public interface InicidenciaRepository extends JpaRepository<Inicidencia, Intege
     @Query(value = "UPDATE inicidencia SET `comentario` = ?1 , `estado` = '1' WHERE (`idinicidencia` = ?2);",nativeQuery = true)
     void comentarIncidencia(String comentario, int id);
 
+    @Query(value = "SELECT  t.tipo_incidencia as numero FROM inicidencia i right join tipo t on i.idtipo = t.idtipo group by i.idtipo;",nativeQuery = true)
+    List<String> buscarTipoIncidencia();
+
+    @Query(value = "SELECT count(i.idinicidencia) as numero FROM inicidencia i right join tipo t on i.idtipo = t.idtipo group by i.idtipo;",nativeQuery = true)
+    List<Integer> buscarCantidadIncidencia();
+
     @Query(value="SELECT * FROM inicidencia where idtipo = ?1 order by idinicidencia desc;",nativeQuery = true)
     List<Inicidencia> filtradoTipo(int idTipo);
 

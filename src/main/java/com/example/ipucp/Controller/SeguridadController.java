@@ -143,7 +143,9 @@ public class SeguridadController {
     public String dashboard(Model model) {
             model.addAttribute("incidenciaEstado",inicidenciaRepository.bucarEstadoIncidencia());
             model.addAttribute("incidenciaUrgencia",inicidenciaRepository.buscarUrgenciaIncidencia());
-        return "seguridad/dashboard";
+            model.addAttribute("incidenciaTipo",inicidenciaRepository.buscarTipoIncidencia());
+            model.addAttribute("incidenciaCantidad",inicidenciaRepository.buscarCantidadIncidencia());
+            return "seguridad/dashboard";
     }
 
     @GetMapping("/mapa_incidencias")

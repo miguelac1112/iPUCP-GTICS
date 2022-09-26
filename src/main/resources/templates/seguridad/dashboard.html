@@ -158,17 +158,14 @@
     var urgencia2 = listaIncidenciasUrgencia[1].cantidad;
     var urgencia2 = listaIncidenciasUrgencia[2].cantidad;
 
+    var listaIncidenciastipo = /*[[${incidenciaTipo}]]*/ "Test3";
+    var listaIncidenciasCantidad = /*[[${incidenciaCantidad}]]*/ "Test4";
+
 
 </script>
+<!-- Grafico tipo -->
 <script>
-    const labels = [
-        'Robo',
-        'Objeto perdido',
-        'Infraestructura',
-        'Ambulancia PUCP',
-        'Accidente',
-        'Otro',
-    ];
+    const labels = listaIncidenciastipo;
 
     const data = {
         labels: labels,
@@ -176,7 +173,7 @@
             label: 'Reportes',
             backgroundColor: 'rgb(255, 99, 132)',
             borderColor: 'rgb(255, 99, 132)',
-            data: [0, 10, 5, 2, 20, 30, 45],
+            data: listaIncidenciasCantidad,
         }]
     };
 
@@ -192,6 +189,7 @@
         config
     );
 </script>
+<!-- Grafico atendida -->
 <script>
     const data2 = {
         labels: [
@@ -220,6 +218,7 @@
         config2
     );
 </script>
+<!-- Grafico urgencia -->
 <script>
     const data3 = {
         labels: [
@@ -250,6 +249,7 @@
         config3
     );
 </script>
+<!-- Grafico fechas -->
 <script>
     const data4 = {
         labels: [
