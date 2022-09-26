@@ -80,25 +80,37 @@
         <h1 class="pb-2 border-bottom" style="text-align: center; margin-top: -30px">Comentar Incidencia</h1>
 
 
-      <div class="col-xl-5 col-lg-6  ">
-        <div class="card shadow mb-4">
-              <div class="card-header">
-                <span class="postuserfont" th:text="${'Incidencia #'+incidencia.id}"><strong></strong></span>
-              </div>
-              <img
-                      src="https://i.insider.com/5f1b201a5af6cc7e1b741330?width=1136&format=jpeg"
-                      class="card-img-top"
-                      alt="..."
-              />
+        <div class="col-xl-5 col-lg-6  ">
+          <div class="card shadow mb-4">
+                <div class="card-header">
+                  <span class="postuserfont" th:text="${'Incidencia #'+incidencia.id}"><strong></strong></span>
+                </div>
+                <img
+                        src="https://i.insider.com/5f1b201a5af6cc7e1b741330?width=1136&format=jpeg"
+                        class="card-img-top"
+                        alt="..."
+                />
+          </div>
         </div>
-      </div>
 
         <div class="col-xl-5 col-lg-6">
-          <div class="card shadow mb-4">
+          <form method="post" class="card shadow mb-4" th:action="@{'/seguridad/comentar'}" th:id="${'form'+incidencia.id}">
+
+
               <div class="form-group">
                 <!-- Name input-->
                 <span class="postuserfont"><strong>Tipo:</strong></span>
                 <input class="form-check" id="nombre_funcion" type="text" th:value="${incidencia.idtipo.tipoIncidencia}" style="margin-left: 21px;"  disabled>
+              </div>
+
+
+              <div class="form-group">
+                <!-- Name input-->
+                <span class="postuserfont"><strong> ¿Asistencia médica?</strong></span>
+                <div th:switch="${incidencia.emMedica}" >
+                  <input th:case="0" class="form-check" id="estado0" type="text" value="No" style="margin-left: 21px;" disabled>
+                  <input th:case="1" class="form-check" id="estado1" type="text" value="Sí" style="margin-left: 21px;" disabled>
+                </div>
               </div>
 
               <div class="form-group">
@@ -114,25 +126,36 @@
               <div class="form-group form-group-textarea mb-md-0">
                 <!-- Message input-->
                 <span class="postuserfont"><strong>Ingresar comentario *</strong></span>
-                <textarea class="form-control" type="text" id="validationCustom07" required></textarea>
+                <input th:value="${incidencia.id}" name="id" type="hidden"/>
+
+                <textarea th:field="${incidencia.comentario}" class="form-control" type="text" id="comentario" name="comentario"
+                          th:classappend="${#fields.hasErrors('incidencia.comentario')?'is-invalid':''}" required></textarea>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('incidencia.comentario')}"
+                     th:errors="${incidencia.comentario}">
+                  Please choose a username.
+                </div>
+
               </div>
 
               </br>
 
               <div style="text-align: center;">
-                <button type="submit" class="btn btn-success" style="width:100px;height:40px;" data-bs-toggle="modal" data-bs-target="#Modal1"> Ingresar</button>
+                <button type="submit" class="btn btn-success" style="width:100px;height:40px;" > Ingresar</button>
               </div>
+
 
               </br>
 
-            </div>
-          </div>
-          </div>
+            </form>
+        </div>
+
 
       </div>
 
+
+
       <!-- Modal 1-->
-      <div class="modal fade" id="Modal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <!-- <div class="modal fade" id="Modal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
@@ -159,25 +182,21 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
 
       <!-- Modal 2-->
-      <div class="modal fade" id="Modal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <!-- <div class="modal fade" id="Modal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Ingresar su contraseña</h5>
+              <h5 class="modal-title" id="exampleModalLabel">Ingresar código enviado a su correo.</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
 
               <form method="post" th:action="@{'/product/save'}" class="mt-2" id="form1">
                 <div class="mb-3">
-                  <label for="incidencia" class="form-label">Contraseña: *</label>
-                  <input type="password" id="incidencia" class="form-control" value="" required/>
-                </div>
-                <div class="mb-3">
-                  <label for="incidencia" class="form-label">Repetir contraseña: *</label>
+                  <label for="incidencia" class="form-label">Código: *</label>
                   <input type="password" id="incidencia" class="form-control" value="" required/>
                 </div>
               </form>
@@ -185,11 +204,11 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Regresar</button>
-              <button type="button" class="btn btn-success" data-bs-dismiss="modal" >Registrar</button>
+              <button type="submit" class="btn btn-success" data-bs-dismiss="modal">Registrar</button>
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
 
 
 

@@ -7,13 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -88,7 +87,8 @@ public class SeguridadController {
     }
 
     @GetMapping("/comentar_incidencia")
-    public String comentarIncidencia(@RequestParam("id") Integer id, Model model) {
+    public String comentarIncidencia(@RequestParam("id") Integer id, Model model,
+                                     @ModelAttribute("incidencia") Inicidencia incidencia) {
 
         Optional<Inicidencia> optInicidencia = inicidenciaRepository.findById(id);
 
@@ -103,6 +103,39 @@ public class SeguridadController {
         }else{
             return "redirect:/seguridad/incidencias";
         }
+    }
+
+    @PostMapping("/comentar")
+    public String comentar(@RequestParam("id") Integer id, @RequestParam("comentario") String comentario,
+                           RedirectAttributes redirectAttributes, @ModelAttribute("incidencia") @Valid Inicidencia incidencia,
+                           BindingResult bindingResult, Model model) {
+
+        if (bindingResult.hasErrors()) {
+            Optional<Inicidencia> optInicidencia = inicidenciaRepository.findById(id);
+            if(optInicidencia.isPresent()){
+                Inicidencia inicidencia = optInicidencia.get();
+                if(inicidencia.getEstado()==0){
+                    model.addAttribute("incidencia", inicidencia);
+                    return "seguridad/seguridad";
+                }else{
+                    return "redirect:/seguridad/incidencias";
+                }
+            }else{
+                return "redirect:/seguridad/incidencias";
+            }
+        }else{
+            Optional<Inicidencia> optInicidencia = inicidenciaRepository.findById(id);
+            if(optInicidencia.isPresent()){
+                incidencia = optInicidencia.get();
+                inicidenciaRepository.comentarIncidencia(comentario,id);
+                String texto = "La incidencia con ID "+id+" del usuario con código "+ incidencia.getCodigo().getId()+" ha sido respondida.";
+                redirectAttributes.addFlashAttribute("msg",texto);
+                return "redirect:/seguridad/incidencias";
+            }else{
+                return "redirect:/seguridad/comentar_incidencia?id="+id;
+            }
+        }
+
     }
 
 

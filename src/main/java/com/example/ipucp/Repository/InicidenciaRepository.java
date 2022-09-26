@@ -4,8 +4,10 @@ import com.example.ipucp.Dto.IncidenciaEstado;
 import com.example.ipucp.Dto.IncidenciaUrgencia;
 import com.example.ipucp.Entity.Inicidencia;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -20,6 +22,11 @@ public interface InicidenciaRepository extends JpaRepository<Inicidencia, Intege
 
     @Query(value = "SELECT u.tipo_urgencia , count(i.idinicidencia) as cantidad FROM inicidencia i inner join urgencia u where i.idurgencia = u.idurgencia group by i.idurgencia order by i.idurgencia asc",nativeQuery = true)
     List<IncidenciaUrgencia> buscarUrgenciaIncidencia();
+
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE inicidencia SET `comentario` = ?1 , `estado` = '1' WHERE (`idinicidencia` = ?2);",nativeQuery = true)
+    void comentarIncidencia(String comentario, int id);
 
     @Query(value="SELECT * FROM inicidencia where idtipo = ?1 order by idinicidencia desc;",nativeQuery = true)
     List<Inicidencia> filtradoTipo(int idTipo);

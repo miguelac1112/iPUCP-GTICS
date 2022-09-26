@@ -1,6 +1,9 @@
 package com.example.ipucp.Entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.time.Instant;
 
 @Entity
@@ -40,6 +43,9 @@ public class Inicidencia {
 
     @Lob
     @Column(name = "comentario")
+    @Size(max = 100, message = "Máximo 100 caracteres")
+    @Pattern(regexp="^[a-zA-Z\\s]*$",message="Solo letras")
+    @NotBlank(message = "Ingrese el comentario")
     private String comentario;
 
     @Column(name = "estado", nullable = false)
