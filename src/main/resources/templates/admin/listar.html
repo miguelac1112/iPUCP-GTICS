@@ -17,24 +17,31 @@
 
 
     <title>Listar Usuarios</title>
+    <style>
+        @media (max-width: 400px) {
+            .hidden-mobile {
+                display: none;
+            }
+        }
+    </style>
 </head>
 <body>
 <main>
 
     <div th:replace="admin/fragment.html :: navbar"></div>
 
-    </br>
+    <br>
 
     <div class="container px-4 py-5">
         <h1 class="pb-2 border-bottom" style="text-align: center">Información de los usuarios</h1>
         <div class="container">
             <div class="row">
 
-                <div class="col" style="display: flex; justify-content: space-around">
-                    <form class="container" method="post" th:action="@{/admin/BuscarCategoria}">
+                <div class="col-sm" style="display: flex; justify-content: space-around">
+                    <form class="container-fluid" method="post" th:action="@{/admin/BuscarCategoria}">
                         <div class="row">
-                            <div class="col-auto">
-                                <select class="form-select" aria-label="Default select example" name="idcat" id="idcat">
+                            <div class="col-sm">
+                                <select class="form-select col-" aria-label="Default select example" name="idcat" id="idcat">
                                     <option value="0">Todos</option>
                                     <option th:each="cargo : ${listaCargos}"
                                             th:text="${cargo.nombreCargo}"
@@ -43,17 +50,17 @@
                                     </option>
                                 </select>
                             </div>
-                            <div class="col-auto">
+
+                            <div class="col-sm">
                                 <button type="submit" class="btn btn-success">Filtrar Categoría</button>
                             </div>
                         </div>
                     </form>
-                </div>
+                    <div class="col-sm-6 mb-4" style="display: flex; justify-content: flex-end">
+                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#Modal2">Agregar nuevo usuario</button>
+                    </div>
 
-                <div class="col-md-6 mb-4" style="display: flex; justify-content: flex-end">
-                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#Modal2">Agregar nuevo usuario</button>
                 </div>
-
             </div>
         </div>
 

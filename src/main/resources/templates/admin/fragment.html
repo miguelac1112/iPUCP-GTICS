@@ -2,15 +2,22 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <style>
+        @media (max-width: 400px) {
+            .hidden-mobile {
+                display: none;
+            }
+        }
+    </style>
 </head>
 <body>
 
 
 <nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark"
      style="height: 100px">
-    <div class="container">
-        <div><a class="navbar-brand"><img th:src="@{/img/logo-pucp1.png}"  style="width: 35%;border-radius: 3px;"/></a></div>
-        <div class="a-logo" href="#inicio"><h1 id="navbar-logo" style="color: #b9ab7f"><strong>iPUCP</strong></h1></div>
+    <div class="container-fluid">
+        <div><img th:src="@{/img/logo-pucp1.png}"  style="width: 35%;border-radius: 3px;"/></div>
+        <div class="hidden-mobile" href="#inicio"><h2 id="navbar-logo" style="color: #b9ab7f"><strong>iPUCP</strong></h2></div>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
