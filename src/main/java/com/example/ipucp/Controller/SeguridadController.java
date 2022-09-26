@@ -1,12 +1,8 @@
 package com.example.ipucp.Controller;
 
-import com.example.ipucp.Entity.Cargo;
-import com.example.ipucp.Entity.Inicidencia;
-import com.example.ipucp.Entity.Usuario;
+import com.example.ipucp.Entity.*;
 import com.example.ipucp.Dto.UsuarioIncidencias;
-import com.example.ipucp.Repository.UsuarioRepository;
-import com.example.ipucp.Repository.CargoRepository;
-import com.example.ipucp.Repository.InicidenciaRepository;
+import com.example.ipucp.Repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
@@ -17,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,6 +30,11 @@ public class SeguridadController {
     @Autowired
     InicidenciaRepository inicidenciaRepository;
 
+    @Autowired
+    TipoRepository tipoRepository;
+
+    @Autowired
+    UrgenciaRepository urgenciaRepository;
 
     @GetMapping("")
     public String principal() {
@@ -41,8 +43,47 @@ public class SeguridadController {
 
     @GetMapping("/incidencias")
     public String lista(Model model) {
+        /*Tipo*/
+        List<Tipo> listaTipos  = this.obtenerTipos();
+        /*urgencias*/
+        List<Urgencia> listaUrg = this.obtenerUrgencias();
+        /**/
         List<Inicidencia> inicidenciaList = inicidenciaRepository.findAll();
+        model.addAttribute("idtipoI",0);
+        model.addAttribute("idUrgI",0);
         model.addAttribute("ListaIncidencias", inicidenciaList);
+        model.addAttribute("ListaTipos", listaTipos);
+        model.addAttribute("ListaUrgencia", listaUrg);
+        return "seguridad/incidencias";
+    }
+
+    @PostMapping("/incidenciasFiltrado")
+    public String listaFiltrada(Model model,@RequestParam("tipo") int idTipo ,@RequestParam("urgencia") int idUrgencia) {
+        List<Inicidencia> listIncidencias = new ArrayList<>();
+        String sentencia = "SELECT * FROM inicidencia ";
+        if (idTipo != 0){
+            if(idUrgencia != 0){
+                listIncidencias.addAll(inicidenciaRepository.filtradoTipoUrgencia(idTipo,idUrgencia));
+            } else {
+                listIncidencias.addAll(inicidenciaRepository.filtradoTipo(idTipo));
+            }
+        }else{
+            if(idUrgencia != 0){
+                listIncidencias.addAll(inicidenciaRepository.filtradoUrgencia(idUrgencia));
+            }else{
+                listIncidencias.addAll(inicidenciaRepository.findAll());
+            }
+        }
+        /*Tipo*/
+        List<Tipo> listaTipos  = this.obtenerTipos();
+        /*urgencias*/
+        List<Urgencia> listaUrg = this.obtenerUrgencias();
+        /**/
+        model.addAttribute("idtipoI",idTipo);
+        model.addAttribute("idUrgI",idUrgencia);
+        model.addAttribute("ListaIncidencias",listIncidencias);
+        model.addAttribute("ListaTipos", listaTipos);
+        model.addAttribute("ListaUrgencia", listaUrg);
         return "seguridad/incidencias";
     }
 
@@ -150,6 +191,25 @@ public class SeguridadController {
             return "redirect:/seguridad/reporte?id="+codigo;
         }
 
+    }
+
+    public List<Urgencia> obtenerUrgencias(){
+        List<Urgencia> listaUrg = new ArrayList<>();
+        Urgencia urgTodos = new Urgencia();
+        urgTodos.setId(0);
+        urgTodos.setTipoUrgencia("Todas las urgencias");
+        listaUrg.add(urgTodos);
+        listaUrg.addAll(urgenciaRepository.findAll());
+        return listaUrg;
+    }
+    public List<Tipo> obtenerTipos(){
+        List <Tipo>  listaTipos = new ArrayList<>();
+        Tipo todos = new Tipo();
+        todos.setId(0);
+        todos.setTipoIncidencia("Todos");
+        listaTipos.add(todos);
+        listaTipos.addAll(tipoRepository.findAll());
+        return listaTipos;
     }
 
 }

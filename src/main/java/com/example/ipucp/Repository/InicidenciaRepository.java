@@ -20,4 +20,13 @@ public interface InicidenciaRepository extends JpaRepository<Inicidencia, Intege
 
     @Query(value = "SELECT u.tipo_urgencia , count(i.idinicidencia) as cantidad FROM inicidencia i inner join urgencia u where i.idurgencia = u.idurgencia group by i.idurgencia order by i.idurgencia asc",nativeQuery = true)
     List<IncidenciaUrgencia> buscarUrgenciaIncidencia();
+
+    @Query(value="SELECT * FROM inicidencia where idtipo = ?1 order by idinicidencia desc;",nativeQuery = true)
+    List<Inicidencia> filtradoTipo(int idTipo);
+
+    @Query(value = "SELECT * FROM inicidencia where idtipo = ?1 and idurgencia = ?2 order by idinicidencia desc;",nativeQuery = true)
+    List<Inicidencia> filtradoTipoUrgencia(int idTipo, int idUrgencia);
+
+    @Query(value = "SELECT * FROM inicidencia where idurgencia = ?1 order by idinicidencia desc;",nativeQuery = true)
+    List<Inicidencia> filtradoUrgencia(int idUrgencia);
 }

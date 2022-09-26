@@ -69,41 +69,41 @@
     </br>
     <h1 class="pb-2 border-bottom" style="text-align: center; margin-top: -30px">Lista de incidencias por atender</h1>
 
-    <!--descargas--->
+    <!--opciones--->
     <div>
 
 
         <div class="container">
-            <div class="row">
-                <div class="col-auto">
-                    <select class="form-select m-1" aria-label="Default select example">
-                        <option selected>Filtrar por tipo</option>
-                        <option value="1">Robo</option>
-                        <option value="2">Objeto perdidos</option>
-                        <option value="3">Infraestructura</option>
-                        <option value="4">Ambulancia Pucp</option>
-                        <option value="5">Accidente</option>
-                        <option value="5">Otro</option>
-                    </select>
-                </div>
-                <div class="col-auto">
-                    <select class="form-select m-1" aria-label="Default select example">
-                        <option selected>Filtrar por urgencia</option>
-                        <option value="1">Leve</option>
-                        <option value="2">Moderada</option>
-                        <option value="3">Grave</option>
-                    </select>
-                </div>
-                <div class="col-auto">
-                    <select class="form-select m-1" aria-label="Default select example">
-                        <option selected>Ordenar por</option>
-                        <option value="1">Mas reciente</option>
-                        <option value="2">Mas antiguo</option>
-                    </select>
-                </div>
-                <div class="col-auto m-1">
-                    <a class="btn btn-primary">Aplicar</a>
-                </div>
+            <form method="post" th:action="@{/seguridad/incidenciasFiltrado}">
+                <div class="row">
+                    <div class="col-auto">
+                        <div class="form-floating">
+                            <select class="form-select m-1" aria-label="Default select example" name="tipo" id="tipo">
+                                <option th:each="tipo: ${ListaTipos}" th:value="${tipo.id}" th:text="${tipo.tipoIncidencia}" th:selected="${tipo.id == idtipoI}"></option>
+                            </select>
+                            <label for="tipo">Filtrar por tipo: </label>
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <div class="form-floating">
+                            <select class="form-select m-1" aria-label="Default select example" name="urgencia" id="urgencia">
+                                <option th:each="urg: ${ListaUrgencia}" th:value="${urg.id}" th:text="${urg.tipoUrgencia}" th:selected="${urg.id == idUrgI}"></option>
+                        </select>
+                            <label for="urgencia">Filtrar por urgencia:</label>
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <div class="form-floating">
+                            <select class="form-select m-1" aria-label="Default select example" name="orden" id="orden">
+                            <option value="1">Mas reciente</option>
+                            <option value="2">Mas antiguo</option>
+                        </select>
+                            <label for="orden">Ordenar por: </label>
+                        </div>
+                    </div>
+                    <div class="col-auto m-1">
+                        <button  class="btn btn-primary" type="submit">Aplicar</button>
+                    </div>
                 <div class="col-auto m-1">
                     <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#ModalDownload">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
@@ -114,6 +114,7 @@
                     </button>
                 </div>
             </div>
+            </form>
         </div>
     </div>
 
