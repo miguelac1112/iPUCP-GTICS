@@ -20,8 +20,12 @@ public class Inicidencia {
     @Column(name = "ubicacion", nullable = false, length = 45)
     private String ubicacion;
 
-    @Column(name = "localizacion", nullable = false, length = 45)
-    private String localizacion;
+
+    @Column(name = "latitud", length = 45)
+    private String latitud;
+
+    @Column(name = "longitud",length = 45)
+    private String longitud;
 
     @Column(name = "nombre", nullable = false, length = 45)
     private String nombre;
@@ -96,12 +100,20 @@ public class Inicidencia {
         this.ubicacion = ubicacion;
     }
 
-    public String getLocalizacion() {
-        return localizacion;
+    public String getLatitud() {
+        return latitud;
     }
 
-    public void setLocalizacion(String localizacion) {
-        this.localizacion = localizacion;
+    public void setLatitud(String latitud) {
+        this.latitud = latitud;
+    }
+
+    public String getLongitud() {
+        return longitud;
+    }
+
+    public void setLongitud(String longitud) {
+        this.longitud = longitud;
     }
 
     public String getNombre() {
@@ -183,4 +195,5 @@ public class Inicidencia {
     public void setComentarioUsuario(String comentarioUsuario) {
         this.comentarioUsuario = comentarioUsuario;
     }
+
 }
