@@ -56,7 +56,8 @@
 </br>
 </br>
 <div class="py-1 text-center">
-    <h2>Detalle Incdencia #2022</h2>
+    <h2 th:text="${'Detalle de Incidencia #'+incidencia.id}"
+        style="text-align: center; margin-top: -30px"></h2>
 </div>
 
 <div class="container offset-2 mt-4 middlearea">
@@ -71,7 +72,7 @@
                             style="width: 45px; height: 45px"
                             class="rounded-circle"
                     />
-                    <span class="postuserfont"><strong>20180252</strong></span>
+                    <span class="postuserfont"><strong th:text="${incidencia.codigo.getId()}"></strong></span>
                 </div>
                 <img
                         src="https://blog.biletbayi.com/wp-content/uploads/2019/12/rize.jpg"
@@ -90,9 +91,13 @@
                         >
                     </p>
                     <p class="card-text postuserfont">
-                        <strong style="margin-left: -4px; margin-right: 5px"
-                        >Tipo:</strong
-                        > Objeto perdido
+                        <strong style="margin-left: -4px; margin-right: 5px" th:text="${incidencia.nombre}"
+                        ></strong
+                        >
+                    </p>
+                    <p class="card-text postuserfont">
+                        <strong style="margin-left: -4px; margin-right: 5px" >Tipo: </strong>
+                        <span th:text="${incidencia.idtipo.getTipoIncidencia()}"></span>
                     </p>
 
                     <p class="card-text postuserfont" style="margin-top: -15px">
@@ -100,8 +105,7 @@
                         >Descripción: </strong
                         >
                     </p>
-                    <p class="card-text postuserfont" style="margin-top: -15px">
-                        Se ha encontrado este celular modelo Huaweii P80 en la biblioteca de CIA a las 2:40pm, creemos que ha estado aquí desde hace una hora y nadie lo reclama
+                    <p class="card-text postuserfont" style="margin-top: -15px" th:text="${incidencia.descripcion}">
                     </p>
                     <p
                             class="card-text"
@@ -111,56 +115,19 @@
                   font-size: 12px;
                   color: rgb(139, 133, 133);
                 "
+                            th:text="${'Destacado '+incidencia.destacado+' veces'}"
                     >
-                        Destacado 246 veces
                     </p>
-                </div>
-                <div
-                        class="card-footer"
-                        style="
-                color: rgb(139, 133, 133);
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI',
-                  Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans',
-                  'Helvetica Neue', sans-serif;
-                font-size: 14px;
-              "
-                >
-                    <ul
-                            class="list-group list-group-horizontal mt-1"
-                            style="list-style-type: none; border: 0"
-                    >
-                        <li class="nav-item">
-                            <a class="nav-link" href="#"
-                            ><i
-                                    class="fa-solid fa-comment"
-                                    style="
-                      color: black;
-                      position: relative;
-                      font-size: 23px;
-                      margin-left: -11px;
-                    "
-                            ></i
-                            ></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#"
-                            ><i
-                                    class="fa-solid fa-location-dot"
-                                    style="
-                      color: black;
-                      position: relative;
-                      font-size: 23px;
-                      margin-left: -11px;
-                    "
-                            ></i
-                            ></a>
-                        </li>
-                    </ul>
                 </div>
             </div>
         </div>
     </div>
 
 </div>
+
+
+
+</main>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 </body>
 </html>

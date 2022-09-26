@@ -4,6 +4,7 @@ import com.example.ipucp.Dto.UsuarioIncidencias;
 import com.example.ipucp.Entity.Inicidencia;
 import com.example.ipucp.Entity.Tipo;
 import com.example.ipucp.Entity.Urgencia;
+import com.example.ipucp.Entity.Usuario;
 import com.example.ipucp.Repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,9 +12,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/usuario")
@@ -36,10 +40,32 @@ public class UsuarioController {
     @GetMapping("/listar")
     public String listar(Model model) {
 
-        List<Inicidencia> lista  =inicidenciaRepository.findAll();
+        List<Inicidencia> lista  =inicidenciaRepository.orderReciente();
         model.addAttribute("incidenciaList", lista);
 
         return "usuario/menu";
+    }
+
+    @PostMapping("/listarFiltrado")
+    public String listarFiltrado(Model model, @RequestParam("orden") int form) {
+        List<Inicidencia> listIncidencias = new ArrayList<>();
+
+        if (form == 2){
+            List<Inicidencia> lista  =inicidenciaRepository.orderMaspopular();
+            model.addAttribute("incidenciaList", lista);
+        }
+        else{
+            List<Inicidencia> lista  =inicidenciaRepository.orderReciente();
+            model.addAttribute("incidenciaList", lista);
+        }
+
+        return "usuario/menu";
+    }
+
+    @GetMapping("/destacar")
+    public String destacarIncidencia(@RequestParam("id") Integer id) {
+        inicidenciaRepository.destacarIncidencia(id);
+        return "redirect:/usuario/listar";
     }
 
 
@@ -50,8 +76,20 @@ public class UsuarioController {
     }
 
     @GetMapping("/detalle")
-    public String detalle() {
-        return "usuario/detalleIncid";
+    public String detalleIncidencia(Model model,
+                                    @RequestParam("id") Integer id){
+        Optional<Inicidencia> optInicidencia = inicidenciaRepository.findById(id);
+
+
+        if (optInicidencia.isPresent()){
+            Inicidencia inicidencia = optInicidencia.get();
+
+            model.addAttribute("incidencia", inicidencia);
+
+            return "usuario/detalleIncid";
+        }else{
+            return "redirect:/usuario/misIncidencias";
+        }
     }
 
     @GetMapping("/newInciden")

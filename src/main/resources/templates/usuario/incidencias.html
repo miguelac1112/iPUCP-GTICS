@@ -97,12 +97,12 @@
                             </div>
                         </div>
                     </td>
-                    <th style="text-align: center" th:text="${incidencia.nombre}">Robo de celular Huawei</th>
-                    <th style="text-align: center" th:text="${incidencia.idtipo.tipoIncidencia}">Robo</th>
-                    <th style="text-align: center" th:text="${incidencia.idurgencia.tipoUrgencia}">Leve</th>
-                    <th style="text-align: center" th:text="${incidencia.estado == 1}?'Atendida':'No atendida'">No Atendido</th>
-
-                    <td style="text-align: center"><a th:href="@{'/usuario/detalle'}"><button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#Modal1">Ver detalle</button></a></td>
+                    <td style="text-align: center" th:text="${incidencia.nombre}"></td>
+                    <td style="text-align: center" th:text="${incidencia.idtipo.tipoIncidencia}"></td>
+                    <td style="text-align: center" th:text="${incidencia.idurgencia.tipoUrgencia}"></td>
+                    <td style="text-align: center" th:text="${incidencia.estado == 1}?'Atendida':'No atendida'"></td>
+                    <td><a class="btn btn-primary" th:href="@{'/usuario/detalle?id=' + ${incidencia.id}}">Ver Detalle</a>
+                    </td>
                 </tr>
 
                 </tbody>

@@ -42,4 +42,15 @@ public interface InicidenciaRepository extends JpaRepository<Inicidencia, Intege
 
     @Query(value = "SELECT * FROM inicidencia where idurgencia = ?1 order by idinicidencia desc;",nativeQuery = true)
     List<Inicidencia> filtradoUrgencia(int idUrgencia);
+
+    @Query(value = "SELECT * FROM ipucp.inicidencia ORDER BY idinicidencia desc;", nativeQuery = true)
+    List<Inicidencia> orderReciente();
+
+    @Query(value = "SELECT * FROM ipucp.inicidencia ORDER BY destacado desc;", nativeQuery = true)
+    List<Inicidencia> orderMaspopular();
+
+    @Transactional
+    @Modifying
+    @Query(value = "update ipucp.inicidencia set destacado = destacado + 1 where (`idinicidencia` = ?);",nativeQuery = true)
+    void destacarIncidencia(int id);
 }
