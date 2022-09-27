@@ -15,9 +15,11 @@ public class Inicidencia {
     private Integer id;
 
     @Column(name = "descripcion", nullable = false, length = 45)
+    @NotBlank(message = "Ingrese un descripcion")
     private String descripcion;
 
     @Column(name = "ubicacion", nullable = false, length = 45)
+    @NotBlank(message = "Ingrese una Ubicacion")
     private String ubicacion;
 
 
@@ -27,7 +29,9 @@ public class Inicidencia {
     @Column(name = "longitud",length = 45)
     private String longitud;
 
+
     @Column(name = "nombre", nullable = false, length = 45)
+    @NotBlank(message = "Ingrese un titulo")
     private String nombre;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -50,13 +54,13 @@ public class Inicidencia {
     @Size(max = 100, message = "Máximo 100 caracteres")
     @Pattern(regexp="^[a-zA-Z\\s]*$",message="Solo letras")
     @NotBlank(message = "Ingrese el comentario")
-    private String comentario;
+    private String comentario="No hay comentarios";
 
     @Column(name = "estado", nullable = false)
-    private Byte estado;
+    private Byte estado =0;
 
     @Column(name = "destacado", nullable = false)
-    private int destacado;
+    private int destacado=0;
 
     @Column(name = "fecha")
     private Instant fecha;

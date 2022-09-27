@@ -64,7 +64,7 @@
         <h1 class="pb-2 border-bottom" style="text-align: center;margin-top: -5%">Mis Incidencias</h1>
         <div class="container">
             <div class="row">
-
+                <div th:if="${msg != null}" th:text="${msg}" class="alert alert-success" role="alert"></div>
                 <div class="col">
                     <form method="post" th:action="@{/shipper/BuscarTransportistas}">
                         <input name="searchField" class="form-control mb-3" type="text" placeholder="Buscar por nombre"/>
@@ -101,7 +101,7 @@
                     <td style="text-align: center" th:text="${incidencia.idtipo.tipoIncidencia}"></td>
                     <td style="text-align: center" th:text="${incidencia.idurgencia.tipoUrgencia}"></td>
                     <td style="text-align: center" th:text="${incidencia.estado == 1}?'Atendida':'No atendida'"></td>
-                    <td><a class="btn btn-primary" th:href="@{'/usuario/detalle?id=' + ${incidencia.id}}">Ver Detalle</a>
+                    <td><a class="btn btn-secondary" th:href="@{'/usuario/detalle?id=' + ${incidencia.id}}">Ver Detalle</a>
                     </td>
                 </tr>
 

@@ -95,7 +95,7 @@
 
                             <div class="col-12">
                                 <label for="titulo" class="form-label">Título de la incidencia </label>
-                                <input type="text" class="form-control" id="titulo" placeholder="" value="" required>
+                                <input type="text"  name = "nombre" class="form-control" id="titulo" placeholder="" value="" required>
                                 <div class="invalid-feedback">
                                     Valid first name is required.
                                 </div>
@@ -104,7 +104,7 @@
                             <div class="col-12">
                                 <h1></h1>
                                 <label for="tipo" class="form-label">Tipo</label>
-                                <select class="custom-select" id="tipo">
+                                <select class="custom-select" id="tipo" name = "idtipo">
                                     <option th:each="tipo : ${listaTipo}"
                                             th:text="${tipo.tipoIncidencia}"
                                             th:value="${tipo.id}">${categatory.name}</option>
@@ -117,7 +117,7 @@
                             <div class="col-12">
                                 <h1></h1>
                                 <label for="urgencia" class="form-label">Urgencia</label>
-                                <select class="custom-select" id="urgencia">
+                                <select class="custom-select" id="urgencia" name = "idurgencia">
                                     <option th:each="urgencia : ${listaUrgencia}"
                                             th:text="${urgencia.tipoUrgencia}"
                                             th:value="${urgencia.id}">${categatory.name}</option>
@@ -126,11 +126,29 @@
                                     Please select a valid country.
                                 </div>
                             </div>
-
+                            <div class="col-12">
+                                <h1></h1>
+                                <label for="emMedica" class="form-label">¿Necesita emergencia médica?</label>
+                                <select class="custom-select" id="emMedica" name = "emMedica">
+                                    <option value="1">SÍ</option>
+                                    <option value="0">NO</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    Please select a valid country.
+                                </div>
+                            </div>
                             <div class="col-12">
                                 <h1></h1>
                                 <label for="descripcion" class="form-label">Descripción</label>
-                                <input type="text" class="form-control" id="descripcion" placeholder="Detalle lo que ha sucedido" required>
+                                <input name = "descripcion" type="text" class="form-control" id="descripcion" placeholder="Detalle lo que ha sucedido" required>
+                                <div class="invalid-feedback">
+                                    Please enter your shipping address.
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <h1></h1>
+                                <label for="descripcion" class="form-label">Ubicacion</label>
+                                <input name = "ubicacion" type="text" class="form-control" id="ubicacion" placeholder="Indique la ubicacion" required>
                                 <div class="invalid-feedback">
                                     Please enter your shipping address.
                                 </div>
@@ -141,10 +159,6 @@
 
                         <hr class="my-4">
 
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="same-address">
-                            <label class="form-check-label" for="same-address">Necesita asistencia médica</label>
-                        </div>
 
                         </br>
                         <div >

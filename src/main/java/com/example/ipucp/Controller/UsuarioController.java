@@ -9,12 +9,11 @@ import com.example.ipucp.Repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -70,9 +69,24 @@ public class UsuarioController {
 
 
     @PostMapping("/save")
-    public String guardarNuevaIncidencia(Inicidencia inicidencia, RedirectAttributes attr) {
-        inicidenciaRepository.save(inicidencia);
-        return "redirect:/usuario/listar";
+    public String guardarNuevaIncidencia(@ModelAttribute("incidencia") @Valid Inicidencia incidencia, BindingResult bindingResult, Model model, RedirectAttributes attr) {
+
+        if(bindingResult.hasErrors()){
+
+            List<Tipo> listaTipo  =tipoRepository.findAll();
+            List<Urgencia> listaUrgencia  =urgenciaRepository.findAll();
+            model.addAttribute("listaTipo", listaTipo);
+            model.addAttribute("listaUrgencia", listaUrgencia);
+            System.out.println(bindingResult.getFieldError());
+            return "usuario/newIncidencia";
+        }else{
+            incidencia.setCodigo(usuarioRepository.userPerfil("20197171"));
+
+            inicidenciaRepository.save(incidencia);
+            attr.addFlashAttribute("msg","Incidencia creada exitosamente.");
+            return "redirect:/usuario/misIncidencias";
+        }
+
     }
 
     @GetMapping("/detalle")
@@ -93,7 +107,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/newInciden")
-    public String newInciden(Model model) {
+    public String newInciden(@ModelAttribute("incidencia") Inicidencia incidencia, Model model) {
         List<Tipo> listaTipo  =tipoRepository.findAll();
         List<Urgencia> listaUrgencia  =urgenciaRepository.findAll();
         model.addAttribute("listaTipo", listaTipo);
