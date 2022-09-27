@@ -78,16 +78,16 @@
         </nav>
     </div>
 
-<div class="container offset-2 mt-4 middlearea">
+<div class="container mt-4 middlearea">
     <main>
+        <div class="row justify-content-center text-center">
         <div class="py text-center">
             <h2>Nueva Incidencia</h2>
             <p class="lead">Aviso de seguridad</p>
         </div>
-
-        <div class="container offset-2 mt-4 middlearea" style="margin-top: -15px">
-            <div class="row">
-                <div class="col-1"></div>
+        </div>
+        <div class="container mt-4 middlearea">
+            <div class="row justify-content-center">
                 <div class="col-10 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                     <!--<h4 class="mb-3">Billing address</h4>-->
                     <form method="post" th:action="@{'/usuario/save'}" class="needs-validation" novalidate>
@@ -95,7 +95,7 @@
 
                             <div class="col-12">
                                 <label for="titulo" class="form-label">Título de la incidencia </label>
-                                <input type="text"  name = "nombre" class="form-control" id="titulo" placeholder="" value="" required>
+                                <input type="text"  name = "nombre" class="form-control w-100" id="titulo" placeholder="" value="" required>
                                 <div class="invalid-feedback">
                                     Valid first name is required.
                                 </div>
@@ -140,7 +140,7 @@
                             <div class="col-12">
                                 <h1></h1>
                                 <label for="descripcion" class="form-label">Descripción</label>
-                                <input name = "descripcion" type="text" class="form-control" id="descripcion" placeholder="Detalle lo que ha sucedido" required>
+                                <input name = "descripcion" type="text" class="form-control w-100" id="descripcion" placeholder="Detalle lo que ha sucedido" required>
                                 <div class="invalid-feedback">
                                     Please enter your shipping address.
                                 </div>
@@ -148,27 +148,23 @@
                             <div class="col-12">
                                 <h1></h1>
                                 <label for="descripcion" class="form-label">Ubicacion</label>
-                                <input name = "ubicacion" type="text" class="form-control" id="ubicacion" placeholder="Indique la ubicacion" required>
+                                <input name = "ubicacion" type="text" class="form-control w-100" id="ubicacion" placeholder="Indique la ubicacion" required>
                                 <div class="invalid-feedback">
                                     Please enter your shipping address.
                                 </div>
                             </div>
-
-
                         </div>
 
-                        <hr class="my-4">
-
-
-                        </br>
+                        <hr>
                         <div >
                             <label for="foto" class="form-label">Añada una imagen: </label>
                             <input type="file" class="btn btn-primary" name="foto" style="background-color:grey; border-color:grey" id="foto" required >
                         </div>
-
+                        <hr class="my-4">
+                        <div class="h-auto">
+                        <button class="w-100 btn btn-dark btn-lg" type="submit">Registrar</button></div>
                         <hr class="my-4">
 
-                        <button class="w-100 btn btn-dark btn-lg" type="submit">Registrar</button>
                     </form>
                 </div>
             </div>
