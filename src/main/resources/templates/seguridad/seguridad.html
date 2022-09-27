@@ -82,14 +82,14 @@
 
         <div class="col-xl-5 col-lg-6  ">
           <div class="card shadow mb-4">
-                <div class="card-header">
-                  <span class="postuserfont" th:text="${'Incidencia #'+incidencia.id}"><strong></strong></span>
-                </div>
-                <img
-                        src="https://i.insider.com/5f1b201a5af6cc7e1b741330?width=1136&format=jpeg"
-                        class="card-img-top"
-                        alt="..."
-                />
+            <div class="card-header">
+              <span class="postuserfont" th:text="${'Incidencia #'+incidencia.id}"><strong></strong></span>
+            </div>
+            <img
+                    src="https://i.insider.com/5f1b201a5af6cc7e1b741330?width=1136&format=jpeg"
+                    class="card-img-top"
+                    alt="..."
+            />
           </div>
         </div>
 
@@ -97,52 +97,52 @@
           <form method="post" class="card shadow mb-4" th:action="@{'/seguridad/comentar'}" th:id="${'form'+incidencia.id}">
 
 
-              <div class="form-group">
-                <!-- Name input-->
-                <span class="postuserfont m-2"><strong>Tipo:</strong></span>
-                <input class="form-check" id="tipo" name="tipo" type="text" th:value="${incidencia.idtipo.tipoIncidencia}" style="margin-left: 21px;"  disabled>
+            <div class="form-group">
+              <!-- Name input-->
+              <span class="postuserfont m-2"><strong>Tipo:</strong></span>
+              <input class="form-check" id="tipo" name="tipo" type="text" th:value="${incidencia.idtipo.tipoIncidencia}" style="margin-left: 21px;"  disabled>
+            </div>
+
+
+            <div class="form-group">
+              <!-- Name input-->
+              <span class="postuserfont m-2"><strong> ¿Asistencia médica?</strong></span>
+              <div th:switch="${incidencia.emMedica}" >
+                <input th:case="0" class="form-check" id="emMedica" name="emMedica" type="text" value="No" style="margin-left: 21px;" disabled>
+                <input th:case="1" class="form-check" id="emMedica" name="emMedica" type="text" value="Sí" style="margin-left: 21px;" disabled>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <!-- Name input-->
+              <span class="postuserfont m-2"><strong>Estado:</strong></span>
+              <div th:switch="${incidencia.estado}">
+                <input th:case="0" class="form-check" id="estado" name="estado" type="text" value="En Proceso" style="margin-left: 21px;" disabled>
+                <input th:case="1" class="form-check" id="estado" name="estado" type="text" value="Atendido" style="margin-left: 21px;" disabled>
+              </div>
+            </div>
+
+
+            <div class="form-group form-group-textarea mb-md-0">
+              <!-- Message input-->
+              <span class="postuserfont m-2"><strong>Ingresar comentario *</strong></span>
+              <input th:value="${incidencia.id}" name="id" type="hidden"/>
+              <input th:value="${incidencia.codigo.id}" name="codigo" type="hidden"/>
+
+              <textarea th:field="${incidencia.comentario}" class="form-control m-2" type="text" id="comentario" name="comentario"
+                        th:classappend="${#fields.hasErrors('incidencia.comentario')?'is-invalid':''}" required style="width: 95%"></textarea>
+              <div class="invalid-feedback" th:if="${#fields.hasErrors('incidencia.comentario')}"
+                   th:errors="${incidencia.comentario}">
+                Please choose a username.
               </div>
 
-
-              <div class="form-group">
-                <!-- Name input-->
-                <span class="postuserfont m-2"><strong> ¿Asistencia médica?</strong></span>
-                <div th:switch="${incidencia.emMedica}" >
-                  <input th:case="0" class="form-check" id="emMedica" name="emMedica" type="text" value="No" style="margin-left: 21px;" disabled>
-                  <input th:case="1" class="form-check" id="emMedica" name="emMedica" type="text" value="Sí" style="margin-left: 21px;" disabled>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <!-- Name input-->
-                <span class="postuserfont m-2"><strong>Estado:</strong></span>
-                <div th:switch="${incidencia.estado}">
-                  <input th:case="0" class="form-check" id="estado" name="estado" type="text" value="En Proceso" style="margin-left: 21px;" disabled>
-                  <input th:case="1" class="form-check" id="estado" name="estado" type="text" value="Atendido" style="margin-left: 21px;" disabled>
-                </div>
-              </div>
-
-
-              <div class="form-group form-group-textarea mb-md-0">
-                <!-- Message input-->
-                <span class="postuserfont m-2"><strong>Ingresar comentario *</strong></span>
-                <input th:value="${incidencia.id}" name="id" type="hidden"/>
-                <input th:value="${incidencia.codigo.id}" name="codigo" type="hidden"/>
-
-                <textarea th:field="${incidencia.comentario}" class="form-control m-2" type="text" id="comentario" name="comentario"
-                          th:classappend="${#fields.hasErrors('incidencia.comentario')?'is-invalid':''}" required style="width: 95%"></textarea>
-                <div class="invalid-feedback" th:if="${#fields.hasErrors('incidencia.comentario')}"
-                     th:errors="${incidencia.comentario}">
-                  Please choose a username.
-                </div>
-
-              </div>
+            </div>
 
 
 
-              <div style="text-align: center;">
-                <button type="submit" class="btn btn-success" style="width:100px;height:40px;" > Ingresar</button>
-              </div>
+            <div style="text-align: center;">
+              <button type="submit" class="btn btn-success" style="width:100px;height:40px;" > Ingresar</button>
+            </div>
             <br>
             <p>
 
@@ -156,7 +156,7 @@
 
 
 
-            </form>
+          </form>
         </div>
 
 

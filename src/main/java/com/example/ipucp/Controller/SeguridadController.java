@@ -123,6 +123,10 @@ public class SeguridadController {
             incidencia.setIdtipo(inicidencia_flotante.getIdtipo());
             incidencia.setEstado(inicidencia_flotante.getEstado());
             incidencia.setEmMedica(inicidencia_flotante.getEmMedica());
+            incidencia.setNombre(inicidencia_flotante.getNombre());
+
+            incidencia.setDescripcion(inicidencia_flotante.getDescripcion());
+            incidencia.setUbicacion(inicidencia_flotante.getUbicacion());
 
             if (bindingResult.hasErrors()) {
                 model.addAttribute("incidencia", incidencia);
@@ -136,10 +140,6 @@ public class SeguridadController {
         }else{
             return "redirect:/seguridad/incidencias";
         }
-
-
-
-
     }
 
 

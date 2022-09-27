@@ -16,11 +16,11 @@ public class Inicidencia {
 
     @Column(name = "descripcion", nullable = false, length = 45)
     @NotBlank(message = "Ingrese un descripcion")
-    private String descripcion;
+    private String descripcion="Descripcion";
 
     @Column(name = "ubicacion", nullable = false, length = 45)
     @NotBlank(message = "Ingrese una Ubicacion")
-    private String ubicacion;
+    private String ubicacion="Ubicacion";
 
 
     @Column(name = "latitud", length = 45)
@@ -32,7 +32,7 @@ public class Inicidencia {
 
     @Column(name = "nombre", nullable = false, length = 45)
     @NotBlank(message = "Ingrese un titulo")
-    private String nombre;
+    private String nombre="Nombre";
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "codigo", nullable = false)
@@ -52,7 +52,6 @@ public class Inicidencia {
     @Lob
     @Column(name = "comentario")
     @Size(max = 100, message = "Máximo 100 caracteres")
-    @Pattern(regexp="^[a-zA-Z\\s]*$",message="Solo letras")
     @NotBlank(message = "Ingrese el comentario")
     private String comentario="No hay comentarios";
 
