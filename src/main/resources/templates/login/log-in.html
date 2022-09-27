@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:text-align="http://www.w3.org/1999/xhtml">
+<html lang="en">
+<head>
+    <title>iPUCP</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-signin-client_id" content="YOUR_CLIENT_ID.apps.googleusercontent.com">
+
+    <link th:href="@{https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap}" rel="stylesheet">
+    <link th:href="@{https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap}" rel="stylesheet">
+
+    <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css}" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css}" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+
+    <link rel="stylesheet" th:href="@{/css/style1.css}">
+
+</head>
+<body>
+<section class="ftco-section">
+    <div class="container-fluid">
+
+
+
+        <div class="row justify-content-center">
+            <div class="col-sm-6 col-lg-8">
+                <div class="wrap d-sm-flex">
+                    <div class="row justify-content-center align-self-center" >
+                        <img th:src="@{/img/logo.jpg}" width="80%" class=" rounded mx-auto img-fluid" alt="Responsive image" height="80%"/>
+                    </div>
+                    <div>
+                        <br>
+                    </div>
+                    <div class="login-wrap p-4 p-sm-5" style="background-color:#cec7c7;">
+
+                        <div>
+                        <h1 style="font-size:8vw"; align="center">iPUCP</h1>
+                        </div>
+
+                        <form action="#" class="signin-form">
+                            <div class="form-group sm-3">
+                                <label class="label" >Correo Institucional:</label>
+                                    <input type="text" class="form-control" placeholder="" required>
+                            </div>
+                            <div class="form-group sm-3">
+                                <label class="label" >Contraseña:</label>
+                                <input type="password" class="form-control" placeholder="" required>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="form-control btn-outline-warning rounded submit px-3">Sign In</button>
+                            </div>
+                            <div >
+                                <button id="my-signin2" class="btn btn" href="/users/googleauth" role="button" style="text-transform:none"></button>
+                            </div>
+                            <script>
+                                function onSuccess(googleUser) {
+                                    console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
+                                }
+                                function onFailure(error) {
+                                    console.log(error);
+                                }
+                                function renderButton() {
+                                    gapi.signin2.render('my-signin2', {
+                                        'scope': 'profile email',
+                                        'width': 300,
+                                        'height': 50,
+                                        'longtitle': true,
+                                        'theme': 'dark',
+                                        'onsuccess': onSuccess,
+                                        'onfailure': onFailure
+                                    });
+                                }
+                            </script>
+                            <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+
+                            <div class="form-group d-sm-flex">
+                                <div class="text-left">
+                                    <label class="checkbox-wrap checkbox-primary mb-0">Recordarme
+                                        <input type="checkbox" checked>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                            </div>
+
+                                <div class="text-center">
+                                    <a href="#" data-target="#pwdModal" data-toggle="modal">¿Olvidaste tu contraseña?</a>
+                                </div>
+
+
+                        </form>
+                        <p class="text-center">¿Aun no eres usuario? <a href="#" data-toggle="modal" data-target="#exampleModalCenter">Registrate</a></p>
+                        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h2 class="modal-title" id="exampleModalCenterTitle">Registro de nuevo usuario</h2>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form method="post" th:action="@{'/login/registrar'}">
+                                        <div class="col-sm-12">
+                                            <div class="panel panel-default">
+                                                <div class="panel-body">
+                                                    <div class="text">
+                                                        <div class="panel-body">
+                                                            <fieldset>
+                                                                <h5>Codigo PUCP:</h5>
+                                                                <div class="form-group">
+                                                                    <input class="form-control input-lg" name="id" th:field="${usuario.id}">
+                                                                </div>
+                                                                <h5>Correo PUCP:</h5>
+                                                                <div class="form-group">
+                                                                    <input class="form-control input-lg" name="correo" th:field="${usuario.correo}">
+                                                                </div>
+                                                            </fieldset>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                                        <button type="submit" class="btn btn-primary" >Registrarse</button>
+                                    </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <!--modal-->
+                        <div id="pwdModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h2 class="text-center">Cambiar contraseña</h2>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="col-sm-12">
+                                            <div class="panel panel-default">
+                                                <div class="panel-body">
+                                                    <div class="text-center">
+
+                                                        <p>Ingrese su correo para cambiar de contraseña</p>
+                                                        <div class="panel-body">
+                                                            <fieldset>
+
+                                                                <div class="form-group">
+                                                                    <input class="form-control input-lg" >
+                                                                </div>
+
+                                                                <input class="btn btn-lg btn-primary btn-block" value="Cambiar contraseña" type="submit" >
+                                                            </fieldset>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <div class="col-sm-12">
+                                            <button type="button" class="btn btn-danger btn-lg btn-block" data-dismiss="modal" >Cancelar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<script th:src="@{https://code.jquery.com/jquery-3.3.1.slim.min.js}" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script th:src="@{https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js}" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js}" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+</body>
+</html>
+
