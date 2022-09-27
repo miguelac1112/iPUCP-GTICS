@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:text-align="http://www.w3.org/1999/xhtml">
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <title>Cambiar contraseña</title>
+  <!-- MDB icon -->
+  <link rel="icon" th:href="@{img/mdb-favicon.ico}" type="image/x-icon" />
+  <!-- Font Awesome -->
+  <link rel="stylesheet" th:href="@{https://use.fontawesome.com/releases/v5.15.2/css/all.css}" />
+  <!-- Google Fonts Roboto -->
+  <link rel="stylesheet" th:href="@{https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap}" />
+  <!-- MDB -->
+  <link rel="stylesheet" th:href="@{/css/bootstrap-login-form.min.css}" />
+</head>
+
+<body>
+  <!-- Start your project here-->
+  <style>
+    .gradient-custom {
+
+      /* Chrome 10-25, Safari 5.1-6 */
+      background: -webkit-linear-gradient(to right, rgb(201, 170, 234), rgba(37, 117, 252, 1));
+
+      /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+      background: linear-gradient(to right, rgb(201, 170, 234), rgba(37, 117, 252, 1))
+    }
+  </style>
+  <section class="vh-100 gradient-custom">
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+          <div class="card bg-dark text-white" style="border-radius: 1rem;">
+            <div class="card-body p-5 text-center">
+
+              <form method="post" th:action="@{'/login/establecer_pass'}" class="mb-md-5 mt-md-4 pb-5" >
+
+                <h3 class="fw-bold mb-2 ">Establecer contraseña</h3>
+                <br>
+
+                <div class="form-outline form-white mb-4">
+                  <input type="password" name="contrasenha1" class="form-control form-control-lg" />
+                  <label class="form-label" >Nueva contraseña</label>
+                </div>
+
+                <input th:field="${usuario.id}" name="codigo" type="hidden"/>
+
+                <div class="form-outline form-white mb-4">
+                  <input type="password" name="contrasenha2"  class="form-control form-control-lg" />
+                  <label class="form-label" >Repetir contraseña</label>
+                </div>
+                <button class="btn btn-primary btn-lg btn-block" type="submit">Ingresar</button>
+              </form>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End your project here-->
+
+  <!-- MDB -->
+  <script type="text/javascript" th:src="@{/js/mdb.min.js}"></script>
+  <!-- Custom scripts -->
+  <script type="text/javascript"></script>
+</body>
+
+</html>
