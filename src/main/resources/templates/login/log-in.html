@@ -82,9 +82,12 @@
                                 </div>
                             </div>
 
-                                <div class="text-center">
-                                    <a href="#" data-target="#pwdModal" data-toggle="modal">¿Olvidaste tu contraseña?</a>
-                                </div>
+                            <div th:if="${msg != null}" th:text="${msg}" class="text-danger nb-2"></div>
+                            <div th:if="${msg1 != null}" th:text="${msg1}" class="text-success nb-2"></div>
+
+                            <div class="text-center">
+                                <a href="#" data-target="#pwdModal" data-toggle="modal">¿Olvidaste tu contraseña?</a>
+                            </div>
 
 
                         </form>

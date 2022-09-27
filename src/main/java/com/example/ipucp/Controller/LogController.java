@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -34,7 +35,7 @@ public class LogController {
     @PostMapping("/registrar")
     public  String registrar(Model model, @RequestParam("id") String codigo,
                              @RequestParam("correo") String correo, @ModelAttribute("usuario") @Valid Usuario usuario,
-                             BindingResult bindingResult){
+                             BindingResult bindingResult, RedirectAttributes redirectAttributes){
         //SELECT * FROM ipucp.usuario where codigo like codigo and estado like "0";
 
         List<Usuario> listaUsuarios = usuarioRepository.findAll();
@@ -53,18 +54,26 @@ public class LogController {
             model.addAttribute("usuario",usuario);
             return "login/new-pass";
         }else{
+            String texto = "Credenciales invalidas o existentes.";
+            redirectAttributes.addFlashAttribute("msg",texto);
             return "redirect:/login/log-in";
         }
     }
+
     @PostMapping("/establecer_pass")
     public  String est_pass(Model model, @RequestParam("contrasenha1") String contrasenha1,
                             @RequestParam("contrasenha2") String contrasenha2, @RequestParam("id") String codigo,
-                            @ModelAttribute("usuario") @Valid Usuario usuario, BindingResult bindingResult){
+                            @ModelAttribute("usuario") @Valid Usuario usuario, BindingResult bindingResult,
+                            RedirectAttributes redirectAttributes){
 
         if(Objects.equals(contrasenha1, contrasenha2)){
             usuarioRepository.registrar(contrasenha1, codigo);
+            String texto = "Usuario registrado.";
+            redirectAttributes.addFlashAttribute("msg1",texto);
             return "redirect:/login/log-in";
         }else{
+            String texto = "Las contraseñas no son iguales.";
+            redirectAttributes.addFlashAttribute("msg",texto);
             return "login/new-pass";
         }
     }
