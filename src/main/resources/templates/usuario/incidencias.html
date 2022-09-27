@@ -63,12 +63,11 @@
     <div class="container px-4 py-5">
         <h1 class="pb-2 border-bottom" style="text-align: center;margin-top: -5%">Mis Incidencias</h1>
         <div class="container">
+            <div th:if="${msg != null}" th:text="${msg}" class="alert alert-success" role="alert"></div>
             <div class="row">
-                <div th:if="${msg != null}" th:text="${msg}" class="alert alert-success" role="alert"></div>
+
                 <div class="col">
-                    <form method="post" th:action="@{/shipper/BuscarTransportistas}">
                         <input name="searchField" class="form-control mb-3" type="text" placeholder="Buscar por nombre"/>
-                    </form>
                 </div>
                 <div class="col-auto">
                     <a class="btn btn-secondary" th:href="@{'/usuario/listar'}">Regresar</a>
@@ -76,8 +75,8 @@
             </div>
         </div>
 
-        <div style="overflow-x: auto; overflow-y: auto">
-            <table class="table table-striped">
+        <div >
+            <table class="table table-striped" id="tablax">
                 <thead  class="thead-dark"style="color: #393830;background: #393830">
                 <tr class="table-info">
                     <th style="text-align: center">#</th>
@@ -114,5 +113,7 @@
 
 </main>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+
+
 </body>
 </html>
