@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -96,8 +96,7 @@
                     <div class="col-auto">
                         <div class="form-floating">
                             <select class="form-select m-1" aria-label="Default select example" name="orden" id="orden">
-                            <option value="1">Mas reciente</option>
-                            <option value="2">Mas antiguo</option>
+                                <option th:each="orden: ${ListaOrden}" th:value="${orden.idOrdern}" th:text="${orden.texto}" th:selected="${orden.idOrdern == idOrdenI}"></option>
                         </select>
                             <label for="orden">Ordenar por: </label>
                         </div>
@@ -118,7 +117,6 @@
             </form>
         </div>
     </div>
-
 <div>
      <!-- 1 card-->
 
@@ -160,22 +158,9 @@
             </div>
         </div>
     </div>
-        <!--Paginacion-->
-        <nav aria-label="...">
-            <ul class="pagination">
-                <li class="page-item disabled">
-                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Atrás</a>
-                </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item active" aria-current="page">
-                    <a class="page-link" href="#">2</a>
-                </li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#">Siguiente</a>
-                </li>
-            </ul>
-        </nav>
+        <p1 th:if="${ListaIncidencias.isEmpty()}"> No hay incidencias por atender</p1>
+        </br>
+        </br>
     </div>
 
 
@@ -188,7 +173,13 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="mapouter"><div class="gmap_canvas"><iframe class="gmap_iframe" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?width=470&amp;height=400&amp;hl=en&amp;q=aulario pucp&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"></iframe><a href="https://mcpenation.com/">https://mcpenation.com</a></div><style>.mapouter{position:relative;text-align:right;width:470px;height:400px;}.gmap_canvas {overflow:hidden;background:none!important;width:470px;height:400px;}.gmap_iframe {width:470px!important;height:400px!important;}</style></div>
+                    <div class="contact-details-container">
+                        <div class="contact-map">
+                            <a class="contact-map-container" href="https://www.google.com/maps/place/ALEX/data=!3m1!4b1!4m2!3m1!1s0x910dd360cdb0b639:0x48d55a1bf4142203" target="_blank" rel="noopener noreferrer" >
+                                <iframe class="map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1950.8119483829007!2d-77.08063057045574!3d-12.069378222604536!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9105c912d40840a5%3A0xd7a0bfb797e5862e!2sPontificia%20Universidad%20Cat%C3%B3lica%20del%20Per%C3%BA!5e0!3m2!1ses!2spe!4v1663553899963!5m2!1ses!2spe" width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                            </a>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>

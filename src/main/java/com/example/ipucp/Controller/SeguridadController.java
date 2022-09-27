@@ -45,43 +45,61 @@ public class SeguridadController {
         List<Tipo> listaTipos  = this.obtenerTipos();
         /*urgencias*/
         List<Urgencia> listaUrg = this.obtenerUrgencias();
-        /**/
+        /*Orden*/
+        List<Orden> listaOrden = this.obtenerOrden();
         List<Inicidencia> inicidenciaList = inicidenciaRepository.findAll();
         model.addAttribute("idtipoI",0);
         model.addAttribute("idUrgI",0);
+        model.addAttribute("idOrdenI",0);
         model.addAttribute("ListaIncidencias", inicidenciaList);
         model.addAttribute("ListaTipos", listaTipos);
         model.addAttribute("ListaUrgencia", listaUrg);
+        model.addAttribute("ListaOrden", listaOrden);
         return "seguridad/incidencias";
     }
 
     @PostMapping("/incidenciasFiltrado")
-    public String listaFiltrada(Model model,@RequestParam("tipo") int idTipo ,@RequestParam("urgencia") int idUrgencia) {
+    public String listaFiltrada(Model model,@RequestParam("tipo") int idTipo ,@RequestParam("urgencia") int idUrgencia, @RequestParam("orden") int idOrden) {
         List<Inicidencia> listIncidencias = new ArrayList<>();
-        String sentencia = "SELECT * FROM inicidencia ";
         if (idTipo != 0){
             if(idUrgencia != 0){
-                listIncidencias.addAll(inicidenciaRepository.filtradoTipoUrgencia(idTipo,idUrgencia));
+                switch (idOrden) {
+                    case 1 -> listIncidencias.addAll(inicidenciaRepository.filtradoTipoUrgenciaAntig(idTipo,idUrgencia));
+                    default -> listIncidencias.addAll(inicidenciaRepository.filtradoTipoUrgencia(idTipo,idUrgencia));
+                }
             } else {
-                listIncidencias.addAll(inicidenciaRepository.filtradoTipo(idTipo));
+                switch (idOrden) {
+                    case 1 -> listIncidencias.addAll(inicidenciaRepository.filtradoTipoAntiguo(idTipo));
+                    default -> listIncidencias.addAll(inicidenciaRepository.filtradoTipo(idTipo));
+                }
             }
         }else{
-            if(idUrgencia != 0){
-                listIncidencias.addAll(inicidenciaRepository.filtradoUrgencia(idUrgencia));
+            if(idUrgencia != 0) {
+                switch (idOrden) {
+                    case 1 -> listIncidencias.addAll(inicidenciaRepository.filtradoUrgenciaAntiguo(idUrgencia));
+                    default -> listIncidencias.addAll(inicidenciaRepository.filtradoUrgencia(idUrgencia));
+                }
+
             }else{
-                listIncidencias.addAll(inicidenciaRepository.findAll());
+                switch (idOrden){
+                    case 1 -> listIncidencias.addAll(inicidenciaRepository.ordenAntiguo());
+                    default -> listIncidencias.addAll(inicidenciaRepository.findAll());
+                }
             }
         }
         /*Tipo*/
         List<Tipo> listaTipos  = this.obtenerTipos();
         /*urgencias*/
         List<Urgencia> listaUrg = this.obtenerUrgencias();
-        /**/
+        /*Orden*/
+        List<Orden> listaOrden = this.obtenerOrden();
         model.addAttribute("idtipoI",idTipo);
         model.addAttribute("idUrgI",idUrgencia);
+        model.addAttribute("idOrdenI",idOrden);
         model.addAttribute("ListaIncidencias",listIncidencias);
         model.addAttribute("ListaTipos", listaTipos);
         model.addAttribute("ListaUrgencia", listaUrg);
+        model.addAttribute("ListaOrden", listaOrden);
         return "seguridad/incidencias";
     }
 
@@ -251,4 +269,16 @@ public class SeguridadController {
         return listaTipos;
     }
 
+    public List<Orden> obtenerOrden(){
+        List <Orden> listaOrdenes = new ArrayList<>();
+        Orden reciente = new Orden();
+        reciente.setIdOrdern(0);
+        reciente.setTexto("Mas reciente");
+        listaOrdenes.add(reciente);
+        Orden antiguo = new Orden();
+        antiguo.setIdOrdern(1);
+        antiguo.setTexto("Mas antiguo");
+        listaOrdenes.add(antiguo);
+        return listaOrdenes;
+    }
 }
