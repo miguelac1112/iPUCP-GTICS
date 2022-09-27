@@ -56,37 +56,38 @@
     </div>
 
 <div class="container mt-4 middlearea">
-    <div class="row justify-content-center text-center h-50">
-        <div class="col-sm-4 middlearea">
-            <a class="nav-link" th:href="@{'/usuario/newInciden'}">
-                <button type="button" class="btn btn-dark btn-lg">NUEVA INCIDENCIA</button>
-            </a>
-            <a class="nav-link" th:href="@{'/usuario/misIncidencias'}">
-                <button type="button" class="btn btn-secondary">Mis Incidencias</button>
-            </a>
-        </div>
-        <div class="col-sm-2 middlearea">
-            <form method="post" th:action="@{/usuario/listarFiltrado}">
-                <div class="form-floating">
-                    <label for="orden" class="form-label">Ordenar:</label>
-                    <select class="form-select" id="orden" name="orden" required>
-                        <option value="1">Reciente</option>
-                        <option value="2">Más Popular</option>
-                    </select>
-                    <div class="col-auto m-1">
-                        <button  class="btn btn-primary" type="submit">Aplicar</button>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-auto">
+                <a class="nav-link" th:href="@{'/usuario/newInciden'}">
+                    <button type="button" class="btn btn-dark btn-lg">NUEVA INCIDENCIA</button>
+                </a>
+                <a class="nav-link" th:href="@{'/usuario/misIncidencias'}">
+                    <button type="button" class="btn btn-secondary">Mis Incidencias</button>
+                </a>
+            </div>
+            <div class="col-auto">
+                <form method="post" th:action="@{/usuario/listarFiltrado}">
+                    <div class="form-floating">
+                        <label for="orden" class="form-label">Ordenar:</label>
+                        <select class="form-select" id="orden" name="orden" required>
+                            <option value="1">Reciente</option>
+                            <option value="2">Más Popular</option>
+                        </select>
+                        <div class="col-auto m-1">
+                            <button  class="btn btn-primary" type="submit">Aplicar</button>
+                        </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
-    <div class="row justify-content-center col-auto mt-4">
+    <div class="row justify-content-center">
         <div class="col-10 col-sm-12 col-md-6 col-lg-6 col-xl-6">
             <div class="card mt-5 mb-3" th:each="incidencia : ${incidenciaList}" >
                 <div class="card-header">
                     <img
-                            src="https://scontent-otp1-1.cdninstagram.com/v/t51.2885-19/s150x150/83792429_185184289374945_1047727451901263872_n.jpg?_nc_ht=scontent-otp1-1.cdninstagram.com&_nc_ohc=oor-Z1FIzvgAX-uXuhs&tp=1&oh=e92baf321c3e2e5ebf9416204da05c82&oe=602E0320"
-                            class="mr-2"
+                            src="/img/roca.jpg"  class="roca"  alt="..."
                             style="width: 35px; height: 35px; border-radius: 50%"
                     />
                     <span class="postuserfont" ><strong th:text="${incidencia.codigo.getNombre()+' '+incidencia.codigo.getApellido()}"></strong></span>
@@ -154,7 +155,7 @@
                             ></i
                             ></a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" data-bs-toggle="modal" data-bs-target="#exampleModal">
                             <a class="nav-link" href="#"
                             ><i
                                     class="fa-solid fa-comment"
@@ -189,5 +190,24 @@
     </div>
 </div>
 
+    <!-- Modal -->
+    <div class="modal fade modal-dialog modal-dialog-centered" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
 </body>
 </html>
