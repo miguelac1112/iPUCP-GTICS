@@ -38,10 +38,26 @@ public class AdminController {
     }
 
     @GetMapping("/listar")
-    public String listar(Model model) {
+    public String listar(Model model, @ModelAttribute("usuario") Usuario usuario) {
         model.addAttribute("listaUsuarios",usuarioRepository.findAll());
         model.addAttribute("listaCargos",cargoRepository.findAll());
         return "admin/listar";
+    }
+
+    @PostMapping("/suspender")
+    public String suspenderUsuario(@ModelAttribute("usuario") @Valid Usuario usuario, BindingResult bindingResult,
+                                   @RequestParam("id") String codigo, @RequestParam("justificacion") String justificacion, Model model){
+        if(bindingResult.hasErrors()){
+            System.out.println("----------------------------- Error detectado --------------------------");
+            System.out.println(bindingResult.getFieldError());
+            model.addAttribute("id",codigo);
+            model.addAttribute("listaUsuarios",usuarioRepository.findAll());
+            model.addAttribute("listaCargos",cargoRepository.findAll());
+            return "admin/listar";
+        }else {
+            usuarioRepository.suspenderUsuario(justificacion,codigo);
+            return "redirect:/admin/listar";
+        }
     }
 
     @GetMapping("/nuevoSeguridad")
@@ -107,11 +123,7 @@ public class AdminController {
         return "redirect:/admin/listar";
     }
 
-    @PostMapping("/suspender")
-    public String suspenderUsuario(@RequestParam("id") String codigo, @RequestParam("justificacion") String justificacion){
-        usuarioRepository.suspenderUsuario(justificacion,codigo);
-        return "redirect:/admin/listar";
-    }
+
 
     @PostMapping("/updateIncident")
     public String actualizarTipoIncidencia(@ModelAttribute("tipo") @Valid Tipo tipo, BindingResult bindingResult, RedirectAttributes attr) {

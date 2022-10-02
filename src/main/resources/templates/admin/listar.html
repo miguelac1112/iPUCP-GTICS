@@ -7,6 +7,11 @@
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
     <link rel="stylesheet" th:href="@{/css/style2.css}" />
 
+
+    <!-- Necessary script for to launch Bootstrap modal on page load -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+            crossorigin="anonymous"></script>
+
     <!-- DATATABLES -->
     <!--  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css"> -->
     <!-- BOOTSTRAP -->
@@ -128,8 +133,26 @@
                             <div class="mb-3">
                                 <input th:value="${usuario.id}" name="id" type="hidden"/>
 
+                                <!-- To-do esto es para que no se envie estos valores nulos al recibirlo en admin en suspender -->
+                                <input th:value="${usuario.nombre}" name="nombre" type="hidden"/>
+                                <input th:value="${usuario.apellido}" name="apellido" type="hidden"/>
+                                <input th:value="${usuario.correo}" name="correo" type="hidden"/>
+                                <input th:value="${usuario.celular}" name="celular" type="hidden"/>
+                                <input th:value="${usuario.dni}" name="dni" type="hidden"/>
+                                <input th:value="${usuario.estado}" name="estado" type="hidden"/>
+                                <input th:value="${usuario.cargo.id}" name="cargo" type="hidden"/>
+                                <input th:value="${usuario.strikes}" name="strikes" type="hidden"/>
+                                <input th:value="${usuario.ban}" name="ban" type="hidden"/>
+                                <input value="defaultPassword"  name="contra" type="hidden"/>
+                                <!-- ################################################################################3 -->
+
                                 <label for="justificacion" class="form-label">Ingrese justificación: </label>
-                                <textarea class="form-control" name="justificacion" id="justificacion" rows="4"></textarea>
+                                <textarea th:field="${usuario.justificacion}" class="form-control" name="justificacion" id="justificacion" rows="4"
+                                          th:classappend="${#fields.hasErrors('usuario.justificacion')?'is-invalid':''}"></textarea>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('usuario.justificacion')}"
+                                     th:errors="${usuario.justificacion}">
+                                    Please choose a username.
+                                </div>
                             </div>
                         </form>
 
@@ -142,6 +165,11 @@
             </div>
         </div>
     </div>
+
+    <script th:inline="javascript">
+        var myModal = new bootstrap.Modal(document.getElementById('Modal'+[[${id}]]), {})
+        myModal.show()
+    </script>
 
 
     <!-- Modal 2-->
@@ -173,6 +201,7 @@
             </div>
         </div>
     </div>
+
 
 
     <!-- JQUERY -->
@@ -229,6 +258,7 @@
     </script>
 
 </main>
-<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+
+
 </body>
 </html>

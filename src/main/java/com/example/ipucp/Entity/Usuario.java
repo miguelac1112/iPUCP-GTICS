@@ -69,8 +69,9 @@ public class Usuario {
     @Column(name = "strikes", nullable = false)
     private Byte strikes;
 
-    @Lob
     @Column(name = "justificacion")
+    @Size(max = 65535 , message = "Se excedió el número de caracteres permitido")
+    @NotBlank(message = "No se acepta justificación vacía")
     private String justificacion;
 
     @Column(name = "ban", nullable = false)
