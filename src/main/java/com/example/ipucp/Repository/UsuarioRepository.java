@@ -1,11 +1,11 @@
 package com.example.ipucp.Repository;
 
-import com.example.ipucp.Entity.Inicidencia;
 import com.example.ipucp.Entity.Usuario;
 import com.example.ipucp.Dto.UsuarioIncidencias;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -58,5 +58,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, String> {
     @Modifying
     @Query(value = "UPDATE `ipucp`.`usuario` SET `contra` = SHA2((?1),256) , `estado` = '1' WHERE (`codigo` = ?2)",nativeQuery = true)
     void registrar(String contrasenha, String codigo);
+
+
 
 }

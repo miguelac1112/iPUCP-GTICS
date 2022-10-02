@@ -37,14 +37,14 @@
                         <h1 style="font-size:8vw"; align="center">iPUCP</h1>
                         </div>
 
-                        <form action="#" class="signin-form">
+                        <form action="post" class="signin-form" th:action="@{/procesarLog}">
                             <div class="form-group sm-3">
                                 <label class="label" >Correo Institucional:</label>
-                                    <input type="text" class="form-control" placeholder="" required>
+                                    <input name="correo" type="text" class="form-control" placeholder="" required>
                             </div>
                             <div class="form-group sm-3">
                                 <label class="label" >Contraseña:</label>
-                                <input type="password" class="form-control" placeholder="" required>
+                                <input name="password" type="password" class="form-control" placeholder="" required>
                             </div>
                             <div class="form-group">
                                 <button type="submit" class="form-control btn-outline-warning rounded submit px-3">Sign In</button>
@@ -125,11 +125,14 @@
                                         </div>
 
 
+
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
                                         <button type="submit" class="btn btn-primary" >Registrarse</button>
                                     </div>
+
                                     </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
