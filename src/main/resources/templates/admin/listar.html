@@ -133,8 +133,26 @@
                             <div class="mb-3">
                                 <input th:value="${usuario.id}" name="id" type="hidden"/>
 
+                                <!-- To-do esto es para que no se envie estos valores nulos al recibirlo en admin en suspender -->
+                                <input th:value="${usuario.nombre}" name="nombre" type="hidden"/>
+                                <input th:value="${usuario.apellido}" name="apellido" type="hidden"/>
+                                <input th:value="${usuario.correo}" name="correo" type="hidden"/>
+                                <input th:value="${usuario.celular}" name="celular" type="hidden"/>
+                                <input th:value="${usuario.dni}" name="dni" type="hidden"/>
+                                <input th:value="${usuario.estado}" name="estado" type="hidden"/>
+                                <input th:value="${usuario.cargo.id}" name="cargo" type="hidden"/>
+                                <input th:value="${usuario.strikes}" name="strikes" type="hidden"/>
+                                <input th:value="${usuario.ban}" name="ban" type="hidden"/>
+                                <input value="defaultPassword"  name="contra" type="hidden"/>
+                                <!-- ################################################################################3 -->
+
                                 <label for="justificacion" class="form-label">Ingrese justificación: </label>
-                                <textarea class="form-control" name="justificacion" id="justificacion" rows="4"></textarea>
+                                <textarea th:field="${usuario.justificacion}" class="form-control" name="justificacion" id="justificacion" rows="4"
+                                          th:classappend="${#fields.hasErrors('usuario.justificacion')?'is-invalid':''}"></textarea>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('usuario.justificacion')}"
+                                     th:errors="${usuario.justificacion}">
+                                    Please choose a username.
+                                </div>
                             </div>
                         </form>
 
@@ -148,8 +166,8 @@
         </div>
     </div>
 
-    <script>
-        var myModal = new bootstrap.Modal(document.getElementById('Modal2'), {})
+    <script th:inline="javascript">
+        var myModal = new bootstrap.Modal(document.getElementById('Modal'+[[${id}]]), {})
         myModal.show()
     </script>
 
@@ -183,6 +201,7 @@
             </div>
         </div>
     </div>
+
 
 
     <!-- JQUERY -->
