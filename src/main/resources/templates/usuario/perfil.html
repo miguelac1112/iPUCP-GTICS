@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:text-align="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:text-align="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <html lang="en">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -78,10 +78,10 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="nav-links nav-links-btn">
-                            <i class="fas fa-sign-out-alt nav-links-img"
-                            ></i>
-                        </a>
+                        <form th:action="@{/logout}" method="post" class="nav-links nav-links-btn">
+                            <button style="border: 0; background-color: transparent"  class="fas fa-sign-out-alt nav-links-img"></button>
+
+                        </form>
                     </li>
                 </ul>
             </div>
@@ -115,27 +115,27 @@
             <div class="col-4">
                 <span class="postuserfont"><strong>Usuario:</strong></span>
                 <div class="form-group popo">
-                    <input class="form-control" id="nombre_funcion1" type="text" th:value="${userperfil.nombre} + ' ' + ${userperfil.apellido}"  disabled>
+                    <input class="form-control" id="nombre_funcion1" type="text" th:value="${session.usuario.nombre} + ' ' + ${session.usuario.apellido}"  disabled>
                 </div>
                 </br>
                 <span class="postuserfont"><strong>Código:</strong></span>
                 <div class="form-group" style="margin-bottom: 12%">
-                    <input class="form-control" type="text" th:value="${userperfil.id}" disabled >
+                    <input class="form-control" type="text" th:value="${session.usuario.id}" disabled >
                 </div>
                 <span class="postuserfont" ><strong>Cargo:</strong></span>
                 <div class="form-group">
-                    <input class="form-control" type="text" th:value="${userperfil.cargo.nombreCargo}" disabled >
+                    <input class="form-control" type="text" th:value="${session.usuario.cargo.nombreCargo}" disabled >
                 </div>
             </div>
             <div class="col-5">
                 <span class="postuserfont"><strong>Correo:</strong></span>
                 <div class="form-group popo">
-                    <input class="form-control" id="nombre_funcion" type="text" th:value="${userperfil.correo}"  disabled>
+                    <input class="form-control" id="nombre_funcion" type="text" th:value="${session.usuario.correo}"  disabled>
                 </div>
                 </br>
                 <span class="postuserfont"><strong>DNI:</strong></span>
                 <div class="form-group" style="margin-bottom: 12%">
-                    <input class="form-control" id="nombre_funcion" type="text" th:value="${userperfil.dni}"  disabled>
+                    <input class="form-control" id="nombre_funcion" type="text" th:value="${session.usuario.dni}"  disabled>
                 </div>
 
 

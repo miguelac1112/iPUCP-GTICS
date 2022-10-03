@@ -60,5 +60,8 @@ public interface UsuarioRepository extends JpaRepository<Usuario, String> {
     void registrar(String contrasenha, String codigo);
 
 
+    Usuario findByCorreo(String correo);
+
+
 
 }

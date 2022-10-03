@@ -7,12 +7,13 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "usuario")
-public class Usuario {
+public class Usuario implements Serializable {
     @Id
     @Column(name = "codigo", nullable = false, length = 8)
     @Pattern(regexp="^[0-9]{8}$",message="Ingresar 8 dígitos")

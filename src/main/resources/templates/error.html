@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,11 +15,11 @@
     />
 
     <link rel="stylesheet" th:href="@{/css/style.css}" />
-    <link rel="stylesheet" th:href="@{/css/styleSeguridad.css}" />
+    <link rel="stylesheet" th:href="@{/css/styleError.css}" />
     <link rel="stylesheet" th:href="@{https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css}"/>
     <link th:href="@{https://fonts.googleapis.com/css?family=Montserrat:500,700}" rel="stylesheet" type="text/css" />
     <link th:href="@{https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700}" rel="stylesheet" type="text/css" />
-    <title>Bienvenida de Seguridad</title>
+    <title>Error inesperado</title>
 
 </head>
 <body>
@@ -35,31 +35,6 @@
                     </div>
                     <div class="a-logo" href="#inicio"><h1 id="navbar-logo"><strong>iPUCP</strong></h1></div>
                 </div>
-                <ul class="nav-menu">
-                    <li>
-                        <a id="abrir-modal-cotizar-menu" class="nav-links nav-links-btn" th:href="@{'/seguridad/dashboard'}">
-                            <i class="fa-solid fa-chart-line "></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="nav-links nav-links-btn" th:href="@{'/seguridad/mapa_incidencias'}">
-                            <i class="fa-solid fa-map"
-                               style="color: #B9B9B9"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="nav-links nav-links-btn" th:href="@{'/seguridad/lista_usuarios'}">
-                            <i class="fa-solid fa-list"
-                            ></i>
-                        </a>
-                    </li>
-                    <li>
-                        <form th:action="@{/logout}" method="post" class="nav-links nav-links-btn">
-                            <button style="border: 0; background-color: transparent"  class="fas fa-sign-out-alt nav-links-img"></button>
-
-                        </form>
-                    </li>
-                </ul>
             </div>
 
         </nav>
@@ -68,17 +43,17 @@
 
     <section id="hero" class="d-flex align-items-center">
 
-    <div class="container" data-aos="zoom-out" data-aos-delay="100">
-        <div class="row">
-            <div class="col-xl-6">
-                <h1>Bienvenido personal de Seguridad</h1>
-                <h2>En este pantalla podra atender incidencias, asi como ver las estadisticas y usuarios.</h2>
-                <a  class="btn-get-started scrollto" th:href="@{'/seguridad/incidencias'}">Ver incidencias</a>
+        <div class="container" data-aos="zoom-out" data-aos-delay="100">
+            <div class="row">
+                <div class="col-xl-6">
+                    <h1>Ups!</h1>
+                    <h2>ESTA PÁGINA NO HA SIDO ENCONTRADA</h2>
+                    <a  class="btn-get-started scrollto" th:href="">Ir al inicio</a>
+                </div>
             </div>
         </div>
-    </div>
 
-</section>
+    </section>
 
 
 

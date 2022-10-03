@@ -23,12 +23,17 @@ public class LogConfig extends WebSecurityConfigurerAdapter {
         http.formLogin()
                 .loginPage("/login")
                 .loginProcessingUrl("/procesarLog")
-                .usernameParameter("correo");
+                .usernameParameter("correo")
+                        .defaultSuccessUrl("/redirecRol",true);
 
         http.authorizeRequests()
                 .antMatchers("/admin","/admin/**").hasAuthority("admin")
                 .antMatchers("/seguridad","/seguridad/**").hasAuthority("seguridad")
                 .antMatchers("/usuario","/usuario/**").hasAuthority("usuario");
+
+        http.logout().logoutUrl("/logout")
+                .deleteCookies("JSESSIONID")
+                .invalidateHttpSession(true);
 
     }
     @Autowired

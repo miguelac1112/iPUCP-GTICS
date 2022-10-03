@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -44,10 +44,10 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="nav-links nav-links-btn">
-                            <i class="fas fa-sign-out-alt nav-links-img"
-                            ></i>
-                        </a>
+                        <form th:action="@{/logout}" method="post" class="nav-links nav-links-btn">
+                            <button style="border: 0; background-color: transparent"  class="fas fa-sign-out-alt nav-links-img"></button>
+
+                        </form>
                     </li>
                 </ul>
             </div>

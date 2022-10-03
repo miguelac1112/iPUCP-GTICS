@@ -1,10 +1,11 @@
 package com.example.ipucp.Entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "cargo")
-public class Cargo {
+public class Cargo implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idcargo", nullable = false)

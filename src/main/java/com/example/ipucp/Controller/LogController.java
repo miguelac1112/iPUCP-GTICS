@@ -3,13 +3,17 @@ package com.example.ipucp.Controller;
 import com.example.ipucp.Entity.Usuario;
 import com.example.ipucp.Repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 @Controller
@@ -20,6 +24,37 @@ public class LogController {
     @GetMapping(value = {"/login"})
     public String login( @ModelAttribute("usuario") Usuario usuario ) {
         return "login/log-in";
+    }
+
+    @GetMapping(value = "/redirecRol")
+    public String redirecRol(Authentication authentication, HttpSession session){
+
+        String rol="";
+        List<GrantedAuthority> authorities = (List<GrantedAuthority>) authentication.getAuthorities();
+        for (GrantedAuthority grantedAuthority: authorities){
+            System.out.println(grantedAuthority.getAuthority());
+            rol= grantedAuthority.getAuthority();
+        }
+
+        String username= authentication.getName();
+        Usuario usuario=usuarioRepository.findByCorreo(username);
+        session.setAttribute("usuario",usuario);
+
+        switch (rol){
+            case "usuario" -> {
+                return "redirect:/usuario/listar";
+            }
+            case "seguridad" -> {
+                return "redirect:/seguridad/incidencias";
+            }
+            case "admin" -> {
+                return "redirect:/admin/listar";
+            }
+            default -> {
+                return "redirect:/login";
+            }
+
+        }
     }
 
     @GetMapping("/reset_password")
