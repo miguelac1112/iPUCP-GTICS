@@ -33,7 +33,7 @@ public class Usuario implements Serializable {
 
     @Column(name = "correo", nullable = false, length = 45)
     @Size(max = 45, message = "Máximo 45 caracteres")
-    @Pattern(regexp="^[\\w-\\.]+@pucp.edu.pe$",message="Usar formato de correo institucional")
+    @Pattern(regexp="^[\\w-\\.]+@pucp.edu.pe$",message="Ingrese correo en formato institucional")
     private String correo;
 
     @Column(name = "celular", nullable = false, length = 45)

@@ -47,6 +47,8 @@ public class SeguridadController {
         List<Urgencia> listaUrg = this.obtenerUrgencias();
         /*Orden*/
         List<Orden> listaOrden = this.obtenerOrden();
+        /*Estado*/
+        List<Orden> listaEstados = this.obtenerEstado();
         List<Inicidencia> inicidenciaList = inicidenciaRepository.findAll();
         model.addAttribute("idtipoI",0);
         model.addAttribute("idUrgI",0);
@@ -55,11 +57,12 @@ public class SeguridadController {
         model.addAttribute("ListaTipos", listaTipos);
         model.addAttribute("ListaUrgencia", listaUrg);
         model.addAttribute("ListaOrden", listaOrden);
+        model.addAttribute("ListaEstado",listaEstados);
         return "seguridad/incidencias";
     }
 
     @PostMapping("/incidenciasFiltrado")
-    public String listaFiltrada(Model model,@RequestParam("tipo") int idTipo ,@RequestParam("urgencia") int idUrgencia, @RequestParam("orden") int idOrden) {
+    public String listaFiltrada(Model model,@RequestParam("tipo") int idTipo ,@RequestParam("urgencia") int idUrgencia, @RequestParam("orden") int idOrden, @RequestParam("estado") int idEstad) {
         List<Inicidencia> listIncidencias = new ArrayList<>();
         if (idTipo != 0){
             if(idUrgencia != 0){
@@ -93,13 +96,17 @@ public class SeguridadController {
         List<Urgencia> listaUrg = this.obtenerUrgencias();
         /*Orden*/
         List<Orden> listaOrden = this.obtenerOrden();
+        /*Estado*/
+        List<Orden> listaEstados = this.obtenerEstado();
         model.addAttribute("idtipoI",idTipo);
         model.addAttribute("idUrgI",idUrgencia);
         model.addAttribute("idOrdenI",idOrden);
+        model.addAttribute("idEstad",idEstad);
         model.addAttribute("ListaIncidencias",listIncidencias);
         model.addAttribute("ListaTipos", listaTipos);
         model.addAttribute("ListaUrgencia", listaUrg);
         model.addAttribute("ListaOrden", listaOrden);
+        model.addAttribute("ListaEstado",listaEstados);
         return "seguridad/incidencias";
     }
 
@@ -290,5 +297,22 @@ public class SeguridadController {
         antiguo.setTexto("Mas antiguo");
         listaOrdenes.add(antiguo);
         return listaOrdenes;
+    }
+
+    public List<Orden> obtenerEstado(){
+        List <Orden> listaEstados = new ArrayList<>();
+        Orden todo = new Orden();
+        todo.setIdOrdern(0);
+        todo.setTexto("Todos");
+        listaEstados.add(todo);
+        Orden atendido = new Orden();
+        atendido.setIdOrdern(1);
+        atendido.setTexto("Atendida");
+        listaEstados.add(atendido);
+        Orden porAtender = new Orden();
+        porAtender.setIdOrdern(2);
+        porAtender.setTexto("Por atender");
+        listaEstados.add(porAtender);
+        return listaEstados;
     }
 }
