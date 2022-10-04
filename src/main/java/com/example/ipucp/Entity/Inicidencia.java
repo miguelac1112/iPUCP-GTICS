@@ -57,6 +57,8 @@ public class Inicidencia {
 
     @Column(name = "estado", nullable = false)
     private Byte estado =0;
+    @Column(name = "localizacion", nullable = false)
+    private String localizacion = "1.1.1.1";
 
     @Column(name = "destacado", nullable = false)
     private int destacado=0;
@@ -73,6 +75,8 @@ public class Inicidencia {
 
     @Column(name = "max", nullable = false)
     private int max=0;
+
+
 
     public int getDestacado() {
         return destacado;
