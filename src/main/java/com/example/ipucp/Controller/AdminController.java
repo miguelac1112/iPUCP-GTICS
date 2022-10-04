@@ -78,6 +78,7 @@ public class AdminController {
     public String guardarUsuario(@ModelAttribute("usuario") @Valid Usuario usuario, BindingResult bindingResult,
                                  @RequestParam("cargo") Integer id, @RequestParam("pass2") String pass2,
                                  @RequestParam("tipoUsuario") String tipoUsuario,RedirectAttributes attr, Model model) {
+
         if(bindingResult.hasErrors()){
             //Si se actualizará el usuario y este se vincula con esta parte del controlador, se deberia enviar la lista
             //con los datos del usuario, en este caso el admin no actualiza, solo crea al usuario.
@@ -85,26 +86,90 @@ public class AdminController {
                 model.addAttribute("tipoUsuario","normal");
             }else{
                 model.addAttribute("tipoUsuario","seguridad");
+                if(pass2.equals("")){
+                    model.addAttribute("hayConfirma","1");
+                }
             }
             //System.out.println(bindingResult.getFieldError());
             model.addAttribute("listaCargos",cargoRepository.findAll());
             return "admin/newForm";
         }else{
+            // -------- Verificacion de no duplicados --------------
+            int esDuplicado = 0;
+            String msg2 = "";
+            for(Usuario user : usuarioRepository.findAll()){
+                if(user.getId().equals(usuario.getId())){
+                    esDuplicado = 1;
+                    msg2 = "El código ingresado ya existe";
+                    break;
+                }
+                if(user.getCorreo().equals(usuario.getCorreo())){
+                    esDuplicado = 2;
+                    msg2 = "El correo ingresado ya existe";
+                    break;
+                }
+                if(user.getCelular().equals(usuario.getCelular())){
+                    esDuplicado = 3;
+                    msg2 = "El N° celular ingresado ya existe";
+                    break;
+                }
+                if(user.getDni().equals(usuario.getDni())){
+                    esDuplicado = 4;
+                    msg2 = "El DNI ingresado ya existe";
+                    break;
+                }
+            }
+            // -----------------------------------------------------
+
             usuario.setRol(new Rol());
             if(id == 6){
-                usuario.getRol().setId(2); //seguridad
+
+
+                usuario.getRol().setId(2); //Asignando rol de seguridad
                 if(usuario.getContra().equals(pass2)){
-                    usuarioRepository.save(usuario);
-                    usuarioRepository.cifradoHash(usuario.getContra(),usuario.getId());
+
+                    if(esDuplicado != 0){
+                        if(tipoUsuario.equals("normal")){
+                            model.addAttribute("tipoUsuario","normal");
+                        }else{
+                            model.addAttribute("tipoUsuario","seguridad");
+                        }
+                        model.addAttribute("listaCargos",cargoRepository.findAll());
+                        model.addAttribute("msg",msg2);
+                        return "admin/newForm";
+                    }else{
+                        usuarioRepository.save(usuario); //guardando seguridad
+                        usuarioRepository.cifradoHash(usuario.getContra(),usuario.getId()); //save hashed password
+                    }
+
                 }else{
                     model.addAttribute("tipoUsuario","seguridad");
                     model.addAttribute("listaCargos",cargoRepository.findAll());
-                    model.addAttribute("msg","Las contraseñas no coinciden");
+                    if(pass2.equals("")){
+                        model.addAttribute("hayConfirma","1");
+                    }
+                    model.addAttribute("msg","Las contraseñas no coinciden, ingrese nuevamente");
                     return "admin/newForm";
                 }
+
+
             }else {
-                usuario.getRol().setId(1); //usuario
-                usuarioRepository.save(usuario);
+                usuario.getRol().setId(1); //Asignando rol de usuario
+                if(esDuplicado != 0){
+                    if(tipoUsuario.equals("normal")){
+                        model.addAttribute("tipoUsuario","normal");
+                    }else{
+                        model.addAttribute("tipoUsuario","seguridad");
+                        if(pass2 != null){
+                            model.addAttribute("hayConfirma","1");
+                        }
+                    }
+                    model.addAttribute("listaCargos",cargoRepository.findAll());
+                    model.addAttribute("msg",msg2);
+                    return "admin/newForm";
+                }else{
+                    usuarioRepository.save(usuario); //guardando usuario
+                }
             }
             attr.addFlashAttribute("msg","Usuario creado exitosamente");
             return "redirect:/admin/listar";

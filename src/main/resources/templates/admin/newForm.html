@@ -23,6 +23,7 @@
                 </br>
                 <section class="page-section bg-light" id="portafolio">
                     <h1 class="pb-2 border-bottom" style="text-align: center">Crear nuevo usuario</h1>
+                    <div th:if="${msg != null}" th:text="${msg}" class="alert alert-danger" role="alert"></div>
                     </br>
                     <div class="container">
                         <div class="row">
@@ -156,11 +157,20 @@
                                             <div class="col-md-6 mb-4">
                                                 <div class="form-outline">
                                                     <label class="form-label" for="pass2">Confirme la contraseña (*):</label>
-                                                    <input type="password" id="pass2" name="pass2" class="form-control" required/>
+
+                                                    <div th:unless="${hayConfirma == '1'}">
+                                                        <input type="password" id="pass2" name="pass2" class="form-control" />
+                                                    </div>
+
+                                                    <div th:if="${hayConfirma == '1'}">
+                                                        <input type="password" id="pass2" name="pass2" class="form-control is-invalid" />
+                                                        <div class="invalid-feedback">
+                                                            Campo requerido
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div th:if="${msg != null}" th:text="${msg}" class="alert alert-danger" role="alert"></div>
 
                                     </div>
                                 </form>
@@ -181,6 +191,9 @@
                                         <button type="submit" class="btn btn-success " form="myform1" style="max-width: 100%">Agregar</button>
                                     </div>
                                 </div>
+
+                                <h8 th:if="${tipoUsuario == 'seguridad'}" style="font-size:75%">Nota: Si algún campo no cumple lo requerido,
+                                    los campos de contraseñas deberán ingresarse nuevamente, esto por seguridad</h8>
 
                             </div>
                         </div>
