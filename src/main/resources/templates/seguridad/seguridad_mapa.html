@@ -23,23 +23,14 @@
 
     <main>
 
-      <a th:href="@{'/seguridad/incidencias'}" >
-        <button class="btn-wsp fixed-bottom" target="_blank" data-bs-toggle="modal" data-bs-target="#Modal3"  style="background-color:lightsteelblue; border-color:blue" >
-          <i class="fa-solid fa-house"
-             style="color: black;
-                   position: relative;
-                   font-size: 30px;
-                   margin-left: 0px;
-                   margin-top: -40px;">
-          </i>
-        </button></a>
-
       <div class="nav-container">
         <nav class="navbar">
           <div class="navbar-row-container">
             <div class="nav-logo-container">
               <div class="menu-toggle">
-                <img class="img-logo" th:src="@{/img/logo-pucp1.png}" alt="..."/>
+                <a th:href="@{'/seguridad/incidencias'}">
+                  <img class="img-logo" th:src="@{/img/logo-pucp1.png}" alt="..."/>
+                </a>
               </div>
               <div class="a-logo" href="#inicio"><h1 id="navbar-logo"><strong>iPUCP</strong></h1></div>
             </div>

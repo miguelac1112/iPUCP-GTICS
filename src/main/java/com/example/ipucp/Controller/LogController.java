@@ -5,11 +5,13 @@ import com.example.ipucp.Repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -62,7 +64,7 @@ public class LogController {
         return "login/reset-pass";
     }
 
-    @PostMapping("/registrar")
+    @PostMapping("/login/registrar")
     public  String registrar(Model model, @RequestParam("id") String codigo,
                              @RequestParam("correo") String correo, @ModelAttribute("usuario") @Valid Usuario usuario,
                              BindingResult bindingResult, RedirectAttributes redirectAttributes){
@@ -86,21 +88,21 @@ public class LogController {
         }else{
             String texto = "Credenciales invalidas o existentes.";
             redirectAttributes.addFlashAttribute("msg",texto);
-            return "redirect:/login/log-in";
+            return "redirect:/login";
         }
     }
 
-    @PostMapping("/establecer_pass")
+    @PostMapping("/login/establecer_pass")
     public  String est_pass(Model model, @RequestParam("contrasenha1") String contrasenha1,
                             @RequestParam("contrasenha2") String contrasenha2, @RequestParam("id") String codigo,
                             @ModelAttribute("usuario") @Valid Usuario usuario, BindingResult bindingResult,
                             RedirectAttributes redirectAttributes){
 
         if(Objects.equals(contrasenha1, contrasenha2)){
-            usuarioRepository.registrar(contrasenha1, codigo);
+            usuarioRepository.registrar(BCrypt.hashpw(contrasenha1, BCrypt.gensalt()), codigo);
             String texto = "Usuario registrado.";
             redirectAttributes.addFlashAttribute("msg1",texto);
-            return "redirect:/login/log-in";
+            return "redirect:/login";
         }else{
             String texto = "Las contraseñas no son iguales.";
             redirectAttributes.addFlashAttribute("msg",texto);
