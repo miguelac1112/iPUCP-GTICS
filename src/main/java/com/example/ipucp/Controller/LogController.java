@@ -45,10 +45,10 @@ public class LogController {
                 return "redirect:/usuario/listar";
             }
             case "seguridad" -> {
-                return "redirect:/seguridad/incidencias";
+                return "redirect:/seguridad";
             }
             case "admin" -> {
-                return "redirect:/admin/listar";
+                return "redirect:/admin";
             }
             default -> {
                 return "redirect:/login";
