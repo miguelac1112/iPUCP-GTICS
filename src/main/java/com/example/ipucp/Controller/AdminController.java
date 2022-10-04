@@ -1,10 +1,8 @@
 package com.example.ipucp.Controller;
 
-import com.example.ipucp.Entity.Cargo;
-import com.example.ipucp.Entity.Rol;
-import com.example.ipucp.Entity.Tipo;
-import com.example.ipucp.Entity.Usuario;
+import com.example.ipucp.Entity.*;
 import com.example.ipucp.Repository.CargoRepository;
+import com.example.ipucp.Repository.InicidenciaRepository;
 import com.example.ipucp.Repository.TipoRepository;
 import com.example.ipucp.Repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -177,7 +175,8 @@ public class AdminController {
     }
 
     @GetMapping("/incidencias")
-    public String incidencias(Model model) {
+    public String incidencias(Model model, @ModelAttribute("tipo") Tipo tipo) {
+        model.addAttribute("incidenciaEnReporte",tipoRepository.listaIncidencias());
         model.addAttribute("listaIncidencias",tipoRepository.findAll());
         return "admin/incidencias";
     }
@@ -188,18 +187,26 @@ public class AdminController {
         return "redirect:/admin/listar";
     }
 
-
-
     @PostMapping("/updateIncident")
-    public String actualizarTipoIncidencia(@ModelAttribute("tipo") @Valid Tipo tipo, BindingResult bindingResult, RedirectAttributes attr) {
-        tipoRepository.save(tipo);
-        attr.addFlashAttribute("msg","Tipo de incidencia actualizada correctamente");
-        return "redirect:/admin/incidencias";
+    public String actualizarTipoIncidencia(@ModelAttribute("tipo") @Valid Tipo tipo, BindingResult bindingResult, RedirectAttributes attr, Model model,
+                                           @RequestParam("id") int id) {
+        if(bindingResult.hasErrors()){
+            System.out.println("----------------------------- Error detectado --------------------------");
+            System.out.println(bindingResult.getFieldError());
+            model.addAttribute("id",Integer.toString(id));
+            model.addAttribute("incidenciaEnReporte",tipoRepository.listaIncidencias());
+            model.addAttribute("listaIncidencias",tipoRepository.findAll());
+            return "admin/incidencias";
+        }else {
+            tipoRepository.save(tipo);
+            attr.addFlashAttribute("msg","Tipo de incidencia actualizada correctamente");
+            return "redirect:/admin/incidencias";
+        }
     }
 
     @PostMapping("/saveIncident")
     public String guardarTipoIncidencia(@ModelAttribute("tipo") @Valid Tipo tipo, BindingResult bindingResult,
-                                        @RequestParam("tipoIncidencia2") String tipoIncidencia2, RedirectAttributes attr ) {
+                                        @RequestParam("tipoIncidencia2") String tipoIncidencia2, RedirectAttributes attr, Model model) {
         tipoRepository.crearTipoIncidencia(tipoIncidencia2);
         attr.addFlashAttribute("msg","Tipo de incidencia creada exitosamente");
         return "redirect:/admin/incidencias";
@@ -218,7 +225,7 @@ public class AdminController {
     }
 
     @PostMapping("/BuscarCategoria")
-    public String buscarCategoria(@RequestParam("idcat") Integer id, Model model){
+    public String buscarCategoria(@RequestParam("idcat") Integer id, Model model, @ModelAttribute("usuario") Usuario usuario){
         Optional<Cargo> optCargo = cargoRepository.findById(id);
 
         if(optCargo.isPresent()){

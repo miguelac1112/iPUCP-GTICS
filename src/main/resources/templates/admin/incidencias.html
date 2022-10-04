@@ -99,11 +99,13 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr th:each="incid : ${listaIncidencias}">
+                                        <tr th:each="incid : ${incidenciaEnReporte}">
                                             <th th:text="${incid.tipoIncidencia}" style="text-align: center">Reporte de robo</th>
                                             <td style="text-align: center"><button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#Modal4">Imagen</button></td>
                                             <td style="text-align: center"><button type="button" class="btn btn-primary" data-bs-toggle="modal" th:attr="data-bs-target=${'#ModalEdit'+incid.id}">Editar</button></td>
-                                            <td style="text-align: center"><button type="button" class="btn btn-danger" data-bs-toggle="modal" th:attr="data-bs-target=${'#ModalDelete'+incid.id}">Borrar</button></td>
+                                            <td th:unless="${incid.idInicidencia == null}" style="text-align: center"><button disabled type="button" class="btn btn-danger" data-bs-toggle="modal" th:attr="data-bs-target=${'#ModalDelete'+incid.id}">Borrar</button></td>
+                                            <td th:if="${incid.idInicidencia == null}" style="text-align: center"><button type="button" class="btn btn-danger" data-bs-toggle="modal" th:attr="data-bs-target=${'#ModalDelete'+incid.id}">Borrar</button></td>
+
                                         </tr>
 
                                         </tbody>
@@ -121,22 +123,28 @@
     </div>
 
     <!-- Modal 1-->
-    <div th:each="incid : ${listaIncidencias}">
-        <div class="modal fade" th:id="${'ModalEdit'+incid.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div th:each="tipo : ${listaIncidencias}">
+        <div class="modal fade" th:id="${'ModalEdit'+tipo.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Editar incidencia</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Editar tipo de incidencia</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
 
-                        <form method="post" th:action="@{'/admin/updateIncident'}" class="mt-2" th:id="${'form'+incid.id}">
+                        <form method="post" th:action="@{'/admin/updateIncident'}" class="mt-2" th:id="${'form'+tipo.id}">
                             <div class="mb-3">
-                                <input th:value="${incid.id}" name="id" type="hidden" />
+                                <input th:value="${tipo.id}" name="id" type="hidden" />
 
                                 <label for="tipoIncidencia1" class="form-label">Nombre de incidencia:</label>
-                                <input type="text" id="tipoIncidencia1"name="tipoIncidencia" class="form-control" th:value="${incid.tipoIncidencia}" required/>
+                                <input type="text" id="tipoIncidencia1"name="tipoIncidencia" class="form-control" th:value="${tipo.tipoIncidencia}"
+                                       th:classappend="${#fields.hasErrors('tipo.tipoIncidencia')?'is-invalid':''}"required/>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('tipo.tipoIncidencia')}"
+                                     th:errors="${tipo.tipoIncidencia}">
+                                    Please choose a username.
+                                </div>
+
                             </div>
                             <div class="mb-3">
                                 <label for="foto" class="form-label">Imagen de incidencia:</label>
@@ -147,12 +155,17 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Regresar</button>
-                        <button type="submit" class="btn btn-success" data-bs-dismiss="modal" th:form="${'form'+incid.id}">Cambiar</button>
+                        <button type="submit" class="btn btn-success" data-bs-dismiss="modal" th:form="${'form'+tipo.id}">Cambiar</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <script th:inline="javascript">
+        var myModal = new bootstrap.Modal(document.getElementById("ModalEdit"+[[${id}]]), {})
+        myModal.show()
+    </script>
 
 
     <!-- Modal 2-->
@@ -161,12 +174,12 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header" style="background-color: red">
-                        <h5 class="modal-title" id="exampleModalLabel2" style="color: white">¿Seguro de borrar la incidencia?</h5>
+                        <h5 class="modal-title" id="exampleModalLabel2" style="color: white">Borrar tipo de incidencia</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
 
-                        <h6 class="modal-title" >La incidencia se encuentra asociada a varios reportes y borrarla podría afectarlos.</h6>
+                        <h6 class="modal-title" >¿Seguro de borrar este tipo de incidencia? No podrá recuperarse posteriormente</h6>
 
                     </div>
                     <div class="modal-footer">
