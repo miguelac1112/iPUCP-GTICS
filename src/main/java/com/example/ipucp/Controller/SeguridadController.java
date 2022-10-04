@@ -111,7 +111,7 @@ public class SeguridadController {
 
         if(optInicidencia.isPresent()){
             Inicidencia inicidencia = optInicidencia.get();
-            if(inicidencia.getEstado()==0){
+            if(inicidencia.getMax()<6){
                 model.addAttribute("incidencia", inicidencia);
                 return "seguridad/seguridad";
             }else{
@@ -142,6 +142,7 @@ public class SeguridadController {
             incidencia.setEstado(inicidencia_flotante.getEstado());
             incidencia.setEmMedica(inicidencia_flotante.getEmMedica());
             incidencia.setNombre(inicidencia_flotante.getNombre());
+            incidencia.setMax(inicidencia_flotante.getMax());
 
             incidencia.setDescripcion(inicidencia_flotante.getDescripcion());
             incidencia.setUbicacion(inicidencia_flotante.getUbicacion());
@@ -150,7 +151,9 @@ public class SeguridadController {
                 model.addAttribute("incidencia", incidencia);
                 return "seguridad/seguridad";
             }else{
-                inicidenciaRepository.comentarIncidencia(comentario,incidencia.getId());
+                int max = incidencia.getMax();
+                max+=1;
+                inicidenciaRepository.comentarIncidencia(comentario,max,incidencia.getId());
                 String texto = "La incidencia con ID "+incidencia.getId()+" del usuario con código "+ incidencia.getCodigo().getId()+" ha sido respondida.";
                 redirectAttributes.addFlashAttribute("msg",texto);
                 return "redirect:/seguridad/incidencias";

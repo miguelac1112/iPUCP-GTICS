@@ -71,6 +71,9 @@ public class Inicidencia {
     @Column(name = "comentario_usuario")
     private String comentarioUsuario;
 
+    @Column(name = "max", nullable = false)
+    private int max=0;
+
     public int getDestacado() {
         return destacado;
     }
@@ -199,4 +202,11 @@ public class Inicidencia {
         this.comentarioUsuario = comentarioUsuario;
     }
 
+    public int getMax() {
+        return max;
+    }
+
+    public void setMax(int max) {
+        this.max = max;
+    }
 }
