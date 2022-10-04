@@ -226,9 +226,16 @@ public class SeguridadController {
             Usuario usuario = optUsuario.get();
             int strike = usuario.getStrikes();
             strike+=1;
-            usuarioRepository.strikeUsuario(strike,id);
-            redirectAttributes.addFlashAttribute("msg", "El usuario "+usuario.getNombre()+" "+usuario.getApellido()+" ha sido reportado.");
-            return "redirect:/seguridad/lista_usuarios";
+            if(strike==3){
+                usuarioRepository.strikeUsuario(strike,id);
+                usuarioRepository.banUsuario(1,id);
+                redirectAttributes.addFlashAttribute("msg", "El usuario "+usuario.getNombre()+" "+usuario.getApellido()+" ha sido reportado.");
+                return "redirect:/seguridad/lista_usuarios";
+            }else{
+                usuarioRepository.strikeUsuario(strike,id);
+                redirectAttributes.addFlashAttribute("msg", "El usuario "+usuario.getNombre()+" "+usuario.getApellido()+" ha sido reportado.");
+                return "redirect:/seguridad/lista_usuarios";
+            }
         }else{
             return "redirect:/seguridad/reporte?id="+id;
         }

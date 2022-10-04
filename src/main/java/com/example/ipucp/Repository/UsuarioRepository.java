@@ -56,6 +56,11 @@ public interface UsuarioRepository extends JpaRepository<Usuario, String> {
 
     @Transactional
     @Modifying
+    @Query(value = "UPDATE `ipucp`.`usuario` SET `ban` = ?1 WHERE (`codigo` = ?2);\n",nativeQuery = true)
+    void banUsuario(int num, String id);
+
+    @Transactional
+    @Modifying
     @Query(value = "UPDATE `ipucp`.`usuario` SET `contra` = ?1 , `estado` = '1' WHERE (`codigo` = ?2)",nativeQuery = true)
     void registrar(String contrasenha, String codigo);
 
