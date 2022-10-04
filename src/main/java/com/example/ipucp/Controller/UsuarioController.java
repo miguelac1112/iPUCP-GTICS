@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
@@ -69,7 +70,8 @@ public class UsuarioController {
 
 
     @PostMapping("/save")
-    public String guardarNuevaIncidencia(@ModelAttribute("incidencia") @Valid Inicidencia incidencia, BindingResult bindingResult, Model model, RedirectAttributes attr) {
+    public String guardarNuevaIncidencia(@ModelAttribute("incidencia") @Valid Inicidencia incidencia, BindingResult bindingResult, Model model, RedirectAttributes attr,
+                                         HttpSession session) {
 
         if(bindingResult.hasErrors()){
 
@@ -80,7 +82,9 @@ public class UsuarioController {
             System.out.println(bindingResult.getFieldError());
             return "usuario/newIncidencia";
         }else{
-            incidencia.setCodigo(usuarioRepository.userPerfil("20197171"));
+
+            Usuario user = (Usuario) session.getAttribute("usuario");
+            incidencia.setCodigo(user);
 
             inicidenciaRepository.save(incidencia);
             attr.addFlashAttribute("msg","Incidencia creada exitosamente.");
@@ -121,8 +125,9 @@ public class UsuarioController {
         return "usuario/perfil";
     }
     @GetMapping("/misIncidencias")
-    public String misIncidencias(Model model) {
-        model.addAttribute("listaIncidencias",inicidenciaRepository.userIncidencias("20197171"));
+    public String misIncidencias(Model model,HttpSession session) {
+        Usuario user = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("listaIncidencias",inicidenciaRepository.userIncidencias(user.getId()));
         return "usuario/incidencias";
     }
 

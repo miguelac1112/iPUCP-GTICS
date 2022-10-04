@@ -74,6 +74,8 @@ public class Inicidencia {
     @Column(name = "max", nullable = false)
     private int max=0;
 
+
+
     public int getDestacado() {
         return destacado;
     }
