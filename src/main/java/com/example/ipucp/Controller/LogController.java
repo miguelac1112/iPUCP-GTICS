@@ -29,7 +29,7 @@ public class LogController {
     }
 
     @GetMapping(value = "/redirecRol")
-    public String redirecRol(Authentication authentication, HttpSession session){
+    public String redirecRol(Authentication authentication, HttpSession session, RedirectAttributes redirectAttributes){
 
         String rol="";
         List<GrantedAuthority> authorities = (List<GrantedAuthority>) authentication.getAuthorities();
@@ -44,7 +44,13 @@ public class LogController {
 
         switch (rol){
             case "usuario" -> {
-                return "redirect:/usuario/listar";
+                if(usuario.getBan() <3){
+                    return "redirect:/usuario/listar";
+                }else{
+                    String texto = "El usuario ha sido baneado";
+                    redirectAttributes.addFlashAttribute("msgLogin1",texto);
+                    return "redirect:/login";
+                }
             }
             case "seguridad" -> {
                 return "redirect:/seguridad";
@@ -53,6 +59,8 @@ public class LogController {
                 return "redirect:/admin";
             }
             default -> {
+                String texto = "Credenciales invalidas";
+                redirectAttributes.addFlashAttribute("msgLogin",texto);
                 return "redirect:/login";
             }
 
