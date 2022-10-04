@@ -37,6 +37,9 @@
                         <h1 style="font-size:8vw"; align="center">iPUCP</h1>
                         </div>
 
+                        <div th:if="${msgLogin != null}" th:text="${msgLogin}" class="text-success nb-2"></div>
+                        <div th:if="${msgLogin1 != null}" th:text="${msgLogin1}" class="text-success nb-2"></div>
+
                         <form action="post" method="post" class="signin-form" th:action="@{/procesarLog}">
                             <div class="form-group sm-3">
                                 <label class="label" >Correo Institucional:</label>
