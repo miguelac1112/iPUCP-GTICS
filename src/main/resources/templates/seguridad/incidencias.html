@@ -96,6 +96,14 @@
                     </div>
                     <div class="col-auto">
                         <div class="form-floating">
+                            <select class="form-select m-1" aria-label="Default select example" name="estado" id="estado">
+                                <option th:each="est: ${ListaEstado}" th:value="${est.idOrdern}" th:text="${est.texto}" th:selected="${est.idOrdern == idEstad}"></option>
+                            </select>
+                            <label for="urgencia">Estado:</label>
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <div class="form-floating">
                             <select class="form-select m-1" aria-label="Default select example" name="orden" id="orden">
                                 <option th:each="orden: ${ListaOrden}" th:value="${orden.idOrdern}" th:text="${orden.texto}" th:selected="${orden.idOrdern == idOrdenI}"></option>
                         </select>
