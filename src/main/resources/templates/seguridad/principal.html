@@ -26,30 +26,29 @@
 <main>
 
     <div class="nav-container">
-        <nav class="navbar"
-             style="height: 80px">
+        <nav class="navbar">
             <div class="navbar-row-container">
                 <div class="nav-logo-container">
                     <div class="menu-toggle">
-                        <img class="img-logo" th:src="@{/img/logo-pucp1.png}" alt="..." style="width: 35%"/>
+                        <img class="img-logo" th:src="@{/img/logo-pucp1.png}" alt="..."/>
                     </div>
                     <div class="a-logo" href="#inicio"><h1 id="navbar-logo"><strong>iPUCP</strong></h1></div>
                 </div>
                 <ul class="nav-menu">
                     <li>
                         <a id="abrir-modal-cotizar-menu" class="nav-links nav-links-btn" th:href="@{'/seguridad/dashboard'}">
-                            <i class="fa-solid fa-chart-line "></i>
+                            <i class="fas fa-chart-line nav-links-img"></i>
                         </a>
                     </li>
                     <li>
                         <a class="nav-links nav-links-btn" th:href="@{'/seguridad/mapa_incidencias'}">
-                            <i class="fa-solid fa-map"
+                            <i class="far fa-compass nav-links-img"
                                style="color: #B9B9B9"></i>
                         </a>
                     </li>
                     <li>
                         <a class="nav-links nav-links-btn" th:href="@{'/seguridad/lista_usuarios'}">
-                            <i class="fa-solid fa-list"
+                            <i class="fas fa-list nav-links-img"
                             ></i>
                         </a>
                     </li>
