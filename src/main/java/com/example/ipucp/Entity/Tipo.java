@@ -19,7 +19,7 @@ public class Tipo {
 
     @Column(name = "tipo_incidencia", nullable = false, length = 45)
     @Size(max = 45, message = "Máximo 45 caracteres")
-    @NotBlank(message = "Ingrese un nombre para el tipo de incidencia")
+    @NotBlank(message = "No se acepta entrada vacía")
     private String tipoIncidencia;
 
     @Lob

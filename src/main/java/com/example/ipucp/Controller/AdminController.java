@@ -207,9 +207,23 @@ public class AdminController {
     @PostMapping("/saveIncident")
     public String guardarTipoIncidencia(@ModelAttribute("tipo") @Valid Tipo tipo, BindingResult bindingResult,
                                         @RequestParam("tipoIncidencia2") String tipoIncidencia2, RedirectAttributes attr, Model model) {
-        tipoRepository.crearTipoIncidencia(tipoIncidencia2);
-        attr.addFlashAttribute("msg","Tipo de incidencia creada exitosamente");
-        return "redirect:/admin/incidencias";
+        if(tipoIncidencia2.equals("")){
+            model.addAttribute("openModalCreate","No se acepta entrada vacía");
+            model.addAttribute("incidenciaEnReporte",tipoRepository.listaIncidencias());
+            model.addAttribute("listaIncidencias",tipoRepository.findAll());
+            return "admin/incidencias";
+        }if(tipoIncidencia2.length() >= 45) {
+            model.addAttribute("openModalCreate", "Máximo 45 caracteres");
+            model.addAttribute("corregir",tipoIncidencia2);
+            model.addAttribute("incidenciaEnReporte", tipoRepository.listaIncidencias());
+            model.addAttribute("listaIncidencias", tipoRepository.findAll());
+            return "admin/incidencias";
+        } else {
+            tipoRepository.crearTipoIncidencia(tipoIncidencia2);
+            attr.addFlashAttribute("msg","Tipo de incidencia creada exitosamente");
+            return "redirect:/admin/incidencias";
+        }
+
     }
 
     @GetMapping("/deleteIncident")

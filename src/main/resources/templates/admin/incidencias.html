@@ -124,12 +124,13 @@
 
     <!-- Modal 1-->
     <div th:each="tipo : ${listaIncidencias}">
-        <div class="modal fade" th:id="${'ModalEdit'+tipo.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" th:id="${'ModalEdit'+tipo.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Editar tipo de incidencia</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button th:unless="${#fields.hasErrors('tipo.tipoIncidencia')}" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <a th:if="${#fields.hasErrors('tipo.tipoIncidencia')}" type="button" class="btn-close" th:href="@{'/admin/incidencias'}" aria-label="Close"></a>
                     </div>
                     <div class="modal-body">
 
@@ -139,7 +140,7 @@
 
                                 <label for="tipoIncidencia1" class="form-label">Nombre de incidencia:</label>
                                 <input type="text" id="tipoIncidencia1"name="tipoIncidencia" class="form-control" th:value="${tipo.tipoIncidencia}"
-                                       th:classappend="${#fields.hasErrors('tipo.tipoIncidencia')?'is-invalid':''}"required/>
+                                       th:classappend="${#fields.hasErrors('tipo.tipoIncidencia')?'is-invalid':''}"/>
                                 <div class="invalid-feedback" th:if="${#fields.hasErrors('tipo.tipoIncidencia')}"
                                      th:errors="${tipo.tipoIncidencia}">
                                     Please choose a username.
@@ -154,7 +155,8 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Regresar</button>
+                        <button th:unless="${#fields.hasErrors('tipo.tipoIncidencia')}" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Regresar</button>
+                        <a th:if="${#fields.hasErrors('tipo.tipoIncidencia')}" type="button" class="btn btn-secondary" th:href="@{'/admin/incidencias'}">Regresar</a>
                         <button type="submit" class="btn btn-success" data-bs-dismiss="modal" th:form="${'form'+tipo.id}">Cambiar</button>
                     </div>
                 </div>
@@ -192,19 +194,31 @@
     </div>
 
     <!-- Modal 3-->
-    <div class="modal fade" id="Modal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="Modal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel3">Crear nuevo tipo de incidencia</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button th:unless="${openModalCreate != null}" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <a th:if="${openModalCreate != null}" type="button" class="btn-close" th:href="@{'/admin/incidencias'}" aria-label="Close"></a>
                 </div>
                 <div class="modal-body">
 
-                    <form method="post" th:action="@{'/admin/saveIncident'}" class="mt-2" id="form33">
+                    <form method="post" th:action="@{'/admin/saveIncident'}" class="mt-2" id="form33nmnsd">
                         <div class="mb-3">
                             <label for="tipoIncidencia2" class="form-label">Nombre de incidencia:</label>
-                            <input type="text" id="tipoIncidencia2" name="tipoIncidencia2" class="form-control" required/>
+
+                            <div th:if="${openModalCreate != null}">
+                                <input type="text" id="tipoIncidencia2" name="tipoIncidencia2" class="form-control is-invalid" th:value="${corregir}"/>
+                                <div class="invalid-feedback" th:text="${openModalCreate}">
+                                    Campo obligatorio
+                                </div>
+                            </div>
+
+                            <div th:unless="${openModalCreate != null}">
+                                <input type="text" id="tipoIncidencia2" name="tipoIncidencia2" class="form-control"/>
+
+                            </div>
                         </div>
                         <div class="mb-3">
                             <label for="foto" class="form-label">Imagen de incidencia:</label>
@@ -214,12 +228,18 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Regresar</button>
-                    <button type="submit" form="form33" class="btn btn-success" data-bs-dismiss="modal">Agregar</button>
+                    <button th:unless="${openModalCreate != null}" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Regresar</button>
+                    <a th:if="${openModalCreate != null}" type="button" class="btn btn-secondary" th:href="@{'/admin/incidencias'}">Regresar</a>
+                    <button type="submit" form="form33nmnsd" class="btn btn-success" data-bs-dismiss="modal">Agregar</button>
                 </div>
             </div>
         </div>
     </div>
+
+    <script th:if="${openModalCreate != null}">
+        var myModal = new bootstrap.Modal(document.getElementById("Modal3"), {})
+        myModal.show()
+    </script>
 
     <!-- Modal 4-->
     <div class="modal fade " id="Modal4" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
