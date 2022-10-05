@@ -119,12 +119,13 @@
 
     <!-- Modal -->
     <div th:each="usuario : ${listaUsuarios}">
-        <div class="modal fade" th:id="${'Modal'+usuario.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" th:id="${'Modal'+usuario.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Suspensión de cuenta</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button th:unless="${#fields.hasErrors('usuario.justificacion')}" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <a th:if="${#fields.hasErrors('usuario.justificacion')}" type="button" class="btn-close" th:href="@{'/admin/listar'}" aria-label="Close"></a>
                     </div>
                     <div class="modal-body">
                         <p th:text="${'La cuenta de '+usuario.nombre+' '+usuario.apellido+' será suspendida'}">info</p>
@@ -158,7 +159,8 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Regresar</button>
+                        <button th:unless="${#fields.hasErrors('usuario.justificacion')}" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Regresar</button>
+                        <a th:if="${#fields.hasErrors('usuario.justificacion')}" type="button" class="btn btn-secondary" th:href="@{'/admin/listar'}">Regresar</a>
                         <button type="submit" class="btn btn-danger" th:form="${'form'+usuario.id}">Aceptar</button>
                     </div>
                 </div>
@@ -169,6 +171,7 @@
     <script th:inline="javascript">
         var myModal = new bootstrap.Modal(document.getElementById('Modal'+[[${id}]]), {})
         myModal.show()
+        $('#Modal20196611').modal({backdrop: 'static', keyboard: false})
     </script>
 
 
