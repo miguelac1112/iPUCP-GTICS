@@ -97,10 +97,13 @@
                             <div class="card-body" style="margin-top: -15px">
                                 <p class="card-text postuserfont">
                                     <strong style="margin-left: -4px; margin-right: 5px" th:text="${incidencia.nombre}"
-                                    ></strong
-                                    >
+                                    ></strong>
                                 </p>
-                                <p class="card-text postuserfont">
+                                <p class="card-text postuserfont" style="margin-top: -15px">
+                                    <strong style="margin-left: -4px; margin-right: 5px" >Ubicación: </strong>
+                                    <span th:text="${incidencia.ubicacion.getNombre()}"></span>
+                                </p>
+                                <p class="card-text postuserfont" style="margin-top: -15px">
                                     <strong style="margin-left: -4px; margin-right: 5px" >Tipo: </strong>
                                     <span th:text="${incidencia.idtipo.getTipoIncidencia()}"></span>
                                 </p>

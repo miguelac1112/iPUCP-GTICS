@@ -18,11 +18,6 @@ public class Inicidencia {
     @NotBlank(message = "Ingrese un descripcion")
     private String descripcion="Descripcion";
 
-    @Column(name = "ubicacion", nullable = false, length = 45)
-    @NotBlank(message = "Ingrese una Ubicacion")
-    private String ubicacion="Ubicacion";
-
-
     @Column(name = "latitud", length = 45)
     private String latitud;
 
@@ -74,7 +69,9 @@ public class Inicidencia {
     @Column(name = "max", nullable = false)
     private int max=0;
 
-
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "ubicacion_id", nullable = false)
+    private Ubicacion ubicacion;
 
     public int getDestacado() {
         return destacado;
@@ -98,14 +95,6 @@ public class Inicidencia {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
-    }
-
-    public String getUbicacion() {
-        return ubicacion;
-    }
-
-    public void setUbicacion(String ubicacion) {
-        this.ubicacion = ubicacion;
     }
 
     public String getLatitud() {
@@ -210,5 +199,13 @@ public class Inicidencia {
 
     public void setMax(int max) {
         this.max = max;
+    }
+
+    public Ubicacion getUbicacion() {
+        return ubicacion;
+    }
+
+    public void setUbicacion(Ubicacion ubicacion) {
+        this.ubicacion = ubicacion;
     }
 }

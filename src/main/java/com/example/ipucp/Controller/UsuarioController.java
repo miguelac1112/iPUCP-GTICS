@@ -1,10 +1,7 @@
 package com.example.ipucp.Controller;
 
 import com.example.ipucp.Dto.UsuarioIncidencias;
-import com.example.ipucp.Entity.Inicidencia;
-import com.example.ipucp.Entity.Tipo;
-import com.example.ipucp.Entity.Urgencia;
-import com.example.ipucp.Entity.Usuario;
+import com.example.ipucp.Entity.*;
 import com.example.ipucp.Repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,6 +28,8 @@ public class UsuarioController {
     UrgenciaRepository urgenciaRepository;
     @Autowired
     UsuarioRepository usuarioRepository;
+    @Autowired
+    UbicacionRepository ubicacionRepository;
 
     @GetMapping("/mapa")
     public String mapa() {
@@ -42,6 +41,10 @@ public class UsuarioController {
 
         List<Inicidencia> lista  =inicidenciaRepository.orderReciente();
         model.addAttribute("incidenciaList", lista);
+
+        for(Inicidencia incidencias: lista){
+            System.out.println(incidencias.getUbicacion().getNombre());
+        }
 
         return "usuario/menu";
     }
@@ -114,8 +117,10 @@ public class UsuarioController {
     public String newInciden(@ModelAttribute("incidencia") Inicidencia incidencia, Model model) {
         List<Tipo> listaTipo  =tipoRepository.findAll();
         List<Urgencia> listaUrgencia  =urgenciaRepository.findAll();
+        List<Ubicacion> listaUbicacion = ubicacionRepository.findAll();
         model.addAttribute("listaTipo", listaTipo);
         model.addAttribute("listaUrgencia", listaUrgencia);
+        model.addAttribute("listaUbicacion", listaUbicacion);
         return "usuario/newIncidencia";
     }
 

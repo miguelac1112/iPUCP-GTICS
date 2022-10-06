@@ -147,10 +147,14 @@
                             </div>
                             <div class="col-12">
                                 <h1></h1>
-                                <label for="descripcion" class="form-label">Ubicacion</label>
-                                <input name = "ubicacion" type="text" class="form-control w-100" id="ubicacion" placeholder="Indique la ubicacion" required>
+                                <label for="ubicacion" class="form-label">Urgencia</label>
+                                <select class="custom-select" id="ubicacion" name = "idubicacion">
+                                    <option th:each="ubicacion : ${listaUbicacion}"
+                                            th:text="${ubicacion.nombre}"
+                                            th:value="${ubicacion.id}">${categatory.name}</option>
+                                </select>
                                 <div class="invalid-feedback">
-                                    Please enter your shipping address.
+                                    Please select a valid country.
                                 </div>
                             </div>
                         </div>
