@@ -42,6 +42,7 @@ public class Inicidencia {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "idtipo", nullable = false)
+
     private Tipo idtipo;
 
     @Lob
@@ -60,6 +61,7 @@ public class Inicidencia {
     private Instant fecha;
 
     @Column(name = "em_medica")
+
     private Byte emMedica;
 
     @Lob
@@ -71,6 +73,7 @@ public class Inicidencia {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "ubicacion_id", nullable = false)
+
     private Ubicacion ubicacion;
 
     public int getDestacado() {

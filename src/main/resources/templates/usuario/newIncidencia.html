@@ -57,7 +57,7 @@
                     <li>
                         <a class="nav-links nav-links-btn" th:href="@{'/usuario/mapa'}">
                             <i class="far fa-compass nav-links-img"
-                               style="color: #B9B9B9"></i>
+                           ></i>
                         </a>
                     </li>
                     <li>
@@ -105,6 +105,7 @@
                                 <h1></h1>
                                 <label for="tipo" class="form-label">Tipo</label>
                                 <select class="custom-select" id="tipo" name = "idtipo">
+                                    <option>-</option>
                                     <option th:each="tipo : ${listaTipo}"
                                             th:text="${tipo.tipoIncidencia}"
                                             th:value="${tipo.id}">${categatory.name}</option>
@@ -118,6 +119,7 @@
                                 <h1></h1>
                                 <label for="urgencia" class="form-label">Urgencia</label>
                                 <select class="custom-select" id="urgencia" name = "idurgencia">
+                                    <option>-</option>
                                     <option th:each="urgencia : ${listaUrgencia}"
                                             th:text="${urgencia.tipoUrgencia}"
                                             th:value="${urgencia.id}">${categatory.name}</option>
@@ -130,6 +132,7 @@
                                 <h1></h1>
                                 <label for="emMedica" class="form-label">¿Necesita emergencia médica?</label>
                                 <select class="custom-select" id="emMedica" name = "emMedica">
+                                    <option>-</option>
                                     <option value="1">SÍ</option>
                                     <option value="0">NO</option>
                                 </select>
@@ -147,8 +150,9 @@
                             </div>
                             <div class="col-12">
                                 <h1></h1>
-                                <label for="ubicacion" class="form-label">Urgencia</label>
-                                <select class="custom-select" id="ubicacion" name = "idubicacion">
+                                <label for="ubicacion" class="form-label">Ubicación</label>
+                                <select class="custom-select" id="ubicacion" name = "ubicacion">
+                                    <option>-</option>
                                     <option th:each="ubicacion : ${listaUbicacion}"
                                             th:text="${ubicacion.nombre}"
                                             th:value="${ubicacion.id}">${categatory.name}</option>

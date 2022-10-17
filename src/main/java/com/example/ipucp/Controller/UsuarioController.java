@@ -88,7 +88,6 @@ public class UsuarioController {
 
             Usuario user = (Usuario) session.getAttribute("usuario");
             incidencia.setCodigo(user);
-
             inicidenciaRepository.save(incidencia);
             attr.addFlashAttribute("msg","Incidencia creada exitosamente.");
             return "redirect:/usuario/misIncidencias";
