@@ -69,7 +69,7 @@
                             <li>
                                 <a class="nav-links nav-links-btn" th:href="@{'/seguridad/mapa_incidencias'}">
                                     <i class="far fa-compass nav-links-img"
-                                       style="color: #B9B9B9"></i>
+                                    ></i>
                                 </a>
                             </li>
                             <li>
@@ -96,6 +96,7 @@
                     <h3 class="section-heading" th:text="${'Perfil de '+usuario.nombre+' '+ usuario.apellido}"
                         style="text-align: center; margin-top: -30px"></h3>
                 </div>
+
                 </br>
                 <div class="row justify-content-center">
                     <div class="col-xl-4 col-lg-5">
@@ -137,45 +138,47 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                    <p class="postuserfont"> Lista de incidencias: </p>
+                    <div class="align-content-lg-center" id="table-wrapper">
+                        <div id="table-scroll">
+                            <table class="table table-striped table-bordered " style="width:100% ">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Tipo</th>
+                                        <th>Estado</th>
+                                        <th>Detalle</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="incidencias : ${listaIncidencias}">
+                                        <td th:text="${incidencias.getIdinicidencia()}"></td>
+                                        <td th:text="${incidencias.getTipo_incidencia()}"></td>
+                                        <div th:switch="${incidencias.getEstado()}">
+                                            <td th:case="0">En Proceso</td>
+                                            <td th:case="1">Resuelto</td>
+                                        </div>
 
-                </br>
-
-                <p class="postuserfont"> Lista de incidencias: </p>
-                <div class="align-content-lg-center" id="table-wrapper">
-                    <div id="table-scroll">
-                        <table class="table table-striped table-bordered " style="width:100% ">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Tipo</th>
-                                    <th>Estado</th>
-                                    <th>Detalle</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr th:each="incidencias : ${listaIncidencias}">
-                                    <td th:text="${incidencias.getIdinicidencia()}"></td>
-                                    <td th:text="${incidencias.getTipo_incidencia()}"></td>
-                                    <div th:switch="${incidencias.getEstado()}">
-                                        <td th:case="0">En Proceso</td>
-                                        <td th:case="1">Resuelto</td>
-                                    </div>
-
-                                    <td style="text-align: center"><a type="button" class="fa-solid fa-forward-step" style="color: black;
+                                        <td style="text-align: center"><a type="button" class="fa-sharp fa-solid fa-arrow-right" style="color: black;
                                         position: relative;
                                         font-size: 23px;" th:href="@{'/seguridad/detalle_incidencia' + '?id=' + ${incidencias.getIdinicidencia()} +'&codigo='+${usuario.id} }"></a></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p style="text-align: center" th:if="${listaIncidencias.size() == 0}">No existen incidencias registradas</p>
+                        </div>
+                        <div class="row justify-content-center" style="margin-left:180px; margin-top: 30px">
+                            <!--style="margin-left:450px"-->
+                            <div class="col-md-6" >
+                                <a class="btn btn-secondary" th:href="@{'/seguridad/lista_usuarios'}">Regresar</a>
+                                <button class="btn btn-danger" type="submit" data-bs-toggle="modal" data-bs-target="#Modal1">Reportar usuario</button>
+                            </div>
+                        </div>
                     </div>
+
                 </div>
-                </br>
-                <div class="row justify-content-center">
-                    <div class="col-md-6" style="margin-left:450px">
-                        <button class="btn btn-danger" type="submit" data-bs-toggle="modal" data-bs-target="#Modal1">Reportar usuario</button>
-                    </div>
-                </div>
+
+
 
             </div>
 

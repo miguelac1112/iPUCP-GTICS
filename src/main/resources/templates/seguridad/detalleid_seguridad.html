@@ -43,7 +43,7 @@
                             <li>
                                 <a class="nav-links nav-links-btn" th:href="@{'/seguridad/mapa_incidencias'}">
                                     <i class="far fa-compass nav-links-img"
-                                       style="color: #B9B9B9"></i>
+                                    ></i>
                                 </a>
                             </li>
                             <li>
@@ -66,23 +66,23 @@
 
             </br>
             </br>
-            <div class="py-1 text-center">
-                <h2 th:text="${'Detalle de Incidencia #'+incidencia.id}"
-                    style="text-align: center; margin-top: -30px"></h2>
-            </div>
 
-            <div class="container offset-2 mt-4 middlearea" >
-                <div class="row">
-                    <div class="col-2"></div>
+            <div class="container mt-4  middlearea">
+                <div class="row justify-content-center text-center">
+                    <h2 th:text="${'Detalle de Incidencia #'+incidencia.id}"
+                        style="text-align: center; margin-top: -30px"></h2>
+                </div>
+                <div class="row justify-content-center mt-4 mb-6">
                     <div class="col-10 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                         <div class="card">
                             <div class="card-header">
                                 <img
-                                        src="https://scontent-otp1-1.cdninstagram.com/v/t51.2885-19/s150x150/83792429_185184289374945_1047727451901263872_n.jpg?_nc_ht=scontent-otp1-1.cdninstagram.com&_nc_ohc=oor-Z1FIzvgAX-uXuhs&tp=1&oh=e92baf321c3e2e5ebf9416204da05c82&oe=602E0320"
-                                        class="mr-2"
-                                        style="width: 35px; height: 35px; border-radius: 50%"
+                                        src="https://mdbootstrap.com/img/new/avatars/8.jpg"
+                                        alt=""
+                                        style="width: 45px; height: 45px"
+                                        class="rounded-circle"
                                 />
-                                <span class="postuserfont" ><strong th:text="${incidencia.codigo.getId()}"></strong></span>
+                                <span class="postuserfont"><strong th:text="${incidencia.codigo.getId()}"></strong></span>
                             </div>
                             <img
                                     src="https://blog.biletbayi.com/wp-content/uploads/2019/12/rize.jpg"
@@ -95,11 +95,13 @@
                             >
                             </ul>
                             <div class="card-body" style="margin-top: -15px">
+
                                 <p class="card-text postuserfont">
                                     <strong style="margin-left: -4px; margin-right: 5px" th:text="${incidencia.nombre}"
                                     ></strong>
                                 </p>
-                                <p class="card-text postuserfont" style="margin-top: -15px">
+
+                                <p class="card-text postuserfont" style="margin-top: -10px">
                                     <strong style="margin-left: -4px; margin-right: 5px" >Ubicación: </strong>
                                     <span th:text="${incidencia.ubicacion.getNombre()}"></span>
                                 </p>
@@ -129,9 +131,22 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row justify-content-center">
+                        <!--style="margin-left:450px"-->
+                        <div class="col-md-6" >
+                            <a class="btn btn-secondary" th:href="@{'/seguridad/reporte' + '?id=' + ${incidencia.codigo.getId()} }"
+                            style="margin-left: 200px; margin-top: 10px">Regresar</a>
+                        </div>
+                    </div>
                 </div>
-
+                </br>
+                <div class="container">
+                    <br>
+                    <br>
+                    <br>
+                </div>
             </div>
+
 
 
 
