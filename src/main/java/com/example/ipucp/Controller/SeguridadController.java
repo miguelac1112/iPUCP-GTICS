@@ -53,6 +53,7 @@ public class SeguridadController {
         model.addAttribute("idtipoI",0);
         model.addAttribute("idUrgI",0);
         model.addAttribute("idOrdenI",0);
+        model.addAttribute("idEstad",2);
         model.addAttribute("ListaIncidencias", inicidenciaList);
         model.addAttribute("ListaTipos", listaTipos);
         model.addAttribute("ListaUrgencia", listaUrg);
@@ -61,7 +62,7 @@ public class SeguridadController {
         return "seguridad/incidencias";
     }
 
-    @PostMapping("/incidenciasFiltrado")
+    @GetMapping("/incidenciasFiltrado")
     public String listaFiltrada(Model model,@RequestParam("tipo") int idTipo ,@RequestParam("urgencia") int idUrgencia, @RequestParam("orden") int idOrden, @RequestParam("estado") int idEstad) {
         List<Inicidencia> listIncidencias = new ArrayList<>();
         if (idTipo != 0){
@@ -302,7 +303,7 @@ public class SeguridadController {
     public List<Orden> obtenerEstado(){
         List <Orden> listaEstados = new ArrayList<>();
         Orden todo = new Orden();
-        todo.setIdOrdern(0);
+        todo.setIdOrdern(2);
         todo.setTexto("Todos");
         listaEstados.add(todo);
         Orden atendido = new Orden();
@@ -310,7 +311,7 @@ public class SeguridadController {
         atendido.setTexto("Atendida");
         listaEstados.add(atendido);
         Orden porAtender = new Orden();
-        porAtender.setIdOrdern(2);
+        porAtender.setIdOrdern(0);
         porAtender.setTexto("Por atender");
         listaEstados.add(porAtender);
         return listaEstados;
