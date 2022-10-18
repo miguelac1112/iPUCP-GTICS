@@ -17,7 +17,7 @@ public interface TipoRepository extends JpaRepository<Tipo, Integer> {
     @Query(value = "INSERT INTO `ipucp`.`tipo` (`tipo_incidencia`) VALUES (?1)",nativeQuery = true)
     void crearTipoIncidencia(String nombre);
 
-    @Query(value = "select t.idtipo as 'id', tipo_incidencia as 'tipoIncidencia', idinicidencia\n" +
+    @Query(value = "select t.idtipo as 'id', tipo_incidencia as 'tipoIncidencia', truncate(avg(idinicidencia),0) as idinicidencia \n" +
             "from tipo t\n" +
             "\tleft join inicidencia i on (t.idtipo = i.idtipo)\n" +
             "group by t.idtipo",nativeQuery = true)
