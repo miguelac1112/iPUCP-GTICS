@@ -85,6 +85,7 @@ public class UsuarioController {
             model.addAttribute("listaTipo", listaTipo);
             model.addAttribute("listaUrgencia", listaUrgencia);
             model.addAttribute("listaUbicacion", listaUbicacion);
+            model.addAttribute("errorCompany", "Ningún campo puede dejarse vacío, intente crear nuevamente por favor");
             System.out.println(bindingResult.getFieldError());
             return "usuario/newIncidencia";
         }else{
