@@ -92,7 +92,9 @@
                     <!--<h4 class="mb-3">Billing address</h4>-->
                     <form method="post" th:action="@{'/usuario/save'}" class="needs-validation" novalidate>
                         <div class="row g-3">
-
+                            <div th:if="${errorCompany != null}" th:text="${errorCompany}" class="alert alert-danger"
+                                 role="alert"></div>
+                            <hr/>
                             <div class="col-12">
                                 <label for="titulo" class="form-label">Título de la incidencia </label>
                                 <input type="text"  name = "nombre" class="form-control w-100" id="titulo" placeholder="" value="" required>
