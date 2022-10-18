@@ -12,6 +12,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -80,13 +81,17 @@ public class UsuarioController {
 
             List<Tipo> listaTipo  =tipoRepository.findAll();
             List<Urgencia> listaUrgencia  =urgenciaRepository.findAll();
+            List<Ubicacion> listaUbicacion = ubicacionRepository.findAll();
             model.addAttribute("listaTipo", listaTipo);
             model.addAttribute("listaUrgencia", listaUrgencia);
+            model.addAttribute("listaUbicacion", listaUbicacion);
             System.out.println(bindingResult.getFieldError());
             return "usuario/newIncidencia";
         }else{
 
             Usuario user = (Usuario) session.getAttribute("usuario");
+            Instant fecha = inicidenciaRepository.fecha();
+            incidencia.setFecha(fecha);
             incidencia.setCodigo(user);
             inicidenciaRepository.save(incidencia);
             attr.addFlashAttribute("msg","Incidencia creada exitosamente.");

@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.List;
 
 @Repository
@@ -65,4 +66,7 @@ public interface InicidenciaRepository extends JpaRepository<Inicidencia, Intege
 
     @Query(value = "SELECT * FROM inicidencia where idtipo = ?1 and idurgencia = ?2 and estado = 0 order by idinicidencia desc;",nativeQuery = true)
     List<Inicidencia> filtradoTipoUrgenciaAntig(int idTipo, int idUrgencia);
+
+    @Query(value = "select now();",nativeQuery = true)
+    Instant fecha();
 }
