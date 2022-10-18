@@ -69,25 +69,25 @@ public class SeguridadController {
             if(idUrgencia != 0){
                 switch (idOrden) {
                     case 1 -> listIncidencias.addAll(inicidenciaRepository.filtradoTipoUrgenciaAntig(idTipo,idUrgencia));
-                    default -> listIncidencias.addAll(inicidenciaRepository.filtradoTipoUrgencia(idTipo,idUrgencia));
+                    case 0 -> listIncidencias.addAll(inicidenciaRepository.filtradoTipoUrgencia(idTipo,idUrgencia));
                 }
             } else {
                 switch (idOrden) {
                     case 1 -> listIncidencias.addAll(inicidenciaRepository.filtradoTipoAntiguo(idTipo));
-                    default -> listIncidencias.addAll(inicidenciaRepository.filtradoTipo(idTipo));
+                    case 0 -> listIncidencias.addAll(inicidenciaRepository.filtradoTipo(idTipo));
                 }
             }
         }else{
             if(idUrgencia != 0) {
                 switch (idOrden) {
                     case 1 -> listIncidencias.addAll(inicidenciaRepository.filtradoUrgenciaAntiguo(idUrgencia));
-                    default -> listIncidencias.addAll(inicidenciaRepository.filtradoUrgencia(idUrgencia));
+                    case 0 -> listIncidencias.addAll(inicidenciaRepository.filtradoUrgencia(idUrgencia));
                 }
 
             }else{
                 switch (idOrden){
                     case 1 -> listIncidencias.addAll(inicidenciaRepository.ordenAntiguo());
-                    default -> listIncidencias.addAll(inicidenciaRepository.findAll());
+                    case 0 -> listIncidencias.addAll(inicidenciaRepository.findAll());
                 }
             }
         }
