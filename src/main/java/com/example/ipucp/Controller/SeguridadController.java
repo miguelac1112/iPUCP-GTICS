@@ -39,6 +39,11 @@ public class SeguridadController {
         return "seguridad/principal";
     }
 
+    @GetMapping("/lista_comentarios")
+    public String listacomentarios() {
+        return "seguridad/comentarios";
+    }
+
     @GetMapping("/incidencias")
     public String lista(Model model) {
         /*Tipo*/
