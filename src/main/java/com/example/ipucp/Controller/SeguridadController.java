@@ -41,7 +41,7 @@ public class SeguridadController {
 
     @GetMapping("/lista_comentarios")
     public String listacomentarios() {
-        return "seguridad/comentarios";
+        return "seguridad/lista_comentarios";
     }
 
     @GetMapping("/incidencias")
