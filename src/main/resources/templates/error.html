@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://kit.fontawesome.com/1e18eec1cd.js" crossorigin="anonymous"></script>
@@ -21,44 +21,44 @@
     <link th:href="@{https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700}" rel="stylesheet" type="text/css" />
     <title>Error inesperado</title>
 
-</head>
-<body>
-<main>
+  </head>
+  <body>
+    <main>
 
-    <div class="nav-container">
+      <div class="nav-container">
         <nav class="navbar"
              style="height: 80px">
-            <div class="navbar-row-container">
-                <div class="nav-logo-container">
-                    <div class="menu-toggle">
-                        <img class="img-logo" th:src="@{/img/logo.jpg}" style="width: 24%;border-radius: 100%;margin-top: 1vm"/>
-                    </div>
-                    <div class="a-logo" href="#inicio"><h1 id="navbar-logo"><strong>iPUCP</strong></h1></div>
-                </div>
+          <div class="navbar-row-container">
+            <div class="nav-logo-container">
+              <div class="menu-toggle">
+                <img class="img-logo" th:src="@{/img/logo.jpg}" style="width: 24%;border-radius: 100%;margin-top: 1vm"/>
+              </div>
+              <div class="a-logo" href="#inicio"><h1 id="navbar-logo"><strong>iPUCP</strong></h1></div>
             </div>
+          </div>
 
         </nav>
-    </div>
+      </div>
 
 
-    <section id="hero" class="d-flex align-items-center">
+      <section id="hero" class="d-flex align-items-center">
 
         <div class="container" data-aos="zoom-out" data-aos-delay="100">
-            <div class="row">
-                <div class="col-xl-6">
-                    <h1>Ups!</h1>
-                    <h2>ESTA PÁGINA NO HA SIDO ENCONTRADA</h2>
-                    <a  class="btn-get-started scrollto" th:href="">Ir al inicio</a>
-                </div>
+          <div class="row">
+            <div class="col-xl-6">
+              <h1>Ups!</h1>
+              <h2>ESTA PÁGINA NO HA SIDO ENCONTRADA</h2>
+              <a  class="btn-get-started scrollto" th:href="">Ir al inicio</a>
             </div>
+          </div>
         </div>
 
-    </section>
+      </section>
 
 
 
-</main>
-<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
-</body>
+    </main>
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+  </body>
 
 </html>

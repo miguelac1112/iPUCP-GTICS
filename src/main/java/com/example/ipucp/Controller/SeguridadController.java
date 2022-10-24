@@ -34,14 +34,25 @@ public class SeguridadController {
     @Autowired
     UrgenciaRepository urgenciaRepository;
 
+    @Autowired
+    ComentarioRepository comentarioRepository;
+
     @GetMapping("")
     public String principal() {
         return "seguridad/principal";
     }
 
     @GetMapping("/lista_comentarios")
-    public String listacomentarios() {
-        return "seguridad/lista_comentarios";
+    public String listacomentarios(Model model, @RequestParam("id") Integer id ) {
+        List<Comentario> listaComentariosSeguridad = comentarioRepository.IncidenciasComentariosSeguridad(id);
+        List<Comentario> listaComentariosUsuario = comentarioRepository.IncidenciasComentariosUsuario(id);
+        if(listaComentariosSeguridad.size()==0){
+            return "redirect:/seguridad/incidencias";
+        }else{
+            model.addAttribute("listaComentariosSeguridad", listaComentariosSeguridad);
+            model.addAttribute("listaComentariosUsuario",listaComentariosUsuario);
+            return "seguridad/lista_comentarios";
+        }
     }
 
     @GetMapping("/incidencias")
