@@ -13,6 +13,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.ArrayList;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Controller
@@ -129,22 +130,36 @@ public class SeguridadController {
 
     @GetMapping("/comentar_incidencia")
     public String comentarIncidencia(@RequestParam("id") Integer id, Model model,
-                                     @ModelAttribute("incidencia") Inicidencia incidencia) {
+                                     @ModelAttribute("incidencia") Inicidencia incidencia,
+                                     @ModelAttribute("comentario") Comentario comentario) {
 
         Optional<Inicidencia> optInicidencia = inicidenciaRepository.findById(id);
 
         if(optInicidencia.isPresent()){
             Inicidencia inicidencia = optInicidencia.get();
-            if(inicidencia.getMax()<6){
+            Comentario comentario1 = comentarioRepository.comentario(id, id);
+            if(Objects.isNull(comentario1)){
+                Comentario comentario2 = new Comentario();
+                comentario2.setComentario("Ingrese el comentario.");
+                model.addAttribute("comentario", comentario2);
                 model.addAttribute("incidencia", inicidencia);
                 return "seguridad/seguridad";
             }else{
-                return "redirect:/seguridad/incidencias";
+                if(inicidencia.getMax()<6){
+                    model.addAttribute("comentario", comentario1);
+                    model.addAttribute("incidencia", inicidencia);
+                    return "seguridad/seguridad";
+                }else{
+                    return "redirect:/seguridad/incidencias";
+                }
             }
+
         }else{
             return "redirect:/seguridad/incidencias";
         }
     }
+
+
 
     @PostMapping("/comentar")
     public String comentar(@RequestParam("id") Integer id, @RequestParam("codigo") String codigo,
@@ -178,6 +193,7 @@ public class SeguridadController {
                 int max = incidencia.getMax();
                 max+=1;
                 inicidenciaRepository.comentarIncidencia(comentario,max,incidencia.getId());
+                comentarioRepository.comentarIncidencia(comentario, incidencia.getId());
                 String texto = "La incidencia con ID "+incidencia.getId()+" del usuario con código "+ incidencia.getCodigo().getId()+" ha sido respondida.";
                 redirectAttributes.addFlashAttribute("msg",texto);
                 return "redirect:/seguridad/incidencias";

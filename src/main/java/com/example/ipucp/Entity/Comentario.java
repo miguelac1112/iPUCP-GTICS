@@ -1,6 +1,8 @@
 package com.example.ipucp.Entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.time.Instant;
 
 @Entity
@@ -13,6 +15,8 @@ public class Comentario {
 
     @Lob
     @Column(name = "comentario", nullable = false)
+    @Size(max = 100, message = "Máximo 100 caracteres")
+    @NotBlank(message = "Ingrese el comentario")
     private String comentario;
 
     @Column(name = "fecha", nullable = false)
