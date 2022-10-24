@@ -47,13 +47,20 @@ public class SeguridadController {
     public String listacomentarios(Model model, @RequestParam("id") Integer id ) {
         List<Comentario> listaComentariosSeguridad = comentarioRepository.IncidenciasComentariosSeguridad(id);
         List<Comentario> listaComentariosUsuario = comentarioRepository.IncidenciasComentariosUsuario(id);
-        if(listaComentariosSeguridad.size()==0){
-            return "redirect:/seguridad/incidencias";
+        Optional<Inicidencia> incidenciaopt = inicidenciaRepository.findById(id);
+        if(incidenciaopt.isPresent()){
+            if(listaComentariosSeguridad.size()==0){
+                return "redirect:/seguridad/incidencias";
+            }else{
+                model.addAttribute("id", id);
+                model.addAttribute("listaComentariosSeguridad", listaComentariosSeguridad);
+                model.addAttribute("listaComentariosUsuario",listaComentariosUsuario);
+                return "seguridad/lista_comentarios";
+            }
         }else{
-            model.addAttribute("listaComentariosSeguridad", listaComentariosSeguridad);
-            model.addAttribute("listaComentariosUsuario",listaComentariosUsuario);
-            return "seguridad/lista_comentarios";
+            return "redirect:/seguridad/incidencias";
         }
+
     }
 
     @GetMapping("/incidencias")

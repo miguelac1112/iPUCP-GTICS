@@ -27,17 +27,17 @@ public interface InicidenciaRepository extends JpaRepository<Inicidencia, Intege
 
     @Transactional
     @Modifying
-    @Query(value = "UPDATE inicidencia SET `comentario` = ?1 , `estado` = '1', `max` = ?2 WHERE (`idinicidencia` = ?3);",nativeQuery = true)
+    @Query(value = "UPDATE inicidencia SET `comentario` = ?1 , `estado` = '2', `max` = ?2 WHERE (`idinicidencia` = ?3);",nativeQuery = true)
     void comentarIncidencia(String comentario, int max ,int id);
 
     @Transactional
     @Modifying
-    @Query(value = "UPDATE inicidencia SET `comentario` = ?1 , `estado` = '1', `max_usuario` = ?2 WHERE (`idinicidencia` = ?3);",nativeQuery = true)
+    @Query(value = "UPDATE inicidencia SET `comentario_usuario` = ?1 , `estado` = '1', `max_usuario` = ?2 WHERE (`idinicidencia` = ?3);",nativeQuery = true)
     void comentarIncidenciaUsuario(String comentario, int max ,int id);
 
     @Transactional
     @Modifying
-    @Query(value = "UPDATE `ipucp`.`inicidencia` SET `estado` = '2' WHERE (`idinicidencia` = ?1);",nativeQuery = true)
+    @Query(value = "UPDATE `ipucp`.`inicidencia` SET `estado` = '3' WHERE (`idinicidencia` = ?1);",nativeQuery = true)
     void cambiarEstadoIncidencia(int id);
 
     @Query(value = "SELECT  t.tipo_incidencia as numero FROM inicidencia i right join tipo t on i.idtipo = t.idtipo group by t.idtipo;",nativeQuery = true)

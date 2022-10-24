@@ -66,6 +66,7 @@
             <div th:if="${msg != null}" th:text="${msg}" class="alert alert-success" role="alert"></div>
             <div th:if="${msg2 != null}" th:text="${msg2}" class="alert alert-success" role="alert"></div>
             <div th:if="${msg3 != null}" th:text="${msg3}" class="alert alert-success" role="alert"></div>
+            <div th:if="${msg4 != null}" th:text="${msg4}" class="alert alert-success" role="alert"></div>
             <div class="row">
 
                 <div class="col">
@@ -86,6 +87,7 @@
                     <th style="text-align: center">Tipo</th>
                     <th style="text-align: center">Urgencia</th>
                     <th style="text-align: center">Estado</th>
+                    <th style="text-align: center">¿Está resuelta?</th>
                     <th style="text-align: center">Ingresar comentario</th>
                     <th style="text-align: center"></th>
                     <th style="text-align: center"></th>
@@ -104,14 +106,24 @@
                     <td style="text-align: center" th:text="${incidencia.nombre}"></td>
                     <td style="text-align: center" th:text="${incidencia.idtipo.tipoIncidencia}"></td>
                     <td style="text-align: center" th:text="${incidencia.idurgencia.tipoUrgencia}"></td>
-                    <td style="text-align: center" th:if="${incidencia.estado == 0}">No atendida</td>
-                    <td style="text-align: center" th:if="${incidencia.estado == 1}">Atendida</td>
-                    <td style="text-align: center" th:if="${incidencia.estado == 2}">Resuelta</td>
 
-                    <td style="text-align: center" th:if="${incidencia.estado == 2}">Resuelta</td>
-                    <td th:if="${incidencia.estado== 1 or incidencia.estado==0}" style="text-align: center"><button type="button" class="btn btn-success" data-bs-toggle="modal" th:attr="data-bs-target=${'#Modal'+incidencia.id}">Comentar</button></td>
-                    <td><a class="btn btn-secondary" th:href="@{'/usuario/lista_comentarios?id=' + ${incidencia.id}}">Ver Comentarios</a>
+                    <td style="text-align: center" th:if="${incidencia.estado == 0}">Registrada</td>
+                    <td style="text-align: center" th:if="${incidencia.estado == 1}">En proceso</td>
+                    <td style="text-align: center" th:if="${incidencia.estado == 2}">Atendida</td>
+                    <td style="text-align: center" th:if="${incidencia.estado == 3}">Resuelta</td>
+
+                    <td style="text-align: center" th:if="${incidencia.estado == 0 or incidencia.estado==1 or incidencia.estado==2}"><button type="button" class="btn btn-success" data-bs-toggle="modal" th:attr="data-bs-target=${'#Modal2'+incidencia.id}">Sí</button></td>
+                    <td style="text-align: center" th:if="${incidencia.estado == 3}">Ya resuelta</td>
+
+
+                    <td style="text-align: center" th:if="${incidencia.estado == 3}">Resuelta</td>
+                    <td style="text-align: center" th:if="${incidencia.estado == 0}">Pronto podrá comentar</td>
+                    <td th:if="${incidencia.estado== 1 or incidencia.estado==2}" style="text-align: center"><button type="button" class="btn btn-success" data-bs-toggle="modal" th:attr="data-bs-target=${'#Modal'+incidencia.id}">Comentar</button></td>
+
+                    <td style="text-align: center" th:if="${incidencia.estado == 0}">Pronto podrás ver los comentarios</td>
+                    <td th:if="${incidencia.estado== 1 or incidencia.estado== 2 or incidencia.estado==3}"><a class="btn btn-secondary" th:href="@{'/usuario/lista_comentarios?id=' + ${incidencia.id}}">Ver Comentarios</a>
                     </td>
+
                     <td><a class="btn btn-secondary" th:href="@{'/usuario/detalle?id=' + ${incidencia.id}}">Ver Detalle</a>
                     </td>
                 </tr>
@@ -125,33 +137,36 @@
     </div>
 
     <!-- Modal 2-->
-    <div class="modal fade" id="Modal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel2">Comentario: </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div th:each="incidencia : ${listaIncidencias}">
+        <div class="modal fade" th:id="${'Modal2'+incidencia.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel2">¿Está seguro? La incidencia ya no podrá abrirse de nuevo.</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+
+                        <form method="post"  th:action="@{'/usuario/incidenciaResuelta'}" class="mt-2" >
+                            <div class="mb-3" style="text-align: center">
+                                <input th:value="${incidencia.id}" name="id" type="hidden"/>
+                                <button type="submit" class="btn btn-success"  >Registrar</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Regresar</button>
+                            </div>
+                        </form>
+
+                    </div>
+
+                    <!--<div class="modal-footer" style="text-align: center">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Regresar</button>
+                        <button type="submit" class="btn btn-success" th:form="${'form'+usuario.id}" >Registrar</button>
+                    </div>-->
+
                 </div>
-                <div class="modal-body">
-
-                    <form method="post"  class="mt-2" >
-                        <div class="mb-3" style="text-align: center">
-                            <input name="id" type="hidden"/>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Regresar</button>
-                            <button type="submit" class="btn btn-success"  >Registrar</button>
-                        </div>
-                    </form>
-
-                </div>
-
-                <!--<div class="modal-footer" style="text-align: center">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Regresar</button>
-                    <button type="submit" class="btn btn-success" th:form="${'form'+usuario.id}" >Registrar</button>
-                </div>-->
-
             </div>
         </div>
     </div>
+
 
     <div th:each="incidencia : ${listaIncidencias}">
         <div class="modal fade" th:id="${'Modal'+incidencia.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
@@ -159,8 +174,8 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Comentario: </h5>
-                        <button th:unless="${#fields.hasErrors('comentario.textComentario')}" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        <a th:if="${#fields.hasErrors('comentario.textComentario')}" type="button" class="btn-close" th:href="@{'/usuario/misIncidencias'}" aria-label="Close"></a>
+                        <button th:unless="${#fields.hasErrors('incidencia.comentarioUsuario')}" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <a th:if="${#fields.hasErrors('incidencia.comentarioUsuario')}" type="button" class="btn-close" th:href="@{'/usuario/misIncidencias'}" aria-label="Close"></a>
                     </div>
                     <div class="modal-body">
 
@@ -168,26 +183,47 @@
                             <div class="mb-3">
                                 <input th:value="${incidencia.id}" name="id" type="hidden"/>
 
-                                <label for="textComentario" class="form-label">Ingrese comentario: </label>
-                                <textarea th:field="${comentario.textComentario}" class="form-control" name="textComentario" id="textComentario" rows="4"
-                                          th:classappend="${#fields.hasErrors('comentario.textComentario')?'is-invalid':''}" required></textarea>
-                                <div class="invalid-feedback" th:if="${#fields.hasErrors('comentario.textComentario')}"
-                                     th:errors="${comentario.textComentario}">
+                                <!-- To-do esto es para que no se envie estos valores nulos al recibirlo en admin en suspender -->
+                                <input th:value="${incidencia.descripcion}" name="descripcion" type="hidden"/>
+                                <input th:value="${incidencia.nombre}" name="nombre" type="hidden"/>
+                                <input th:value="${incidencia.codigo.id}" name="codigo" type="hidden"/>
+                                <input th:value="${incidencia.idurgencia.id}" name="idurgencia" type="hidden"/>
+                                <input th:value="${incidencia.idtipo.id}" name="idtipo" type="hidden"/>
+                                <input th:value="${incidencia.comentario}" name="comentario" type="hidden"/>
+                                <input th:value="${incidencia.estado}" name="estado" type="hidden"/>
+                                <input th:value="${incidencia.destacado}" name="destacado" type="hidden"/>
+                                <input th:value="${incidencia.fecha}" name="fecha" type="hidden"/>
+                                <input th:value="${incidencia.emMedica}" name="emMedica" type="hidden"/>
+                                <input th:value="${incidencia.max}" name="max" type="hidden"/>
+                                <input th:value="${incidencia.ubicacion.id}" name="ubicacion" type="hidden"/>
+                                <input th:value="${incidencia.max_usuario}" name="max_usuario" type="hidden"/>
+                                <input value="defaultPassword"  name="contra" type="hidden"/>
+                                <!-- ################################################################################3 -->
+
+
+                                <label for="comentarioUsuario" class="form-label">Ingrese comentario: </label>
+                                <textarea th:field="${incidencia.comentarioUsuario}" class="form-control" name="comentarioUsuario" id="comentarioUsuario" rows="4"
+                                          th:classappend="${#fields.hasErrors('incidencia.comentarioUsuario')?'is-invalid':''}" required></textarea>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('incidencia.comentarioUsuario')}"
+                                     th:errors="${incidencia.comentarioUsuario}">
                                     Please choose a username.
                                 </div>
+
                             </div>
                         </form>
 
                     </div>
                     <div class="modal-footer">
-                        <button th:unless="${#fields.hasErrors('comentario.textComentario')}" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Regresar</button>
-                        <a th:if="${#fields.hasErrors('comentario.textComentario')}" type="button" class="btn btn-secondary" th:href="@{'/usuario/misIncidencias'}">Regresar</a>
+                        <button th:unless="${#fields.hasErrors('incidencia.comentarioUsuario')}" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Regresar</button>
+                        <a th:if="${#fields.hasErrors('incidencia.comentarioUsuario')}" type="button" class="btn btn-secondary" th:href="@{'/usuario/misIncidencias'}">Regresar</a>
                         <button type="submit" class="btn btn-success" th:form="${'form'+incidencia.id}">Aceptar</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+
 
 
     <script th:inline="javascript">

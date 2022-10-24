@@ -66,7 +66,9 @@ public class Inicidencia {
 
     @Lob
     @Column(name = "comentario_usuario")
-    private String comentarioUsuario;
+    @Size(max = 100, message = "Máximo 100 caracteres")
+    @NotBlank(message = "Ingrese el comentario")
+    private String comentarioUsuario="Escriba aquí su comentario.";
 
     @Column(name = "max", nullable = false)
     private int max=0;
