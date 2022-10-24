@@ -46,13 +46,13 @@ public interface InicidenciaRepository extends JpaRepository<Inicidencia, Intege
     @Query(value = "SELECT count(i.idinicidencia) as numero FROM inicidencia i right join tipo t on i.idtipo = t.idtipo group by t.idtipo;",nativeQuery = true)
     List<Integer> buscarCantidadIncidencia();
 
-    @Query(value="SELECT * FROM inicidencia where idtipo = ?1  order by idinicidencia asc;",nativeQuery = true)
+    @Query(value="SELECT * FROM inicidencia where idtipo = ?1  order by idinicidencia desc;",nativeQuery = true)
     List<Inicidencia> filtradoTipo(int idTipo);
 
-    @Query(value = "SELECT * FROM inicidencia where idtipo = ?1 and idurgencia = ?2  order by idinicidencia asc;",nativeQuery = true)
+    @Query(value = "SELECT * FROM inicidencia where idtipo = ?1 and idurgencia = ?2  order by idinicidencia desc;",nativeQuery = true)
     List<Inicidencia> filtradoTipoUrgencia(int idTipo, int idUrgencia);
 
-    @Query(value = "SELECT * FROM inicidencia where idurgencia = ?1  order by idinicidencia asc;",nativeQuery = true)
+    @Query(value = "SELECT * FROM inicidencia where idurgencia = ?1  order by idinicidencia desc;",nativeQuery = true)
     List<Inicidencia> filtradoUrgencia(int idUrgencia);
 
     @Query(value = "SELECT * FROM inicidencia ORDER BY idinicidencia desc;", nativeQuery = true)
@@ -67,15 +67,15 @@ public interface InicidenciaRepository extends JpaRepository<Inicidencia, Intege
     void destacarIncidencia(int id);
 
     @Query(value="SELECT * FROM inicidencia order by idinicidencia desc",nativeQuery = true)
-    List<Inicidencia> ordenAntiguo();
+    List<Inicidencia> ordenNuevo();
 
-    @Query(value = "SELECT * FROM inicidencia where idurgencia = ?1   order by idinicidencia desc;",nativeQuery = true)
+    @Query(value = "SELECT * FROM inicidencia where idurgencia = ?1   order by idinicidencia;",nativeQuery = true)
     List<Inicidencia> filtradoUrgenciaAntiguo(int idUrgencia);
 
-    @Query(value="SELECT * FROM inicidencia where idtipo = ?1  order by idinicidencia desc;",nativeQuery = true)
+    @Query(value="SELECT * FROM inicidencia where idtipo = ?1  order by idinicidencia;",nativeQuery = true)
     List<Inicidencia> filtradoTipoAntiguo(int idTipo);
 
-    @Query(value = "SELECT * FROM inicidencia where idtipo = ?1 and idurgencia = ?2 order by idinicidencia desc;",nativeQuery = true)
+    @Query(value = "SELECT * FROM inicidencia where idtipo = ?1 and idurgencia = ?2 order by idinicidencia;",nativeQuery = true)
     List<Inicidencia> filtradoTipoUrgenciaAntig(int idTipo, int idUrgencia);
 
     @Query(value = "select now();",nativeQuery = true)
