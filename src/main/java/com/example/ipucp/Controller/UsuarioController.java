@@ -1,6 +1,5 @@
 package com.example.ipucp.Controller;
 
-import com.example.ipucp.Dto.UsuarioIncidencias;
 import com.example.ipucp.Entity.*;
 import com.example.ipucp.Repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +30,9 @@ public class UsuarioController {
     UsuarioRepository usuarioRepository;
     @Autowired
     UbicacionRepository ubicacionRepository;
+
+    @Autowired
+    ComentarioRepository comentarioRepository;
 
     @GetMapping("/mapa")
     public String mapa() {
@@ -135,10 +137,58 @@ public class UsuarioController {
         return "usuario/perfil";
     }
     @GetMapping("/misIncidencias")
-    public String misIncidencias(Model model,HttpSession session) {
+    public String misIncidencias(Model model,HttpSession session, @ModelAttribute("comentario") Comentario comentario) {
         Usuario user = (Usuario) session.getAttribute("usuario");
         model.addAttribute("listaIncidencias",inicidenciaRepository.userIncidencias(user.getId()));
         return "usuario/incidencias";
+    }
+
+    @GetMapping("/ListaComentarios")
+    public String comentariosIncidencia() {
+        return "usuario/lista_comentarios";
+    }
+
+    @GetMapping("/lista_comentarios")
+    public String listacomentarios(Model model, @RequestParam("id") Integer id, @ModelAttribute("comentario") Comentario comentario ) {
+        List<Comentario> listaComentariosSeguridad = comentarioRepository.IncidenciasComentariosSeguridad(id);
+        List<Comentario> listaComentariosUsuario = comentarioRepository.IncidenciasComentariosUsuario(id);
+        if(listaComentariosSeguridad.size()==0){
+            return "redirect:/usuario/misIncidencias";
+        }else{
+            model.addAttribute("listaComentariosSeguridad", listaComentariosSeguridad);
+            model.addAttribute("listaComentariosUsuario",listaComentariosUsuario);
+            return "usuario/lista_comentarios";
+        }
+    }
+
+    @PostMapping("/comentar")
+    public String comentar(@RequestParam("id") Integer id,
+                           @RequestParam("textComentario") String textComentario,
+                           RedirectAttributes redirectAttributes, @ModelAttribute("comentario") @Valid Comentario comentario,
+                           BindingResult bindingResult, Model model, HttpSession session){
+        Usuario user = (Usuario) session.getAttribute("usuario");
+        Optional<Inicidencia> optInicidencia = inicidenciaRepository.findById(id);
+        Inicidencia incidencia = optInicidencia.get();
+        if(bindingResult.hasErrors()){
+            System.out.println("----------------------------- Error detectado --------------------------");
+            System.out.println(bindingResult.getFieldError());
+            model.addAttribute("id",id);
+            model.addAttribute("listaIncidencias",inicidenciaRepository.userIncidencias(user.getId()));
+            return "usuario/misIncidencias";
+        }else {
+            int max = incidencia.getMax_usuario();
+            max+=1;
+            inicidenciaRepository.comentarIncidenciaUsuario(textComentario,max,incidencia.getId());
+            comentarioRepository.comentarIncidenciaUsuario(textComentario,id);
+            if(max==5){
+                inicidenciaRepository.cambiarEstadoIncidencia(id);
+                redirectAttributes.addFlashAttribute("msg2","Incidencia comentada. Se ha llegado al máximo de comentarios por incidencia.");
+                return "redirect:/usuario/misIncidencias";
+            }else{
+                redirectAttributes.addFlashAttribute("msg3","Incidencia comentada. Recuerda que hay un máximo de 5 comentarios por incidencia.");
+                return "redirect:/usuario/misIncidencias";
+            }
+        }
     }
 
 

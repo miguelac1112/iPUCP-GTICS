@@ -76,6 +76,17 @@ public class Inicidencia {
 
     private Ubicacion ubicacion;
 
+    @Column(name = "max_usuario", nullable = false)
+    private int max_usuario=0;
+
+    public int getMax_usuario() {
+        return max_usuario;
+    }
+
+    public void setMax_usuario(int max_usuario) {
+        this.max_usuario = max_usuario;
+    }
+
     public int getDestacado() {
         return destacado;
     }

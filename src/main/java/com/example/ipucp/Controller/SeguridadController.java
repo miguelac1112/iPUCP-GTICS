@@ -140,7 +140,7 @@ public class SeguridadController {
             Comentario comentario1 = comentarioRepository.comentario(id, id);
             if(Objects.isNull(comentario1)){
                 Comentario comentario2 = new Comentario();
-                comentario2.setComentario("Ingrese el comentario.");
+                comentario2.setTextComentario("Ingrese el comentario.");
                 model.addAttribute("comentario", comentario2);
                 model.addAttribute("incidencia", inicidencia);
                 return "seguridad/seguridad";

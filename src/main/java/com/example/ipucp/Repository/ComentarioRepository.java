@@ -27,6 +27,11 @@ public interface ComentarioRepository extends JpaRepository<Comentario, Integer>
 
     @Transactional
     @Modifying
-    @Query(value = "INSERT INTO `comentarios` (`comentario`, `cargo`, `idinicidencia`) VALUES (?1, '1', ?2);",nativeQuery = true)
+    @Query(value = "INSERT INTO `comentarios` (`text_comentario`, `cargo`, `idinicidencia`) VALUES (?1, '1', ?2);",nativeQuery = true)
     void comentarIncidencia(String comentario, int id);
+
+    @Transactional
+    @Modifying
+    @Query(value = "INSERT INTO `comentarios` (`text_comentario`, `cargo`, `idinicidencia`) VALUES (?1, '0', ?2);",nativeQuery = true)
+    void comentarIncidenciaUsuario(String comentario, int id);
 }
