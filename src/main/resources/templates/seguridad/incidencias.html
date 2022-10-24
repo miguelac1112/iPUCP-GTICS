@@ -162,13 +162,12 @@
                                 </svg>
                                 Ubicar
                             </button>
-                            <button th:if="${incidencias.estado == 2 or incidencias.getMax()==5}"  class="btn btn-success">Resuelta</button>
+                            <button th:if="${incidencias.estado == 3 or incidencias.getMax()==5}"  class="btn btn-success">Resuelta</button>
                             <a th:if="${incidencias.estado == 0}" th:href="@{'/seguridad/comentar_incidencia' + '?id=' + ${incidencias.id}}" class="btn btn-primary">Atender</a>
                             <a th:if="${incidencias.estado == 1}" th:href="@{'/seguridad/comentar_incidencia' + '?id=' + ${incidencias.id}}" class="btn btn-info">Revisar</a>
-                            <a th:if="${incidencias.estado == 1 or incidencias.estado==2}" th:href="@{'/seguridad/lista_comentarios' + '?id=' + ${incidencias.id}}" class="btn btn-info">Ver comentarios</a>
+                            <a th:if="${incidencias.estado == 1 or incidencias.estado==2 or incidencias.estado==3 }" th:href="@{'/seguridad/lista_comentarios' + '?id=' + ${incidencias.id}}" class="btn btn-info">Ver comentarios</a>
                             <p class="card-text">
                             <small class="text-muted" th:text="${'Publicado el '+incidencias.fecha.toString().split('T')[0].split('-')[2]+'/'+incidencias.fecha.toString().split('T')[0].split('-')[1]+'/'+incidencias.fecha.toString().split('T')[0].split('-')[0]}"></small></p>
-                            <a th:if="${incidencias.estado == 1 or incidencias.estado==2 or incidencias.estado==3}" th:href="@{'/seguridad/lista_comentarios' + '?id=' + ${incidencias.id}}" class="btn btn-info">Ver comentarios</a>
                             <p class="card-text"><small class="text-muted">Publicado el 25 de agosto 2022</small></p>
                             <p class="card-text" style="margin-top: -15px"><small class="text-muted" th:text="${'Destacado '+incidencias.destacado+' veces'}"></small></p>
                         </div>
