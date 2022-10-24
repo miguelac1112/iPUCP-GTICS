@@ -66,7 +66,7 @@ public class SeguridadController {
         List<Orden> listaOrden = this.obtenerOrden();
         /*Estado*/
         List<Orden> listaEstados = this.obtenerEstado();
-        List<Inicidencia> inicidenciaList = inicidenciaRepository.findAll();
+        List<Inicidencia> inicidenciaList = inicidenciaRepository.orderReciente();
         model.addAttribute("idtipoI",0);
         model.addAttribute("idUrgI",0);
         model.addAttribute("idOrdenI",0);
@@ -103,8 +103,8 @@ public class SeguridadController {
 
             }else{
                 switch (idOrden){
-                    case 1 -> listIncidencias.addAll(inicidenciaRepository.ordenAntiguo());
-                    case 0 -> listIncidencias.addAll(inicidenciaRepository.findAll());
+                    case 1 -> listIncidencias.addAll(inicidenciaRepository.findAll());
+                    case 0 -> listIncidencias.addAll(inicidenciaRepository.ordenNuevo());
                 }
             }
         }
