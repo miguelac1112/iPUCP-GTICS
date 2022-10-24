@@ -171,7 +171,7 @@
                             <!--style="margin-left:450px"-->
                             <div class="col-md-6" >
                                 <a class="btn btn-secondary" th:href="@{'/seguridad/lista_usuarios'}">Regresar</a>
-                                <button class="btn btn-danger" type="submit" data-bs-toggle="modal" data-bs-target="#Modal1">Reportar usuario</button>
+                                <button class="btn btn-danger" type="submit" data-bs-toggle="modal" data-bs-target="#Modal2">Reportar usuario</button>
                             </div>
                         </div>
                     </div>
@@ -217,24 +217,26 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel2">Ingresar código enviado a su correo.</h5>
+                            <h5 class="modal-title" id="exampleModalLabel2">¿Estás seguro que quieres reportar a este usuario?</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
 
                             <form method="post" th:action="@{'/seguridad/StrikeUsuario'}" class="mt-2" th:id="${'form'+usuario.id}">
-                                <div class="mb-3">
+                                <div class="mb-3" style="text-align: center">
                                     <input th:value="${usuario.id}" name="id" type="hidden"/>
-                                    <label for="incidencia" class="form-label">Código: *</label>
-                                    <input type="password" id="incidencia" class="form-control" value="" required/>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Regresar</button>
+                                    <button type="submit" class="btn btn-danger" th:form="${'form'+usuario.id}" >Registrar</button>
                                 </div>
                             </form>
 
                         </div>
-                        <div class="modal-footer">
+
+                        <!--<div class="modal-footer" style="text-align: center">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Regresar</button>
                             <button type="submit" class="btn btn-success" th:form="${'form'+usuario.id}" >Registrar</button>
-                        </div>
+                        </div>-->
+
                     </div>
                 </div>
             </div>
