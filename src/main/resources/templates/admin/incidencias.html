@@ -34,7 +34,8 @@
         <div class="container-fluid">
             <div><img th:src="@{/img/logo.jpg}" style="width: 24%;border-radius: 100%"/></div>
 
-            <div class="hidden-mobile" href="#inicio" ><h2 id="navbar-logo" style="color: #b9ab7f"  class="text-sm-left" ><strong>iPUCP</strong></h2></div>
+
+            <div class="a-logo" href="#inicio"><h1 id="navbar-logo" style="color: #b9ab7f"><strong>iPUCP<span style="font-size: medium; color: #b9ab7f">v.admin</span></strong></h1></div>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -47,7 +48,7 @@
                             <span th:text="${session.usuario.apellido}"></span>
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
-                            <li><a class="dropdown-item" th:href="@{'/admin/incidencias'}">Incidencias</a></li>
+                            <li><a class="dropdown-item" th:href="@{'/admin/listar'}">Lista Usuarios</a></li>
                             <li><form th:action="@{/logout}" method="post"><a class="dropdown-item"><input type="submit" class="border-0" style="background: #eeeeee; background-color: #eeeeee" value="Cerrar Sesión"></a></form></li>
                         </ul>
                     </li>
