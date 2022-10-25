@@ -1,5 +1,6 @@
 package com.example.ipucp.Controller;
 
+import com.example.ipucp.Dto.IncidenciaPorMes;
 import com.example.ipucp.Entity.*;
 import com.example.ipucp.Dto.UsuarioIncidencias;
 import com.example.ipucp.Repository.*;
@@ -217,6 +218,8 @@ public class SeguridadController {
             model.addAttribute("incidenciaUrgencia",inicidenciaRepository.buscarUrgenciaIncidencia());
             model.addAttribute("incidenciaTipo",inicidenciaRepository.buscarTipoIncidencia());
             model.addAttribute("incidenciaCantidad",inicidenciaRepository.buscarCantidadIncidencia());
+            List<Integer> listaCantidaMes = obtenerIncidenciasMes();
+            model.addAttribute("listaCantidadMes",listaCantidaMes);
             return "seguridad/dashboard";
     }
 
@@ -354,5 +357,29 @@ public class SeguridadController {
         porAtender.setTexto("Por atender");
         listaEstados.add(porAtender);
         return listaEstados;
+    }
+
+    public List<Integer> obtenerIncidenciasMes(){
+
+        List <IncidenciaPorMes> listaIporMes = inicidenciaRepository.incidenciaMes();
+        List<Integer> listaFinal = new ArrayList<>();
+        int contador;
+        for (int i=1; i <13; i++){
+            contador = 0;
+            for ( IncidenciaPorMes inci : listaIporMes){
+                if (inci.getMes() == i){
+                    listaFinal.add(inci.getCantidad());
+                    contador = 1;
+                    break;
+                }else{
+                    contador = 0;
+                }
+            }
+            switch (contador){
+                case 0->listaFinal.add(0);
+            }
+        }
+
+        return listaFinal;
     }
 }
