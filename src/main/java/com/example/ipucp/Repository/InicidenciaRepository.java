@@ -1,6 +1,7 @@
 package com.example.ipucp.Repository;
 
 import com.example.ipucp.Dto.IncidenciaEstado;
+import com.example.ipucp.Dto.IncidenciaPorMes;
 import com.example.ipucp.Dto.IncidenciaUrgencia;
 import com.example.ipucp.Entity.Comentario;
 import com.example.ipucp.Entity.Inicidencia;
@@ -80,4 +81,7 @@ public interface InicidenciaRepository extends JpaRepository<Inicidencia, Intege
 
     @Query(value = "select now();",nativeQuery = true)
     Instant fecha();
+
+    @Query(value = "SELECT month(fecha) as 'mes',count(idinicidencia) as 'cantidad' FROM ipucp.inicidencia group by month(fecha) ",nativeQuery = true)
+    List<IncidenciaPorMes> incidenciaMes();
 }
