@@ -54,7 +54,7 @@
 
                     </button>
                     <ul class="dropdown-menu dropdown-menu-right" >
-                        <li><a class="dropdown-item" th:text="|${session.usuario.nombre} ${session.usuario.apellido}|" style="background-color: #1d1d1d; color: #eeeeee"></a></li>
+                        <li><span class="dropdown-item" th:text="|${session.usuario.nombre} ${session.usuario.apellido}|" style="background-color: #1d1d1d; color: #eeeeee"></span></li>
                         <li><a class="dropdown-item" th:href="@{'/usuario/misIncidencias'}">Incidencias</a></li>
                         <li><a class="dropdown-item" th:href="@{'/usuario/perfil'}">Perfil</a></li>
                         <li><form th:action="@{/logout}" method="post"><a class="dropdown-item"><input type="submit" class="border-0" style="background: #eeeeee; background-color: #eeeeee" value="Cerrar Sesión"></a></form></li>
@@ -65,7 +65,7 @@
 
                     </button>
                     <ul class="dropdown-menu dropdown-menu-right" >
-                        <li><a class="dropdown-item" th:text="|${session.usuario.nombre} ${session.usuario.apellido}|" style="background-color: #1d1d1d; color: #eeeeee"></a></li>
+                        <li><span class="dropdown-item" th:text="|${session.usuario.nombre} ${session.usuario.apellido}|" style="background-color: #1d1d1d; color: #eeeeee"></span></li>
                         <li><a class="dropdown-item" th:href="@{'/usuario/misIncidencias'}">Incidencias</a></li>
                         <li><a class="dropdown-item" th:href="@{'/usuario/perfil'}">Perfil</a></li>
                         <li><form th:action="@{/logout}" method="post"><a class="dropdown-item"><input type="submit" class="border-0" style="background: #eeeeee; background-color: #eeeeee" value="Cerrar Sesión"></a></form></li>
