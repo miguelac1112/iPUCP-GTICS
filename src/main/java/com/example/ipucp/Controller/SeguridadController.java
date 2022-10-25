@@ -90,32 +90,66 @@ public class SeguridadController {
     @GetMapping("/incidenciasFiltrado")
     public String listaFiltrada(Model model,@RequestParam("tipo") int idTipo ,@RequestParam("urgencia") int idUrgencia, @RequestParam("orden") int idOrden, @RequestParam("estado") int idEstad) {
         List<Inicidencia> listIncidencias = new ArrayList<>();
-        if (idTipo != 0){
-            if(idUrgencia != 0){
-                switch (idOrden) {
-                    case 1 -> listIncidencias.addAll(inicidenciaRepository.filtradoTipoUrgenciaAntig(idTipo,idUrgencia));
-                    case 0 -> listIncidencias.addAll(inicidenciaRepository.filtradoTipoUrgencia(idTipo,idUrgencia));
+
+        if(idEstad==2) {
+            if (idTipo != 0) {
+                if (idUrgencia != 0) {
+                    switch (idOrden) {
+                        case 1 ->
+                                listIncidencias.addAll(inicidenciaRepository.filtradoTipoUrgenciaAntig(idTipo, idUrgencia));
+                        case 0 -> listIncidencias.addAll(inicidenciaRepository.filtradoTipoUrgencia(idTipo, idUrgencia));
+                    }
+                } else {
+                    switch (idOrden) {
+                        case 1 -> listIncidencias.addAll(inicidenciaRepository.filtradoTipoAntiguo(idTipo));
+                        case 0 -> listIncidencias.addAll(inicidenciaRepository.filtradoTipo(idTipo));
+                    }
                 }
             } else {
-                switch (idOrden) {
-                    case 1 -> listIncidencias.addAll(inicidenciaRepository.filtradoTipoAntiguo(idTipo));
-                    case 0 -> listIncidencias.addAll(inicidenciaRepository.filtradoTipo(idTipo));
+                if (idUrgencia != 0) {
+                    switch (idOrden) {
+                        case 1 -> listIncidencias.addAll(inicidenciaRepository.filtradoUrgenciaAntiguo(idUrgencia));
+                        case 0 -> listIncidencias.addAll(inicidenciaRepository.filtradoUrgencia(idUrgencia));
+                    }
+
+                } else {
+                    switch (idOrden) {
+                        case 1 -> listIncidencias.addAll(inicidenciaRepository.findAll());
+                        case 0 -> listIncidencias.addAll(inicidenciaRepository.ordenNuevo());
+                    }
                 }
             }
         }else{
-            if(idUrgencia != 0) {
-                switch (idOrden) {
-                    case 1 -> listIncidencias.addAll(inicidenciaRepository.filtradoUrgenciaAntiguo(idUrgencia));
-                    case 0 -> listIncidencias.addAll(inicidenciaRepository.filtradoUrgencia(idUrgencia));
-                }
 
-            }else{
-                switch (idOrden){
-                    case 1 -> listIncidencias.addAll(inicidenciaRepository.findAll());
-                    case 0 -> listIncidencias.addAll(inicidenciaRepository.ordenNuevo());
+            if (idTipo != 0) {
+                if (idUrgencia != 0) {
+                    switch (idOrden) {
+                        case 1 ->
+                                listIncidencias.addAll(inicidenciaRepository.filtradoTipoUrgenciaAntigEstado(idTipo, idUrgencia, idEstad));
+                        case 0 -> listIncidencias.addAll(inicidenciaRepository.filtradoTipoUrgenciaEstado(idTipo, idUrgencia, idEstad));
+                    }
+                } else {
+                    switch (idOrden) {
+                        case 1 -> listIncidencias.addAll(inicidenciaRepository.filtradoTipoAntiguoEstado(idTipo, idEstad));
+                        case 0 -> listIncidencias.addAll(inicidenciaRepository.filtradoTipoEstado(idTipo, idEstad));
+                    }
+                }
+            } else {
+                if (idUrgencia != 0) {
+                    switch (idOrden) {
+                        case 1 -> listIncidencias.addAll(inicidenciaRepository.filtradoUrgenciaAntiguoEstado(idUrgencia,idEstad));
+                        case 0 -> listIncidencias.addAll(inicidenciaRepository.filtradoUrgenciaEstado(idUrgencia, idEstad));
+                    }
+
+                } else {
+                    switch (idOrden) {
+                        case 1 -> listIncidencias.addAll(inicidenciaRepository.ordenAntigEstaodo(idEstad));
+                        case 0 -> listIncidencias.addAll(inicidenciaRepository.ordenNuevoEstaodo(idEstad));
+                    }
                 }
             }
         }
+
         /*Tipo*/
         List<Tipo> listaTipos  = this.obtenerTipos();
         /*urgencias*/

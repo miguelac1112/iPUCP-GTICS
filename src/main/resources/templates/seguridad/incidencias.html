@@ -132,7 +132,6 @@
     </br>
     <div class="container">
 
-        <div th:if="${idEstad == 2}">
             <div class="card mb-3" th:each="incidencias : ${ListaIncidencias}">
                 <div class="row g-0">
                     <div class="col-md-4 d-flex flex-row">
@@ -173,83 +172,7 @@
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div th:if="${idEstad == 1}">
-        <div class="card mb-3" th:each="incidencias : ${ListaIncidencias}" th:if="${incidencias.estado == 1}">
-        <div class="row g-0">
-            <div class="col-md-4 d-flex flex-row">
-                <img th:src="@{/img/reporte1.jpg}"  class="img-fluid rounded-start" alt="...">
-            </div>
-            <div class="col-md-8">
-                <div class="card-body">
-                    <h4 class="card-title" th:text="${incidencias.nombre}">
-                    </h4>
-                    <p class="card-text postuserfont" style="margin-top: -15px" th:text="${incidencias.descripcion}">
-                    </p>
-                    <p class="card-text postuserfont">
-                        <strong >Tipo: </strong>
-                        <span th:text="${incidencias.idtipo.getTipoIncidencia()}"></span>
-                    </p>
-                    <p class="card-text postuserfont" style="margin-top: -15px" >
-                        <strong >Ubicación: </strong>
-                        <span th:text="${incidencias.ubicacion.getNombre()}"></span>
-                    </p>
-                    <p class="card-text postuserfont" style="margin-top: -15px">
-                        <strong >Publicada por: </strong>
-                        <span th:text="${incidencias.codigo.getNombre()+' '+ incidencias.codigo.getApellido()}"></span>
-                    </p>
-                    <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
-                            <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"></path>
-                        </svg>
-                        Ubicar
-                    </button>
-                    <a th:href="@{'/seguridad/comentar_incidencia' + '?id=' + ${incidencias.id}}" class="btn btn-info">Revisar</a>
-                    <p class="card-text" style="margin-top: -15px"><small class="text-muted" th:text="${'Destacado '+incidencias.destacado+' veces'}"></small></p>
-                </div>
-            </div>
-        </div>
-    </div>
-        </div>
-
-        <div th:if="${idEstad == 0}">
-            <div class="card mb-3" th:each="incidencias : ${ListaIncidencias}" th:if="${incidencias.estado == 0}">
-                <div class="row g-0">
-                    <div class="col-md-4 d-flex flex-row">
-                        <img th:src="@{/img/reporte1.jpg}"  class="img-fluid rounded-start" alt="...">
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h4 class="card-title" th:text="${incidencias.nombre}">
-                            </h4>
-                            <p class="card-text postuserfont" style="margin-top: -15px" th:text="${incidencias.descripcion}">
-                            </p>
-                            <p class="card-text postuserfont">
-                                <strong >Tipo: </strong>
-                                <span th:text="${incidencias.idtipo.getTipoIncidencia()}"></span>
-                            </p>
-                            <p class="card-text postuserfont" style="margin-top: -15px" >
-                                <strong >Ubicación: </strong>
-                                <span th:text="${incidencias.ubicacion.getNombre()}"></span>
-                            </p>
-                            <p class="card-text postuserfont" style="margin-top: -15px">
-                                <strong >Publicada por: </strong>
-                                <span th:text="${incidencias.codigo.getNombre()+' '+ incidencias.codigo.getApellido()}"></span>
-                            </p>
-                            <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
-                                    <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"></path>
-                                </svg>
-                                Ubicar
-                            </button>
-                            <a th:href="@{'/seguridad/comentar_incidencia' + '?id=' + ${incidencias.id}}" class="btn btn-primary">Atender</a>
-                            <p class="card-text" style="margin-top: -15px"><small class="text-muted" th:text="${'Destacado '+incidencias.destacado+' veces'}"></small></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <p1 th:if="${ListaIncidencias.isEmpty()}"> No hay incidencias </p1>
         </br>

@@ -84,4 +84,29 @@ public interface InicidenciaRepository extends JpaRepository<Inicidencia, Intege
 
     @Query(value = "SELECT month(fecha) as 'mes',count(idinicidencia) as 'cantidad' FROM ipucp.inicidencia group by month(fecha) ",nativeQuery = true)
     List<IncidenciaPorMes> incidenciaMes();
+
+    /*filtros 2*/
+    @Query(value = "SELECT * FROM inicidencia where idtipo = ?1 and idurgencia = ?2 and estado = ?3 order by idinicidencia;",nativeQuery = true)
+    List<Inicidencia> filtradoTipoUrgenciaAntigEstado(int idTipo, int idUrgencia, int estado);
+
+    @Query(value = "SELECT * FROM inicidencia where idtipo = ?1 and idurgencia = ?2 and estado = ?3 order by idinicidencia desc;",nativeQuery = true)
+    List<Inicidencia> filtradoTipoUrgenciaEstado(int idTipo, int idUrgencia, int estado);
+
+    @Query(value="SELECT * FROM inicidencia where idtipo = ?1 and estado = ?2 order by idinicidencia;",nativeQuery = true)
+    List<Inicidencia> filtradoTipoAntiguoEstado(int idTipo, int estado);
+
+    @Query(value="SELECT * FROM inicidencia where idtipo = ?1 and estado = ?2  order by idinicidencia desc;",nativeQuery = true)
+    List<Inicidencia> filtradoTipoEstado(int idTipo, int estado);
+
+    @Query(value = "SELECT * FROM inicidencia where idurgencia = ?1 and estado = ?2  order by idinicidencia;",nativeQuery = true)
+    List<Inicidencia> filtradoUrgenciaAntiguoEstado(int idUrgencia,int estado);
+
+    @Query(value = "SELECT * FROM inicidencia where idurgencia = ?1 and estado = ?2 order by idinicidencia desc;",nativeQuery = true)
+    List<Inicidencia> filtradoUrgenciaEstado(int idUrgencia, int estado);
+
+    @Query(value="SELECT * FROM inicidencia where estado = ?1 order by idinicidencia desc",nativeQuery = true)
+    List<Inicidencia> ordenNuevoEstaodo(int estado);
+
+    @Query(value="SELECT * FROM inicidencia where estado = ?1 order by idinicidencia asc",nativeQuery = true)
+    List<Inicidencia> ordenAntigEstaodo(int estado);
 }
