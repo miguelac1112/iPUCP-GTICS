@@ -1,149 +1,109 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-    <link
-            rel="stylesheet"
-            href="https://use.fontawesome.com/releases/v5.15.1/css/all.css"
-            integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp"
-            crossorigin="anonymous"
-    />
-    <script src="https://kit.fontawesome.com/1e18eec1cd.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="/css/style.css"  />
-    <title>iPUCP</title>
-    <style>
-        @media (max-width: 777px) {
-            .hidden-mobile {
-                display: none;
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+        <link
+                rel="stylesheet"
+                href="https://use.fontawesome.com/releases/v5.15.1/css/all.css"
+                integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp"
+                crossorigin="anonymous"
+        />
+        <script src="https://kit.fontawesome.com/1e18eec1cd.js" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="/css/style.css"  />
+        <title>iPUCP</title>
+        <style>
+            @media (max-width: 777px) {
+                .hidden-mobile {
+                    display: none;
+                }
             }
-        }
-        @media (min-width: 777px) {
-            .show-mobile {
-                display: none;
+            @media (min-width: 777px) {
+                .show-mobile {
+                    display: none;
+                }
             }
-        }
-    </style>
-</head>
-<body style="background:#CFCFCF">
-<!-- <nav
-        class="navbar navbar-expand-sm navbar-light border fixed-top"
-        style="background-color: #373737; height:15%"
->
-    <div class="ml-lg-5 ">
+        </style>
+    </head>
+    <body>
 
-                <a class="navbar-brand ml-lg-5 mt-1 mr-5" href="#" >
-                    <div class="row" style="margin-top:4%;margin-left: 15%" >
-                        <div class="col">
-                           <img src="../../static/img/logo-pucp1.png" alt="..." style="width:45%; height:85%;margin-top: -3%"/>
 
+        <div class="nav-container">
+            <nav class="navbar">
+                <div class="navbar-row-container">
+                    <div class="nav-logo-container">
+                        <div class="menu-toggle">
+                            <img class="img-logo" th:src="@{/img/logo.jpg}" style="width: 35%;height: 85%;border-radius: 100%;margin-top: 1vm"/>
                         </div>
-                        <div  class="col" style="margin-left: -15%">
-                        <p class="h1" style="color: #B9AB7F;margin-top: 2%;margin-left: -28%"><strong>iPUCP</strong></p>
-                        </div>
+                        <div class="a-logo" href="#inicio"><h1 id="navbar-logo"><strong>iPUCP<span style="font-size: medium">v.usuario</span></strong></h1></div>
                     </div>
-                </a>
-    </div>
-    <div
-            class="collapse navbar-collapse ml-5 mt-2"
-            id="navbarSupportedContent"
-    >
-        <ul class="navbar-nav" style="margin-left:7%">
-            <li class="nav-item active">
-                <a class="nav-link" th:href="@{'/usuario/listar'}"
-                ><i class="fas fa-home fa-lg mr-2 d-none d-sm-block mt-1"style="color: #9F9D81;font-size:200%"></i>
-                    <span class="sr-only">(current)</span></a
-                >
-            </li>
+                    <ul class="nav-menu" >
+                        <li>
+                            <a id="abrir-modal-cotizar-menu" class="nav-links nav-links-btn" th:href="@{'/usuario/listar'}">
+                                <i class="fas fa-home nav-links-img"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nav-links nav-links-btn" th:href="@{'/usuario/mapa'}">
+                                <i class="far fa-compass nav-links-img"
+                                ></i>
+                            </a>
+                        </li>
 
-            <li class="nav-item" style="margin-left: 25%">
-                <a class="nav-link" th:href="@{'/usuario/mapa'}"
-                ><i class="far fa-compass fa-lg mr-2 d-none d-sm-block mt-1" style="font-size:200%;color: #B9B9B9"></i
-                ></a>
-            </li>
-            <li class="nav-item" style="margin-left: 25%">
-                <a class="nav-link" th:href="@{'/usuario/perfil'}"
-                ><i
-                        class="far fa-fw fa-user fa-lg mr-2 d-none d-sm-block mt-1"
-                        style="font-size:200%;color: #9F9D81"
-                ></i
-                ></a>
-            </li>
-            <li class="nav-item" style="margin-left: 25%">
-                <a class="nav-link" href="#"
-                ><i class='fas fa-sign-out-alt' style="font-size:200%;color: #9F9D81;margin-top: -120%"></i
-                ></a>
-            </li>
-        </ul>
-    </div>
-</nav> -->
 
-<div class="nav-container">
-    <nav class="navbar">
-        <div class="navbar-row-container">
-            <div class="nav-logo-container">
-                <div class="menu-toggle">
-                    <img class="img-logo" th:src="@{/img/logo.jpg}" style="width: 35%;height: 85%;border-radius: 100%;margin-top: 1vm"/>
+                        <li class="show-mobile dropup">
+                            <button type="button" class="nav-link dropdown-toggle fw-bold btn btn-dark dropdown-toggle-split"   role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-right" >
+                                <li><a class="dropdown-item" th:text="|${session.usuario.nombre} ${session.usuario.apellido}|" style="background-color: #1d1d1d; color: #eeeeee"></a></li>
+                                <li><a class="dropdown-item" th:href="@{'/usuario/misIncidencias'}">Incidencias</a></li>
+                                <li><a class="dropdown-item" th:href="@{'/usuario/perfil'}">Perfil</a></li>
+                                <li><form th:action="@{/logout}" method="post"><a class="dropdown-item"><input type="submit" class="border-0" style="background: #eeeeee; background-color: #eeeeee" value="Cerrar Sesión"></a></form></li>
+                            </ul>
+                        </li>
+                        <li class="hidden-mobile dropdown">
+                            <button type="button" class="nav-link dropdown-toggle fw-bold btn btn-dark dropdown-toggle-split"   role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-right" >
+                                <li><a class="dropdown-item" th:text="|${session.usuario.nombre} ${session.usuario.apellido}|" style="background-color: #1d1d1d; color: #eeeeee"></a></li>
+                                <li><a class="dropdown-item" th:href="@{'/usuario/misIncidencias'}">Incidencias</a></li>
+                                <li><a class="dropdown-item" th:href="@{'/usuario/perfil'}">Perfil</a></li>
+                                <li><form th:action="@{/logout}" method="post"><a class="dropdown-item"><input type="submit" class="border-0" style="background: #eeeeee; background-color: #eeeeee" value="Cerrar Sesión"></a></form></li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <form th:action="@{/logout}" method="post" class="nav-links nav-links-btn">
+                                <button style="border: 0; background-color: transparent"  class="fas fa-sign-out-alt nav-links-img"></button>
+
+                            </form>
+                        </li>
+                    </ul>
                 </div>
-                <div class="a-logo" href="#inicio"><h1 id="navbar-logo"><strong>iPUCP<span style="font-size: medium">v.usuario</span></strong></h1></div>
-            </div>
-            <ul class="nav-menu">
-                <li>
-                    <a id="abrir-modal-cotizar-menu" class="nav-links nav-links-btn" th:href="@{'/usuario/listar'}">
-                        <i class="fas fa-home nav-links-img"></i>
-                    </a>
-                </li>
-                <li>
-                    <a class="nav-links nav-links-btn" th:href="@{'/usuario/mapa'}">
-                        <i class="far fa-compass nav-links-img"
-                    ></i>
-                    </a>
-                </li>
-                <li class="show-mobile dropup">
-                    <button type="button" class="nav-link dropdown-toggle fw-bold btn btn-dark dropdown-toggle-split"   role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-right" >
-                        <li><a class="dropdown-item" th:text="${#authentication.name}" style="background-color: #1d1d1d; color: #eeeeee"></a></li>
-                        <li><a class="dropdown-item" th:href="@{'/usuario/misIncidencias'}">Incidencias</a></li>
-                        <li><a class="dropdown-item" th:href="@{'/usuario/perfil'}">Perfil</a></li>
-                        <li><form th:action="@{/logout}" method="post"><a class="dropdown-item"><input type="submit" class="border-0" style="background: #eeeeee; background-color: #eeeeee" value="Cerrar Sesión"></a></form></li>
-                    </ul>
-                </li>
-                <li class="hidden-mobile dropdown">
-                    <button type="button" class="nav-link dropdown-toggle fw-bold btn btn-dark dropdown-toggle-split"   role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
 
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-right" >
-                        <li><a class="dropdown-item" th:text="${#authentication.name}" style="background-color: #1d1d1d; color: #eeeeee"></a></li>
-                        <li><a class="dropdown-item" th:href="@{'/usuario/misIncidencias'}">Incidencias</a></li>
-                        <li><a class="dropdown-item" th:href="@{'/usuario/perfil'}">Perfil</a></li>
-                        <li><form th:action="@{/logout}" method="post"><a class="dropdown-item"><input type="submit" class="border-0" style="background: #eeeeee; background-color: #eeeeee" value="Cerrar Sesión"></a></form></li>
-                    </ul>
-                </li>
-                <li>
-                    <form th:action="@{/logout}" method="post" class="nav-links nav-links-btn">
-                        <button style="border: 0; background-color: transparent"  class="fas fa-sign-out-alt nav-links-img"></button>
 
-                    </form>
-                </li>
-            </ul>
+            </nav>
         </div>
-        
-    </nav>
-</div>
 
-<div class="contact-details-container">
-    <div class="contact-map">
-        <a class="contact-map-container" href="https://www.google.com/maps/place/ALEX/data=!3m1!4b1!4m2!3m1!1s0x910dd360cdb0b639:0x48d55a1bf4142203" target="_blank" rel="noopener noreferrer" >
-            <iframe class="map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1950.8119483829007!2d-77.08063057045574!3d-12.069378222604536!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9105c912d40840a5%3A0xd7a0bfb797e5862e!2sPontificia%20Universidad%20Cat%C3%B3lica%20del%20Per%C3%BA!5e0!3m2!1ses!2spe!4v1663553899963!5m2!1ses!2spe" width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>    
-        </a>
-    </div>
-    <div class="btns-container">
-        <a class="btn btn-dark" th:href="@{'/usuario/newInciden'}">Añadir incidencia</a>
-        <a class="btn btn-secondary" th:href="@{'/usuario/misIncidencias'}">Mis incidencias</a>
-    </div>
-</div>
-</body>
+        <div class="container">
+        <div class="contact-details-container">
+            <div class="contact-map">
+                <a class="contact-map-container" href="https://www.google.com/maps/place/ALEX/data=!3m1!4b1!4m2!3m1!1s0x910dd360cdb0b639:0x48d55a1bf4142203" target="_blank" rel="noopener noreferrer" >
+                    <iframe class="map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1950.8119483829007!2d-77.08063057045574!3d-12.069378222604536!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9105c912d40840a5%3A0xd7a0bfb797e5862e!2sPontificia%20Universidad%20Cat%C3%B3lica%20del%20Per%C3%BA!5e0!3m2!1ses!2spe!4v1663553899963!5m2!1ses!2spe" width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </a>
+            </div>
+            <div class="btns-container">
+                <a class="btn btn-dark" th:href="@{'/usuario/newInciden'}">Añadir incidencia</a>
+                <a class="btn btn-secondary" th:href="@{'/usuario/misIncidencias'}">Mis incidencias</a>
+            </div>
+        </div>
+        </div>
+    </body>
 </html>
