@@ -166,6 +166,7 @@ public class UsuarioController {
                 return "redirect:/usuario/misIncidencias";
             } else {
                 model.addAttribute("id", id);
+                model.addAttribute("incidencia", incidencia);
                 model.addAttribute("listaComentariosSeguridad", listaComentariosSeguridad);
                 model.addAttribute("listaComentariosUsuario", listaComentariosUsuario);
                 return "usuario/lista_comentarios";
