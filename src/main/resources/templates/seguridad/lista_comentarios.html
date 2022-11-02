@@ -27,7 +27,7 @@
                                 <img class="img-logo" th:src="@{/img/logo.jpg}" style="width: 34%;height: 80%;border-radius: 100%;margin-bottom: 2mm"/>
                             </a>
                         </div>
-                        <div class="a-logo" href="#inicio"><h1 id="navbar-logo"><strong>iPUCP</strong></h1></div>
+                        <div class="a-logo" href="#inicio"><h1 id="navbar-logo"><strong>iPUCP<span style="font-size: medium">v.seguridad</span></strong></h1></div>
                     </div>
                     <ul class="nav-menu">
                         <li>
@@ -61,7 +61,7 @@
 
         <div class="row justify-content-center mx-auto m-2">
 
-            <h1 class="pb-2 border-bottom" style="text-align: center; ">Lista de comentarios de la Incidencia con ID #</h1>
+            <h1 class="pb-2 border-bottom" style="text-align: center; " th:text="${'Lista de comentarios de la incidencia con ID #'+id}">Lista de comentarios de la Incidencia con ID #</h1>
 
             </br>
             </br>
@@ -74,9 +74,9 @@
                     <h3 style="text-align: center; ">Lista de comentarios de Seguridad</h3>
                     <div  class="card shadow mb-4"  th:each="comentarios, info : ${listaComentariosSeguridad}">
 
-                        <span class="postuserfont m-2" th:text="${'Comentario #'+(info.index+1)}"><strong>Comentario Fecha</strong></span>
+                        <span class="postuserfont m-2" th:text="${'Publicado el '+comentarios.fecha.toString().split('T')[0].split('-')[2]+'/'+comentarios.fecha.toString().split('T')[0].split('-')[1]+'/'+comentarios.fecha.toString().split('T')[0].split('-')[0]+' a las '+(comentarios.fecha.toString().split('T')[1].split('Z')[0])}"><strong>Comentario Fecha</strong></span>
                         <div class="form-group form-group-textarea mb-md-0">
-                            <input class="form-check" id="tipo" name="tipo" type="text" th:value="${comentarios.comentario}" style="margin-left: 21px;width: 95%"  disabled>
+                            <input class="form-check" id="tipo" name="tipo" type="text" th:value="${comentarios.textComentario}" style="margin-left: 21px;width: 95%"  disabled>
                         </div>
 
 
@@ -88,9 +88,9 @@
                     <h3 style="text-align: center; ">Lista de comentarios del Usuario</h3>
                     <div  class="card shadow mb-4" th:each="comentarios, info : ${listaComentariosUsuario}">
 
-                        <span class="postuserfont m-2" th:text="${'Comentario #'+(info.index+1)}"><strong>Comentario Fecha</strong></span>
+                        <span class="postuserfont m-2" th:text="${'Publicado el '+comentarios.fecha.toString().split('T')[0].split('-')[2]+'/'+comentarios.fecha.toString().split('T')[0].split('-')[1]+'/'+comentarios.fecha.toString().split('T')[0].split('-')[0]+' a las '+(comentarios.fecha.toString().split('T')[1].split('Z')[0])}"><strong>Comentario Fecha</strong></span>
                         <div class="form-group form-group-textarea mb-md-0">
-                            <input class="form-check" id="tipo" name="tipo" type="text" th:value="${comentarios.comentario}" style="margin-left: 21px;width: 95%"  disabled>
+                            <input class="form-check" id="tipo" name="tipo" type="text" th:value="${comentarios.textComentario}" style="margin-left: 21px;width: 95%"  disabled>
                         </div>
 
                     </div>

@@ -5,6 +5,18 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
         <title>Estadísticas Empleados</title>
+        <style>
+            @media (max-width: 777px) {
+                .hidden-mobile {
+                    display: none;
+                }
+            }
+            @media (min-width: 777px) {
+                .show-mobile {
+                    display: none;
+                }
+            }
+        </style>
     </head>
     <body>
         <main>

@@ -14,10 +14,10 @@ public class Comentario {
     private Integer id;
 
     @Lob
-    @Column(name = "comentario", nullable = false)
+    @Column(name = "text_comentario", nullable = false)
     @Size(max = 100, message = "Máximo 100 caracteres")
     @NotBlank(message = "Ingrese el comentario")
-    private String comentario;
+    private String textComentario;
 
     @Column(name = "fecha", nullable = false)
     private Instant fecha;
@@ -37,12 +37,12 @@ public class Comentario {
         this.id = id;
     }
 
-    public String getComentario() {
-        return comentario;
+    public String getTextComentario() {
+        return textComentario;
     }
 
-    public void setComentario(String comentario) {
-        this.comentario = comentario;
+    public void setTextComentario(String textComentario) {
+        this.textComentario = textComentario;
     }
 
     public Instant getFecha() {

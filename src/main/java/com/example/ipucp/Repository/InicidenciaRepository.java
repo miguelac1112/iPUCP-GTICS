@@ -1,6 +1,7 @@
 package com.example.ipucp.Repository;
 
 import com.example.ipucp.Dto.IncidenciaEstado;
+import com.example.ipucp.Dto.IncidenciaPorMes;
 import com.example.ipucp.Dto.IncidenciaUrgencia;
 import com.example.ipucp.Entity.Comentario;
 import com.example.ipucp.Entity.Inicidencia;
@@ -27,8 +28,18 @@ public interface InicidenciaRepository extends JpaRepository<Inicidencia, Intege
 
     @Transactional
     @Modifying
-    @Query(value = "UPDATE inicidencia SET `comentario` = ?1 , `estado` = '1', `max` = ?2 WHERE (`idinicidencia` = ?3);",nativeQuery = true)
+    @Query(value = "UPDATE inicidencia SET `comentario` = ?1 , `estado` = '2', `max` = ?2 WHERE (`idinicidencia` = ?3);",nativeQuery = true)
     void comentarIncidencia(String comentario, int max ,int id);
+
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE inicidencia SET `comentario_usuario` = ?1 , `estado` = '1', `max_usuario` = ?2 WHERE (`idinicidencia` = ?3);",nativeQuery = true)
+    void comentarIncidenciaUsuario(String comentario, int max ,int id);
+
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE `ipucp`.`inicidencia` SET `estado` = '3' WHERE (`idinicidencia` = ?1);",nativeQuery = true)
+    void cambiarEstadoIncidencia(int id);
 
     @Query(value = "SELECT  t.tipo_incidencia as numero FROM inicidencia i right join tipo t on i.idtipo = t.idtipo group by t.idtipo;",nativeQuery = true)
     List<String> buscarTipoIncidencia();
@@ -36,13 +47,13 @@ public interface InicidenciaRepository extends JpaRepository<Inicidencia, Intege
     @Query(value = "SELECT count(i.idinicidencia) as numero FROM inicidencia i right join tipo t on i.idtipo = t.idtipo group by t.idtipo;",nativeQuery = true)
     List<Integer> buscarCantidadIncidencia();
 
-    @Query(value="SELECT * FROM inicidencia where idtipo = ?1  order by idinicidencia asc;",nativeQuery = true)
+    @Query(value="SELECT * FROM inicidencia where idtipo = ?1  order by idinicidencia desc;",nativeQuery = true)
     List<Inicidencia> filtradoTipo(int idTipo);
 
-    @Query(value = "SELECT * FROM inicidencia where idtipo = ?1 and idurgencia = ?2  order by idinicidencia asc;",nativeQuery = true)
+    @Query(value = "SELECT * FROM inicidencia where idtipo = ?1 and idurgencia = ?2  order by idinicidencia desc;",nativeQuery = true)
     List<Inicidencia> filtradoTipoUrgencia(int idTipo, int idUrgencia);
 
-    @Query(value = "SELECT * FROM inicidencia where idurgencia = ?1  order by idinicidencia asc;",nativeQuery = true)
+    @Query(value = "SELECT * FROM inicidencia where idurgencia = ?1  order by idinicidencia desc;",nativeQuery = true)
     List<Inicidencia> filtradoUrgencia(int idUrgencia);
 
     @Query(value = "SELECT * FROM inicidencia ORDER BY idinicidencia desc;", nativeQuery = true)
@@ -57,17 +68,45 @@ public interface InicidenciaRepository extends JpaRepository<Inicidencia, Intege
     void destacarIncidencia(int id);
 
     @Query(value="SELECT * FROM inicidencia order by idinicidencia desc",nativeQuery = true)
-    List<Inicidencia> ordenAntiguo();
+    List<Inicidencia> ordenNuevo();
 
-    @Query(value = "SELECT * FROM inicidencia where idurgencia = ?1   order by idinicidencia desc;",nativeQuery = true)
+    @Query(value = "SELECT * FROM inicidencia where idurgencia = ?1   order by idinicidencia;",nativeQuery = true)
     List<Inicidencia> filtradoUrgenciaAntiguo(int idUrgencia);
 
-    @Query(value="SELECT * FROM inicidencia where idtipo = ?1  order by idinicidencia desc;",nativeQuery = true)
+    @Query(value="SELECT * FROM inicidencia where idtipo = ?1  order by idinicidencia;",nativeQuery = true)
     List<Inicidencia> filtradoTipoAntiguo(int idTipo);
 
-    @Query(value = "SELECT * FROM inicidencia where idtipo = ?1 and idurgencia = ?2 order by idinicidencia desc;",nativeQuery = true)
+    @Query(value = "SELECT * FROM inicidencia where idtipo = ?1 and idurgencia = ?2 order by idinicidencia;",nativeQuery = true)
     List<Inicidencia> filtradoTipoUrgenciaAntig(int idTipo, int idUrgencia);
 
     @Query(value = "select now();",nativeQuery = true)
     Instant fecha();
+
+    @Query(value = "SELECT month(fecha) as 'mes',count(idinicidencia) as 'cantidad' FROM ipucp.inicidencia group by month(fecha) ",nativeQuery = true)
+    List<IncidenciaPorMes> incidenciaMes();
+
+    /*filtros 2*/
+    @Query(value = "SELECT * FROM inicidencia where idtipo = ?1 and idurgencia = ?2 and estado = ?3 order by idinicidencia;",nativeQuery = true)
+    List<Inicidencia> filtradoTipoUrgenciaAntigEstado(int idTipo, int idUrgencia, int estado);
+
+    @Query(value = "SELECT * FROM inicidencia where idtipo = ?1 and idurgencia = ?2 and estado = ?3 order by idinicidencia desc;",nativeQuery = true)
+    List<Inicidencia> filtradoTipoUrgenciaEstado(int idTipo, int idUrgencia, int estado);
+
+    @Query(value="SELECT * FROM inicidencia where idtipo = ?1 and estado = ?2 order by idinicidencia;",nativeQuery = true)
+    List<Inicidencia> filtradoTipoAntiguoEstado(int idTipo, int estado);
+
+    @Query(value="SELECT * FROM inicidencia where idtipo = ?1 and estado = ?2  order by idinicidencia desc;",nativeQuery = true)
+    List<Inicidencia> filtradoTipoEstado(int idTipo, int estado);
+
+    @Query(value = "SELECT * FROM inicidencia where idurgencia = ?1 and estado = ?2  order by idinicidencia;",nativeQuery = true)
+    List<Inicidencia> filtradoUrgenciaAntiguoEstado(int idUrgencia,int estado);
+
+    @Query(value = "SELECT * FROM inicidencia where idurgencia = ?1 and estado = ?2 order by idinicidencia desc;",nativeQuery = true)
+    List<Inicidencia> filtradoUrgenciaEstado(int idUrgencia, int estado);
+
+    @Query(value="SELECT * FROM inicidencia where estado = ?1 order by idinicidencia desc",nativeQuery = true)
+    List<Inicidencia> ordenNuevoEstaodo(int estado);
+
+    @Query(value="SELECT * FROM inicidencia where estado = ?1 order by idinicidencia asc",nativeQuery = true)
+    List<Inicidencia> ordenAntigEstaodo(int estado);
 }

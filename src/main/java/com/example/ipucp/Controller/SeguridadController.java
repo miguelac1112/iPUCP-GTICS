@@ -1,5 +1,6 @@
 package com.example.ipucp.Controller;
 
+import com.example.ipucp.Dto.IncidenciaPorMes;
 import com.example.ipucp.Entity.*;
 import com.example.ipucp.Dto.UsuarioIncidencias;
 import com.example.ipucp.Repository.*;
@@ -47,13 +48,20 @@ public class SeguridadController {
     public String listacomentarios(Model model, @RequestParam("id") Integer id ) {
         List<Comentario> listaComentariosSeguridad = comentarioRepository.IncidenciasComentariosSeguridad(id);
         List<Comentario> listaComentariosUsuario = comentarioRepository.IncidenciasComentariosUsuario(id);
-        if(listaComentariosSeguridad.size()==0){
-            return "redirect:/seguridad/incidencias";
+        Optional<Inicidencia> incidenciaopt = inicidenciaRepository.findById(id);
+        if(incidenciaopt.isPresent()){
+            if(listaComentariosSeguridad.size()==0){
+                return "redirect:/seguridad/incidencias";
+            }else{
+                model.addAttribute("id", id);
+                model.addAttribute("listaComentariosSeguridad", listaComentariosSeguridad);
+                model.addAttribute("listaComentariosUsuario",listaComentariosUsuario);
+                return "seguridad/lista_comentarios";
+            }
         }else{
-            model.addAttribute("listaComentariosSeguridad", listaComentariosSeguridad);
-            model.addAttribute("listaComentariosUsuario",listaComentariosUsuario);
-            return "seguridad/lista_comentarios";
+            return "redirect:/seguridad/incidencias";
         }
+
     }
 
     @GetMapping("/incidencias")
@@ -66,7 +74,7 @@ public class SeguridadController {
         List<Orden> listaOrden = this.obtenerOrden();
         /*Estado*/
         List<Orden> listaEstados = this.obtenerEstado();
-        List<Inicidencia> inicidenciaList = inicidenciaRepository.findAll();
+        List<Inicidencia> inicidenciaList = inicidenciaRepository.orderReciente();
         model.addAttribute("idtipoI",0);
         model.addAttribute("idUrgI",0);
         model.addAttribute("idOrdenI",0);
@@ -82,32 +90,66 @@ public class SeguridadController {
     @GetMapping("/incidenciasFiltrado")
     public String listaFiltrada(Model model,@RequestParam("tipo") int idTipo ,@RequestParam("urgencia") int idUrgencia, @RequestParam("orden") int idOrden, @RequestParam("estado") int idEstad) {
         List<Inicidencia> listIncidencias = new ArrayList<>();
-        if (idTipo != 0){
-            if(idUrgencia != 0){
-                switch (idOrden) {
-                    case 1 -> listIncidencias.addAll(inicidenciaRepository.filtradoTipoUrgenciaAntig(idTipo,idUrgencia));
-                    case 0 -> listIncidencias.addAll(inicidenciaRepository.filtradoTipoUrgencia(idTipo,idUrgencia));
+
+        if(idEstad==2) {
+            if (idTipo != 0) {
+                if (idUrgencia != 0) {
+                    switch (idOrden) {
+                        case 1 ->
+                                listIncidencias.addAll(inicidenciaRepository.filtradoTipoUrgenciaAntig(idTipo, idUrgencia));
+                        case 0 -> listIncidencias.addAll(inicidenciaRepository.filtradoTipoUrgencia(idTipo, idUrgencia));
+                    }
+                } else {
+                    switch (idOrden) {
+                        case 1 -> listIncidencias.addAll(inicidenciaRepository.filtradoTipoAntiguo(idTipo));
+                        case 0 -> listIncidencias.addAll(inicidenciaRepository.filtradoTipo(idTipo));
+                    }
                 }
             } else {
-                switch (idOrden) {
-                    case 1 -> listIncidencias.addAll(inicidenciaRepository.filtradoTipoAntiguo(idTipo));
-                    case 0 -> listIncidencias.addAll(inicidenciaRepository.filtradoTipo(idTipo));
+                if (idUrgencia != 0) {
+                    switch (idOrden) {
+                        case 1 -> listIncidencias.addAll(inicidenciaRepository.filtradoUrgenciaAntiguo(idUrgencia));
+                        case 0 -> listIncidencias.addAll(inicidenciaRepository.filtradoUrgencia(idUrgencia));
+                    }
+
+                } else {
+                    switch (idOrden) {
+                        case 1 -> listIncidencias.addAll(inicidenciaRepository.findAll());
+                        case 0 -> listIncidencias.addAll(inicidenciaRepository.ordenNuevo());
+                    }
                 }
             }
         }else{
-            if(idUrgencia != 0) {
-                switch (idOrden) {
-                    case 1 -> listIncidencias.addAll(inicidenciaRepository.filtradoUrgenciaAntiguo(idUrgencia));
-                    case 0 -> listIncidencias.addAll(inicidenciaRepository.filtradoUrgencia(idUrgencia));
-                }
 
-            }else{
-                switch (idOrden){
-                    case 1 -> listIncidencias.addAll(inicidenciaRepository.ordenAntiguo());
-                    case 0 -> listIncidencias.addAll(inicidenciaRepository.findAll());
+            if (idTipo != 0) {
+                if (idUrgencia != 0) {
+                    switch (idOrden) {
+                        case 1 ->
+                                listIncidencias.addAll(inicidenciaRepository.filtradoTipoUrgenciaAntigEstado(idTipo, idUrgencia, idEstad));
+                        case 0 -> listIncidencias.addAll(inicidenciaRepository.filtradoTipoUrgenciaEstado(idTipo, idUrgencia, idEstad));
+                    }
+                } else {
+                    switch (idOrden) {
+                        case 1 -> listIncidencias.addAll(inicidenciaRepository.filtradoTipoAntiguoEstado(idTipo, idEstad));
+                        case 0 -> listIncidencias.addAll(inicidenciaRepository.filtradoTipoEstado(idTipo, idEstad));
+                    }
+                }
+            } else {
+                if (idUrgencia != 0) {
+                    switch (idOrden) {
+                        case 1 -> listIncidencias.addAll(inicidenciaRepository.filtradoUrgenciaAntiguoEstado(idUrgencia,idEstad));
+                        case 0 -> listIncidencias.addAll(inicidenciaRepository.filtradoUrgenciaEstado(idUrgencia, idEstad));
+                    }
+
+                } else {
+                    switch (idOrden) {
+                        case 1 -> listIncidencias.addAll(inicidenciaRepository.ordenAntigEstaodo(idEstad));
+                        case 0 -> listIncidencias.addAll(inicidenciaRepository.ordenNuevoEstaodo(idEstad));
+                    }
                 }
             }
         }
+
         /*Tipo*/
         List<Tipo> listaTipos  = this.obtenerTipos();
         /*urgencias*/
@@ -140,7 +182,7 @@ public class SeguridadController {
             Comentario comentario1 = comentarioRepository.comentario(id, id);
             if(Objects.isNull(comentario1)){
                 Comentario comentario2 = new Comentario();
-                comentario2.setComentario("Ingrese el comentario.");
+                comentario2.setTextComentario("Ingrese el comentario.");
                 model.addAttribute("comentario", comentario2);
                 model.addAttribute("incidencia", inicidencia);
                 return "seguridad/seguridad";
@@ -210,6 +252,8 @@ public class SeguridadController {
             model.addAttribute("incidenciaUrgencia",inicidenciaRepository.buscarUrgenciaIncidencia());
             model.addAttribute("incidenciaTipo",inicidenciaRepository.buscarTipoIncidencia());
             model.addAttribute("incidenciaCantidad",inicidenciaRepository.buscarCantidadIncidencia());
+            List<Integer> listaCantidaMes = obtenerIncidenciasMes();
+            model.addAttribute("listaCantidadMes",listaCantidaMes);
             return "seguridad/dashboard";
     }
 
@@ -347,5 +391,29 @@ public class SeguridadController {
         porAtender.setTexto("Por atender");
         listaEstados.add(porAtender);
         return listaEstados;
+    }
+
+    public List<Integer> obtenerIncidenciasMes(){
+
+        List <IncidenciaPorMes> listaIporMes = inicidenciaRepository.incidenciaMes();
+        List<Integer> listaFinal = new ArrayList<>();
+        int contador;
+        for (int i=1; i <13; i++){
+            contador = 0;
+            for ( IncidenciaPorMes inci : listaIporMes){
+                if (inci.getMes() == i){
+                    listaFinal.add(inci.getCantidad());
+                    contador = 1;
+                    break;
+                }else{
+                    contador = 0;
+                }
+            }
+            switch (contador){
+                case 0->listaFinal.add(0);
+            }
+        }
+
+        return listaFinal;
     }
 }

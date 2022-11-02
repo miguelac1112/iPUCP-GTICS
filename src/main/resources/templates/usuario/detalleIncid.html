@@ -13,8 +13,21 @@
     <script src="https://kit.fontawesome.com/1e18eec1cd.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/css/style.css" />
     <title>iPUCP</title>
+    <style>
+        @media (max-width: 777px) {
+            .hidden-mobile {
+                display: none;
+            }
+        }
+        @media (min-width: 777px) {
+            .show-mobile {
+                display: none;
+            }
+        }
+    </style>
 </head>
-<body>
+<body style="background:#D3D3D3">
+<main>
 <div class="nav-container">
     <nav class="navbar">
         <div class="navbar-row-container">
@@ -22,7 +35,7 @@
                 <div class="menu-toggle">
                     <img class="img-logo" th:src="@{/img/logo.jpg}" style="width: 35%;height: 85%;border-radius: 100%;margin-top: 1vm"/>
                 </div>
-                <div class="a-logo" href="#inicio"><h1 id="navbar-logo"><strong>iPUCP</strong></h1></div>
+                <div class="a-logo" href="#inicio"><h1 id="navbar-logo"><strong>iPUCP<span style="font-size: medium">v.usuario</span></strong></h1></div>
             </div>
             <ul class="nav-menu">
                 <li>
@@ -36,11 +49,27 @@
                        ></i>
                     </a>
                 </li>
-                <li>
-                    <a class="nav-links nav-links-btn" th:href="@{'/usuario/perfil'}">
-                        <i class="far fa-fw fa-user nav-links-img"
-                        ></i>
-                    </a>
+                <li class="show-mobile dropup">
+                    <button type="button" class="nav-link dropdown-toggle fw-bold btn btn-dark dropdown-toggle-split"   role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-right" >
+                        <li><span class="dropdown-item" th:text="|${session.usuario.nombre} ${session.usuario.apellido}|" style="background-color: #1d1d1d; color: #eeeeee"></span></li>
+                        <li><a class="dropdown-item" th:href="@{'/usuario/misIncidencias'}">Incidencias</a></li>
+                        <li><a class="dropdown-item" th:href="@{'/usuario/perfil'}">Perfil</a></li>
+                        <li><form th:action="@{/logout}" method="post"><a class="dropdown-item"><input type="submit" class="border-0" style="background: #eeeeee; background-color: #eeeeee" value="Cerrar Sesión"></a></form></li>
+                    </ul>
+                </li>
+                <li class="hidden-mobile dropdown">
+                    <button type="button" class="nav-link dropdown-toggle fw-bold btn btn-dark dropdown-toggle-split"   role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-right" >
+                        <li><span class="dropdown-item" th:text="|${session.usuario.nombre} ${session.usuario.apellido}|" style="background-color: #1d1d1d; color: #eeeeee"></span></li>
+                        <li><a class="dropdown-item" th:href="@{'/usuario/misIncidencias'}">Incidencias</a></li>
+                        <li><a class="dropdown-item" th:href="@{'/usuario/perfil'}">Perfil</a></li>
+                        <li><form th:action="@{/logout}" method="post"><a class="dropdown-item"><input type="submit" class="border-0" style="background: #eeeeee; background-color: #eeeeee" value="Cerrar Sesión"></a></form></li>
+                    </ul>
                 </li>
                 <li>
                     <form th:action="@{/logout}" method="post" class="nav-links nav-links-btn">

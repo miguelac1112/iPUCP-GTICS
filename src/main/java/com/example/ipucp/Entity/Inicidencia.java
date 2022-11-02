@@ -66,7 +66,9 @@ public class Inicidencia {
 
     @Lob
     @Column(name = "comentario_usuario")
-    private String comentarioUsuario;
+    @Size(max = 100, message = "Máximo 100 caracteres")
+    @NotBlank(message = "Ingrese el comentario")
+    private String comentarioUsuario="Escriba aquí su comentario.";
 
     @Column(name = "max", nullable = false)
     private int max=0;
@@ -75,6 +77,17 @@ public class Inicidencia {
     @JoinColumn(name = "ubicacion_id", nullable = false)
 
     private Ubicacion ubicacion;
+
+    @Column(name = "max_usuario", nullable = false)
+    private int max_usuario=0;
+
+    public int getMax_usuario() {
+        return max_usuario;
+    }
+
+    public void setMax_usuario(int max_usuario) {
+        this.max_usuario = max_usuario;
+    }
 
     public int getDestacado() {
         return destacado;

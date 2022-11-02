@@ -1,6 +1,5 @@
 package com.example.ipucp.Controller;
 
-import com.example.ipucp.Dto.UsuarioIncidencias;
 import com.example.ipucp.Entity.*;
 import com.example.ipucp.Repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +12,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 @RequestMapping("/usuario")
@@ -31,6 +28,9 @@ public class UsuarioController {
     UsuarioRepository usuarioRepository;
     @Autowired
     UbicacionRepository ubicacionRepository;
+
+    @Autowired
+    ComentarioRepository comentarioRepository;
 
     @GetMapping("/mapa")
     public String mapa() {
@@ -135,10 +135,81 @@ public class UsuarioController {
         return "usuario/perfil";
     }
     @GetMapping("/misIncidencias")
-    public String misIncidencias(Model model,HttpSession session) {
+    public String misIncidencias(Model model,HttpSession session, @ModelAttribute("incidencia") Inicidencia incidencia) {
         Usuario user = (Usuario) session.getAttribute("usuario");
         model.addAttribute("listaIncidencias",inicidenciaRepository.userIncidencias(user.getId()));
         return "usuario/incidencias";
+    }
+
+    @GetMapping("/ListaComentarios")
+    public String comentariosIncidencia() {
+        return "usuario/lista_comentarios";
+    }
+
+    @GetMapping("/lista_comentarios")
+    public String listacomentarios(HttpSession session, Model model, @RequestParam("id") Integer id, @ModelAttribute("comentario") Comentario comentario ) {
+        List<Comentario> listaComentariosSeguridad = comentarioRepository.IncidenciasComentariosSeguridad(id);
+        List<Comentario> listaComentariosUsuario = comentarioRepository.IncidenciasComentariosUsuario(id);
+
+        Usuario user = (Usuario) session.getAttribute("usuario");
+
+        Optional<Inicidencia> incidencia_flotante = inicidenciaRepository.findById(id);
+
+        if (incidencia_flotante.isPresent()) {
+            Inicidencia incidencia = incidencia_flotante.get();
+            int i = 0;
+            if (Objects.equals(incidencia.getCodigo().getId(), user.getId())) {
+                i = 1;
+            }
+
+            if (listaComentariosSeguridad.size() == 0 || i == 0) {
+                return "redirect:/usuario/misIncidencias";
+            } else {
+                model.addAttribute("id", id);
+                model.addAttribute("incidencia", incidencia);
+                model.addAttribute("listaComentariosSeguridad", listaComentariosSeguridad);
+                model.addAttribute("listaComentariosUsuario", listaComentariosUsuario);
+                return "usuario/lista_comentarios";
+            }
+        }else{
+            return "redirect:/usuario/misIncidencias";
+        }
+    }
+
+    @PostMapping("/comentar")
+    public String comentar(@RequestParam("id") Integer id,
+                           @RequestParam("comentarioUsuario") String comentarioUsuario,
+                           RedirectAttributes redirectAttributes, @ModelAttribute("incidencia") @Valid Inicidencia incidencia,
+                           BindingResult bindingResult, Model model, HttpSession session){
+        Usuario user = (Usuario) session.getAttribute("usuario");
+
+        if(bindingResult.hasErrors()){
+            System.out.println("----------------------------- Error detectado --------------------------");
+            System.out.println(bindingResult.getFieldError());
+            model.addAttribute("id",id);
+            model.addAttribute("listaIncidencias",inicidenciaRepository.userIncidencias(user.getId()));
+            return "usuario/misIncidencias";
+        }else {
+            int max = incidencia.getMax_usuario();
+            max+=1;
+            inicidenciaRepository.comentarIncidenciaUsuario(comentarioUsuario,max,id);
+            comentarioRepository.comentarIncidenciaUsuario(comentarioUsuario,id);
+            if(max==5){
+                inicidenciaRepository.cambiarEstadoIncidencia(id);
+                redirectAttributes.addFlashAttribute("msg2","Incidencia comentada. Se ha llegado al máximo de comentarios por incidencia.");
+                return "redirect:/usuario/misIncidencias";
+            }else{
+                redirectAttributes.addFlashAttribute("msg3","Incidencia comentada. Recuerda que hay un máximo de 5 comentarios por incidencia.");
+                return "redirect:/usuario/misIncidencias";
+            }
+        }
+    }
+
+    @PostMapping("/incidenciaResuelta")
+    public String incidenciaResuelta(@RequestParam("id") Integer id, RedirectAttributes redirectAttributes) {
+        inicidenciaRepository.cambiarEstadoIncidencia(id);
+        redirectAttributes.addFlashAttribute("msg4","La incidencia con ID #"+id+" ha sido resuelta.");
+        return "redirect:/usuario/misIncidencias";
     }
 
 
