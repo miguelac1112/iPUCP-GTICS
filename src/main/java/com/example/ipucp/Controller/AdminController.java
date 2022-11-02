@@ -1,5 +1,8 @@
 package com.example.ipucp.Controller;
 
+import com.example.ipucp.Dao.CargoDao;
+import com.example.ipucp.Dao.UsuarioDao;
+import com.example.ipucp.Dto.UsuarioDto;
 import com.example.ipucp.Entity.*;
 import com.example.ipucp.Repository.CargoRepository;
 import com.example.ipucp.Repository.InicidenciaRepository;
@@ -29,6 +32,12 @@ public class AdminController {
 
     @Autowired
     TipoRepository tipoRepository;
+
+    @Autowired
+    CargoDao cargoDao;
+
+    @Autowired
+    UsuarioDao usuarioDao;
 
     @GetMapping("")
     public String principal() {
@@ -65,12 +74,52 @@ public class AdminController {
         return "admin/newForm";
     }
 
+    //Probando consumo:
+    /*
+    @GetMapping("/nuevoNormal")
+    public String nuevoNormal(Model model, @ModelAttribute("usuario") UsuarioDto usuario) {
+        model.addAttribute("tipoUsuario","normal");
+        model.addAttribute("listaCargos",cargoDao.listarCargos());  //Consumiendo WebService
+        return "admin/newForm2";
+    }
+
+     */
+
+    /*
+    @PostMapping("/save2")
+    public String guardarProducto(@ModelAttribute("usuario") @Valid UsuarioDto usuario, BindingResult bindingResult,
+                                  Model model, RedirectAttributes attr) {
+        System.out.println(usuario.getNombre()+"####################################################");
+        System.out.println(usuario.getApellido()+"####################################################");
+        System.out.println(usuario.getCodigo()+"####################################################");
+        System.out.println(usuario.getCorreo()+"####################################################");
+        System.out.println(usuario.getDni()+"####################################################");
+        Cargo cargo = new Cargo();
+        cargo.setId(1);
+        cargo.setNombreCargo("Alumno");
+        usuario.setCargo(cargo);
+        System.out.println(usuario.getCargo().getNombreCargo()+"####################################################");
+        if (bindingResult.hasErrors()) {
+            System.out.println(bindingResult.getFieldError());
+            model.addAttribute("listaCargos",cargoDao.listarCargos());
+            return "admin/newForm";
+        } else {
+            attr.addFlashAttribute("msg","Usuario creado exitosamente");
+            usuarioDao.guardarUsuario(usuario);
+            return "redirect:/admin/listar";
+        }
+    }
+
+     */
+
+
     @GetMapping("/nuevoNormal")
     public String nuevoNormal(Model model, @ModelAttribute("usuario") Usuario usuario) {
         model.addAttribute("tipoUsuario","normal");
         model.addAttribute("listaCargos",cargoRepository.findAll());
         return "admin/newForm";
     }
+
 
     @PostMapping("/save")
     public String guardarUsuario(@ModelAttribute("usuario") @Valid Usuario usuario, BindingResult bindingResult,
