@@ -1,168 +1,168 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
 
-        <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/style.css" />
 
-        <!-- Necessary script for to launch Bootstrap modal on page load -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-                crossorigin="anonymous"></script>
+    <!-- Necessary script for to launch Bootstrap modal on page load -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+            crossorigin="anonymous"></script>
 
-        <!-- DATATABLES -->
-        <!--  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css"> -->
-        <!-- BOOTSTRAP -->
+    <!-- DATATABLES -->
+    <!--  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css"> -->
+    <!-- BOOTSTRAP -->
 
 
-        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
-        <link
-                rel="stylesheet"
-                href="https://use.fontawesome.com/releases/v5.15.1/css/all.css"
-                integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp"
-                crossorigin="anonymous"
-        />
-        <script src="https://kit.fontawesome.com/1e18eec1cd.js" crossorigin="anonymous"></script>
-        <title>iPUCP</title>
-        <style>
-            @media (max-width: 400px) {
-                .hidden-mobile {
-                    display: none;
-                }
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
+    <link
+            rel="stylesheet"
+            href="https://use.fontawesome.com/releases/v5.15.1/css/all.css"
+            integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp"
+            crossorigin="anonymous"
+    />
+    <script src="https://kit.fontawesome.com/1e18eec1cd.js" crossorigin="anonymous"></script>
+    <title>iPUCP</title>
+    <style>
+        @media (max-width: 400px) {
+            .hidden-mobile {
+                display: none;
             }
-        </style>
-    </head>
-    <body>
-        <main>
+        }
+    </style>
+</head>
+<body>
+<main>
 
-            <div class="nav-container">
-                <nav class="navbar">
-                    <div class="navbar-row-container">
-                        <div class="nav-logo-container">
-                            <div class="menu-toggle">
-                                <a th:href="@{'/usuario/listar'}"style="width: 58%;height: 120%">
-                                    <img class="img-logo" th:src="@{/img/logo.jpg}" style="width: 34%;height: 80%;border-radius: 100%;margin-bottom: 2mm"/>
-                                </a>
-                            </div>
-                            <div class="a-logo" href="#inicio"><h1 id="navbar-logo"><strong>iPUCP<span style="font-size: medium">v.admin</span></strong></h1></div>
-                        </div>
-                        <ul class="nav-menu">
-                            <li>
-                                <a id="abrir-modal-cotizar-menu" class="nav-links nav-links-btn" th:href="@{'/admin/listar'}">
-                                    <i class="fas fa-home nav-links-img"></i>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="nav-links nav-links-btn" th:href="@{'/admin/incidencias'}">
-                                    <i class="fa-solid fa-gear nav-links-img"
-                                    ></i>
-                                </a>
-                            </li>
-                            <li>
-                                <form th:action="@{/logout}" method="post" class="nav-links nav-links-btn">
-                                    <button style="border: 0; background-color: transparent"  class="fas fa-sign-out-alt nav-links-img"></button>
-
-                                </form>
-                            </li>
-                        </ul>
+    <div class="nav-container">
+        <nav class="navbar">
+            <div class="navbar-row-container">
+                <div class="nav-logo-container">
+                    <div class="menu-toggle">
+                        <a th:href="@{'/usuario/listar'}"style="width: 58%;height: 120%">
+                            <img class="img-logo" th:src="@{/img/logo.jpg}" style="width: 34%;height: 80%;border-radius: 100%;margin-bottom: 2mm"/>
+                        </a>
                     </div>
+                    <div class="a-logo" href="#inicio"><h1 id="navbar-logo"><strong>iPUCP<span style="font-size: medium">v.admin</span></strong></h1></div>
+                </div>
+                <ul class="nav-menu">
+                    <li>
+                        <a id="abrir-modal-cotizar-menu" class="nav-links nav-links-btn" th:href="@{'/admin/listar'}">
+                            <i class="fas fa-home nav-links-img"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-links nav-links-btn" th:href="@{'/admin/incidencias'}">
+                            <i class="fa-solid fa-gear nav-links-img"
+                            ></i>
+                        </a>
+                    </li>
+                    <li>
+                        <form th:action="@{/logout}" method="post" class="nav-links nav-links-btn">
+                            <button style="border: 0; background-color: transparent"  class="fas fa-sign-out-alt nav-links-img"></button>
 
-                </nav>
+                        </form>
+                    </li>
+                </ul>
             </div>
 
-            <div class="container px-4 py-5">
-                </br>
-                <section class="page-section bg-light" id="portafolio">
-                    <h1 class="pb-2 border-bottom" style="text-align: center">Crear nuevo usuario</h1>
-                    <div th:if="${msg != null}" th:text="${msg}" class="alert alert-danger" role="alert"></div>
-                    </br>
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-8 mb-4 ">
+        </nav>
+    </div>
 
-                                <form method="post" id="myform1" th:action="@{'/admin/save2'}">
-                                    <div class="row ">
-                                        <!--  <input th:value="${tipoUsuario}" name="tipoUsuario" type="hidden"/> -->
+    <div class="container px-4 py-5">
+        </br>
+        <section class="page-section bg-light" id="portafolio">
+            <h1 class="pb-2 border-bottom" style="text-align: center">Crear nuevo usuario</h1>
+            <div th:if="${msg != null}" th:text="${msg}" class="alert alert-danger" role="alert"></div>
+            </br>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 mb-4 ">
 
-                                        <div class="row">
-                                            <div class="col-md-6 mb-4">
-                                                <div class="form-outline">
-                                                    <label class="form-label" for="nombre">Nombres (*):</label>
-                                                    <input th:field="${usuario.nombre}" type="text" id="nombre" name="nombre" class="form-control"/>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 mb-4">
-                                                <div class="form-outline">
-                                                    <label class="form-label" for="apellido">Apellidos (*):</label>
-                                                    <input th:field="${usuario.apellido}" type="text" id="apellido" name="apellido" class="form-control"/>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md-6 mb-4">
-                                                <div class="form-group">
-                                                    <label class="form-label" for="cargo">Categoría (*):</label>
-                                                    <select class="form-select" id="cargo" name="cargo" >
-                                                        <option th:each="cargo : ${listaCargos}"
-                                                                th:text="${cargo.nombreCargo}"
-                                                                th:value="${cargo.id}">
-                                                        </option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 mb-4">
-                                                <div class="form-outline">
-                                                    <label class="form-label" for="codigo">Código (*):</label>
-                                                    <input th:field="${usuario.codigo}" type="text" id="codigo" name="codigo" class="form-control"/>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md-6 mb-4">
-                                                <div class="form-outline">
-                                                    <label class="form-label" for="correo">Correo (*):</label>
-                                                    <input th:field="${usuario.correo}" type="text" id="correo" name="correo" class="form-control"/>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 mb-4">
-                                                <div class="form-outline">
-                                                    <label class="form-label" for="dni">DNI (*):</label>
-                                                    <input th:field="${usuario.dni}" type="text" id="dni" name="dni" class="form-control"/>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </form>
-
-                            </div>
-
-
-                            <div class="col-md-4 mb-4">
-                                <img th:src="@{/img/perfil2.jpg}" class="card-img-top" alt="..." style="max-width: 100%; height: auto">
-
-                                <p>(*): Obligatorio</p>
+                        <form method="post" id="myform1" th:action="@{'/admin/save2'}">
+                            <div class="row ">
+                                <!--  <input th:value="${tipoUsuario}" name="tipoUsuario" type="hidden"/> -->
 
                                 <div class="row">
-                                    <div class="col-md-6 mb-4 d-grid gap-2">
-                                        <a class="btn btn-secondary " th:href="@{'/admin/listar'}" style="max-width: 100%">Regresar</a>
+                                    <div class="col-md-6 mb-4">
+                                        <div class="form-outline">
+                                            <label class="form-label" for="nombre">Nombres (*):</label>
+                                            <input th:field="${usuario.nombre}" type="text" id="nombre" name="nombre" class="form-control"/>
+                                        </div>
                                     </div>
-                                    <div class="col-md-6 mb-4 d-grid gap-2">
-                                        <button type="submit" class="btn btn-success " form="myform1" style="max-width: 100%">Agregar</button>
+                                    <div class="col-md-6 mb-4">
+                                        <div class="form-outline">
+                                            <label class="form-label" for="apellido">Apellidos (*):</label>
+                                            <input th:field="${usuario.apellido}" type="text" id="apellido" name="apellido" class="form-control"/>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
+                                <div class="row">
+                                    <div class="col-md-6 mb-4">
+                                        <div class="form-group">
+                                            <label class="form-label" for="cargo">Categoría (*):</label>
+                                            <select class="form-select" id="cargo" name="cargo" >
+                                                <option th:each="cargo : ${listaCargos}"
+                                                        th:text="${cargo.nombreCargo}"
+                                                        th:value="${cargo.id}">
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-4">
+                                        <div class="form-outline">
+                                            <label class="form-label" for="codigo">Código (*):</label>
+                                            <input th:field="${usuario.codigo}" type="text" id="codigo" name="codigo" class="form-control"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-4">
+                                        <div class="form-outline">
+                                            <label class="form-label" for="correo">Correo (*):</label>
+                                            <input th:field="${usuario.correo}" type="text" id="correo" name="correo" class="form-control"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-4">
+                                        <div class="form-outline">
+                                            <label class="form-label" for="dni">DNI (*):</label>
+                                            <input th:field="${usuario.dni}" type="text" id="dni" name="dni" class="form-control"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </form>
+
+                    </div>
+
+
+                    <div class="col-md-4 mb-4">
+                        <img th:src="@{/img/perfil2.jpg}" class="card-img-top" alt="..." style="max-width: 100%; height: auto">
+
+                        <p>(*): Obligatorio</p>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-4 d-grid gap-2">
+                                <a class="btn btn-secondary " th:href="@{'/admin/listar'}" style="max-width: 100%">Regresar</a>
+                            </div>
+                            <div class="col-md-6 mb-4 d-grid gap-2">
+                                <button type="submit" class="btn btn-success " form="myform1" style="max-width: 100%">Agregar</button>
+                            </div>
                         </div>
                     </div>
-                </section>
-                </div>
 
-        </main>
-        <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
-    </body>
+                </div>
+            </div>
+        </section>
+    </div>
+
+</main>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
 </html>
