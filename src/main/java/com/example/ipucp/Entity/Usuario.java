@@ -63,7 +63,7 @@ public class Usuario implements Serializable {
     @JoinColumn(name = "idcargo", nullable = false)
     private Cargo cargo;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "icono_idicono")
     private Icono icono;
 
