@@ -75,14 +75,14 @@
             <div class="container px-4 py-5">
                 </br>
                 <section class="page-section bg-light" id="portafolio">
-                    <h1 class="pb-2 border-bottom" style="text-align: center">Registar usuario seguridad</h1>
+                    <h1 class="pb-2 border-bottom" style="text-align: center">Crear nuevo usuario</h1>
                     <div th:if="${msg != null}" th:text="${msg}" class="alert alert-danger" role="alert"></div>
                     </br>
                     <div class="container">
                         <div class="row">
                             <div class="col-md-8 mb-4 ">
 
-                                <form method="post" id="myform1" th:action="@{'/admin/saveSeguridad'}">
+                                <form method="post" id="myform1" th:action="@{'/admin/save'}">
                                     <div class="row ">
                                         <input value="0" name="estado" type="hidden"/>
                                         <input value="0" name="ban" type="hidden"/>
@@ -94,25 +94,27 @@
                                         <input value="defaultValue" name="justificacion" type="hidden" />
 
 
-                                        <!-- Datos no perjudicados por el "disabled" en el input -->
-                                        <input th:field="${usuario.nombre}" id="nombre" name="nombre" type="hidden"/>
-                                        <input th:field="${usuario.apellido}" id="apellido" name="apellido" type="hidden"/>
-                                        <input th:field="${usuario.id}" id="id" name="id" type="hidden"/>
-                                        <input th:field="${usuario.correo}" id="correo" name="correo" type="hidden"/>
-                                        <input th:field="${usuario.dni}" id="dni" name="dni" type="hidden"/>
-
-
                                         <div class="row">
                                             <div class="col-md-6 mb-4">
                                                 <div class="form-outline">
-                                                    <label class="form-label" for="nombre2">Nombres (*):</label>
-                                                    <input th:field="${usuario.nombre}" type="text" id="nombre2" name="nombre2" class="form-control" disabled/>
+                                                    <label class="form-label" for="nombre">Nombres (*):</label>
+                                                    <input th:field="${usuario.nombre}" type="text" id="nombre" name="nombre" class="form-control"
+                                                           th:classappend="${#fields.hasErrors('usuario.nombre')?'is-invalid':''}" disabled/>
+                                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('usuario.nombre')}"
+                                                         th:errors="${usuario.nombre}">
+                                                        Please choose a username.
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 mb-4">
                                                 <div class="form-outline">
-                                                    <label class="form-label" for="apellido2">Apellidos (*):</label>
-                                                    <input th:field="${usuario.apellido}" type="text" id="apellido2" name="apellido2" class="form-control" disabled/>
+                                                    <label class="form-label" for="apellido">Apellidos (*):</label>
+                                                    <input th:field="${usuario.apellido}" type="text" id="apellido" name="apellido" class="form-control"
+                                                           th:classappend="${#fields.hasErrors('usuario.apellido')?'is-invalid':''}"/>
+                                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('usuario.apellido')}"
+                                                         th:errors="${usuario.apellido}">
+                                                        Please choose a username.
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -123,16 +125,27 @@
                                                     <label class="form-label" for="cargo">Categoría (*):</label>
                                                     <select class="form-select" id="cargo" name="cargo" required th:if="${tipoUsuario == 'seguridad'}">
                                                         <option th:each="cargo : ${listaCargos}"
-                                                                th:text="Seguridad"
+                                                                th:text="${cargo.nombreCargo}"
                                                                 th:value="${cargo.id}" th:if="${cargo.id == 6}">
+                                                        </option>
+                                                    </select>
+                                                    <select class="form-select" id="cargo" name="cargo" required th:unless="${tipoUsuario == 'seguridad'}" th:field="${usuario.cargo}">
+                                                        <option th:each="cargo : ${listaCargos}"
+                                                                th:text="${cargo.nombreCargo}"
+                                                                th:value="${cargo.id}" th:unless="${cargo.id == 6}" >
                                                         </option>
                                                     </select>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 mb-4">
                                                 <div class="form-outline">
-                                                    <label class="form-label" for="id2">Código (*):</label>
-                                                    <input th:field="${usuario.id}" type="text" id="id2" name="id2" class="form-control" disabled/>
+                                                    <label class="form-label" for="id">Código (*):</label>
+                                                    <input th:field="${usuario.id}" type="text" id="id" name="id" class="form-control"
+                                                           th:classappend="${#fields.hasErrors('usuario.id')?'is-invalid':''}"/>
+                                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('usuario.id')}"
+                                                         th:errors="${usuario.id}">
+                                                        Please choose a username.
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -140,14 +153,24 @@
                                         <div class="row">
                                             <div class="col-md-6 mb-4">
                                                 <div class="form-outline">
-                                                    <label class="form-label" for="correo2">Correo (*):</label>
-                                                    <input th:field="${usuario.correo}" type="text" id="correo2" name="correo2" class="form-control" disabled/>
+                                                    <label class="form-label" for="correo">Correo (*):</label>
+                                                    <input th:field="${usuario.correo}" type="text" id="correo" name="correo" class="form-control"
+                                                           th:classappend="${#fields.hasErrors('usuario.correo')?'is-invalid':''}"/>
+                                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('usuario.correo')}"
+                                                         th:errors="${usuario.correo}">
+                                                        Please choose a username.
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 mb-4">
                                                 <div class="form-outline">
-                                                    <label class="form-label" for="dni2">DNI (*):</label>
-                                                    <input th:field="${usuario.dni}" type="text" id="dni2" name="dni2" class="form-control" disabled/>
+                                                    <label class="form-label" for="dni">DNI (*):</label>
+                                                    <input th:field="${usuario.dni}" type="text" id="dni" name="dni" class="form-control"
+                                                           th:classappend="${#fields.hasErrors('usuario.dni')?'is-invalid':''}"/>
+                                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('usuario.dni')}"
+                                                         th:errors="${usuario.dni}">
+                                                        Please choose a username.
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

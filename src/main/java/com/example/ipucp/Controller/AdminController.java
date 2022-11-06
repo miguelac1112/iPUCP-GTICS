@@ -76,6 +76,7 @@ public class AdminController {
     }
 
     //Usuarios que se encuentra en la base de datos externa y a la vez en la interna (ya registrados)
+    /*
     public List<UsuarioDto> usuariosEnBaseExternaYRegistradosInterna(){
         List<UsuarioDto> listaNew = new ArrayList<>();
         for(UsuarioDto usuarioExterno : usuarioDao.listarUsuarios()){
@@ -89,8 +90,11 @@ public class AdminController {
         return listaNew;
     }
 
+     */
+
     @PostMapping("/verificarSeguridad")
-    public String verificarSeguridad(@RequestParam("codigo") String codigo, Model model, RedirectAttributes attr){
+    public String verificarSeguridad(@RequestParam("codigo") String codigo, Model model, RedirectAttributes attr,
+                                     @ModelAttribute("usuario") Usuario usuario){
         String msg2 = "";
         if(codigo.length() == 8){
             try {
@@ -115,8 +119,25 @@ public class AdminController {
                         System.out.println("INGRESASSSSSSTETTETET   ################################################################################");
                         model.addAttribute("tipoUsuario","seguridad");
                         model.addAttribute("listaCargos",cargoDao.listarCargos());
-                        model.addAttribute("usuario",optUsuario);
-                        return "admin/newForm3";
+
+                        //Transferencia usuarioDTO a usuario
+                        Usuario usuario1 = new Usuario();
+                        usuario1.setId(optUsuario.getCodigo());
+                        usuario1.setNombre(optUsuario.getNombre());
+                        usuario1.setApellido(optUsuario.getApellido());
+                        usuario1.setCorreo(optUsuario.getCorreo());
+                        usuario1.setCelular("999999999");
+                        usuario1.setDni(optUsuario.getDni());
+                        usuario1.setRol(new Rol());
+                        usuario1.setCargo(new Cargo());
+                        usuario1.setEstado((byte) 0);
+                        usuario1.setStrikes((byte) 0);
+                        usuario1.setBan((byte) 0);
+
+
+                        model.addAttribute("usuario",usuario1);
+                        model.addAttribute("hayConfirma","0");
+                        return "admin/newForm";
                     }
                     System.out.println("Usuario jajajaja ################################################################################");
                 }
@@ -136,12 +157,6 @@ public class AdminController {
     }
 
 
-
-
-
-
-
-
     //Probando consumo:
 
     @GetMapping("/nuevoNormal")
@@ -153,25 +168,16 @@ public class AdminController {
 
 
     @PostMapping("/save2")
-    public String guardarProducto(@ModelAttribute("usuario") UsuarioDto usuario,
+    public String guardarUsuarioExterno(@ModelAttribute("usuario") UsuarioDto usuario,
                                   Model model, RedirectAttributes attr) {
         attr.addFlashAttribute("msg","Usuario agregado exitosamente a base externa");
         usuarioDao.guardarUsuario(usuario);
         return "redirect:/admin/listar";
     }
+    // -------------------------------------------------------------------------------------
 
 
-    /*
-    @GetMapping("/nuevoNormal")
-    public String nuevoNormal(Model model, @ModelAttribute("usuario") Usuario usuario) {
-        model.addAttribute("tipoUsuario","normal");
-        model.addAttribute("listaCargos",cargoRepository.findAll());
-        return "admin/newForm";
-    }
-    */
-
-    /*
-    @PostMapping("/save")
+    @PostMapping("/saveSeguridad")
     public String guardarUsuario(@ModelAttribute("usuario") @Valid Usuario usuario, BindingResult bindingResult,
                                  @RequestParam("cargo") Integer id, @RequestParam("pass2") String pass2,
                                  @RequestParam("tipoUsuario") String tipoUsuario,RedirectAttributes attr, Model model) {
@@ -203,11 +209,6 @@ public class AdminController {
                 if(user.getCorreo().equals(usuario.getCorreo())){
                     esDuplicado = 2;
                     msg2 = "El correo ingresado ya existe";
-                    break;
-                }
-                if(user.getCelular().equals(usuario.getCelular())){
-                    esDuplicado = 3;
-                    msg2 = "El N° celular ingresado ya existe";
                     break;
                 }
                 if(user.getDni().equals(usuario.getDni())){
@@ -272,8 +273,6 @@ public class AdminController {
             return "redirect:/admin/listar";
         }
     }
-
-     */
 
     @GetMapping("/incidencias")
     public String incidencias(Model model, @ModelAttribute("tipo") Tipo tipo) {
