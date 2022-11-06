@@ -75,7 +75,7 @@ public class AdminController {
         return "admin/newForm";
     }
 
-    //Usuarios que se encuentra en la base de datos externa y a la vez en la interna (ya registrados)
+    //Usuarios que se encuentran en la base de datos externa y a la vez en la interna (ya registrados)
     /*
     public List<UsuarioDto> usuariosEnBaseExternaYRegistradosInterna(){
         List<UsuarioDto> listaNew = new ArrayList<>();
@@ -86,6 +86,27 @@ public class AdminController {
                     break;
                 }
             }
+        }
+        return listaNew;
+    }
+     */
+
+    //Usuarios que se encuentran en la base de datos externa pero no en la interna (creados pero no registrados)
+    /*
+    public List<UsuarioDto> usuariosEnBaseExternaPeroNoRegistradosInterna(){
+        List<UsuarioDto> listaNew = new ArrayList<>();
+        int num = 0;
+        for(UsuarioDto usuarioExterno : usuarioDao.listarUsuarios()){
+            for (Usuario usuarioInterno : usuarioRepository.findAll()){
+                if(usuarioExterno.getCodigo().equals(usuarioInterno.getId())){
+                    num = 1;
+                    break;
+                }
+            }
+            if(num == 0){
+                listaNew.add(usuarioExterno);
+            }
+            num = 0;
         }
         return listaNew;
     }
@@ -150,7 +171,7 @@ public class AdminController {
         }
 
         if(msg2.equals("")){
-            msg2 = "Solo 8 caracteres que sean numeros";
+            msg2 = "Se debe ingresar 8 caracteres que sean numeros";
         }
         attr.addFlashAttribute("msg2",msg2);
         return "redirect:/admin/listar";
@@ -168,11 +189,48 @@ public class AdminController {
 
 
     @PostMapping("/save2")
-    public String guardarUsuarioExterno(@ModelAttribute("usuario") UsuarioDto usuario,
-                                  Model model, RedirectAttributes attr) {
-        attr.addFlashAttribute("msg","Usuario agregado exitosamente a base externa");
-        usuarioDao.guardarUsuario(usuario);
-        return "redirect:/admin/listar";
+    public String guardarUsuarioExterno(@ModelAttribute("usuario") @Valid UsuarioDto usuario, BindingResult bindingResult,
+                                        Model model, RedirectAttributes attr) {
+        if(bindingResult.hasErrors()){
+            //System.out.println(bindingResult.getFieldError());
+            model.addAttribute("tipoUsuario","normal");
+            model.addAttribute("listaCargos",cargoDao.listarCargos());
+            return "admin/newForm2";
+        }else {
+
+            // -------- Verificacion de no duplicados --------------
+            int esDuplicado = 0;
+            String msg2 = "";
+            for(UsuarioDto user : usuarioDao.listarUsuarios()){
+                if(user.getCodigo().equals(usuario.getCodigo())){
+                    esDuplicado = 1;
+                    msg2 = "El código ingresado ya existe";
+                    break;
+                }
+                if(user.getCorreo().equals(usuario.getCorreo())){
+                    esDuplicado = 2;
+                    msg2 = "El correo ingresado ya existe";
+                    break;
+                }
+                if(user.getDni().equals(usuario.getDni())){
+                    esDuplicado = 4;
+                    msg2 = "El DNI ingresado ya existe";
+                    break;
+                }
+            }
+            // -----------------------------------------------------
+
+            if(esDuplicado != 0){
+                model.addAttribute("msg",msg2);
+                model.addAttribute("tipoUsuario","normal");
+                model.addAttribute("listaCargos",cargoDao.listarCargos());
+                return "admin/newForm2";
+            }else {
+                attr.addFlashAttribute("msg","Usuario agregado exitosamente a base externa");
+                usuarioDao.guardarUsuario(usuario);
+                return "redirect:/admin/listar";
+            }
+        }
     }
     // -------------------------------------------------------------------------------------
 

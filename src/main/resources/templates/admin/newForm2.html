@@ -90,13 +90,23 @@
                                     <div class="col-md-6 mb-4">
                                         <div class="form-outline">
                                             <label class="form-label" for="nombre">Nombres (*):</label>
-                                            <input th:field="${usuario.nombre}" type="text" id="nombre" name="nombre" class="form-control"/>
+                                            <input th:field="${usuario.nombre}" type="text" id="nombre" name="nombre" class="form-control"
+                                                   th:classappend="${#fields.hasErrors('usuario.nombre')?'is-invalid':''}"/>
+                                            <div class="invalid-feedback" th:if="${#fields.hasErrors('usuario.nombre')}"
+                                                 th:errors="${usuario.nombre}">
+                                                Please choose a username.
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-md-6 mb-4">
                                         <div class="form-outline">
                                             <label class="form-label" for="apellido">Apellidos (*):</label>
-                                            <input th:field="${usuario.apellido}" type="text" id="apellido" name="apellido" class="form-control"/>
+                                            <input th:field="${usuario.apellido}" type="text" id="apellido" name="apellido" class="form-control"
+                                                   th:classappend="${#fields.hasErrors('usuario.apellido')?'is-invalid':''}"/>
+                                            <div class="invalid-feedback" th:if="${#fields.hasErrors('usuario.apellido')}"
+                                                 th:errors="${usuario.apellido}">
+                                                Please choose a username.
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -105,7 +115,7 @@
                                     <div class="col-md-6 mb-4">
                                         <div class="form-group">
                                             <label class="form-label" for="cargo">Categoría (*):</label>
-                                            <select class="form-select" id="cargo" name="cargo" >
+                                            <select class="form-select" id="cargo" name="cargo" th:field="${usuario.cargo}">
                                                 <option th:each="cargo : ${listaCargos}"
                                                         th:text="${cargo.nombreCargo}"
                                                         th:value="${cargo.id}">
@@ -116,7 +126,12 @@
                                     <div class="col-md-6 mb-4">
                                         <div class="form-outline">
                                             <label class="form-label" for="codigo">Código (*):</label>
-                                            <input th:field="${usuario.codigo}" type="text" id="codigo" name="codigo" class="form-control"/>
+                                            <input th:field="${usuario.codigo}" type="text" id="codigo" name="codigo" class="form-control"
+                                                   th:classappend="${#fields.hasErrors('usuario.codigo')?'is-invalid':''}"/>
+                                            <div class="invalid-feedback" th:if="${#fields.hasErrors('usuario.codigo')}"
+                                                 th:errors="${usuario.codigo}">
+                                                Please choose a username.
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -125,13 +140,23 @@
                                     <div class="col-md-6 mb-4">
                                         <div class="form-outline">
                                             <label class="form-label" for="correo">Correo (*):</label>
-                                            <input th:field="${usuario.correo}" type="text" id="correo" name="correo" class="form-control"/>
+                                            <input th:field="${usuario.correo}" type="text" id="correo" name="correo" class="form-control"
+                                                   th:classappend="${#fields.hasErrors('usuario.correo')?'is-invalid':''}"/>
+                                            <div class="invalid-feedback" th:if="${#fields.hasErrors('usuario.correo')}"
+                                                 th:errors="${usuario.correo}">
+                                                Please choose a username.
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-md-6 mb-4">
                                         <div class="form-outline">
                                             <label class="form-label" for="dni">DNI (*):</label>
-                                            <input th:field="${usuario.dni}" type="text" id="dni" name="dni" class="form-control"/>
+                                            <input th:field="${usuario.dni}" type="text" id="dni" name="dni" class="form-control"
+                                                   th:classappend="${#fields.hasErrors('usuario.dni')?'is-invalid':''}"/>
+                                            <div class="invalid-feedback" th:if="${#fields.hasErrors('usuario.dni')}"
+                                                 th:errors="${usuario.dni}">
+                                                Please choose a username.
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
