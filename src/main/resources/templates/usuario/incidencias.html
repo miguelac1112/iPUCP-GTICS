@@ -36,7 +36,9 @@
             <div class="navbar-row-container">
                 <div class="nav-logo-container">
                     <div class="menu-toggle">
-                        <img class="img-logo" th:src="@{/img/logo.jpg}" style="width: 35%;height: 85%;border-radius: 100%;margin-top: 1vm"/>
+                        <a th:href="@{'/usuario/listar'}"style="width: 58%;height: 120%">
+                            <img class="img-logo" th:src="@{/img/logo.jpg}" style="width: 34%;height: 80%;border-radius: 100%;margin-bottom: 2mm"/>
+                        </a>
                     </div>
                     <div class="a-logo" href="#inicio"><h1 id="navbar-logo"><strong>iPUCP<span style="font-size: medium">v.usuario</span></strong></h1></div>
                 </div>
@@ -49,7 +51,7 @@
                     <li>
                         <a class="nav-links nav-links-btn" th:href="@{'/usuario/mapa'}">
                             <i class="far fa-compass nav-links-img"
-                               ></i>
+                            ></i>
                         </a>
                     </li>
                     <li class="show-mobile dropup">
@@ -74,17 +76,13 @@
                             <li><form th:action="@{/logout}" method="post"><a class="dropdown-item"><input type="submit" class="border-0" style="background: #eeeeee; background-color: #eeeeee" value="Cerrar Sesión"></a></form></li>
                         </ul>
                     </li>
-                    <li>
-                        <form th:action="@{/logout}" method="post" class="nav-links nav-links-btn">
-                            <button style="border: 0; background-color: transparent"  class="fas fa-sign-out-alt nav-links-img"></button>
-
-                        </form>
-                    </li>
                 </ul>
             </div>
 
         </nav>
     </div>
+    </br>
+    </br>
 
     </br>
 
@@ -107,7 +105,7 @@
         </div>
 
         <div >
-            <table class="table table-striped" id="tablax">
+            <table class="table table-striped display nowrap" id="tablax" style="overflow-x: auto; overflow-y: auto" width="100%">
                 <thead  class="thead-dark"style="color: #393830;background: #393830">
                 <tr class="table-info">
                     <th style="text-align: center">#</th>
