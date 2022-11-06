@@ -90,9 +90,6 @@ public class LogController {
         }
         System.out.println(i);
         usuario.setId(codigo);
-        Icono icono = new Icono();
-        icono.setId(1);
-        usuario.setIcono(icono);
         usuario.setCorreo(correo);
         if(i==1){
             model.addAttribute("usuario",usuario);
