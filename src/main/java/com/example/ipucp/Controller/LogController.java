@@ -1,5 +1,6 @@
 package com.example.ipucp.Controller;
 
+import com.example.ipucp.Entity.Icono;
 import com.example.ipucp.Entity.Usuario;
 import com.example.ipucp.Repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,6 +90,9 @@ public class LogController {
         }
         System.out.println(i);
         usuario.setId(codigo);
+        Icono icono = new Icono();
+        icono.setId(1);
+        usuario.setIcono(icono);
         usuario.setCorreo(correo);
         if(i==1){
             model.addAttribute("usuario",usuario);
