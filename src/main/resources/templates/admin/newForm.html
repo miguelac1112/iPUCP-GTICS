@@ -1,11 +1,31 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
     <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
-        <link rel="stylesheet" th:href="@{/css/style2.css}"/>
-        <title>Nuevo Usuario</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+
+        <link rel="stylesheet" href="/css/style.css" />
+
+        <!-- Necessary script for to launch Bootstrap modal on page load -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+                crossorigin="anonymous"></script>
+
+        <!-- DATATABLES -->
+        <!--  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css"> -->
+        <!-- BOOTSTRAP -->
+
+
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
+        <link
+                rel="stylesheet"
+                href="https://use.fontawesome.com/releases/v5.15.1/css/all.css"
+                integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp"
+                crossorigin="anonymous"
+        />
+        <script src="https://kit.fontawesome.com/1e18eec1cd.js" crossorigin="anonymous"></script>
+        <title>iPUCP</title>
         <style>
             @media (max-width: 400px) {
                 .hidden-mobile {
@@ -17,7 +37,40 @@
     <body>
         <main>
 
-            <div th:replace="admin/fragment.html :: navbar"></div>
+            <div class="nav-container">
+                <nav class="navbar">
+                    <div class="navbar-row-container">
+                        <div class="nav-logo-container">
+                            <div class="menu-toggle">
+                                <a th:href="@{'/usuario/listar'}"style="width: 58%;height: 120%">
+                                    <img class="img-logo" th:src="@{/img/logo.jpg}" style="width: 34%;height: 80%;border-radius: 100%;margin-bottom: 2mm"/>
+                                </a>
+                            </div>
+                            <div class="a-logo" href="#inicio"><h1 id="navbar-logo"><strong>iPUCP<span style="font-size: medium">v.admin</span></strong></h1></div>
+                        </div>
+                        <ul class="nav-menu">
+                            <li>
+                                <a id="abrir-modal-cotizar-menu" class="nav-links nav-links-btn" th:href="@{'/admin/listar'}">
+                                    <i class="fas fa-home nav-links-img"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="nav-links nav-links-btn" th:href="@{'/admin/incidencias'}">
+                                    <i class="fa-solid fa-gear nav-links-img"
+                                    ></i>
+                                </a>
+                            </li>
+                            <li>
+                                <form th:action="@{/logout}" method="post" class="nav-links nav-links-btn">
+                                    <button style="border: 0; background-color: transparent"  class="fas fa-sign-out-alt nav-links-img"></button>
+
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+
+                </nav>
+            </div>
 
             <div class="container px-4 py-5">
                 </br>

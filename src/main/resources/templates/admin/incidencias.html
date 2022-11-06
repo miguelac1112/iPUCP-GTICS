@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
-    <link rel="stylesheet" th:href="@{/css/style2.css}"/>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="/css/style.css" />
 
     <!-- Necessary script for to launch Bootstrap modal on page load -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
@@ -17,8 +18,14 @@
 
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
-
-    <title>Incidencias</title>
+    <link
+            rel="stylesheet"
+            href="https://use.fontawesome.com/releases/v5.15.1/css/all.css"
+            integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp"
+            crossorigin="anonymous"
+    />
+    <script src="https://kit.fontawesome.com/1e18eec1cd.js" crossorigin="anonymous"></script>
+    <title>iPUCP</title>
     <style>
         @media (max-width: 400px) {
             .hidden-mobile {
@@ -30,34 +37,40 @@
 <body>
 <main>
 
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark" style="height: 100px">
-        <div class="container-fluid">
-            <div><img th:src="@{/img/logo.jpg}" style="width: 24%;border-radius: 100%"/></div>
+    <div class="nav-container">
+        <nav class="navbar">
+            <div class="navbar-row-container">
+                <div class="nav-logo-container">
+                    <div class="menu-toggle">
+                        <a th:href="@{'/usuario/listar'}"style="width: 58%;height: 120%">
+                            <img class="img-logo" th:src="@{/img/logo.jpg}" style="width: 34%;height: 80%;border-radius: 100%;margin-bottom: 2mm"/>
+                        </a>
+                    </div>
+                    <div class="a-logo" href="#inicio"><h1 id="navbar-logo"><strong>iPUCP<span style="font-size: medium">v.admin</span></strong></h1></div>
+                </div>
+                <ul class="nav-menu">
+                    <li>
+                        <a id="abrir-modal-cotizar-menu" class="nav-links nav-links-btn" th:href="@{'/admin/listar'}">
+                            <i class="fas fa-home nav-links-img"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-links nav-links-btn" th:href="@{'/admin/incidencias'}">
+                            <i class="fa-solid fa-gear nav-links-img"
+                            ></i>
+                        </a>
+                    </li>
+                    <li>
+                        <form th:action="@{/logout}" method="post" class="nav-links nav-links-btn">
+                            <button style="border: 0; background-color: transparent"  class="fas fa-sign-out-alt nav-links-img"></button>
 
-
-            <div class="a-logo" href="#inicio"><h1 id="navbar-logo" style="color: #b9ab7f"><strong>iPUCP<span style="font-size: medium; color: #b9ab7f">v.admin</span></strong></h1></div>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item dropdown">
-                        <button class="nav-link dropdown-toggle fw-bold btn btn-dark" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false" >
-                            <span th:text="${session.usuario.nombre}"></span>
-                            <span th:text="${session.usuario.apellido}"></span>
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
-                            <li><a class="dropdown-item" th:href="@{'/admin/listar'}">Lista Usuarios</a></li>
-                            <li><form th:action="@{/logout}" method="post"><a class="dropdown-item"><input type="submit" class="border-0" style="background: #eeeeee; background-color: #eeeeee" value="Cerrar Sesión"></a></form></li>
-                        </ul>
+                        </form>
                     </li>
                 </ul>
             </div>
 
-        </div>
-    </nav>
-
+        </nav>
+    </div>
 
 
     <div class="container px-4 py-5">
