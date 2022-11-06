@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -73,6 +74,55 @@ public class AdminController {
         model.addAttribute("listaCargos",cargoRepository.findAll());
         return "admin/newForm";
     }
+
+    //Usuarios que se encuentra en la base de datos externa y a la vez en la interna (ya registrados)
+    public List<UsuarioDto> usuariosEnBaseExternaYRegistradosInterna(){
+        List<UsuarioDto> listaNew = new ArrayList<>();
+        for(UsuarioDto usuarioExterno : usuarioDao.listarUsuarios()){
+            for (Usuario usuarioInterno : usuarioRepository.findAll()){
+                if(usuarioExterno.getCodigo().equals(usuarioInterno.getId())){
+                    listaNew.add(usuarioExterno);
+                    break;
+                }
+            }
+        }
+        return listaNew;
+    }
+
+    @PostMapping("/verificarSeguridad")
+    public String verificarSeguridad(@RequestParam("codigo") String codigo, Model model){
+        System.out.println(codigo+"################################################################################");
+        String msg = "El código ingresado no esta registrado ni creado";
+        int cont = 0;
+        for (Usuario usuarioRegistrado : usuarioRepository.findAll()){
+            if(codigo.equals(usuarioRegistrado.getId())){
+                System.out.println("Usuario ya registrado en base de datos de la aplicación web ################################################################################");
+                msg = "Usuario ya registrado en base de datos de la aplicación web";
+                cont = 1;
+                break;
+            }
+        }
+        // Si no se encuentra en la lista anterior entonces puede que este creado pero aun no registrado
+        if(cont==0){
+            UsuarioDto optUsuario = usuarioDao.buscarOtro(codigo);
+            if (optUsuario != null){
+                System.out.println("INGRESASSSSSSTETTETET   ################################################################################");
+                model.addAttribute("tipoUsuario","seguridad");
+                model.addAttribute("listaCargos",cargoDao.listarCargos());
+                model.addAttribute("usuario",optUsuario);
+                return "admin/newForm3";
+            }
+            System.out.println("Usuario jajajaja ################################################################################");
+        }
+        return "redirect:/admin/listar";
+    }
+
+
+
+
+
+
+
 
     //Probando consumo:
 

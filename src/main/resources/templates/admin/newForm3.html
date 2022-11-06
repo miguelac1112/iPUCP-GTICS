@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+        <link rel="stylesheet" th:href="@{/css/style2.css}"/>
+        <title>Nuevo Usuario</title>
+        <style>
+            @media (max-width: 400px) {
+                .hidden-mobile {
+                    display: none;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <main>
+
+            <div th:replace="admin/fragment.html :: navbar"></div>
+
+            <div class="container px-4 py-5">
+                </br>
+                <section class="page-section bg-light" id="portafolio">
+                    <h1 class="pb-2 border-bottom" style="text-align: center">Registrar usuario seguridad</h1>
+                    <div th:if="${msg != null}" th:text="${msg}" class="alert alert-danger" role="alert"></div>
+                    </br>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-8 mb-4 ">
+
+                                <form method="post" id="myform1" th:action="@{'/admin/save2'}">
+                                    <div class="row ">
+                                        <!--  <input th:value="${tipoUsuario}" name="tipoUsuario" type="hidden"/> -->
+
+                                        <div class="row">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="form-outline">
+                                                    <label class="form-label" for="nombre">Nombres (*):</label>
+                                                    <input th:field="${usuario.nombre}" type="text" id="nombre" name="nombre" class="form-control" disabled/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mb-4">
+                                                <div class="form-outline">
+                                                    <label class="form-label" for="apellido">Apellidos (*):</label>
+                                                    <input th:field="${usuario.apellido}" type="text" id="apellido" name="apellido" class="form-control" disabled/>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="cargo">Categoría (*):</label>
+                                                    <select class="form-select" id="cargo" name="cargo" disabled>
+                                                        <option
+                                                                th:text="Seguridad"
+                                                                th:value="${usuario.cargo.id}">
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mb-4">
+                                                <div class="form-outline">
+                                                    <label class="form-label" for="codigo">Código (*):</label>
+                                                    <input th:field="${usuario.codigo}" type="text" id="codigo" name="codigo" class="form-control" disabled/>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="form-outline">
+                                                    <label class="form-label" for="correo">Correo (*):</label>
+                                                    <input th:field="${usuario.correo}" type="text" id="correo" name="correo" class="form-control" disabled/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mb-4">
+                                                <div class="form-outline">
+                                                    <label class="form-label" for="dni">DNI (*):</label>
+                                                    <input th:field="${usuario.dni}" type="text" id="dni" name="dni" class="form-control" disabled/>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </form>
+
+                            </div>
+
+
+                            <div class="col-md-4 mb-4">
+                                <img th:src="@{/img/perfil2.jpg}" class="card-img-top" alt="..." style="max-width: 100%; height: auto">
+
+                                <p>(*): Obligatorio</p>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-4 d-grid gap-2">
+                                        <a class="btn btn-secondary " th:href="@{'/admin/listar'}" style="max-width: 100%">Regresar</a>
+                                    </div>
+                                    <div class="col-md-6 mb-4 d-grid gap-2">
+                                        <button type="submit" class="btn btn-success " form="myform1" style="max-width: 100%">Agregar</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </section>
+                </div>
+
+        </main>
+        <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    </body>
+</html>

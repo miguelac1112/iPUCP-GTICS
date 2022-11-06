@@ -175,11 +175,11 @@
 
 
     <!-- Modal 2-->
-    <div class="modal fade" id="Modal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="Modal2" tabindex="-1" aria-labelledby="exampleModalLabel"aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel2">Seleccionar tipo de usuario</h5>
+                    <h5 class="modal-title" id="exampleModalLabel2">Seleccionar acción</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -193,7 +193,14 @@
                     <p>Registrar seguridad:</p>
                     <p>Se registrará al usuario seguridad brindandole una contraseña</p>
                     <div class="row">
-                        <a class="btn btn-success" th:href="@{'/admin/nuevoSeguridad'}">Registrar usuario seguridad</a>
+                        <form method="post" id="myform5" th:action="@{'/admin/verificarSeguridad'}">
+                            <div class="form-outline">
+                                <input type="text" id="codigo" name="codigo" class="form-control" placeholder="Ingresar código de usuario seguridad"/>
+                            </div>
+                        </form>
+                        </br>
+                        </br>
+                        <button type="submit" class="btn btn-success" form="myform5" >Registrar seguridad</button>
                     </div>
 
                 </div>
