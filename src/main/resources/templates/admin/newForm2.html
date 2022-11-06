@@ -31,7 +31,7 @@
 
                                 <form method="post" id="myform1" th:action="@{'/admin/save2'}">
                                     <div class="row ">
-                                        <input th:value="${tipoUsuario}" name="tipoUsuario" type="hidden"/>
+                                        <!--  <input th:value="${tipoUsuario}" name="tipoUsuario" type="hidden"/> -->
 
                                         <div class="row">
                                             <div class="col-md-6 mb-4">
@@ -62,8 +62,8 @@
                                             </div>
                                             <div class="col-md-6 mb-4">
                                                 <div class="form-outline">
-                                                    <label class="form-label" for="id">Código (*):</label>
-                                                    <input th:field="${usuario.codigo}" type="text" id="id" name="codigo" class="form-control"/>
+                                                    <label class="form-label" for="codigo">Código (*):</label>
+                                                    <input th:field="${usuario.codigo}" type="text" id="codigo" name="codigo" class="form-control"/>
                                                 </div>
                                             </div>
                                         </div>

@@ -75,7 +75,7 @@ public class AdminController {
     }
 
     //Probando consumo:
-    /*
+
     @GetMapping("/nuevoNormal")
     public String nuevoNormal(Model model, @ModelAttribute("usuario") UsuarioDto usuario) {
         model.addAttribute("tipoUsuario","normal");
@@ -83,44 +83,26 @@ public class AdminController {
         return "admin/newForm2";
     }
 
-     */
 
-    /*
     @PostMapping("/save2")
-    public String guardarProducto(@ModelAttribute("usuario") @Valid UsuarioDto usuario, BindingResult bindingResult,
+    public String guardarProducto(@ModelAttribute("usuario") UsuarioDto usuario,
                                   Model model, RedirectAttributes attr) {
-        System.out.println(usuario.getNombre()+"####################################################");
-        System.out.println(usuario.getApellido()+"####################################################");
-        System.out.println(usuario.getCodigo()+"####################################################");
-        System.out.println(usuario.getCorreo()+"####################################################");
-        System.out.println(usuario.getDni()+"####################################################");
-        Cargo cargo = new Cargo();
-        cargo.setId(1);
-        cargo.setNombreCargo("Alumno");
-        usuario.setCargo(cargo);
-        System.out.println(usuario.getCargo().getNombreCargo()+"####################################################");
-        if (bindingResult.hasErrors()) {
-            System.out.println(bindingResult.getFieldError());
-            model.addAttribute("listaCargos",cargoDao.listarCargos());
-            return "admin/newForm";
-        } else {
-            attr.addFlashAttribute("msg","Usuario creado exitosamente");
-            usuarioDao.guardarUsuario(usuario);
-            return "redirect:/admin/listar";
-        }
+        attr.addFlashAttribute("msg","Usuario agregado exitosamente a base externa");
+        usuarioDao.guardarUsuario(usuario);
+        return "redirect:/admin/listar";
     }
 
-     */
 
-
+    /*
     @GetMapping("/nuevoNormal")
     public String nuevoNormal(Model model, @ModelAttribute("usuario") Usuario usuario) {
         model.addAttribute("tipoUsuario","normal");
         model.addAttribute("listaCargos",cargoRepository.findAll());
         return "admin/newForm";
     }
+    */
 
-
+    /*
     @PostMapping("/save")
     public String guardarUsuario(@ModelAttribute("usuario") @Valid Usuario usuario, BindingResult bindingResult,
                                  @RequestParam("cargo") Integer id, @RequestParam("pass2") String pass2,
@@ -222,6 +204,8 @@ public class AdminController {
             return "redirect:/admin/listar";
         }
     }
+
+     */
 
     @GetMapping("/incidencias")
     public String incidencias(Model model, @ModelAttribute("tipo") Tipo tipo) {
