@@ -35,14 +35,19 @@ public class UsuarioDao {
     public UsuarioDto buscarOtro(String codigo){
         String searchUrl = "http://localhost:8081/findOther/" + codigo;
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<UsuarioDto2> responseEntity = restTemplate.getForEntity(searchUrl,UsuarioDto2.class);
+        try{
+            ResponseEntity<UsuarioDto2> responseEntity = restTemplate.getForEntity(searchUrl,UsuarioDto2.class);
 
-        if(responseEntity.getStatusCode() == HttpStatus.OK && responseEntity.getBody().getExiste().equals("true")){
-            System.out.println("Posicion A ################################################################################");
-            System.out.println(responseEntity.getBody().getExiste());
-            return responseEntity.getBody().getUsuario();
+            if(responseEntity.getStatusCode() == HttpStatus.OK && responseEntity.getBody().getExiste().equals("true")){
+                System.out.println("Posicion A ################################################################################");
+                System.out.println(responseEntity.getBody().getExiste());
+                return responseEntity.getBody().getUsuario();
+            }
+            System.out.println("Posicion B ################################################################################");
+            return null;
+        }catch (Exception e){
+            System.out.println("Posicion C ################################################################################");
+            return null;
         }
-        System.out.println("Posicion B ################################################################################");
-        return null;
     }
 }

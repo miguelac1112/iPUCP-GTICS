@@ -106,6 +106,7 @@
         </div>
 
         <div th:if="${msg != null}" th:text="${msg}" class="alert alert-success" role="alert"></div>
+        <div th:if="${msg2 != null}" th:text="${msg2}" class="alert alert-danger" role="alert"></div>
 
         <div >
             <table class="table table-striped display nowrap" id="tablax" style="overflow-x: auto; overflow-y: auto" width="100%">
@@ -222,22 +223,17 @@
 
                     <p>Usuario nuevo:</p>
                     <p>Se creará nuevo usuario en la base de datos externa</p>
-                    <div class="row">
-                        <a class="btn btn-success" th:href="@{'/admin/nuevoNormal'}">Agregar nuevo usuario</a>
-                    </div>
+                    <center><a class="btn btn-success" th:href="@{'/admin/nuevoNormal'}">Agregar nuevo usuario</a></center>
                     </br>
                     <p>Registrar seguridad:</p>
                     <p>Se registrará al usuario seguridad brindandole una contraseña</p>
-                    <div class="row">
-                        <form method="post" id="myform5" th:action="@{'/admin/verificarSeguridad'}">
-                            <div class="form-outline">
-                                <input type="text" id="codigo" name="codigo" class="form-control" placeholder="Ingresar código de usuario seguridad"/>
-                            </div>
-                        </form>
-                        </br>
-                        </br>
-                        <button type="submit" class="btn btn-success" form="myform5" >Registrar seguridad</button>
-                    </div>
+                    <form method="post" id="myform5" th:action="@{'/admin/verificarSeguridad'}">
+                        <div class="form-outline">
+                            <input type="text" id="codigo" name="codigo" class="form-control" placeholder="Ingresar código de usuario seguridad"/>
+                        </div>
+                    </form>
+                    </br>
+                    <center><button type="submit" class="btn btn-success" form="myform5" >Registrar seguridad</button></center>
 
                 </div>
                 <div class="modal-footer">
@@ -246,7 +242,6 @@
             </div>
         </div>
     </div>
-
 
 
     <!-- JQUERY -->

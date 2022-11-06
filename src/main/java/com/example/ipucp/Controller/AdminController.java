@@ -90,30 +90,48 @@ public class AdminController {
     }
 
     @PostMapping("/verificarSeguridad")
-    public String verificarSeguridad(@RequestParam("codigo") String codigo, Model model){
-        System.out.println(codigo+"################################################################################");
-        String msg = "El código ingresado no esta registrado ni creado";
-        int cont = 0;
-        for (Usuario usuarioRegistrado : usuarioRepository.findAll()){
-            if(codigo.equals(usuarioRegistrado.getId())){
-                System.out.println("Usuario ya registrado en base de datos de la aplicación web ################################################################################");
-                msg = "Usuario ya registrado en base de datos de la aplicación web";
-                cont = 1;
-                break;
+    public String verificarSeguridad(@RequestParam("codigo") String codigo, Model model, RedirectAttributes attr){
+        String msg2 = "";
+        if(codigo.length() == 8){
+            try {
+                Double.parseDouble(codigo);
+                //Continuamos:
+
+                System.out.println(codigo+"################################################################################");
+                msg2 = "El código ingresado para usuario seguridad no esta registrado ni creado";
+                int cont = 0;
+                for (Usuario usuarioRegistrado : usuarioRepository.findAll()){
+                    if(codigo.equals(usuarioRegistrado.getId())){
+                        System.out.println("Usuario ya registrado en base de datos de la aplicación web ################################################################################");
+                        msg2 = "Usuario ya registrado en base de datos de la aplicación web";
+                        cont = 1;
+                        break;
+                    }
+                }
+                // Si no se encuentra en la lista anterior entonces puede que este creado pero aun no registrado
+                if(cont==0){
+                    UsuarioDto optUsuario = usuarioDao.buscarOtro(codigo);
+                    if (optUsuario != null){
+                        System.out.println("INGRESASSSSSSTETTETET   ################################################################################");
+                        model.addAttribute("tipoUsuario","seguridad");
+                        model.addAttribute("listaCargos",cargoDao.listarCargos());
+                        model.addAttribute("usuario",optUsuario);
+                        return "admin/newForm3";
+                    }
+                    System.out.println("Usuario jajajaja ################################################################################");
+                }
+
+            }catch(NumberFormatException e) {
+                System.out.println("Solo números");
             }
+        }else {
+            System.out.println("Solo 8 caracteres");
         }
-        // Si no se encuentra en la lista anterior entonces puede que este creado pero aun no registrado
-        if(cont==0){
-            UsuarioDto optUsuario = usuarioDao.buscarOtro(codigo);
-            if (optUsuario != null){
-                System.out.println("INGRESASSSSSSTETTETET   ################################################################################");
-                model.addAttribute("tipoUsuario","seguridad");
-                model.addAttribute("listaCargos",cargoDao.listarCargos());
-                model.addAttribute("usuario",optUsuario);
-                return "admin/newForm3";
-            }
-            System.out.println("Usuario jajajaja ################################################################################");
+
+        if(msg2.equals("")){
+            msg2 = "Solo 8 caracteres que sean numeros";
         }
+        attr.addFlashAttribute("msg2",msg2);
         return "redirect:/admin/listar";
     }
 
