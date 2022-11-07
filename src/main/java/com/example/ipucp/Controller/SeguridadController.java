@@ -5,6 +5,8 @@ import com.example.ipucp.Entity.*;
 import com.example.ipucp.Dto.UsuarioIncidencias;
 import com.example.ipucp.Repository.*;
 import com.example.ipucp.util.ListaIncidenciasExcel;
+import com.example.ipucp.util.ListaIncidenciasPDF;
+import com.lowagie.text.DocumentException;
 import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
@@ -75,8 +77,9 @@ public class SeguridadController {
 
 
     @GetMapping("/exportar_xlsx")
-    public void exportToExcel(HttpServletResponse response) throws IOException {
-
+    public void exportToExcel(HttpServletResponse response, @RequestParam("tipo") int idTipo ,@RequestParam("urgencia") int idUrgencia, @RequestParam("orden") int idOrden, @RequestParam("estado") int idEstad)
+            throws IOException {
+        List<Inicidencia> inicidenciaList = new ArrayList<>();
         response.setContentType("application/octet-stream");
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
         String currentDateTime = dateFormatter.format(new Date());
@@ -85,11 +88,216 @@ public class SeguridadController {
         String headerValue = "attachment; filename=incidencias_lista" + currentDateTime + ".xlsx";
         response.setHeader(headerKey,headerValue);
 
-        List<Inicidencia> inicidenciaList = inicidenciaRepository.orderReciente();
+        if(idEstad==2) {
+            if (idTipo != 0) {
+                if (idUrgencia != 0) {
+                    switch (idOrden) {
+                        case 1 -> {
+                            inicidenciaList.addAll(inicidenciaRepository.filtradoTipoUrgenciaAntig(idTipo, idUrgencia));
+                            ListaIncidenciasExcel incidenciasExcel = new ListaIncidenciasExcel(inicidenciaList);
+                            incidenciasExcel.export(response);
+                        }
+                        case 0 -> {
+                            inicidenciaList.addAll(inicidenciaRepository.filtradoTipoUrgencia(idTipo, idUrgencia));
+                            ListaIncidenciasExcel incidenciasExcel = new ListaIncidenciasExcel(inicidenciaList);
+                            incidenciasExcel.export(response);
+                        }
+                    }
+                } else {
+                    switch (idOrden) {
+                        case 1 -> {
+                            inicidenciaList.addAll(inicidenciaRepository.filtradoTipoAntiguo(idTipo));
+                            ListaIncidenciasExcel incidenciasExcel = new ListaIncidenciasExcel(inicidenciaList);
+                            incidenciasExcel.export(response);}
+                        case 0 -> {
+                            inicidenciaList.addAll(inicidenciaRepository.filtradoTipo(idTipo));
+                            ListaIncidenciasExcel incidenciasExcel = new ListaIncidenciasExcel(inicidenciaList);
+                            incidenciasExcel.export(response);
+                        }
+                    }
+                }
+            } else {
+                if (idUrgencia != 0) {
+                    switch (idOrden) {
+                        case 1 -> {inicidenciaList.addAll(inicidenciaRepository.filtradoUrgenciaAntiguo(idUrgencia));
+                            ListaIncidenciasExcel incidenciasExcel = new ListaIncidenciasExcel(inicidenciaList);
+                            incidenciasExcel.export(response);}
+                        case 0 -> {
+                            inicidenciaList.addAll(inicidenciaRepository.filtradoUrgencia(idUrgencia));
+                            ListaIncidenciasExcel incidenciasExcel = new ListaIncidenciasExcel(inicidenciaList);
+                            incidenciasExcel.export(response);
+                        }
+                    }
 
-        ListaIncidenciasExcel incidenciasExcel = new ListaIncidenciasExcel(inicidenciaList);
+                } else {
+                    switch (idOrden) {
+                        case 1 -> {inicidenciaList.addAll(inicidenciaRepository.findAll());
+                            ListaIncidenciasExcel incidenciasExcel = new ListaIncidenciasExcel(inicidenciaList);
+                            incidenciasExcel.export(response);}
+                        case 0 -> {inicidenciaList.addAll(inicidenciaRepository.ordenNuevo());
+                            ListaIncidenciasExcel incidenciasExcel = new ListaIncidenciasExcel(inicidenciaList);
+                            incidenciasExcel.export(response);}
+                    }
+                }
+            }
+        }else{
 
-        incidenciasExcel.export(response);
+            if (idTipo != 0) {
+                if (idUrgencia != 0) {
+                    switch (idOrden) {
+                        case 1 -> {inicidenciaList.addAll(inicidenciaRepository.filtradoTipoUrgenciaAntigEstado(idTipo, idUrgencia, idEstad));
+                            ListaIncidenciasExcel incidenciasExcel = new ListaIncidenciasExcel(inicidenciaList);
+                            incidenciasExcel.export(response);}
+                        case 0 -> {inicidenciaList.addAll(inicidenciaRepository.filtradoTipoUrgenciaEstado(idTipo, idUrgencia, idEstad));
+                            ListaIncidenciasExcel incidenciasExcel = new ListaIncidenciasExcel(inicidenciaList);
+                            incidenciasExcel.export(response);}
+                    }
+                } else {
+                    switch (idOrden) {
+                        case 1 -> {inicidenciaList.addAll(inicidenciaRepository.filtradoTipoAntiguoEstado(idTipo, idEstad));
+                            ListaIncidenciasExcel incidenciasExcel = new ListaIncidenciasExcel(inicidenciaList);
+                            incidenciasExcel.export(response);}
+                        case 0 -> {inicidenciaList.addAll(inicidenciaRepository.filtradoTipoEstado(idTipo, idEstad));
+                            ListaIncidenciasExcel incidenciasExcel = new ListaIncidenciasExcel(inicidenciaList);
+                            incidenciasExcel.export(response);}
+                    }
+                }
+            } else {
+                if (idUrgencia != 0) {
+                    switch (idOrden) {
+                        case 1 -> {inicidenciaList.addAll(inicidenciaRepository.filtradoUrgenciaAntiguoEstado(idUrgencia,idEstad));
+                            ListaIncidenciasExcel incidenciasExcel = new ListaIncidenciasExcel(inicidenciaList);
+                            incidenciasExcel.export(response);}
+                        case 0 -> {inicidenciaList.addAll(inicidenciaRepository.filtradoUrgenciaEstado(idUrgencia, idEstad));
+                            ListaIncidenciasExcel incidenciasExcel = new ListaIncidenciasExcel(inicidenciaList);
+                            incidenciasExcel.export(response);}
+                    }
+
+                } else {
+                    switch (idOrden) {
+                        case 1 -> {inicidenciaList.addAll(inicidenciaRepository.ordenAntigEstaodo(idEstad));
+                            ListaIncidenciasExcel incidenciasExcel = new ListaIncidenciasExcel(inicidenciaList);
+                            incidenciasExcel.export(response);}
+                        case 0 -> {inicidenciaList.addAll(inicidenciaRepository.ordenNuevoEstaodo(idEstad));
+                            ListaIncidenciasExcel incidenciasExcel = new ListaIncidenciasExcel(inicidenciaList);
+                            incidenciasExcel.export(response);}
+                    }
+                }
+            }
+        }
+    }
+
+    @GetMapping("/exportar_pdf")
+    public void exportToPDF(HttpServletResponse response, @RequestParam("tipo") int idTipo ,@RequestParam("urgencia") int idUrgencia, @RequestParam("orden") int idOrden, @RequestParam("estado") int idEstad)
+            throws DocumentException, IOException {
+        List<Inicidencia> inicidenciaList = new ArrayList<>();
+        response.setContentType("application/pdf");
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String currentDateTime = dateFormatter.format(new Date());
+
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=incidencias_lista" + currentDateTime + ".pdf";
+        response.setHeader(headerKey, headerValue);
+
+        if(idEstad==2) {
+            if (idTipo != 0) {
+                if (idUrgencia != 0) {
+                    switch (idOrden) {
+                        case 1 -> {
+                            inicidenciaList.addAll(inicidenciaRepository.filtradoTipoUrgenciaAntig(idTipo, idUrgencia));
+                            ListaIncidenciasPDF incidenciasPDF = new ListaIncidenciasPDF(inicidenciaList);
+                            incidenciasPDF.export(response);
+                        }
+                        case 0 -> {
+                            inicidenciaList.addAll(inicidenciaRepository.filtradoTipoUrgencia(idTipo, idUrgencia));
+                            ListaIncidenciasPDF incidenciasPDF = new ListaIncidenciasPDF(inicidenciaList);
+                            incidenciasPDF.export(response);
+                        }
+                    }
+                } else {
+                    switch (idOrden) {
+                        case 1 -> {
+                            inicidenciaList.addAll(inicidenciaRepository.filtradoTipoAntiguo(idTipo));
+                            ListaIncidenciasPDF incidenciasPDF = new ListaIncidenciasPDF(inicidenciaList);
+                            incidenciasPDF.export(response);}
+                        case 0 -> {
+                            inicidenciaList.addAll(inicidenciaRepository.filtradoTipo(idTipo));
+                            ListaIncidenciasPDF incidenciasPDF = new ListaIncidenciasPDF(inicidenciaList);
+                            incidenciasPDF.export(response);
+                        }
+                    }
+                }
+            } else {
+                if (idUrgencia != 0) {
+                    switch (idOrden) {
+                        case 1 -> {inicidenciaList.addAll(inicidenciaRepository.filtradoUrgenciaAntiguo(idUrgencia));
+                            ListaIncidenciasPDF incidenciasPDF = new ListaIncidenciasPDF(inicidenciaList);
+                            incidenciasPDF.export(response);}
+                        case 0 -> {
+                            inicidenciaList.addAll(inicidenciaRepository.filtradoUrgencia(idUrgencia));
+                            ListaIncidenciasPDF incidenciasPDF = new ListaIncidenciasPDF(inicidenciaList);
+                            incidenciasPDF.export(response);
+                        }
+                    }
+
+                } else {
+                    switch (idOrden) {
+                        case 1 -> {inicidenciaList.addAll(inicidenciaRepository.findAll());
+                            ListaIncidenciasPDF incidenciasPDF = new ListaIncidenciasPDF(inicidenciaList);
+                            incidenciasPDF.export(response);}
+                        case 0 -> {inicidenciaList.addAll(inicidenciaRepository.ordenNuevo());
+                            ListaIncidenciasPDF incidenciasPDF = new ListaIncidenciasPDF(inicidenciaList);
+                            incidenciasPDF.export(response);}
+                    }
+                }
+            }
+        }else{
+
+            if (idTipo != 0) {
+                if (idUrgencia != 0) {
+                    switch (idOrden) {
+                        case 1 -> {inicidenciaList.addAll(inicidenciaRepository.filtradoTipoUrgenciaAntigEstado(idTipo, idUrgencia, idEstad));
+                            ListaIncidenciasPDF incidenciasPDF = new ListaIncidenciasPDF(inicidenciaList);
+                            incidenciasPDF.export(response);}
+                        case 0 -> {inicidenciaList.addAll(inicidenciaRepository.filtradoTipoUrgenciaEstado(idTipo, idUrgencia, idEstad));
+                            ListaIncidenciasPDF incidenciasPDF = new ListaIncidenciasPDF(inicidenciaList);
+                            incidenciasPDF.export(response);}
+                    }
+                } else {
+                    switch (idOrden) {
+                        case 1 -> {inicidenciaList.addAll(inicidenciaRepository.filtradoTipoAntiguoEstado(idTipo, idEstad));
+                            ListaIncidenciasPDF incidenciasPDF = new ListaIncidenciasPDF(inicidenciaList);
+                            incidenciasPDF.export(response);}
+                        case 0 -> {inicidenciaList.addAll(inicidenciaRepository.filtradoTipoEstado(idTipo, idEstad));
+                            ListaIncidenciasPDF incidenciasPDF = new ListaIncidenciasPDF(inicidenciaList);
+                            incidenciasPDF.export(response);}
+                    }
+                }
+            } else {
+                if (idUrgencia != 0) {
+                    switch (idOrden) {
+                        case 1 -> {inicidenciaList.addAll(inicidenciaRepository.filtradoUrgenciaAntiguoEstado(idUrgencia,idEstad));
+                            ListaIncidenciasPDF incidenciasPDF = new ListaIncidenciasPDF(inicidenciaList);
+                            incidenciasPDF.export(response);}
+                        case 0 -> {inicidenciaList.addAll(inicidenciaRepository.filtradoUrgenciaEstado(idUrgencia, idEstad));
+                            ListaIncidenciasPDF incidenciasPDF = new ListaIncidenciasPDF(inicidenciaList);
+                            incidenciasPDF.export(response);}
+                    }
+
+                } else {
+                    switch (idOrden) {
+                        case 1 -> {inicidenciaList.addAll(inicidenciaRepository.ordenAntigEstaodo(idEstad));
+                            ListaIncidenciasPDF incidenciasPDF = new ListaIncidenciasPDF(inicidenciaList);
+                            incidenciasPDF.export(response);}
+                        case 0 -> {inicidenciaList.addAll(inicidenciaRepository.ordenNuevoEstaodo(idEstad));
+                            ListaIncidenciasPDF incidenciasPDF = new ListaIncidenciasPDF(inicidenciaList);
+                            incidenciasPDF.export(response);}
+                    }
+                }
+            }
+        }
+
+
     }
 
     @GetMapping("/incidencias")
