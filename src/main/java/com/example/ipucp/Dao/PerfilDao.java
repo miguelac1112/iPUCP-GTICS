@@ -13,7 +13,7 @@ public class PerfilDao {
     public Perfil obtenerImagen(String id) {
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<Perfil> response = restTemplate.getForEntity(
-                "http://localhost:9000/azureStorage/download?code=" + id, Perfil.class);
+                "http://3.213.104.118:9000/azureStorage/download?code=" + id, Perfil.class);
 
         return response.getBody();
     }
@@ -22,7 +22,7 @@ public class PerfilDao {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        String url = "http://localhost:9000/azureStorage/upload";
+        String url = "http://3.213.104.118:9000/azureStorage/upload";
         HttpEntity<Perfil> httpEntity = new HttpEntity<>(perfil, headers);
 
         RestTemplate restTemplate = new RestTemplate();
