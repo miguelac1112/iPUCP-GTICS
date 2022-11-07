@@ -11,11 +11,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.ByteArrayInputStream;
 import java.time.Instant;
 import java.util.List;
 
 @Repository
 public interface InicidenciaRepository extends JpaRepository<Inicidencia, Integer> {
+
     @Query(value="select * from inicidencia where codigo= ?1 ;",nativeQuery = true)
     List<Inicidencia> userIncidencias(String codigo);
 

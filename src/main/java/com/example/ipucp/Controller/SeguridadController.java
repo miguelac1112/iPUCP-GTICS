@@ -4,18 +4,27 @@ import com.example.ipucp.Dto.IncidenciaPorMes;
 import com.example.ipucp.Entity.*;
 import com.example.ipucp.Dto.UsuarioIncidencias;
 import com.example.ipucp.Repository.*;
+import com.example.ipucp.util.ListaIncidenciasExcel;
+import org.apache.commons.io.output.ByteArrayOutputStream;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.ArrayList;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.net.http.HttpHeaders;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/seguridad")
@@ -62,6 +71,25 @@ public class SeguridadController {
             return "redirect:/seguridad/incidencias";
         }
 
+    }
+
+
+    @GetMapping("/exportar_xlsx")
+    public void exportToExcel(HttpServletResponse response) throws IOException {
+
+        response.setContentType("application/octet-stream");
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String currentDateTime = dateFormatter.format(new Date());
+
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=incidencias_lista" + currentDateTime + ".xlsx";
+        response.setHeader(headerKey,headerValue);
+
+        List<Inicidencia> inicidenciaList = inicidenciaRepository.orderReciente();
+
+        ListaIncidenciasExcel incidenciasExcel = new ListaIncidenciasExcel(inicidenciaList);
+
+        incidenciasExcel.export(response);
     }
 
     @GetMapping("/incidencias")
