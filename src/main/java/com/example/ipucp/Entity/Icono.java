@@ -1,17 +1,18 @@
 package com.example.ipucp.Entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "icono")
-public class Icono {
+public class Icono implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idicono", nullable = false)
     private Integer id;
 
-    @Column(name = "imagen", nullable = false)
-    private byte[] imagen;
+    @Column(name = "imagen")
+    private byte[] imagen ;
 
     @Column(name = "nombre", nullable = false, length = 45)
     private String nombre;
@@ -39,5 +40,4 @@ public class Icono {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-
 }
