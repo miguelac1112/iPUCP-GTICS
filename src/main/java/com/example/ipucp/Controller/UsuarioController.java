@@ -130,8 +130,10 @@ public class UsuarioController {
     }
 
     @GetMapping("/perfil")
-    public String perfil(Model model) {
-        model.addAttribute("userperfil",usuarioRepository.userPerfil("20197171"));
+    public String perfil(Model model, HttpSession session) {
+        Usuario u = (Usuario) session.getAttribute("usuario");
+        Usuario perfilUsuario = usuarioRepository.userPerfil(u.getId());
+        model.addAttribute("user",perfilUsuario);
         return "usuario/perfil";
     }
     @GetMapping("/misIncidencias")
@@ -211,9 +213,19 @@ public class UsuarioController {
         redirectAttributes.addFlashAttribute("msg4","La incidencia con ID #"+id+" ha sido resuelta.");
         return "redirect:/usuario/misIncidencias";
     }
-
-
-
-
-
+    @PostMapping("/guardarImagenes")
+    public String imagenSave(@RequestParam("fruta") String nombre, RedirectAttributes redirectAttributes, HttpSession session){
+        int icono;
+        if(nombre.equals("pina")){
+            icono = 1;
+        }else if(nombre.equals("sandia")){
+            icono =2;
+        }else{
+            icono = 3;
+        }
+        Usuario user = (Usuario) session.getAttribute("usuario");
+        usuarioRepository.saveAvatar(icono,user.getId());
+        redirectAttributes.addFlashAttribute("mensaje","Se han realizado los cambios correctamente.");
+        return "redirect:/usuario/perfil";
+    }
 }

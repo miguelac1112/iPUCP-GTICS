@@ -113,6 +113,8 @@
     </br>
     </br>
 
+
+    <form method="post" th:action="@{'/usuario/guardarImagenes'}" >
     <div class="container">
 
         <div class="text-center" style="margin-top:4%;">
@@ -120,6 +122,7 @@
 
         </div>
         </br>
+        <div th:if="${mensaje != null}" th:text="${mensaje}" class="alert alert-success" role="alert"></div>
         <div class="row">
             <div class="col-3">
                 <div class="contenedor">
@@ -134,7 +137,7 @@
                         </div>
                 </div>
                 <a th:href="@{'/usuario/misIncidencias'}" class="lala">
-                    <button style="margin-top: 19%;" class="btn btn-dark boton" type="submit" >Mis Incidencias</button>
+                    <button style="margin-top: 19%;" class="btn btn-dark boton"  >Mis Incidencias</button>
                 </a>
             </div>
             <div class="col-4">
@@ -174,15 +177,20 @@
             <div class="col-md-6" style="margin-left:450px">
                 <div class="row">
                     <div class="col" id="img">
-                        <img src="/img/avatar1.jpg"   class="avatar" alt="...">
+                        <img th:if="${user.icono.getNombre() eq 'pina'}" src="/img/avatar1.jpg"   class="avatar" alt="...">
+                        <img th:if="${user.icono.getNombre() eq 'sandia'}" src="/img/avatar2.jpg"   class="avatar" alt="...">
+                        <img th:if="${user.icono.getNombre() eq 'naranja'}" src="/img/avatar3.jpg"   class="avatar" alt="...">
 
                     </div>
                     <div class="col">
                         <div class="sel">
-                            <select onchange=cambiar_imagen() class="form-select form-select-sm" aria-label=".form-select-sm example" style="margin-right: 5%" id="fruta">
-                                <option selected value="pina">Piña</option>
-                                <option value="sandia">Sandía</option>
-                                <option value="naranja">Naranja</option>
+                            <select onchange=cambiar_imagen() class="form-select form-select-sm" aria-label=".form-select-sm example" style="margin-right: 5%" name="fruta" id="fruta">
+                                <option selected th:if="${user.icono.getNombre() eq 'pina'}" th:value="${user.icono.nombre}">Piña</option>
+                                <option selected th:if="${user.icono.getNombre() eq 'sandia'}" th:value="${user.icono.nombre}">Sandía</option>
+                                <option selected th:if="${user.icono.getNombre() eq 'naranja'}" th:value="${user.icono.nombre}">Naranja</option>
+                                <option th:unless="${user.icono.getNombre() eq 'pina'}" value="pina">Piña</option>
+                                <option th:unless="${user.icono.getNombre() eq 'sandia'}" value="sandia">Sandía</option>
+                                <option th:unless="${user.icono.getNombre() eq 'naranja'}" value="naranja">Naranja</option>
                             </select>
                             <div class="col-auto m-1">
                                 <button  class="btn btn-primary btn-sm" type="submit">Aplicar</button>
@@ -197,7 +205,7 @@
         </div>
 
     </div>
-
+    </form>
 
 
 </main>
