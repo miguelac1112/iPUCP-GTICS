@@ -114,7 +114,7 @@
     </br>
 
 
-    <form method="post" th:action="@{'/usuario/guardarImagenes'}" >
+    <form method="post" th:action="@{'/usuario/guardarImagenes'}" enctype="multipart/form-data">
     <div class="container">
 
         <div class="text-center" style="margin-top:4%;">
@@ -126,16 +126,20 @@
         <div class="row">
             <div class="col-3">
                 <div class="contenedor">
-                        <img src="/img/roca.jpg"  class="roca"  alt="...">
+                        <img th:src="|data:image/png;base64,${imgperfil}|"  class="roca"  alt="...">
+
                         <div class="btn" style="margin-bottom: -8%">
                             <a  href="javascript:explorar();" >
                                 <div class="form-group"style="position: relative; left: -125%; top: 70%;">
                                     <img src="/img/camara.png" style="width: 50px;height: 4%;border-radius: 4px;margin-top: 30%" class="camara" alt="..." title="subir imagen"id="m">
-                                    <input type="file" name="f_subir" id="f_subir" style="display:none;" >
+                                    <input onchange="notif()" type="file" name="f_subir" id="f_subir" style="display:none;" >
                                 </div>
                             </a>
                         </div>
+
+
                 </div>
+                <div id="noti" ></div>
                 <a th:href="@{'/usuario/misIncidencias'}" class="lala">
                     <button style="margin-top: 19%;" class="btn btn-dark boton"  >Mis Incidencias</button>
                 </a>
@@ -231,6 +235,11 @@
         }else{
             im.innerHTML = `<img src="/img/avatar1.jpg" class="avatar"  alt="...">\n`;
         }
+
+    }
+    function notif(){
+        let n = document.getElementById("noti");
+        n.innerHTML = `<h6 style="color: #4B9A4B">Se ha seleccionado un archivo</h6>\n`;
 
     }
 </script>

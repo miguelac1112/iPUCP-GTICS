@@ -1,5 +1,6 @@
 package com.example.ipucp.Controller;
 
+import com.example.ipucp.Dao.PerfilDao;
 import com.example.ipucp.Entity.*;
 import com.example.ipucp.Repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
@@ -31,6 +33,9 @@ public class UsuarioController {
 
     @Autowired
     ComentarioRepository comentarioRepository;
+    @Autowired
+    PerfilDao perfilDao;
+
 
     @GetMapping("/mapa")
     public String mapa() {
@@ -134,6 +139,7 @@ public class UsuarioController {
         Usuario u = (Usuario) session.getAttribute("usuario");
         Usuario perfilUsuario = usuarioRepository.userPerfil(u.getId());
         model.addAttribute("user",perfilUsuario);
+        model.addAttribute("imgperfil",perfilDao.obtenerImagen(u.getId()).getFileBase64());
         return "usuario/perfil";
     }
     @GetMapping("/misIncidencias")
@@ -214,7 +220,7 @@ public class UsuarioController {
         return "redirect:/usuario/misIncidencias";
     }
     @PostMapping("/guardarImagenes")
-    public String imagenSave(@RequestParam("fruta") String nombre, RedirectAttributes redirectAttributes, HttpSession session){
+    public String imagenSave(@RequestParam("fruta") String nombre ,@RequestParam(name = "f_subir",required = false) MultipartFile img, RedirectAttributes redirectAttributes, HttpSession session){
         int icono;
         if(nombre.equals("pina")){
             icono = 1;
@@ -225,6 +231,23 @@ public class UsuarioController {
         }
         Usuario user = (Usuario) session.getAttribute("usuario");
         usuarioRepository.saveAvatar(icono,user.getId());
+
+        if(img.isEmpty()){
+            System.out.println("imagen vacia");
+        }else{
+            try {
+                byte[] bytes = img.getBytes();
+                Perfil perfil = new Perfil();
+                perfil.setName(user.getId()+".png");
+                perfil.setFileBase64(Base64.getEncoder().encodeToString(bytes));
+                System.out.println("llegue hasta aqui");
+                perfilDao.subirImagen(perfil);
+            }catch (Exception e){
+                System.out.println("Hay excepcion");
+            }
+
+        }
+
         redirectAttributes.addFlashAttribute("mensaje","Se han realizado los cambios correctamente.");
         return "redirect:/usuario/perfil";
     }
