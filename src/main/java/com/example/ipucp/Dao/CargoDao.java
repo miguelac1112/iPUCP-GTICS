@@ -14,7 +14,7 @@ public class CargoDao {
     public List<Cargo> listarCargos() {
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<Cargo[]> response = restTemplate.getForEntity(
-                "http://localhost:8081/listCargos", Cargo[].class);
+                "http://20.232.117.53:8081/listCargos", Cargo[].class);
 
         return Arrays.asList(response.getBody());
     }

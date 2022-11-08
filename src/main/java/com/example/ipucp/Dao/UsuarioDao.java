@@ -16,7 +16,7 @@ public class UsuarioDao {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        String url = "http://localhost:8081/saveUser";
+        String url = "http://20.232.117.53:8081/saveUser";
         HttpEntity<UsuarioDto> httpEntity = new HttpEntity<>(usuario, headers);
 
         RestTemplate restTemplate = new RestTemplate();
@@ -27,13 +27,13 @@ public class UsuarioDao {
     public List<UsuarioDto> listarUsuarios() {
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<UsuarioDto[]> response = restTemplate.getForEntity(
-                "http://localhost:8081/listarUsuarios", UsuarioDto[].class);
+                "http://20.232.117.53:8081/listarUsuarios", UsuarioDto[].class);
 
         return Arrays.asList(response.getBody());
     }
 
     public UsuarioDto buscarOtro(String codigo){
-        String searchUrl = "http://localhost:8081/findOther/" + codigo;
+        String searchUrl = "http://20.232.117.53:8081/findOther/" + codigo;
         RestTemplate restTemplate = new RestTemplate();
         try{
             ResponseEntity<UsuarioDto2> responseEntity = restTemplate.getForEntity(searchUrl,UsuarioDto2.class);
