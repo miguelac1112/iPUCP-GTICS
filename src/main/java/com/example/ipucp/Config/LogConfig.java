@@ -29,9 +29,9 @@ public class LogConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/admin","/admin/**").hasAuthority("admin")
                 .antMatchers("/seguridad","/seguridad/**").hasAuthority("seguridad")
-                .antMatchers("/usuario","/usuario/**").hasAuthority("usuario");
+                .antMatchers("/usuario","/usuario/**").access("hasAuthority('usuario')||hasAuthority('ROLE_USER') ");
 
-        http.logout().logoutUrl("/logout")
+        http.logout().logoutUrl("/login")
                 .deleteCookies("JSESSIONID")
                 .invalidateHttpSession(true);
 
