@@ -1,6 +1,7 @@
 package com.example.ipucp.Controller;
 
 import com.example.ipucp.Dto.IncidenciaPorMes;
+import com.example.ipucp.EmailSenderService;
 import com.example.ipucp.Entity.*;
 import com.example.ipucp.Dto.UsuarioIncidencias;
 import com.example.ipucp.Repository.*;
@@ -31,6 +32,9 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping("/seguridad")
 public class SeguridadController {
+
+    @Autowired
+    private EmailSenderService senderService;
 
     @Autowired
     UsuarioRepository usuarioRepository;
@@ -302,6 +306,10 @@ public class SeguridadController {
 
     @GetMapping("/incidencias")
     public String lista(Model model) {
+        senderService.sendSimpleEmail("a20186098@pucp.edu.pe",
+                "This is email body",
+                "This is email subject");
+
         /*Tipo*/
         List<Tipo> listaTipos  = this.obtenerTipos();
         /*urgencias*/
