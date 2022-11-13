@@ -9,6 +9,7 @@ import com.example.ipucp.Repository.InicidenciaRepository;
 import com.example.ipucp.Repository.TipoRepository;
 import com.example.ipucp.Repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -295,7 +296,7 @@ public class AdminController {
                         return "admin/newForm";
                     }else{
                         usuarioRepository.save(usuario); //guardando seguridad
-                        usuarioRepository.cifradoHash(usuario.getContra(),usuario.getId()); //save hashed password
+                        usuarioRepository.cifradoHash(BCrypt.hashpw(usuario.getContra(), BCrypt.gensalt()),usuario.getId()); //save BCrypt password
                     }
 
                 }else{
