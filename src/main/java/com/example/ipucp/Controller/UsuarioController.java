@@ -138,7 +138,8 @@ public class UsuarioController {
             Inicidencia inicidencia = optInicidencia.get();
 
             model.addAttribute("incidencia", inicidencia);
-
+            model.addAttribute("imgInc",perfilDao.obtenerImagen("Incidencia_"+String.valueOf(id)).getFileBase64());
+            model.addAttribute("imgUs",perfilDao.obtenerImagen(inicidencia.getCodigo().getId()).getFileBase64());
             return "usuario/detalleIncid";
         }else{
             return "redirect:/usuario/misIncidencias";
