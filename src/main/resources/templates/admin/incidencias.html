@@ -74,7 +74,6 @@
 
 
     <div class="container px-4 py-5">
-        </br>
         <section class="page-section bg-light" id="portafolio">
             <h1 class="pb-2 border-bottom" style="text-align: center">Gestión de incidencias</h1>
             </br>
@@ -144,7 +143,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Editar tipo de incidencia</h5>
-                        <button th:unless="${#fields.hasErrors('tipo.tipoIncidencia')}" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button th:unless="${#fields.hasErrors('tipo.tipoIncidencia')}" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
                         <a th:if="${#fields.hasErrors('tipo.tipoIncidencia')}" type="button" class="btn-close" th:href="@{'/admin/incidencias'}" aria-label="Close"></a>
                     </div>
                     <div class="modal-body">
@@ -192,7 +191,7 @@
                 <div class="modal-content">
                     <div class="modal-header" style="background-color: red">
                         <h5 class="modal-title" id="exampleModalLabel2" style="color: white">Borrar tipo de incidencia</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
                     </div>
                     <div class="modal-body">
 
@@ -214,7 +213,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel3">Crear nuevo tipo de incidencia</h5>
-                    <button th:unless="${openModalCreate != null}" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button th:unless="${openModalCreate != null}" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
                     <a th:if="${openModalCreate != null}" type="button" class="btn-close" th:href="@{'/admin/incidencias'}" aria-label="Close"></a>
                 </div>
                 <div class="modal-body">
@@ -262,7 +261,7 @@
             <div class="modal-content ">
                 <div class="modal-header" style="background-color: green">
                     <h5 class="modal-title" id="exampleModalLabel4" style="color: white">Reporte de robo</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
                 </div>
                 <div class="modal-body">
 
