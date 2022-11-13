@@ -113,13 +113,13 @@
                     <div class="card mt-5 mb-3" th:each="incidencia : ${incidenciaList}" >
                         <div class="card-header">
                             <img
-                                    src="/img/roca.jpg"  class="roca"  alt="..."
+                                    th:src="|data:image/png;base64,${iperfil.get(incidencia)}|"  class="roca"  alt="..."
                                     style="width: 35px; height: 35px; border-radius: 50%"
                             />
                             <span class="postuserfont" ><strong th:text="${incidencia.codigo.getNombre()+' '+incidencia.codigo.getApellido()}"></strong></span>
                         </div>
                         <img
-                                src="https://blog.biletbayi.com/wp-content/uploads/2019/12/rize.jpg"
+                                th:src="|data:image/png;base64,${hashmap.get(incidencia)}|"
                                 class="card-img-top"
                                 alt="..."
                         />

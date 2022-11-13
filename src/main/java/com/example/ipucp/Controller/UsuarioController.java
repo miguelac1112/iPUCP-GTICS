@@ -45,13 +45,17 @@ public class UsuarioController {
     @GetMapping("/listar")
     public String listar(Model model) {
 
+        HashMap<Inicidencia, String> datos = new HashMap<Inicidencia, String>();
+        HashMap<Inicidencia,String> user = new HashMap<Inicidencia,String>();
         List<Inicidencia> lista  =inicidenciaRepository.orderReciente();
         model.addAttribute("incidenciaList", lista);
 
-        for(Inicidencia incidencias: lista){
-            System.out.println(incidencias.getUbicacion().getNombre());
+        for(Inicidencia incidencia: lista){
+            datos.put(incidencia,perfilDao.obtenerImagen("Incidencia_"+ String.valueOf(incidencia.getId())).getFileBase64());
+            user.put(incidencia,perfilDao.obtenerImagen(incidencia.getCodigo().getId()).getFileBase64());
         }
-
+        model.addAttribute("hashmap",datos);
+        model.addAttribute("iperfil",user);
         return "usuario/menu";
     }
 
