@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 
 @Entity
@@ -14,7 +15,7 @@ public class Inicidencia {
     @Column(name = "idinicidencia", nullable = false)
     private Integer id;
 
-    @Column(name = "descripcion", nullable = false, length = 45)
+    @Column(name = "descripcion", nullable = false, length = 250)
     @NotBlank(message = "Ingrese un descripcion")
     private String descripcion="Descripcion";
 
@@ -25,7 +26,7 @@ public class Inicidencia {
     private String longitud;
 
 
-    @Column(name = "nombre", nullable = false, length = 45)
+    @Column(name = "nombre", nullable = false, length = 50)
     @NotBlank(message = "Ingrese un titulo")
     private String nombre="Nombre";
 

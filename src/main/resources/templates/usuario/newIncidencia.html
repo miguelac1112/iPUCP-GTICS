@@ -116,7 +116,7 @@
             <div class="row justify-content-center">
                 <div class="col-10 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                     <!--<h4 class="mb-3">Billing address</h4>-->
-                    <form method="post" th:action="@{'/usuario/save'}" class="needs-validation" novalidate>
+                    <form method="post" th:action="@{'/usuario/save'}" class="needs-validation" novalidate enctype="multipart/form-data">
                         <div class="row g-3">
                             <div th:if="${errorCompany != null}" th:text="${errorCompany}" class="alert alert-danger"
                                  role="alert"></div>
@@ -194,7 +194,7 @@
                         <hr>
                         <div >
                             <label for="foto" class="form-label">Añada una imagen: </label>
-                            <input type="file" class="btn btn-primary" name="foto" style="background-color:grey; border-color:grey" id="foto" required >
+                            <input type="file" class="btn btn-primary" name="fot" style="background-color:grey; border-color:grey" id="foto" required >
                         </div>
                         <hr class="my-4">
                         <div class="h-auto">

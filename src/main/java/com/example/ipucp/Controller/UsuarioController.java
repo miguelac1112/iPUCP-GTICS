@@ -80,8 +80,7 @@ public class UsuarioController {
 
     @PostMapping("/save")
     public String guardarNuevaIncidencia(@ModelAttribute("incidencia") @Valid Inicidencia incidencia, BindingResult bindingResult, Model model, RedirectAttributes attr,
-                                         HttpSession session) {
-
+                                         HttpSession session,@RequestParam(name = "fot") MultipartFile img) {
         if(bindingResult.hasErrors()){
 
             List<Tipo> listaTipo  =tipoRepository.findAll();
@@ -100,6 +99,25 @@ public class UsuarioController {
             incidencia.setFecha(fecha);
             incidencia.setCodigo(user);
             inicidenciaRepository.save(incidencia);
+            int i = incidencia.getId();
+            String idInci = String.valueOf(i);
+
+            if(img.isEmpty()){
+                System.out.println("imagen vacia");
+            }else{
+                try {
+                    byte[] bytes = img.getBytes();
+                    Perfil perfil = new Perfil();
+                    perfil.setName("Incidencia_"+idInci+".png");
+                    perfil.setFileBase64(Base64.getEncoder().encodeToString(bytes));
+                    System.out.println("llegue hasta aqui");
+                    perfilDao.subirImagen(perfil);
+                }catch (Exception e){
+                    System.out.println("Hay excepcion");
+                }
+
+            }
+
             attr.addFlashAttribute("msg","Incidencia creada exitosamente.");
             return "redirect:/usuario/misIncidencias";
         }
@@ -251,4 +269,6 @@ public class UsuarioController {
         redirectAttributes.addFlashAttribute("mensaje","Se han realizado los cambios correctamente.");
         return "redirect:/usuario/perfil";
     }
+
+
 }
