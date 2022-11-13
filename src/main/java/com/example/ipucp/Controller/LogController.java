@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Collection;
@@ -23,6 +27,9 @@ import java.util.Objects;
 public class LogController {
     @Autowired
     UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private OAuth2AuthorizedClientService auth2AuthorizedClientService;
 
     @GetMapping(value = {"/login"})
     public String login( @ModelAttribute("usuario") Usuario usuario ) {
@@ -66,6 +73,51 @@ public class LogController {
             }
 
         }
+    }
+    @GetMapping("/loginGoogle")
+    public String listar(Model model, OAuth2AuthenticationToken authentication, HttpSession session, RedirectAttributes redirectAttributes, HttpServletRequest request) {
+        OAuth2AuthorizedClient client = auth2AuthorizedClientService.loadAuthorizedClient(authentication.getAuthorizedClientRegistrationId(), authentication.getName());
+        String name = (String) authentication.getPrincipal().getAttributes().get("given_name");
+        String lastname = (String) authentication.getPrincipal().getAttributes().get("family_name");
+        String email = (String) authentication.getPrincipal().getAttributes().get("email");
+        Usuario usuario_g = new Usuario();
+        usuario_g.setNombre(name);
+        usuario_g.setApellido(lastname);
+        usuario_g.setCorreo(email);
+        Usuario usuario = usuarioRepository.findByCorreo(email);
+        if(usuario_g.getCorreo().equals(usuario.getCorreo())){
+            session.setAttribute("usuario",usuario);
+            String rol= String.valueOf(usuario.getRol());
+            switch (rol){
+                case "usuario" -> {
+                    if(usuario.getBan() <3){
+                        return "redirect:/usuario/listar";
+                    }else{
+                        String texto = "El usuario ha sido baneado";
+                        redirectAttributes.addFlashAttribute("msgLogin1",texto);
+                        return "redirect:/login";
+                    }
+                }
+                case "seguridad" -> {
+                    return "redirect:/seguridad";
+                }
+                case "admin" -> {
+                    return "redirect:/admin";
+                }
+                default -> {
+                    String texto = "Credenciales invalidas";
+                    redirectAttributes.addFlashAttribute("msgLogin",texto);
+                    return "redirect:/login";
+                }
+
+            }
+
+        }else {
+            String texto = "No se enecuentra";
+            redirectAttributes.addFlashAttribute("msgLogin",texto);
+            return "redirect:/login";
+        }
+
     }
 
     @GetMapping("/reset_password")

@@ -90,7 +90,7 @@
             <div class="card">
                 <div class="card-header">
                     <img
-                            src="https://mdbootstrap.com/img/new/avatars/8.jpg"
+                            th:src="|data:image/png;base64,${imgUs}|"
                             alt=""
                             style="width: 45px; height: 45px"
                             class="rounded-circle"
@@ -98,7 +98,7 @@
                     <span class="postuserfont"><strong th:text="${incidencia.codigo.getId()}"></strong></span>
                 </div>
                 <img
-                        src="https://blog.biletbayi.com/wp-content/uploads/2019/12/rize.jpg"
+                        th:src="|data:image/png;base64,${imgInc}|"
                         class="card-img-top"
                         alt="..."
                 />
