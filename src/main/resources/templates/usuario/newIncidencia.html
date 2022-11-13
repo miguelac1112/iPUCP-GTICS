@@ -10,6 +10,8 @@
             integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp"
             crossorigin="anonymous"
     />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
     <script src="https://kit.fontawesome.com/1e18eec1cd.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/css/style.css" />
     <title>iPUCP</title>
@@ -30,6 +32,15 @@
             .bd-placeholder-img-lg {
                 font-size: 3.5rem;
             }
+        }
+    </style>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings:
+                    'FILL' 0,
+                    'wght' 400,
+                    'GRAD' 0,
+                    'opsz' 48
         }
     </style>
     <style>
@@ -171,7 +182,14 @@
                             <div class="col-12">
                                 <h1></h1>
                                 <label for="descripcion" class="form-label">Descripción</label>
-                                <input name = "descripcion" type="text" class="form-control w-100" id="descripcion" placeholder="Detalle lo que ha sucedido" required>
+                                <div class="row"style="width: 200%">
+                                <div class="col" >
+                                  <input  name = "descripcion" type="text" class="form-control w-100" id="descripcion" placeholder="Detalle lo que ha sucedido" required>
+                                </div>
+                                <div class="col">
+                                    <div id="grabar"style="border-radius: 20%"class="btn btn-light material-symbols-outlined">mic</div>
+                                </div>
+                                </div>
                                 <div class="invalid-feedback">
                                     Please enter your shipping address.
                                 </div>
@@ -217,5 +235,6 @@
 <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
 
 <script src="form-validation.js"></script>
+<script src="microfono.js"></script>
 </body>
 </html>
