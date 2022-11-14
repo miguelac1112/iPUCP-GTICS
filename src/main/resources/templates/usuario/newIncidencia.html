@@ -182,14 +182,17 @@
                             <div class="col-12">
                                 <h1></h1>
                                 <label for="descripcion" class="form-label">Descripción</label>
-                                <div class="row"style="width: 200%">
-                                <div class="col" >
-                                  <input  name = "descripcion" type="text" class="form-control w-100" id="descripcion" placeholder="Detalle lo que ha sucedido" required>
+                                <div class="row" style="width: 200%">
+                                    <div class="col">
+                                      <textarea class="form-control m-2" type="text" id="descripcion" name="descripcion"
+                                                required style="width: 95%" placeholder="Detalle lo que ha sucedido."></textarea>
+                                    </div>
+                                    <div class="col">
+                                        <a id="btnStartRecord" style="border-radius: 20%; margin-left: -30px" class="btn btn-light material-symbols-outlined">mic</a>
+                                        <a id="btnStopRecord" style="border-radius: 20%" class="btn btn-light material-symbols-outlined">stop</a>
+                                    </div>
                                 </div>
-                                <div class="col">
-                                    <div id="grabar"style="border-radius: 20%"class="btn btn-light material-symbols-outlined">mic</div>
-                                </div>
-                                </div>
+                                <script th:src="@{/js/microphone.js}"></script>
                                 <div class="invalid-feedback">
                                     Please enter your shipping address.
                                 </div>
@@ -235,6 +238,5 @@
 <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
 
 <script src="form-validation.js"></script>
-<script src="microfono.js"></script>
 </body>
 </html>

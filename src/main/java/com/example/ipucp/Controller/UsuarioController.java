@@ -36,7 +36,6 @@ public class UsuarioController {
     @Autowired
     PerfilDao perfilDao;
 
-
     @GetMapping("/mapa")
     public String mapa() {
         return "usuario/menu_mapa";
