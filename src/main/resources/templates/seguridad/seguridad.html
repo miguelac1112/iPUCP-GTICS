@@ -107,8 +107,10 @@
               <!-- Name input-->
               <span class="postuserfont m-2"><strong>Estado:</strong></span>
               <div th:switch="${incidencia.estado}">
-                <input th:case="0" class="form-check" id="estado" name="estado" type="text" value="En Proceso" style="margin-left: 21px;" disabled>
-                <input th:case="1" class="form-check" id="estado" name="estado" type="text" value="Atendido" style="margin-left: 21px;" disabled>
+                <input th:case="0" class="form-check" id="estado" name="estado" type="text" value="Registrada" style="margin-left: 21px;" disabled>
+                <input th:case="1" class="form-check" id="estado" name="estado" type="text" value="En proceso" style="margin-left: 21px;" disabled>
+                <input th:case="2" class="form-check" id="estado" name="estado" type="text" value="Atendida" style="margin-left: 21px;" disabled>
+                <input th:case="3" class="form-check" id="estado" name="estado" type="text" value="Resuelta" style="margin-left: 21px;" disabled>
               </div>
             </div>
 

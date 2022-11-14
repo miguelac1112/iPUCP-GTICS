@@ -18,7 +18,7 @@ import java.util.List;
 @Repository
 public interface InicidenciaRepository extends JpaRepository<Inicidencia, Integer> {
 
-    @Query(value="select * from inicidencia where codigo= ?1 ;",nativeQuery = true)
+    @Query(value="select * from inicidencia where codigo= ?1 order by fecha desc;",nativeQuery = true)
     List<Inicidencia> userIncidencias(String codigo);
 
 

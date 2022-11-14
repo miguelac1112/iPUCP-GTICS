@@ -189,6 +189,7 @@ public class SeguridadController {
                 }
             }
         }
+
     }
 
     @GetMapping("/exportar_pdf")
