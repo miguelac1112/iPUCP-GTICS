@@ -155,8 +155,10 @@
                                         <td th:text="${incidencias.getIdinicidencia()}"></td>
                                         <td th:text="${incidencias.getTipo_incidencia()}"></td>
                                         <div th:switch="${incidencias.getEstado()}">
-                                            <td th:case="0">En Proceso</td>
-                                            <td th:case="1">Resuelto</td>
+                                            <td th:case="0">Registrado</td>
+                                            <td th:case="1">En proceso</td>
+                                            <td th:case="2">Atendida</td>
+                                            <td th:case="3">Resuelta</td>
                                         </div>
 
                                         <td style="text-align: center"><a type="button" class="fa-sharp fa-solid fa-arrow-right" style="color: black;
