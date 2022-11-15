@@ -76,8 +76,13 @@ public class LogController {
         }
     }
     @GetMapping("/loginByGoogle")
-    public String listar(Model model, OAuth2AuthenticationToken authentication, HttpSession session, RedirectAttributes redirectAttributes, HttpServletRequest request) {
+    public String loginByGoogle(Model model, OAuth2AuthenticationToken authentication, HttpSession session, RedirectAttributes redirectAttributes, HttpServletRequest request) {
         System.out.println("llegue");
+        Map<String,Object> currentUser = authentication.getPrincipal().getAttributes();
+
+        String mail= (String) currentUser.get("email");
+        System.out.println(mail);
+
 
         OAuth2AuthorizedClient client = auth2AuthorizedClientService.loadAuthorizedClient(authentication.getAuthorizedClientRegistrationId(), authentication.getName());
 
