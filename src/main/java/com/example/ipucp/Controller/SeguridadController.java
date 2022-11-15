@@ -322,7 +322,7 @@ public class SeguridadController {
 
 
     @PostMapping("/verificacion")
-    public String verificar(Model model, HttpSession session,@RequestParam("codigo") String codigo){
+    public String verificar(Model model, HttpSession session,@RequestParam("codigo") String codigo, RedirectAttributes redirectAttributes){
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         String id = usuario.getId();
         Optional<Usuario> optionalUsuario = usuarioRepository.findById(id);
@@ -331,6 +331,8 @@ public class SeguridadController {
                 usuarioRepository.validarSeguridad(id);
                 return "redirect:/seguridad/incidencias";
             }else{
+                String texto = "Código incorrecto, se le ha enviado otro a su correo";
+                redirectAttributes.addFlashAttribute("msg",texto);
                 return "redirect:/seguridad";
             }
         }else{
