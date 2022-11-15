@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,9 +21,8 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+
 @Controller
 public class LogController {
     @Autowired
@@ -33,6 +33,7 @@ public class LogController {
 
     @GetMapping(value = {"/login"})
     public String login( @ModelAttribute("usuario") Usuario usuario ) {
+        System.out.println("estoy en login");
         return "login/log-in";
     }
 
@@ -74,10 +75,13 @@ public class LogController {
 
         }
     }
-    @GetMapping("/loginGoogle")
+    @GetMapping("/loginByGoogle")
     public String listar(Model model, OAuth2AuthenticationToken authentication, HttpSession session, RedirectAttributes redirectAttributes, HttpServletRequest request) {
+        System.out.println("llegue");
+
         OAuth2AuthorizedClient client = auth2AuthorizedClientService.loadAuthorizedClient(authentication.getAuthorizedClientRegistrationId(), authentication.getName());
-        String name = (String) authentication.getPrincipal().getAttributes().get("given_name");
+
+        String name = (String) authentication.getPrincipal().getAttributes().get("Name");
         String lastname = (String) authentication.getPrincipal().getAttributes().get("family_name");
         String email = (String) authentication.getPrincipal().getAttributes().get("email");
         Usuario usuario_g = new Usuario();
@@ -85,6 +89,7 @@ public class LogController {
         usuario_g.setApellido(lastname);
         usuario_g.setCorreo(email);
         Usuario usuario = usuarioRepository.findByCorreo(email);
+        System.out.println(name);
         if(usuario_g.getCorreo().equals(usuario.getCorreo())){
             session.setAttribute("usuario",usuario);
             String rol= String.valueOf(usuario.getRol());
@@ -170,4 +175,13 @@ public class LogController {
             return "login/new-pass";
         }
     }
+    private String authorizationRequestBaseUri = "oauth2/authorization";
+    Map<String, String> oauth2AuthenticationUrls = new HashMap<>();
+    @Autowired
+    private ClientRegistrationRepository clientRegistrationRepository;
+
+
+
+
+
 }

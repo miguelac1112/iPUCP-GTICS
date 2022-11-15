@@ -8,6 +8,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.client.InMemoryOAuth2AuthorizedClientService;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.web.bind.annotation.*;
 import javax.sql.DataSource;
 
@@ -16,6 +19,10 @@ import javax.sql.DataSource;
 @EnableWebSecurity
 
 public class LogConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    private ClientRegistrationRepository clientRegistrationRepository;
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -29,9 +36,16 @@ public class LogConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/admin","/admin/**").hasAuthority("admin")
                 .antMatchers("/seguridad","/seguridad/**").hasAuthority("seguridad")
-                .antMatchers("/usuario","/usuario/**").access("hasAuthority('usuario')||hasAuthority('ROLE_USER') ");
+                .antMatchers("/usuario","/usuario/**").access("hasAuthority('usuario') || hasAuthority('ROLE_USER')")
+                .anyRequest().permitAll().and()
+                .oauth2Login()
+                .loginPage("/login")
+                .clientRegistrationRepository(clientRegistrationRepository)
+                .defaultSuccessUrl("/loginByGoogle",true);
 
-        http.logout().logoutUrl("/login")
+
+        http.logout()
+                .logoutUrl("/logout")
                 .deleteCookies("JSESSIONID")
                 .invalidateHttpSession(true);
 
@@ -46,6 +60,7 @@ public class LogConfig extends WebSecurityConfigurerAdapter {
                 .usersByUsernameQuery("select correo, contra, estado from usuario where correo = ?")
                 .authoritiesByUsernameQuery("select u.correo, r.nombre_rol FROM usuario u inner join rol r on (u.idrol=r.idrol) where u.correo= ? and u.estado=\"1\"  ");
     }
+
 
 
 

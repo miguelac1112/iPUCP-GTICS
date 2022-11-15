@@ -5,7 +5,7 @@
     <title>iPUCP</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="google-signin-client_id" content="848581645243-b49p00m56nc9c8j7v7tt1jjv7aqjgieq.apps.googleusercontent.com">
+    <meta name="google-signin-client_id" content="169061799499-vmv4khslib3tg3oog0a121vk85ab560l.apps.googleusercontent.com">
 
     <link th:href="@{https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap}" rel="stylesheet">
     <link th:href="@{https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap}" rel="stylesheet">
@@ -19,7 +19,8 @@
 </head>
 <body>
 <script src="https://apis.google.com/js/platform.js" async defer></script>
-<script src="/js/login.js"></script>
+
+
 <section class="ftco-section">
     <div class="container-fluid">
 
@@ -55,9 +56,12 @@
                             <div class="form-group">
                                 <button type="submit" name="submit" value="submit" class="form-control btn-outline-warning rounded submit px-3">Log In</button>
                             </div>
+                            </form>
+
                             <div class="d-flex justify-content-center">
-                                <div class="g-signin2"  href="/oauth2/authorization/google" data-onsuccess="onSignIn"></div>
+                                <div class="g-signin2" th:href="@{'login/loginByGoogle'}" data-onsuccess="onSignIn"></div>
                             </div>
+
 
                             <div class="form-group d-sm-flex">
                                 <div class="text-left">
@@ -76,7 +80,9 @@
                             </div>
 
 
-                        </form>
+
+
+
                         <p class="text-center">¿Aun no eres usuario? <a href="#" data-toggle="modal" data-target="#exampleModalCenter">Registrate</a></p>
                         <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -109,6 +115,7 @@
                                                 </div>
                                             </div>
                                         </div>
+
 
 
 
@@ -165,6 +172,16 @@
         </div>
     </div>
 </section>
+<script>
+    function onSignIn(googleUser) {
+        var profile = googleUser.getBasicProfile();
+        console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+        console.log('Name: ' + profile.getName());
+        console.log('Image URL: ' + profile.getImageUrl());
+        console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+
+    }
+</script>
 
 
 <script th:src="@{https://code.jquery.com/jquery-3.3.1.slim.min.js}" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
