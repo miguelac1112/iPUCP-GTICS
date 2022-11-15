@@ -49,12 +49,15 @@
         <div class="row">
             <div class="col-xl-6">
                 <h1>Bienvenido personal de Seguridad</h1>
-                <h2>Ingrese el codigo de seguridad para proceder</h2>
-                <form>
-                    <p></p>
-                    <input type="password" class="form-control" id="inputPassword2" placeholder="Codigo de Seguridad">
+                <h2>Ingrese el codigo enviado a su correo</h2>
 
-                    <a  class="btn-get-started scrollto" th:href="@{'/seguridad/incidencias'}">Ingresar</a>
+                <div th:if="${msg != null}" th:text="${msg}" class="alert alert-warning" role="alert">
+                </div>
+
+                <form method="post" th:action="@{/seguridad/verificacion}">
+                    <p></p>
+                    <input type="text" class="form-control" id="codigo" name="codigo" placeholder="Codigo de Seguridad">
+                    <button type="submit" class="btn-get-started scrollto">Ingresar</button>
                 </form>
 
             </div>

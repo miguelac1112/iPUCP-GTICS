@@ -15,6 +15,8 @@ import org.apache.poi.ss.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,7 +29,9 @@ import java.net.http.HttpHeaders;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @Controller
@@ -56,8 +60,17 @@ public class SeguridadController {
     @Autowired
     ComentarioRepository comentarioRepository;
 
+
+
     @GetMapping("")
-    public String principal() {
+    public String principal(HttpSession session) {
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        String codigo = usuario.getId();
+        usuarioRepository.reiniciarSeguridad(codigo);
+        String codigo2factor = cadenaAleatoria(6);
+        usuarioRepository.generarCodigoDe2Factor(codigo2factor,codigo);
+        String correo = usuario.getCorreo();
+        senderService.sendSimpleEmail(correo," Codigo de verificacion de 2 factores","Su código de verificación es " + codigo2factor);
         return "seguridad/principal";
     }
 
@@ -307,120 +320,156 @@ public class SeguridadController {
 
     }
 
-    @GetMapping("/incidencias")
-    public String lista(Model model) {
-        senderService.sendSimpleEmail("a20186098@pucp.edu.pe",
-                "This is email body",
-                "This is email subject");
 
-        /*Tipo*/
-        List<Tipo> listaTipos  = this.obtenerTipos();
-        /*urgencias*/
-        List<Urgencia> listaUrg = this.obtenerUrgencias();
-        /*Orden*/
-        List<Orden> listaOrden = this.obtenerOrden();
-        /*Estado*/
-        List<Orden> listaEstados = this.obtenerEstado();
-        List<Inicidencia> inicidenciaList = inicidenciaRepository.orderReciente();
-        model.addAttribute("idtipoI",0);
-        model.addAttribute("idUrgI",0);
-        model.addAttribute("idOrdenI",0);
-        model.addAttribute("idEstad",2);
-        model.addAttribute("ListaIncidencias", inicidenciaList);
-
-        HashMap<Inicidencia, String> datos = new HashMap<Inicidencia, String>();
-        for(Inicidencia incidencia: inicidenciaList){
-            datos.put(incidencia,perfilDao.obtenerImagen("Incidencia_"+ String.valueOf(incidencia.getId())).getFileBase64());
+    @PostMapping("/verificacion")
+    public String verificar(Model model, HttpSession session,@RequestParam("codigo") String codigo){
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        String id = usuario.getId();
+        Optional<Usuario> optionalUsuario = usuarioRepository.findById(id);
+        if(optionalUsuario.isPresent()){
+            if(codigo.equals(optionalUsuario.get().getFactordoble())){
+                usuarioRepository.validarSeguridad(id);
+                return "redirect:/seguridad/incidencias";
+            }else{
+                return "redirect:/seguridad";
+            }
+        }else{
+            return "redirect:/seguridad";
         }
-        model.addAttribute("hashmap",datos);
-        model.addAttribute("ListaTipos", listaTipos);
-        model.addAttribute("ListaUrgencia", listaUrg);
-        model.addAttribute("ListaOrden", listaOrden);
-        model.addAttribute("ListaEstado",listaEstados);
-        return "seguridad/incidencias";
+
+    }
+
+    @GetMapping("/incidencias")
+    public String lista(Model model, HttpSession session) {
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        String codigo = usuario.getId();
+        Optional<Usuario> optUser = usuarioRepository.findById(codigo);
+        if(optUser.isPresent()){
+            if(optUser.get().getValidado() == 1){
+                /*Tipo*/
+                List<Tipo> listaTipos  = this.obtenerTipos();
+                /*urgencias*/
+                List<Urgencia> listaUrg = this.obtenerUrgencias();
+                /*Orden*/
+                List<Orden> listaOrden = this.obtenerOrden();
+                /*Estado*/
+                List<Orden> listaEstados = this.obtenerEstado();
+                List<Inicidencia> inicidenciaList = inicidenciaRepository.orderReciente();
+                model.addAttribute("idtipoI",0);
+                model.addAttribute("idUrgI",0);
+                model.addAttribute("idOrdenI",0);
+                model.addAttribute("idEstad",2);
+                model.addAttribute("ListaIncidencias", inicidenciaList);
+
+                HashMap<Inicidencia, String> datos = new HashMap<Inicidencia, String>();
+                for(Inicidencia incidencia: inicidenciaList){
+                    datos.put(incidencia,perfilDao.obtenerImagen("Incidencia_"+ String.valueOf(incidencia.getId())).getFileBase64());
+                }
+                model.addAttribute("hashmap",datos);
+                model.addAttribute("ListaTipos", listaTipos);
+                model.addAttribute("ListaUrgencia", listaUrg);
+                model.addAttribute("ListaOrden", listaOrden);
+                model.addAttribute("ListaEstado",listaEstados);
+                return "seguridad/incidencias";
+            }else{
+                return "redirect:/seguridad";
+            }
+        }else{
+            return "redirect:/seguridad";
+        }
     }
 
     @GetMapping("/incidenciasFiltrado")
-    public String listaFiltrada(Model model,@RequestParam("tipo") int idTipo ,@RequestParam("urgencia") int idUrgencia, @RequestParam("orden") int idOrden, @RequestParam("estado") int idEstad) {
-        List<Inicidencia> listIncidencias = new ArrayList<>();
+    public String listaFiltrada(Model model,@RequestParam("tipo") int idTipo ,@RequestParam("urgencia") int idUrgencia, @RequestParam("orden") int idOrden, @RequestParam("estado") int idEstad, HttpSession session) {
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        String codigo = usuario.getId();
+        Optional<Usuario> optUser = usuarioRepository.findById(codigo);
+        if(optUser.isPresent()){
+            if(optUser.get().getValidado() == 1){
+                List<Inicidencia> listIncidencias = new ArrayList<>();
+                if(idEstad==2) {
+                    if (idTipo != 0) {
+                        if (idUrgencia != 0) {
+                            switch (idOrden) {
+                                case 1 ->
+                                        listIncidencias.addAll(inicidenciaRepository.filtradoTipoUrgenciaAntig(idTipo, idUrgencia));
+                                case 0 -> listIncidencias.addAll(inicidenciaRepository.filtradoTipoUrgencia(idTipo, idUrgencia));
+                            }
+                        } else {
+                            switch (idOrden) {
+                                case 1 -> listIncidencias.addAll(inicidenciaRepository.filtradoTipoAntiguo(idTipo));
+                                case 0 -> listIncidencias.addAll(inicidenciaRepository.filtradoTipo(idTipo));
+                            }
+                        }
+                    } else {
+                        if (idUrgencia != 0) {
+                            switch (idOrden) {
+                                case 1 -> listIncidencias.addAll(inicidenciaRepository.filtradoUrgenciaAntiguo(idUrgencia));
+                                case 0 -> listIncidencias.addAll(inicidenciaRepository.filtradoUrgencia(idUrgencia));
+                            }
 
-        if(idEstad==2) {
-            if (idTipo != 0) {
-                if (idUrgencia != 0) {
-                    switch (idOrden) {
-                        case 1 ->
-                                listIncidencias.addAll(inicidenciaRepository.filtradoTipoUrgenciaAntig(idTipo, idUrgencia));
-                        case 0 -> listIncidencias.addAll(inicidenciaRepository.filtradoTipoUrgencia(idTipo, idUrgencia));
+                        } else {
+                            switch (idOrden) {
+                                case 1 -> listIncidencias.addAll(inicidenciaRepository.findAll());
+                                case 0 -> listIncidencias.addAll(inicidenciaRepository.ordenNuevo());
+                            }
+                        }
                     }
-                } else {
-                    switch (idOrden) {
-                        case 1 -> listIncidencias.addAll(inicidenciaRepository.filtradoTipoAntiguo(idTipo));
-                        case 0 -> listIncidencias.addAll(inicidenciaRepository.filtradoTipo(idTipo));
+                }else{
+
+                    if (idTipo != 0) {
+                        if (idUrgencia != 0) {
+                            switch (idOrden) {
+                                case 1 ->
+                                        listIncidencias.addAll(inicidenciaRepository.filtradoTipoUrgenciaAntigEstado(idTipo, idUrgencia, idEstad));
+                                case 0 -> listIncidencias.addAll(inicidenciaRepository.filtradoTipoUrgenciaEstado(idTipo, idUrgencia, idEstad));
+                            }
+                        } else {
+                            switch (idOrden) {
+                                case 1 -> listIncidencias.addAll(inicidenciaRepository.filtradoTipoAntiguoEstado(idTipo, idEstad));
+                                case 0 -> listIncidencias.addAll(inicidenciaRepository.filtradoTipoEstado(idTipo, idEstad));
+                            }
+                        }
+                    } else {
+                        if (idUrgencia != 0) {
+                            switch (idOrden) {
+                                case 1 -> listIncidencias.addAll(inicidenciaRepository.filtradoUrgenciaAntiguoEstado(idUrgencia,idEstad));
+                                case 0 -> listIncidencias.addAll(inicidenciaRepository.filtradoUrgenciaEstado(idUrgencia, idEstad));
+                            }
+
+                        } else {
+                            switch (idOrden) {
+                                case 1 -> listIncidencias.addAll(inicidenciaRepository.ordenAntigEstaodo(idEstad));
+                                case 0 -> listIncidencias.addAll(inicidenciaRepository.ordenNuevoEstaodo(idEstad));
+                            }
+                        }
                     }
                 }
-            } else {
-                if (idUrgencia != 0) {
-                    switch (idOrden) {
-                        case 1 -> listIncidencias.addAll(inicidenciaRepository.filtradoUrgenciaAntiguo(idUrgencia));
-                        case 0 -> listIncidencias.addAll(inicidenciaRepository.filtradoUrgencia(idUrgencia));
-                    }
 
-                } else {
-                    switch (idOrden) {
-                        case 1 -> listIncidencias.addAll(inicidenciaRepository.findAll());
-                        case 0 -> listIncidencias.addAll(inicidenciaRepository.ordenNuevo());
-                    }
-                }
+                /*Tipo*/
+                List<Tipo> listaTipos  = this.obtenerTipos();
+                /*urgencias*/
+                List<Urgencia> listaUrg = this.obtenerUrgencias();
+                /*Orden*/
+                List<Orden> listaOrden = this.obtenerOrden();
+                /*Estado*/
+                List<Orden> listaEstados = this.obtenerEstado();
+                model.addAttribute("idtipoI",idTipo);
+                model.addAttribute("idUrgI",idUrgencia);
+                model.addAttribute("idOrdenI",idOrden);
+                model.addAttribute("idEstad",idEstad);
+                model.addAttribute("ListaIncidencias",listIncidencias);
+                model.addAttribute("ListaTipos", listaTipos);
+                model.addAttribute("ListaUrgencia", listaUrg);
+                model.addAttribute("ListaOrden", listaOrden);
+                model.addAttribute("ListaEstado",listaEstados);
+                return "seguridad/incidencias";
+            }else{
+                return "redirect:/seguridad";
             }
         }else{
-
-            if (idTipo != 0) {
-                if (idUrgencia != 0) {
-                    switch (idOrden) {
-                        case 1 ->
-                                listIncidencias.addAll(inicidenciaRepository.filtradoTipoUrgenciaAntigEstado(idTipo, idUrgencia, idEstad));
-                        case 0 -> listIncidencias.addAll(inicidenciaRepository.filtradoTipoUrgenciaEstado(idTipo, idUrgencia, idEstad));
-                    }
-                } else {
-                    switch (idOrden) {
-                        case 1 -> listIncidencias.addAll(inicidenciaRepository.filtradoTipoAntiguoEstado(idTipo, idEstad));
-                        case 0 -> listIncidencias.addAll(inicidenciaRepository.filtradoTipoEstado(idTipo, idEstad));
-                    }
-                }
-            } else {
-                if (idUrgencia != 0) {
-                    switch (idOrden) {
-                        case 1 -> listIncidencias.addAll(inicidenciaRepository.filtradoUrgenciaAntiguoEstado(idUrgencia,idEstad));
-                        case 0 -> listIncidencias.addAll(inicidenciaRepository.filtradoUrgenciaEstado(idUrgencia, idEstad));
-                    }
-
-                } else {
-                    switch (idOrden) {
-                        case 1 -> listIncidencias.addAll(inicidenciaRepository.ordenAntigEstaodo(idEstad));
-                        case 0 -> listIncidencias.addAll(inicidenciaRepository.ordenNuevoEstaodo(idEstad));
-                    }
-                }
-            }
+            return "redirect:/seguridad";
         }
-
-        /*Tipo*/
-        List<Tipo> listaTipos  = this.obtenerTipos();
-        /*urgencias*/
-        List<Urgencia> listaUrg = this.obtenerUrgencias();
-        /*Orden*/
-        List<Orden> listaOrden = this.obtenerOrden();
-        /*Estado*/
-        List<Orden> listaEstados = this.obtenerEstado();
-        model.addAttribute("idtipoI",idTipo);
-        model.addAttribute("idUrgI",idUrgencia);
-        model.addAttribute("idOrdenI",idOrden);
-        model.addAttribute("idEstad",idEstad);
-        model.addAttribute("ListaIncidencias",listIncidencias);
-        model.addAttribute("ListaTipos", listaTipos);
-        model.addAttribute("ListaUrgencia", listaUrg);
-        model.addAttribute("ListaOrden", listaOrden);
-        model.addAttribute("ListaEstado",listaEstados);
-        return "seguridad/incidencias";
     }
 
     @GetMapping("/comentar_incidencia")
@@ -433,7 +482,6 @@ public class SeguridadController {
         if(optInicidencia.isPresent()){
             Inicidencia inicidencia = optInicidencia.get();
             Comentario comentario1 = comentarioRepository.comentario(id, id);
-            model.addAttribute("imgInc",perfilDao.obtenerImagen("Incidencia_"+String.valueOf(id)).getFileBase64());
             if(Objects.isNull(comentario1)){
                 Comentario comentario2 = new Comentario();
                 comentario2.setTextComentario("Ingrese el comentario.");
@@ -501,19 +549,41 @@ public class SeguridadController {
 
 
     @GetMapping("/dashboard")
-    public String dashboard(Model model) {
-            model.addAttribute("incidenciaEstado",inicidenciaRepository.bucarEstadoIncidencia());
-            model.addAttribute("incidenciaUrgencia",inicidenciaRepository.buscarUrgenciaIncidencia());
-            model.addAttribute("incidenciaTipo",inicidenciaRepository.buscarTipoIncidencia());
-            model.addAttribute("incidenciaCantidad",inicidenciaRepository.buscarCantidadIncidencia());
-            List<Integer> listaCantidaMes = obtenerIncidenciasMes();
-            model.addAttribute("listaCantidadMes",listaCantidaMes);
-            return "seguridad/dashboard";
+    public String dashboard(Model model, HttpSession session) {
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        String codigo = usuario.getId();
+        Optional<Usuario> optUser = usuarioRepository.findById(codigo);
+        if(optUser.isPresent()){
+            if(optUser.get().getValidado() == 1){
+                model.addAttribute("incidenciaEstado",inicidenciaRepository.bucarEstadoIncidencia());
+                model.addAttribute("incidenciaUrgencia",inicidenciaRepository.buscarUrgenciaIncidencia());
+                model.addAttribute("incidenciaTipo",inicidenciaRepository.buscarTipoIncidencia());
+                model.addAttribute("incidenciaCantidad",inicidenciaRepository.buscarCantidadIncidencia());
+                List<Integer> listaCantidaMes = obtenerIncidenciasMes();
+                model.addAttribute("listaCantidadMes",listaCantidaMes);
+                return "seguridad/dashboard";
+            }else{
+                return "redirect:/seguridad";
+            }
+        }else{
+            return "redirect:/seguridad";
+        }
     }
 
     @GetMapping("/mapa_incidencias")
-    public String mapa() {
-        return "seguridad/seguridad_mapa";
+    public String mapa(HttpSession session) {
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        String codigo = usuario.getId();
+        Optional<Usuario> optUser = usuarioRepository.findById(codigo);
+        if(optUser.isPresent()){
+            if(optUser.get().getValidado() == 1){
+                return "seguridad/seguridad_mapa";
+            }else{
+                return "redirect:/seguridad";
+            }
+        }else{
+            return "redirect:/seguridad";
+        }
     }
 
     @GetMapping("/lista_usuarios")
@@ -675,4 +745,23 @@ public class SeguridadController {
 
         return listaFinal;
     }
+
+    public static String cadenaAleatoria(int longitud) {
+        // El banco de caracteres
+        String banco = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        // La cadena en donde iremos agregando un carácter aleatorio
+        String cadena = "";
+        for (int x = 0; x < longitud; x++) {
+            int indiceAleatorio = numeroAleatorioEnRango(0, banco.length() - 1);
+            char caracterAleatorio = banco.charAt(indiceAleatorio);
+            cadena += caracterAleatorio;
+        }
+        return cadena;
+    }
+
+    public static int numeroAleatorioEnRango(int minimo, int maximo) {
+        // nextInt regresa en rango pero con límite superior exclusivo, por eso sumamos 1
+        return ThreadLocalRandom.current().nextInt(minimo, maximo + 1);
+    }
+
 }

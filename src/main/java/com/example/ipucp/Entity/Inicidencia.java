@@ -76,7 +76,6 @@ public class Inicidencia {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "ubicacion_id", nullable = false)
-
     private Ubicacion ubicacion;
 
     @Column(name = "max_usuario", nullable = false)

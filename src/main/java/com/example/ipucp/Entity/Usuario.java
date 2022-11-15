@@ -77,4 +77,11 @@ public class Usuario implements Serializable {
 
     @Column(name = "ban", nullable = false)
     private Byte ban;
+
+    @Column(name = "factordoble")
+    private String factordoble;
+
+    @Column(name = "validado")
+    private Byte validado;
+
 }
