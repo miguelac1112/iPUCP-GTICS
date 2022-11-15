@@ -1,5 +1,6 @@
 package com.example.ipucp.Controller;
 
+import com.example.ipucp.Dao.PerfilDao;
 import com.example.ipucp.Dto.IncidenciaPorMes;
 import com.example.ipucp.EmailSenderService;
 import com.example.ipucp.Entity.*;
@@ -32,7 +33,8 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping("/seguridad")
 public class SeguridadController {
-
+    @Autowired
+    PerfilDao perfilDao;
     @Autowired
     private EmailSenderService senderService;
 
@@ -325,6 +327,12 @@ public class SeguridadController {
         model.addAttribute("idOrdenI",0);
         model.addAttribute("idEstad",2);
         model.addAttribute("ListaIncidencias", inicidenciaList);
+
+        HashMap<Inicidencia, String> datos = new HashMap<Inicidencia, String>();
+        for(Inicidencia incidencia: inicidenciaList){
+            datos.put(incidencia,perfilDao.obtenerImagen("Incidencia_"+ String.valueOf(incidencia.getId())).getFileBase64());
+        }
+        model.addAttribute("hashmap",datos);
         model.addAttribute("ListaTipos", listaTipos);
         model.addAttribute("ListaUrgencia", listaUrg);
         model.addAttribute("ListaOrden", listaOrden);
@@ -425,6 +433,7 @@ public class SeguridadController {
         if(optInicidencia.isPresent()){
             Inicidencia inicidencia = optInicidencia.get();
             Comentario comentario1 = comentarioRepository.comentario(id, id);
+            model.addAttribute("imgInc",perfilDao.obtenerImagen("Incidencia_"+String.valueOf(id)).getFileBase64());
             if(Objects.isNull(comentario1)){
                 Comentario comentario2 = new Comentario();
                 comentario2.setTextComentario("Ingrese el comentario.");
@@ -510,6 +519,11 @@ public class SeguridadController {
     @GetMapping("/lista_usuarios")
     public String listaUsuarios(Model model) {
         List<Usuario> ListaUsuarios = usuarioRepository.listarUsuarios();
+        HashMap<Usuario,String> user = new HashMap<Usuario,String>();
+        for(Usuario usuario: ListaUsuarios){
+            user.put(usuario,perfilDao.obtenerImagen(usuario.getId()).getFileBase64());
+        }
+        model.addAttribute("iperfil",user);
         model.addAttribute("listaUsuarios", ListaUsuarios);
         return "seguridad/lista_usuarios";
     }

@@ -135,7 +135,7 @@
             <div class="card mb-3" th:each="incidencias : ${ListaIncidencias}">
                 <div class="row g-0">
                     <div class="col-md-4 d-flex flex-row">
-                        <img th:src="@{/img/reporte1.jpg}"  class="img-fluid rounded-start" alt="...">
+                        <img th:src="|data:image/png;base64,${hashmap.get(incidencias)}|"  class="img-fluid rounded-start" alt="...">
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">

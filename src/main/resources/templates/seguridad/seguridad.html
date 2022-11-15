@@ -76,7 +76,7 @@
               <span class="postuserfont" th:text="${'Incidencia #'+incidencia.id}"><strong></strong></span>
             </div>
             <img
-                    src="https://i.insider.com/5f1b201a5af6cc7e1b741330?width=1136&format=jpeg"
+                    th:src="|data:image/png;base64,${imgInc}|"
                     class="card-img-top"
                     alt="..."
             />
