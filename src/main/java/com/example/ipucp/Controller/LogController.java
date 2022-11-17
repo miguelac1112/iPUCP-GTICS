@@ -1,5 +1,7 @@
 package com.example.ipucp.Controller;
 
+import com.example.ipucp.Dao.UsuarioDao;
+import com.example.ipucp.Dto.UsuarioDto;
 import com.example.ipucp.Entity.Icono;
 import com.example.ipucp.Entity.Usuario;
 import com.example.ipucp.Repository.UsuarioRepository;
@@ -27,6 +29,8 @@ import java.util.Objects;
 public class LogController {
     @Autowired
     UsuarioRepository usuarioRepository;
+    @Autowired
+    UsuarioDao usuarioDao;
 
     @Autowired
     private OAuth2AuthorizedClientService auth2AuthorizedClientService;
@@ -131,7 +135,19 @@ public class LogController {
                              BindingResult bindingResult, RedirectAttributes redirectAttributes){
         //SELECT * FROM ipucp.usuario where codigo like codigo and estado like "0";
 
+
+        List<UsuarioDto> lista= usuarioDao.listarUsuarios();
+        for(UsuarioDto usuario1: lista){
+            if(Objects.equals(usuario1.getCodigo(), codigo) && Objects.equals(usuario1.getCorreo(),correo)){
+                System.out.println("casi ");
+                usuarioRepository.add_db(Integer.parseInt(usuario1.getCodigo()),usuario1.getNombre(),usuario1.getApellido(),usuario1.getCorreo(),usuario1.getDni());
+            }
+        }
+
+
+
         List<Usuario> listaUsuarios = usuarioRepository.findAll();
+
         int i=0;
         for(Usuario listaUsuarios1: listaUsuarios){
             if (Objects.equals(listaUsuarios1.getId(), codigo) && Objects.equals(listaUsuarios1.getCorreo(), correo) &&

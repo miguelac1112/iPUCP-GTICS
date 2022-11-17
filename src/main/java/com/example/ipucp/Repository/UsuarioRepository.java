@@ -84,7 +84,10 @@ public interface UsuarioRepository extends JpaRepository<Usuario, String> {
     @Query(value = "UPDATE usuario SET factordoble = ?1 WHERE (codigo = ?2);",nativeQuery = true)
     void generarCodigoDe2Factor(String cod2fac, String codigo);
 
-    Usuario findByCorreo(String correo);
+    @Transactional
+    @Modifying
+    @Query(value = "INSERT INTO `ipucp`.`usuario` (`codigo`, `nombre`, `apellido`, `correo`, `celular`, `contra`, `dni`, `estado`, `idrol`, `idcargo`, `icono_idicono`, `strikes`, `ban`) VALUES (?1, ?2, ?3, ?4, '999999999', null, ?5, '0', '1', '1', '1', '0', '0');\n",nativeQuery = true)
+    void add_db(int codigo, String nombre, String apellido, String correo, String dni);
 
 
 
