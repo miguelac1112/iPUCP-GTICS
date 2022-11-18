@@ -87,8 +87,8 @@ public interface UsuarioRepository extends JpaRepository<Usuario, String> {
     Usuario findByCorreo(String correo);
     @Transactional
     @Modifying
-    @Query(value = "INSERT INTO `ipucp`.`usuario` (`codigo`, `nombre`, `apellido`, `correo`, `celular`, `contra`, `dni`, `estado`, `idrol`, `idcargo`, `icono_idicono`, `strikes`, `ban`) VALUES (?1, ?2, ?3, ?4, '999999999', null, ?5, '0', '1', '1', '1', '0', '0');\n",nativeQuery = true)
-    void add_db(int codigo, String nombre, String apellido, String correo, String dni);
+    @Query(value = "INSERT INTO `ipucp`.`usuario` (`codigo`, `nombre`, `apellido`, `correo`, `celular`, `contra`, `dni`, `estado`, `idrol`, `idcargo`, `icono_idicono`, `strikes`, `ban`) VALUES (?1, ?2, ?3, ?4, '999999999', ?5, ?6, '0', '1', '1', '1', '0', '0');\n",nativeQuery = true)
+    void add_db(String codigo, String nombre, String apellido, String correo, String contrasenha ,String dni);
 
 
 }

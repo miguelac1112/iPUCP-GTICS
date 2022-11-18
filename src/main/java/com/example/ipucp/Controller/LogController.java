@@ -135,35 +135,55 @@ public class LogController {
                              BindingResult bindingResult, RedirectAttributes redirectAttributes){
         //SELECT * FROM ipucp.usuario where codigo like codigo and estado like "0";
 
-
+        String codigo1 = "";
+        String nombre="";
+        String apellido="";
+        String correo1="";
+        String dni="";
         List<UsuarioDto> lista= usuarioDao.listarUsuarios();
+        int i=0;
         for(UsuarioDto usuario1: lista){
             if(Objects.equals(usuario1.getCodigo(), codigo) && Objects.equals(usuario1.getCorreo(),correo)){
                 System.out.println("casi ");
-                usuarioRepository.add_db(Integer.parseInt(usuario1.getCodigo()),usuario1.getNombre(),usuario1.getApellido(),usuario1.getCorreo(),usuario1.getDni());
+                codigo1 = usuario1.getCodigo();
+                nombre= usuario1.getNombre();
+                apellido = usuario1.getApellido();
+                correo1 = usuario1.getCorreo();
+                dni = usuario1.getDni();
+                i=1;
+                break;
+                //usuarioRepository.add_db(Integer.parseInt(usuario1.getCodigo()),usuario1.getNombre(),usuario1.getApellido(),usuario1.getCorreo(),usuario1.getDni());
             }
         }
 
+        System.out.println(codigo1);
+        System.out.println(nombre);
+        System.out.println(apellido);
+        System.out.println(correo1);
+        System.out.println(dni);
 
+        //List<Usuario> listaUsuarios = usuarioRepository.findAll();
 
-        List<Usuario> listaUsuarios = usuarioRepository.findAll();
-
-        int i=0;
+        /*int i=0;
         for(Usuario listaUsuarios1: listaUsuarios){
             if (Objects.equals(listaUsuarios1.getId(), codigo) && Objects.equals(listaUsuarios1.getCorreo(), correo) &&
                     listaUsuarios1.getEstado() == 0) {
                 i = 1;
                 break;
             }
-        }
+        }*/
         System.out.println(i);
-        usuario.setId(codigo);
-        usuario.setCorreo(correo);
+        usuario.setId(codigo1);
+        usuario.setCorreo(correo1);
+        usuario.setNombre(nombre);
+        usuario.setApellido(apellido);
+        usuario.setDni(dni);
+        System.out.println(usuario.getNombre()+" "+usuario.getApellido());
         if(i==1){
             model.addAttribute("usuario",usuario);
             return "login/new-pass";
         }else{
-            String texto = "Credenciales invalidas o existentes.";
+            String texto = "Credenciales invalidas o ya existentes.";
             redirectAttributes.addFlashAttribute("msg",texto);
             return "redirect:/login";
         }
@@ -171,12 +191,33 @@ public class LogController {
 
     @PostMapping("/login/establecer_pass")
     public  String est_pass(Model model, @RequestParam("contrasenha1") String contrasenha1,
-                            @RequestParam("contrasenha2") String contrasenha2, @RequestParam("id") String codigo,
+                            @RequestParam("contrasenha2") String contrasenha2,
+                            @RequestParam("id") String codigo, @RequestParam("nombre") String nombre, @RequestParam("apellido") String apellido, @RequestParam("correo") String correo, @RequestParam("dni") String dni,
                             @ModelAttribute("usuario") @Valid Usuario usuario, BindingResult bindingResult,
                             RedirectAttributes redirectAttributes){
 
         if(Objects.equals(contrasenha1, contrasenha2)){
-            usuarioRepository.registrar(BCrypt.hashpw(contrasenha1, BCrypt.gensalt()), codigo);
+            //usuarioRepository.registrar(BCrypt.hashpw(contrasenha1, BCrypt.gensalt()), codigo);
+            System.out.println(codigo);
+            System.out.println(nombre);
+            System.out.println(apellido);
+            System.out.println(correo);
+            System.out.println(dni);
+
+            String nombre1="";
+            String apellido1="";
+            List<UsuarioDto> lista= usuarioDao.listarUsuarios();
+            for(UsuarioDto usuario1: lista){
+                if(Objects.equals(usuario1.getCodigo(), codigo) && Objects.equals(usuario1.getCorreo(),correo)){
+                    System.out.println("casi ");
+                    nombre1= usuario1.getNombre();
+                    apellido1 = usuario1.getApellido();
+                    break;
+                    //usuarioRepository.add_db(Integer.parseInt(usuario1.getCodigo()),usuario1.getNombre(),usuario1.getApellido(),usuario1.getCorreo(),usuario1.getDni());
+                }
+            }
+
+            usuarioRepository.add_db(codigo,nombre1,apellido1,correo,BCrypt.hashpw(contrasenha1, BCrypt.gensalt()),dni);
             String texto = "Usuario registrado.";
             redirectAttributes.addFlashAttribute("msg1",texto);
             return "redirect:/login";

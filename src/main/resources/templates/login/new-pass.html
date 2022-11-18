@@ -41,12 +41,17 @@
 
                 <br>
 
+
                 <div class="form-outline form-white mb-4">
                   <input type="password" name="contrasenha1" class="form-control form-control-lg" />
                   <label class="form-label" >Nueva contraseña</label>
                 </div>
 
                 <input th:field="${usuario.id}" name="codigo" type="hidden"/>
+                <input th:field="${usuario.nombre}" name="nombre" type="hidden"/>
+                <input th:field="${usuario.apellido}" name="apellido" type="hidden"/>
+                <input th:field="${usuario.correo}" name="correo" type="hidden"/>
+                <input th:field="${usuario.dni}" name="dni" type="hidden"/>
 
                 <div class="form-outline form-white mb-4">
                   <input type="password" name="contrasenha2"  class="form-control form-control-lg" />
