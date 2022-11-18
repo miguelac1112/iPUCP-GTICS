@@ -3,13 +3,11 @@ package com.example.ipucp.Controller;
 import com.example.ipucp.Dao.UsuarioDao;
 import com.example.ipucp.Dto.UsuarioDto;
 import com.example.ipucp.EmailSenderService;
-import com.example.ipucp.Entity.Icono;
 import com.example.ipucp.Entity.Usuario;
 import com.example.ipucp.Repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -23,7 +21,6 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
@@ -129,9 +126,61 @@ public class LogController {
 
     }
 
-    @GetMapping("/reset_password")
-    public String reset() {
-        return "login/reset-pass";
+    @PostMapping("/login/ingresar_correo")
+    public String ingresar_correo(Model model, @RequestParam("correo") String correo, RedirectAttributes redirectAttributes){
+        List<Usuario> list_usuario = usuarioRepository.findAll();
+        int i=0;
+        for(Usuario listaUsuarios1: list_usuario){
+            if (Objects.equals(listaUsuarios1.getCorreo(), correo)) {
+                i = 1;
+                break;
+            }
+        }
+        if(i==1){
+            String random_code = cadenaAleatoria(6);
+            senderService.sendSimpleEmail(correo," Codigo de verificación IPUCP","Su código de verificación es " + random_code);
+            model.addAttribute("correo",correo);
+            model.addAttribute("random_code",random_code);
+            return "login/random-code-resetp";
+        }else{
+            String texto = "Correo inválido o inexistente.";
+            redirectAttributes.addFlashAttribute("msg10",texto);
+            return "redirect:/login";
+        }
+    }
+
+    @PostMapping("/login/ingresar_aleatorio")
+    public String ingresar_codrandom(Model model, @RequestParam("random_code") String random_code, @RequestParam("codigo_aleatorio") String codigo_aleatorio,
+                                     @RequestParam("correo") String correo,
+                                     RedirectAttributes redirectAttributes){
+        if(Objects.equals(random_code, codigo_aleatorio)){
+            model.addAttribute("correo",correo);
+            return "login/reset-pass";
+        }else{
+            model.addAttribute("correo",correo);
+            model.addAttribute("random_code",random_code);
+            String texto = "Código incorrecto. Vuelva ingresar el código que se envío a su correo.";
+            redirectAttributes.addFlashAttribute("msg",texto);
+            return "login/random-code-resetp";
+        }
+    }
+
+    @PostMapping("/login/reset_password")
+    public String reset(Model model,@RequestParam("contrasenha1") String contrasenha1, @RequestParam("contrasenha2") String contrasenha2,
+                        @RequestParam("correo") String correo,
+                        RedirectAttributes redirectAttributes) {
+        if(Objects.equals(contrasenha1, contrasenha2)){
+            usuarioRepository.cambiarpassword(BCrypt.hashpw(contrasenha1, BCrypt.gensalt()),correo);
+            String texto = "Se ha cambiado exitósamente de contraseña.";
+            redirectAttributes.addFlashAttribute("msg20",texto);
+            return "redirect:/login";
+        }else{
+            model.addAttribute("correo",correo);
+            String texto = "Las contraseñas puestas no son iguales.";
+            redirectAttributes.addFlashAttribute("msg20",texto);
+            return "login/reset-pass";
+        }
+
     }
 
     @PostMapping("/login/registrar")
@@ -270,7 +319,7 @@ public class LogController {
             redirectAttributes.addFlashAttribute("msg1",texto);
             return "redirect:/login";
         }else{
-            String texto = "Las contraseñas no son iguales.";
+            String texto = "Las contraseñas puestas no son iguales.";
             redirectAttributes.addFlashAttribute("msg",texto);
             return "login/new-pass";
         }

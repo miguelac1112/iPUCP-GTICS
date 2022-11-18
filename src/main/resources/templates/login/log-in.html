@@ -69,6 +69,8 @@
                             </div>
 
                             <div th:if="${msg != null}" th:text="${msg}" class="text-danger nb-2"></div>
+                            <div th:if="${msg10 != null}" th:text="${msg10}" class="text-danger nb-2"></div>
+                            <div th:if="${msg20 != null}" th:text="${msg20}" class="text-success nb-2"></div>
                             <div th:if="${msg1 != null}" th:text="${msg1}" class="text-success nb-2"></div>
 
                             <div class="text-center">
@@ -130,32 +132,36 @@
                                         <h2 class="text-center">Cambiar contraseña</h2>
                                     </div>
                                     <div class="modal-body">
-                                        <div class="col-sm-12">
-                                            <div class="panel panel-default">
-                                                <div class="panel-body">
-                                                    <div class="text-center">
+                                        <form method="post" th:action="@{'/login/ingresar_correo'}">
+                                            <div class="col-sm-12">
+                                                <div class="panel panel-default">
+                                                    <div class="panel-body">
+                                                        <div class="text-center">
 
-                                                        <p>Ingrese su correo para cambiar de contraseña</p>
-                                                        <div class="panel-body">
-                                                            <fieldset>
+                                                            <p>Ingrese su correo para cambiar de contraseña</p>
+                                                            <div class="panel-body">
+                                                                <fieldset>
 
-                                                                <div class="form-group">
-                                                                    <input class="form-control input-lg" >
-                                                                </div>
+                                                                    <div class="form-group">
+                                                                        <input class="form-control input-lg" name="correo">
+                                                                    </div>
 
-                                                                <input class="btn btn-lg btn-primary btn-block" value="Cambiar contraseña" type="submit" >
-                                                            </fieldset>
+                                                                    <input class="btn btn-lg btn-primary btn-block" value="Cambiar contraseña" type="submit" >
+                                                                </fieldset>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+
+                                            <div class="modal-footer">
+                                                <div class="col-sm-12">
+                                                    <button type="button" class="btn btn-danger btn-lg btn-block" data-dismiss="modal" >Cancelar</button>
+                                                </div>
+                                            </div>
+                                        </form>
                                     </div>
-                                    <div class="modal-footer">
-                                        <div class="col-sm-12">
-                                            <button type="button" class="btn btn-danger btn-lg btn-block" data-dismiss="modal" >Cancelar</button>
-                                        </div>
-                                    </div>
+
                                 </div>
                             </div>
                         </div>

@@ -33,7 +33,7 @@
       <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="col-12 col-md-8 col-lg-6 col-xl-5">
           <div class="card bg-dark text-white" style="border-radius: 1rem;">
-            <div class="card-body p-5 text-center">
+            <form method="post" th:action="@{'/login/reset_password'}" class="card-body p-5 text-center">
 
               <div class="mb-md-5 mt-md-4 pb-5">
 
@@ -41,16 +41,21 @@
                 <br>
 
                 <div class="form-outline form-white mb-4">
-                  <input type="password"  class="form-control form-control-lg" />
+                  <input type="password" name="contrasenha1"  class="form-control form-control-lg" />
                   <label class="form-label" >Nueva contraseña</label>
                 </div>
 
                 <div class="form-outline form-white mb-4">
-                  <input type="password"  class="form-control form-control-lg" />
+                  <input type="password" name="contrasenha2"  class="form-control form-control-lg" />
                   <label class="form-label" >Repetir contraseña</label>
                 </div>
+
+                <input th:value="${correo}" name="correo" type="hidden"/>
+
                 <button class="btn btn-primary btn-lg btn-block" type="submit">Reestablecer</button>
               </div>
+            </form>
+            <div th:if="${msg != null}" th:text="${msg}" class="alert alert-warning" role="alert">
             </div>
           </div>
         </div>

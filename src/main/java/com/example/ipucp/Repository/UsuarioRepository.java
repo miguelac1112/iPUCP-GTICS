@@ -87,8 +87,14 @@ public interface UsuarioRepository extends JpaRepository<Usuario, String> {
     Usuario findByCorreo(String correo);
     @Transactional
     @Modifying
-    @Query(value = "INSERT INTO `ipucp`.`usuario` (`codigo`, `nombre`, `apellido`, `correo`, `celular`, `contra`, `dni`, `estado`, `idrol`, `idcargo`, `icono_idicono`, `strikes`, `ban`) VALUES (?1, ?2, ?3, ?4, '999999999', ?5, ?6, '0', '1', '1', '1', '0', '0');\n",nativeQuery = true)
+    @Query(value = "INSERT INTO `ipucp`.`usuario` (`codigo`, `nombre`, `apellido`, `correo`, `celular`, `contra`, `dni`, `estado`, `idrol`, `idcargo`, `icono_idicono`, `strikes`, `ban`) VALUES (?1, ?2, ?3, ?4, '999999999', ?5, ?6, '1', '1', '1', '1', '0', '0');\n",nativeQuery = true)
     void add_db(String codigo, String nombre, String apellido, String correo, String contrasenha ,String dni);
+
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE `ipucp`.`usuario` SET `contra` = ?1 WHERE (`correo` = ?2);",nativeQuery = true)
+    void cambiarpassword(String contrasenha, String correo);
+
 
 
 }
