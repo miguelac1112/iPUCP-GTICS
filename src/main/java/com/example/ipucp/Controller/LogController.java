@@ -176,7 +176,7 @@ public class LogController {
 
         int j=0;
         for(Usuario listaUsuarios1: listaUsuarios){
-            if (Objects.equals(listaUsuarios1.getId(), codigo) && Objects.equals(listaUsuarios1.getCorreo(), correo)) {
+            if (Objects.equals(listaUsuarios1.getId(), codigo) || Objects.equals(listaUsuarios1.getCorreo(), correo)) {
                 j = 1;
                 break;
             }
