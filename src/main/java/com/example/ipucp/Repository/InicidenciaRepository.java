@@ -30,7 +30,7 @@ public interface InicidenciaRepository extends JpaRepository<Inicidencia, Intege
 
     @Transactional
     @Modifying
-    @Query(value = "UPDATE inicidencia SET `comentario` = ?1 , `estado` = '2', `max` = ?2 WHERE (`idinicidencia` = ?3);",nativeQuery = true)
+    @Query(value = "UPDATE inicidencia SET `comentario` = ?1 , `estado` = '1', `max` = ?2 WHERE (`idinicidencia` = ?3);",nativeQuery = true)
     void comentarIncidencia(String comentario, int max ,int id);
 
     @Transactional

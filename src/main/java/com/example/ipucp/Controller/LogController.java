@@ -2,6 +2,7 @@ package com.example.ipucp.Controller;
 
 import com.example.ipucp.Dao.UsuarioDao;
 import com.example.ipucp.Dto.UsuarioDto;
+import com.example.ipucp.EmailSenderService;
 import com.example.ipucp.Entity.Icono;
 import com.example.ipucp.Entity.Usuario;
 import com.example.ipucp.Repository.UsuarioRepository;
@@ -25,12 +26,16 @@ import javax.validation.Valid;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.ThreadLocalRandom;
+
 @Controller
 public class LogController {
     @Autowired
     UsuarioRepository usuarioRepository;
     @Autowired
     UsuarioDao usuarioDao;
+    @Autowired
+    private EmailSenderService senderService;
 
     @Autowired
     private OAuth2AuthorizedClientService auth2AuthorizedClientService;
@@ -161,32 +166,75 @@ public class LogController {
         System.out.println(apellido);
         System.out.println(correo1);
         System.out.println(dni);
-
-        //List<Usuario> listaUsuarios = usuarioRepository.findAll();
-
-        /*int i=0;
-        for(Usuario listaUsuarios1: listaUsuarios){
-            if (Objects.equals(listaUsuarios1.getId(), codigo) && Objects.equals(listaUsuarios1.getCorreo(), correo) &&
-                    listaUsuarios1.getEstado() == 0) {
-                i = 1;
-                break;
-            }
-        }*/
-        System.out.println(i);
         usuario.setId(codigo1);
         usuario.setCorreo(correo1);
         usuario.setNombre(nombre);
         usuario.setApellido(apellido);
         usuario.setDni(dni);
+
+        List<Usuario> listaUsuarios = usuarioRepository.findAll();
+
+        int j=0;
+        for(Usuario listaUsuarios1: listaUsuarios){
+            if (Objects.equals(listaUsuarios1.getId(), codigo) && Objects.equals(listaUsuarios1.getCorreo(), correo)) {
+                j = 1;
+                break;
+            }
+        }
+        System.out.println(i);
+        System.out.println(j);
         System.out.println(usuario.getNombre()+" "+usuario.getApellido());
-        if(i==1){
+        if(i==1 && j!=1){
+            String random_code = cadenaAleatoria(6);
+            senderService.sendSimpleEmail(correo," Codigo de verificación IPUCP","Su código de verificación es " + random_code);
+            model.addAttribute("random_code",random_code);
             model.addAttribute("usuario",usuario);
-            return "login/new-pass";
+            return "login/random-code";
         }else{
             String texto = "Credenciales invalidas o ya existentes.";
             redirectAttributes.addFlashAttribute("msg",texto);
             return "redirect:/login";
         }
+    }
+
+    @PostMapping("/login/establecer_pass1")
+    public String random_code(Model model,
+                              @RequestParam("random_code") String random_code, @RequestParam("codigo_aleatorio") String codigo_aleatorio,
+                              @RequestParam("id") String codigo, @RequestParam("nombre") String nombre, @RequestParam("apellido") String apellido, @RequestParam("correo") String correo, @RequestParam("dni") String dni,
+                              @ModelAttribute("usuario") @Valid Usuario usuario, BindingResult bindingResult,
+                              RedirectAttributes redirectAttributes){
+        String codigo1 = "";
+        String nombre1="";
+        String apellido1="";
+        String correo1="";
+        String dni1="";
+        if(Objects.equals(codigo_aleatorio, random_code)){
+            List<UsuarioDto> lista= usuarioDao.listarUsuarios();
+            for(UsuarioDto usuario1: lista){
+                if(Objects.equals(usuario1.getCodigo(), codigo) && Objects.equals(usuario1.getCorreo(),correo)){
+                    System.out.println("casi ");
+                    codigo1 = usuario1.getCodigo();
+                    nombre1= usuario1.getNombre();
+                    apellido1 = usuario1.getApellido();
+                    correo1 = usuario1.getCorreo();
+                    dni1 = usuario1.getDni();
+                    break;
+                }
+            }
+            usuario.setId(codigo1);
+            usuario.setCorreo(correo1);
+            usuario.setNombre(nombre1);
+            usuario.setApellido(apellido1);
+            usuario.setDni(dni1);
+            model.addAttribute("usuario",usuario);
+            return "login/new-pass";
+        }else{
+            model.addAttribute("random_code",random_code);
+            String texto = "Código incorrecto. Vuelva ingresar el código que se envío a su correo.";
+            redirectAttributes.addFlashAttribute("msg",texto);
+            return "login/random-code";
+        }
+
     }
 
     @PostMapping("/login/establecer_pass")
@@ -226,5 +274,24 @@ public class LogController {
             redirectAttributes.addFlashAttribute("msg",texto);
             return "login/new-pass";
         }
+    }
+
+
+    public static String cadenaAleatoria(int longitud) {
+        // El banco de caracteres
+        String banco = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        // La cadena en donde iremos agregando un carácter aleatorio
+        String cadena = "";
+        for (int x = 0; x < longitud; x++) {
+            int indiceAleatorio = numeroAleatorioEnRango(0, banco.length() - 1);
+            char caracterAleatorio = banco.charAt(indiceAleatorio);
+            cadena += caracterAleatorio;
+        }
+        return cadena;
+    }
+
+    public static int numeroAleatorioEnRango(int minimo, int maximo) {
+        // nextInt regresa en rango pero con límite superior exclusivo, por eso sumamos 1
+        return ThreadLocalRandom.current().nextInt(minimo, maximo + 1);
     }
 }
