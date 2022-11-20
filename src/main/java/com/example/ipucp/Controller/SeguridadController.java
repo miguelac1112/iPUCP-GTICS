@@ -1,6 +1,7 @@
 package com.example.ipucp.Controller;
 
 import com.example.ipucp.Dao.PerfilDao;
+import com.example.ipucp.Dto.DtoIncidencia;
 import com.example.ipucp.Dto.IncidenciaPorMes;
 import com.example.ipucp.EmailSenderService;
 import com.example.ipucp.Entity.*;
@@ -22,6 +23,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.supercsv.io.CsvBeanWriter;
+import org.supercsv.io.ICsvBeanWriter;
+import org.supercsv.prefs.CsvPreference;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -94,6 +98,99 @@ public class SeguridadController {
 
     }
 
+
+    // Define el separador
+    private static final CsvPreference PIPE_DELIMITED = new CsvPreference.Builder('"', '|', "\n").build();
+    @GetMapping("/exportar_txt")
+    public void exportToTxt(HttpServletResponse response, @RequestParam("tipo") int idTipo ,@RequestParam("urgencia") int idUrgencia, @RequestParam("orden") int idOrden, @RequestParam("estado") int idEstad) throws IOException  {
+        response.setContentType("text/csv");
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String currentDateTime = dateFormatter.format(new Date());
+        String headerKey = "Content-Disposition";
+        // Aquí generas el nombre con el que vas a guardarlo y la extensión (.txt)
+        String headerValue = "attachment; filename=incidencias_TXT_" + currentDateTime+".txt";
+        response.setHeader(headerKey, headerValue);
+        // Auqí mandas creas la lista que vas a exportar
+        List<Inicidencia> inicidenciaList = new ArrayList<>();
+        if(idEstad==2) {
+            if (idTipo != 0) {
+                if (idUrgencia != 0) {
+                    switch (idOrden) {
+                        case 1 -> {
+                            inicidenciaList.addAll(inicidenciaRepository.filtradoTipoUrgenciaAntig(idTipo, idUrgencia));
+                        }
+                        case 0 -> {
+                            inicidenciaList.addAll(inicidenciaRepository.filtradoTipoUrgencia(idTipo, idUrgencia));
+                        }
+                    }
+                } else {
+                    switch (idOrden) {
+                        case 1 -> {
+                            inicidenciaList.addAll(inicidenciaRepository.filtradoTipoAntiguo(idTipo));
+                        }
+                        case 0 -> {
+                            inicidenciaList.addAll(inicidenciaRepository.filtradoTipo(idTipo));
+                        }
+                    }
+                }
+            } else {
+                if (idUrgencia != 0) {
+                    switch (idOrden) {
+                        case 1 -> {inicidenciaList.addAll(inicidenciaRepository.filtradoUrgenciaAntiguo(idUrgencia));
+                            }
+                        case 0 -> {
+                            inicidenciaList.addAll(inicidenciaRepository.filtradoUrgencia(idUrgencia));
+                        }
+                    }
+
+                } else {
+                    switch (idOrden) {
+                        case 1 -> {inicidenciaList.addAll(inicidenciaRepository.findAll());}
+                        case 0 -> {inicidenciaList.addAll(inicidenciaRepository.ordenNuevo());}
+                    }
+                }
+            }
+        }else{
+
+            if (idTipo != 0) {
+                if (idUrgencia != 0) {
+                    switch (idOrden) {
+                        case 1 -> {inicidenciaList.addAll(inicidenciaRepository.filtradoTipoUrgenciaAntigEstado(idTipo, idUrgencia, idEstad));}
+                        case 0 -> {inicidenciaList.addAll(inicidenciaRepository.filtradoTipoUrgenciaEstado(idTipo, idUrgencia, idEstad));}
+                    }
+                } else {
+                    switch (idOrden) {
+                        case 1 -> {inicidenciaList.addAll(inicidenciaRepository.filtradoTipoAntiguoEstado(idTipo, idEstad));}
+                        case 0 -> {inicidenciaList.addAll(inicidenciaRepository.filtradoTipoEstado(idTipo, idEstad));}
+                    }
+                }
+            } else {
+                if (idUrgencia != 0) {
+                    switch (idOrden) {
+                        case 1 -> {inicidenciaList.addAll(inicidenciaRepository.filtradoUrgenciaAntiguoEstado(idUrgencia,idEstad));}
+                        case 0 -> {inicidenciaList.addAll(inicidenciaRepository.filtradoUrgenciaEstado(idUrgencia, idEstad));}
+                    }
+
+                } else {
+                    switch (idOrden) {
+                        case 1 -> {inicidenciaList.addAll(inicidenciaRepository.ordenAntigEstaodo(idEstad));}
+                        case 0 -> {inicidenciaList.addAll(inicidenciaRepository.ordenNuevoEstaodo(idEstad));}
+                    }
+                }
+            }
+        }
+        ICsvBeanWriter csvWriter = new CsvBeanWriter(response.getWriter(), PIPE_DELIMITED);
+        String[] csvHeader ={"#", " Título ", " Tipo ", "Ubicación ", "Usuario ", " Fecha ", " Destacados "};
+        String[] nameMapping = {"id", "nombre", "idtipo", "ubicacion", "codigo", "fecha", "destacado"};
+        csvWriter.writeHeader(csvHeader);
+        for(int i=0;i<inicidenciaList.size();i++){
+            // Como debe coincidir exactamente, mejor creé un Dto para incidencias y lo asigné
+            DtoIncidencia dtoIncidencia = new DtoIncidencia(inicidenciaList.get(i), i);
+            // se asigna los valores
+            csvWriter.write(dtoIncidencia, nameMapping);
+        }
+        csvWriter.close();
+    }
 
     @GetMapping("/exportar_xlsx")
     public void exportToExcel(HttpServletResponse response, @RequestParam("tipo") int idTipo ,@RequestParam("urgencia") int idUrgencia, @RequestParam("orden") int idOrden, @RequestParam("estado") int idEstad)
