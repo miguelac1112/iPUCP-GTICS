@@ -30,7 +30,11 @@ public class LogConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/admin","/admin/**").hasAuthority("admin")
                 .antMatchers("/seguridad", "/seguridad/**").hasAuthority("seguridad")
-                .antMatchers("/usuario","/usuario/**").access("hasAuthority('usuario')||hasAuthority('ROLE_USER') ");
+                .antMatchers("/usuario","/usuario/**").access("hasAuthority('usuario')||hasAuthority('ROLE_USER')")
+                .anyRequest().permitAll().and()
+                .oauth2Login()
+                .loginPage("/login")
+                .defaultSuccessUrl("/loginGoogle",true);
 
         http.logout().logoutUrl("/logout")
                 .deleteCookies("JSESSIONID")

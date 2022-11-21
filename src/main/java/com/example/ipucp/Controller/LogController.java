@@ -21,6 +21,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
@@ -39,6 +40,7 @@ public class LogController {
 
     @GetMapping(value = {"/login"})
     public String login( @ModelAttribute("usuario") Usuario usuario ) {
+        System.out.println("estoy en login");
         return "login/log-in";
     }
 
@@ -81,49 +83,88 @@ public class LogController {
         }
     }
     @GetMapping("/loginGoogle")
-    public String listar(Model model, OAuth2AuthenticationToken authentication, HttpSession session, RedirectAttributes redirectAttributes, HttpServletRequest request) {
-        OAuth2AuthorizedClient client = auth2AuthorizedClientService.loadAuthorizedClient(authentication.getAuthorizedClientRegistrationId(), authentication.getName());
-        String name = (String) authentication.getPrincipal().getAttributes().get("given_name");
-        String lastname = (String) authentication.getPrincipal().getAttributes().get("family_name");
-        String email = (String) authentication.getPrincipal().getAttributes().get("email");
-        Usuario usuario_g = new Usuario();
-        usuario_g.setNombre(name);
-        usuario_g.setApellido(lastname);
-        usuario_g.setCorreo(email);
+    public String loginGoogle(Authentication authentication,HttpSession session,RedirectAttributes redirectAttributes,@RequestParam String email) {
+
+        System.out.println("llegue siuuuu");
+        System.out.println(email);
+
+
+
+
         Usuario usuario = usuarioRepository.findByCorreo(email);
-        if(usuario_g.getCorreo().equals(usuario.getCorreo())){
-            session.setAttribute("usuario",usuario);
-            String rol= String.valueOf(usuario.getRol());
-            switch (rol){
-                case "usuario" -> {
-                    if(usuario.getBan() <3){
-                        return "redirect:/usuario/listar";
-                    }else{
-                        String texto = "El usuario ha sido baneado";
-                        redirectAttributes.addFlashAttribute("msgLogin1",texto);
-                        return "redirect:/login";
-                    }
-                }
-                case "seguridad" -> {
-                    return "redirect:/seguridad";
-                }
-                case "admin" -> {
-                    return "redirect:/admin";
-                }
-                default -> {
-                    String texto = "Credenciales invalidas";
-                    redirectAttributes.addFlashAttribute("msgLogin",texto);
+        System.out.println(usuario.getNombre());
+
+        System.out.println("el rol es:" +usuario.getRol().getNombreRol());
+        session.setAttribute("usuario", usuario);
+        String rol = usuario.getRol().getNombreRol();
+
+        switch (rol) {
+            case "usuario" -> {
+                if (usuario.getBan() < 3) {
+                    System.out.println("entra a usuario");
+                    authentication= new Authentication() {
+                        @Override
+                        public Collection<? extends GrantedAuthority> getAuthorities() {
+
+                            return null;
+                        }
+
+                        @Override
+                        public Object getCredentials() {
+                            return null;
+                        }
+
+                        @Override
+                        public Object getDetails() {
+                            return null;
+                        }
+
+                        @Override
+                        public Object getPrincipal() {
+                            return null;
+                        }
+
+                        @Override
+                        public boolean isAuthenticated() {
+                            return true;
+                        }
+
+                        @Override
+                        public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
+
+                        }
+
+                        @Override
+                        public String getName() {
+                            return null;
+                        }
+
+                    };
+                    authentication.setAuthenticated(true);
+                    System.out.println(authentication.isAuthenticated());
+
+
+                    return "redirect:/usuario/listar";
+                } else {
+                    String texto = "El usuario ha sido baneado";
+                    redirectAttributes.addFlashAttribute("msgLogin1", texto);
                     return "redirect:/login";
                 }
-
+            }
+            case "seguridad" -> {
+                return "redirect:/seguridad";
+            }
+            case "admin" -> {
+                return "redirect:/admin";
+            }
+            default -> {
+                String texto = "Credenciales invalidas";
+                redirectAttributes.addFlashAttribute("msgLogin", texto);
+                return "redirect:/login";
             }
 
-        }else {
-            String texto = "No se enecuentra";
-            redirectAttributes.addFlashAttribute("msgLogin",texto);
-            return "redirect:/login";
-        }
 
+        }
     }
 
     @PostMapping("/login/ingresar_correo")

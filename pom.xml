@@ -77,6 +77,7 @@
             <artifactId>spring-boot-starter-oauth2-client</artifactId>
         </dependency>
 
+
         <!-- Generar archivos PDF-->
         <dependency>
             <groupId>com.github.librepdf</groupId>
