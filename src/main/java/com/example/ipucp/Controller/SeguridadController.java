@@ -633,10 +633,12 @@ public class SeguridadController {
                 model.addAttribute("incidencia", incidencia);
                 return "seguridad/seguridad";
             }else{
+                String correo = usuario.getCorreo();
                 int max = incidencia.getMax();
                 max+=1;
                 inicidenciaRepository.comentarIncidencia(comentario,max,incidencia.getId());
                 comentarioRepository.comentarIncidencia(comentario, incidencia.getId());
+                senderService.sendSimpleEmail(correo,"Comentario acerca de la Incidencia con ID "+incidencia.getId(),comentario);
                 String texto = "La incidencia con ID "+incidencia.getId()+" del usuario con código "+ incidencia.getCodigo().getId()+" ha sido respondida.";
                 redirectAttributes.addFlashAttribute("msg",texto);
                 return "redirect:/seguridad/incidencias";
@@ -737,10 +739,12 @@ public class SeguridadController {
         if (optUsuario.isPresent()){
             Usuario usuario = optUsuario.get();
             int strike = usuario.getStrikes();
+            String correo = usuario.getCorreo();
             strike+=1;
             if(strike==3){
                 usuarioRepository.strikeUsuario(strike,id);
                 usuarioRepository.banUsuario(1,id);
+                senderService.sendSimpleEmail(correo," Suspensión de la cuenta de IPUCP","Usuario. Lastimosamente su cuenta ha sido suspendida por incumplir nuestras reglas. ");
                 redirectAttributes.addFlashAttribute("msg", "El usuario "+usuario.getNombre()+" "+usuario.getApellido()+" ha sido reportado.");
                 return "redirect:/seguridad/lista_usuarios";
             }else{
