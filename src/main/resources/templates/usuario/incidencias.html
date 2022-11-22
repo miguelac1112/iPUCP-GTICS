@@ -93,16 +93,6 @@
             <div th:if="${msg2 != null}" th:text="${msg2}" class="alert alert-success" role="alert"></div>
             <div th:if="${msg3 != null}" th:text="${msg3}" class="alert alert-success" role="alert"></div>
             <div th:if="${msg4 != null}" th:text="${msg4}" class="alert alert-success" role="alert"></div>
-            <div class="row">
-
-                <div class="col">
-                        <input name="searchField" class="form-control mb-3" type="text" placeholder="Buscar por nombre"/>
-                </div>
-                <div class="col-auto">
-                    <a class="btn btn-dark" th:href="@{'/usuario/listar'}">Buscar</a>
-                    <a class="btn btn-secondary" th:href="@{'/usuario/listar'}">Regresar</a>
-                </div>
-            </div>
         </div>
 
         <div class="table-responsive">
@@ -256,6 +246,59 @@
     <script th:inline="javascript">
         var myModal = new bootstrap.Modal(document.getElementById('Modal'+[[${id}]]), {})
         myModal.show()
+    </script>
+
+    <!-- JQUERY -->
+    <script src="https://code.jquery.com/jquery-3.4.1.js"
+            integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous">
+    </script>
+    <!-- DATATABLES -->
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js">
+    </script>
+    <!-- BOOTSTRAP -->
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js">
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#tablax').DataTable({
+
+                scrollX:        true,
+                scrollCollapse: true,
+
+                //"bPaginate": false,
+                //"bFilter": false,
+                //"bInfo": false,
+                //"ordering": false,
+                language: {
+                    processing: "Tratamiento en curso...",
+                    search: "Búsqueda&nbsp;:",
+                    lengthMenu: "Agrupar de _MENU_",
+                    info: "Mostrando item _START_ al _END_ de _TOTAL_ en total",
+                    infoEmpty: "No existen datos.",
+                    infoFiltered: "(filtrado de _MAX_ elementos en total)",
+                    infoPostFix: "",
+                    loadingRecords: "Cargando...",
+                    zeroRecords: "No se encontraron datos con tu busqueda",
+                    emptyTable: "No hay datos disponibles en la tabla.",
+                    paginate: {
+                        first: "Primero",
+                        previous: "Anterior",
+                        next: "Siguiente",
+                        last: "Ultimo"
+                    },
+                    aria: {
+                        sortAscending: ": active para ordenar la columna en orden ascendente",
+                        sortDescending: ": active para ordenar la columna en orden descendente"
+                    }
+                },
+                scrollY: 400,
+                lengthMenu: [ [5, 10, -1], [5, 10, "All"] ],
+            });
+
+            $('.dataTables_filter input[type="search"]').css(
+                {'width':'auto','display':'inline-block'}
+            );
+        });
     </script>
 
 
