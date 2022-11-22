@@ -90,7 +90,15 @@
             <div class="card">
                 <div class="card-header">
                     <img
+                            th:if="${imgUs != null}"
                             th:src="|data:image/png;base64,${imgUs}|"
+                            alt=""
+                            style="width: 45px; height: 45px"
+                            class="rounded-circle"
+                    />
+                    <img
+                            th:if="${imgUs == null}"
+                            src="/img/avatar.png"
                             alt=""
                             style="width: 45px; height: 45px"
                             class="rounded-circle"
