@@ -113,7 +113,13 @@
                     <div class="card mt-5 mb-3" th:each="incidencia : ${incidenciaList}" >
                         <div class="card-header">
                             <img
+                                    th:if="${iperfil.get(incidencia) != null}"
                                     th:src="|data:image/png;base64,${iperfil.get(incidencia)}|"  class="roca"  alt="..."
+                                    style="width: 35px; height: 35px; border-radius: 50%"
+                            />
+                            <img
+                                    th:if="${iperfil.get(incidencia) == null}"
+                                    src="/img/avatar.png"  class="roca"  alt="..."
                                     style="width: 35px; height: 35px; border-radius: 50%"
                             />
                             <span class="postuserfont" ><strong th:text="${incidencia.codigo.getNombre()+' '+incidencia.codigo.getApellido()}"></strong></span>

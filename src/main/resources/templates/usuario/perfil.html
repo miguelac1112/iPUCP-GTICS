@@ -124,8 +124,8 @@
         <div class="row">
             <div class="col-3">
                 <div class="contenedor">
-                        <img th:src="|data:image/png;base64,${imgperfil}|"  class="roca"  alt="...">
-
+                        <img th:if="${imgperfil != null}" th:src="|data:image/png;base64,${imgperfil}|"  class="roca"  alt="...">
+                        <img th:if="${imgperfil == null}" src="/img/avatar.png"  class="roca"  alt="...">
                         <div class="btn" style="margin-bottom: -8%">
                             <a  href="javascript:explorar();" >
                                 <div class="form-group"style="position: relative; left: -125%; top: 70%;">
