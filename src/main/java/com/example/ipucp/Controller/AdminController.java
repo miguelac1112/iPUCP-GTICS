@@ -1,6 +1,7 @@
 package com.example.ipucp.Controller;
 
 import com.example.ipucp.Dao.CargoDao;
+import com.example.ipucp.Dao.PerfilDao;
 import com.example.ipucp.Dao.UsuarioDao;
 import com.example.ipucp.Dto.UsuarioDto;
 import com.example.ipucp.Entity.*;
@@ -18,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,7 +42,8 @@ public class AdminController {
 
     @Autowired
     UsuarioDao usuarioDao;
-
+    @Autowired
+    PerfilDao perfilDao;
     @GetMapping("")
     public String principal() {
         return "admin/principalAdmin";
@@ -48,8 +51,14 @@ public class AdminController {
 
     @GetMapping("/listar")
     public String listar(Model model, @ModelAttribute("usuario") Usuario usuario) {
-        model.addAttribute("listaUsuarios",usuarioRepository.findAll());
+        List<Usuario> listaUsuarios = usuarioRepository.findAll();
+        model.addAttribute("listaUsuarios",listaUsuarios);
         model.addAttribute("listaCargos",cargoRepository.findAll());
+        HashMap<Usuario,String> user = new HashMap<Usuario,String>();
+        for(Usuario u: listaUsuarios){
+            user.put(u,perfilDao.obtenerImagen(u.getId()).getFileBase64());
+        }
+        model.addAttribute("iperfi",user);
         return "admin/listar";
     }
 
