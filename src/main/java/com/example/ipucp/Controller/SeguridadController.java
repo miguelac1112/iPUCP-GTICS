@@ -586,11 +586,13 @@ public class SeguridadController {
                 comentario2.setTextComentario("Ingrese el comentario.");
                 model.addAttribute("comentario", comentario2);
                 model.addAttribute("incidencia", inicidencia);
+                model.addAttribute("imgi",perfilDao.obtenerImagen("Incidencia_"+ id).getFileBase64());
                 return "seguridad/seguridad";
             }else{
                 if(inicidencia.getMax()<6){
                     model.addAttribute("comentario", comentario1);
                     model.addAttribute("incidencia", inicidencia);
+                    model.addAttribute("imgi",perfilDao.obtenerImagen("Incidencia_"+ id).getFileBase64());
                     return "seguridad/seguridad";
                 }else{
                     return "redirect:/seguridad/incidencias";

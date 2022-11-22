@@ -132,7 +132,17 @@
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <img
+                                                    th:if="${iperfil.get(usuario) != null}"
                                                     th:src="|data:image/png;base64,${iperfil.get(usuario)}|"
+
+                                                    alt=""
+                                                    style="width: 45px; height: 45px"
+                                                    class="rounded-circle"
+                                            />
+                                            <img
+                                                    th:if="${iperfil.get(usuario) == null}"
+                                                    src="/img/avatar.png"
+
                                                     alt=""
                                                     style="width: 45px; height: 45px"
                                                     class="rounded-circle"
