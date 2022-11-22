@@ -78,11 +78,12 @@
             <h1 class="pb-2 border-bottom" style="text-align: center">Gestión de incidencias</h1>
             </br>
 
-            <div th:if="${msg != null}" th:text="${msg}" class="alert alert-success" role="alert" ></div>
+            <div th:if="${mens != null}" th:text="${mens}" class="alert alert-success" role="alert" ></div>
 
             <div class="container">
                 <div class="container">
                     <div class="row, justify-content: center">
+
                         <div class="row">
 
 
@@ -115,7 +116,7 @@
                                         <tbody>
                                         <tr th:each="incid : ${incidenciaEnReporte}">
                                             <th th:text="${incid.tipoIncidencia}" style="text-align: center">Reporte de robo</th>
-                                            <td style="text-align: center"><button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#Modal4">Imagen</button></td>
+                                            <td style="text-align: center"><button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" th:attr="data-bs-target=${'#Modal4'+incid.id}">Imagen</button></td>
                                             <td style="text-align: center"><button type="button" class="btn btn-primary" data-bs-toggle="modal" th:attr="data-bs-target=${'#ModalEdit'+incid.id}">Editar</button></td>
                                             <td th:unless="${incid.idInicidencia == null}" style="text-align: center"><button disabled type="button" class="btn btn-danger" data-bs-toggle="modal" th:attr="data-bs-target=${'#ModalDelete'+incid.id}">Borrar</button></td>
                                             <td th:if="${incid.idInicidencia == null}" style="text-align: center"><button type="button" class="btn btn-danger" data-bs-toggle="modal" th:attr="data-bs-target=${'#ModalDelete'+incid.id}">Borrar</button></td>
@@ -146,10 +147,11 @@
                         <button th:unless="${#fields.hasErrors('tipo.tipoIncidencia')}" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         <a th:if="${#fields.hasErrors('tipo.tipoIncidencia')}" type="button" class="btn-close" th:href="@{'/admin/incidencias'}" aria-label="Close"></a>
                     </div>
+                    <form method="post" th:action="@{'/admin/updateIncident'}" class="mt-2" th:id="${'form'+tipo.id}" enctype="multipart/form-data">
+
                     <div class="modal-body">
 
-                        <form method="post" th:action="@{'/admin/updateIncident'}" class="mt-2" th:id="${'form'+tipo.id}">
-                            <div class="mb-3">
+                           <div class="mb-3">
                                 <input th:value="${tipo.id}" name="id" type="hidden" />
 
                                 <label for="tipoIncidencia1" class="form-label">Nombre de incidencia:</label>
@@ -162,16 +164,37 @@
 
                             </div>
                             <div class="mb-3">
-                                <label for="foto" class="form-label">Imagen de incidencia:</label>
-                                <input type="file" class="btn btn-primary" name="foto" style="background-color:grey; border-color:grey; max-width: 100%" id="foto">
+                                <label for="foti" class="form-label">Imagen de incidencia:</label>
+                                <input type="file" class="btn btn-primary" name="foti" style="background-color:grey; border-color:grey; max-width: 100%" id="foti">
                             </div>
-                        </form>
+
 
                     </div>
                     <div class="modal-footer">
                         <button th:unless="${#fields.hasErrors('tipo.tipoIncidencia')}" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Regresar</button>
                         <a th:if="${#fields.hasErrors('tipo.tipoIncidencia')}" type="button" class="btn btn-secondary" th:href="@{'/admin/incidencias'}">Regresar</a>
                         <button type="submit" class="btn btn-success" data-bs-dismiss="modal" th:form="${'form'+tipo.id}">Cambiar</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal 4-->
+        <div class="modal fade " th:id="${'Modal4'+tipo.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog ">
+                <div class="modal-content ">
+                    <div class="modal-header" style="background-color: green">
+                        <h5 class="modal-title" id="exampleModalLabel4" style="color: white" th:text="${tipo.tipoIncidencia}">Reporte de robo</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+
+                        <img th:src="|data:image/png;base64,${hashti.get(tipo)}|" class="card-img-top" alt="...">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Regresar</button>
                     </div>
                 </div>
             </div>
@@ -218,7 +241,7 @@
                 </div>
                 <div class="modal-body">
 
-                    <form method="post" th:action="@{'/admin/saveIncident'}" class="mt-2" id="form33nmnsd">
+                    <form method="post" th:action="@{'/admin/saveIncident'}" class="mt-2" id="form33nmnsd"enctype="multipart/form-data">
                         <div class="mb-3">
                             <label for="tipoIncidencia2" class="form-label">Nombre de incidencia:</label>
 
@@ -235,7 +258,7 @@
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label for="foto" class="form-label">Imagen de incidencia:</label>
+                            <label for="foto2" class="form-label">Imagen de incidencia:</label>
                             <input type="file" class="btn btn-primary" name="foto2" style="background-color:grey; border-color:grey" id="foto2">
                         </div>
                     </form>
@@ -255,25 +278,7 @@
         myModal.show()
     </script>
 
-    <!-- Modal 4-->
-    <div class="modal fade " id="Modal4" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog ">
-            <div class="modal-content ">
-                <div class="modal-header" style="background-color: green">
-                    <h5 class="modal-title" id="exampleModalLabel4" style="color: white">Reporte de robo</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
 
-                    <img th:src="@{/img/perfil2.jpg}" class="card-img-top" alt="...">
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Regresar</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- JQUERY -->
     <script src="https://code.jquery.com/jquery-3.4.1.js"

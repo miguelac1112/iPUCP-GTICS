@@ -562,6 +562,12 @@ public class SeguridadController {
                 model.addAttribute("ListaUrgencia", listaUrg);
                 model.addAttribute("ListaOrden", listaOrden);
                 model.addAttribute("ListaEstado",listaEstados);
+                List<Inicidencia> inicidenciaList = listIncidencias;
+                HashMap<Inicidencia, String> datos = new HashMap<Inicidencia, String>();
+                for(Inicidencia incidencia: inicidenciaList){
+                    datos.put(incidencia,perfilDao.obtenerImagen("Incidencia_"+ String.valueOf(incidencia.getId())).getFileBase64());
+                }
+                model.addAttribute("hashmap",datos);
                 return "seguridad/incidencias";
             }else{
                 return "redirect:/seguridad";
@@ -690,16 +696,29 @@ public class SeguridadController {
     }
 
     @GetMapping("/lista_usuarios")
-    public String listaUsuarios(Model model) {
-        List<Usuario> ListaUsuarios = usuarioRepository.listarUsuarios();
-        HashMap<Usuario,String> user = new HashMap<Usuario,String>();
-        for(Usuario usuario: ListaUsuarios){
-            user.put(usuario,perfilDao.obtenerImagen(usuario.getId()).getFileBase64());
+    public String listaUsuarios(Model model, HttpSession session) {
+        Usuario usuarioseg = (Usuario) session.getAttribute("usuario");
+        String codigo = usuarioseg.getId();
+        Optional<Usuario> optUser = usuarioRepository.findById(codigo);
+        if(optUser.isPresent()){
+            if(optUser.get().getValidado() == 1){
+                List<Usuario> ListaUsuarios = usuarioRepository.listarUsuarios();
+                HashMap<Usuario,String> user = new HashMap<Usuario,String>();
+                for(Usuario usuario: ListaUsuarios){
+                    user.put(usuario,perfilDao.obtenerImagen(usuario.getId()).getFileBase64());
+                }
+                model.addAttribute("iperfil",user);
+                model.addAttribute("listaUsuarios", ListaUsuarios);
+                return "seguridad/lista_usuarios";
+            }else{
+                return "redirect:/seguridad";
+            }
+        }else{
+            return "redirect:/seguridad";
         }
-        model.addAttribute("iperfil",user);
-        model.addAttribute("listaUsuarios", ListaUsuarios);
-        return "seguridad/lista_usuarios";
     }
+
+
 
     @PostMapping("/BuscarCategoria")
     public String buscarCategoria(@RequestParam("idcat") Integer id, Model model){
@@ -716,23 +735,35 @@ public class SeguridadController {
 
     @GetMapping("/reporte")
     public String reporteUsuario(Model model,
-                                      @RequestParam("id") String id) {
+                                      @RequestParam("id") String id, HttpSession session) {
 
-        Optional<Usuario> optUsuario = usuarioRepository.findById(id);
-
-        if (optUsuario.isPresent()) {
-            Usuario usuario = optUsuario.get();
-            List<UsuarioIncidencias> listaIncidencias = usuarioRepository.obtenerUsuarioIncidencias(id);
-            for(UsuarioIncidencias incidencias: listaIncidencias){
-                System.out.println(incidencias.getIdinicidencia()+" "+incidencias.getTipo_incidencia()+" "+incidencias.getEstado());
+        Usuario usuarioseg = (Usuario) session.getAttribute("usuario");
+        String codigo = usuarioseg.getId();
+        Optional<Usuario> optUser = usuarioRepository.findById(codigo);
+        if(optUser.isPresent()){
+            if(optUser.get().getValidado() == 1){
+                Optional<Usuario> optUsuario = usuarioRepository.findById(id);
+                if (optUsuario.isPresent()) {
+                    Usuario usuario = optUsuario.get();
+                    List<UsuarioIncidencias> listaIncidencias = usuarioRepository.obtenerUsuarioIncidencias(id);
+                    for(UsuarioIncidencias incidencias: listaIncidencias){
+                        System.out.println(incidencias.getIdinicidencia()+" "+incidencias.getTipo_incidencia()+" "+incidencias.getEstado());
+                    }
+                    model.addAttribute("usuario", usuario);
+                    model.addAttribute("listaIncidencias", listaIncidencias);
+                    return "seguridad/seguridad_reportar";
+                } else {
+                    return "redirect:/seguridad/lista_usuarios";
+                }
+            }else{
+                return "redirect:/seguridad";
             }
-            model.addAttribute("usuario", usuario);
-            model.addAttribute("listaIncidencias", listaIncidencias);
-            return "seguridad/seguridad_reportar";
-        } else {
-            return "redirect:/seguridad/lista_usuarios";
+        }else{
+            return "redirect:/seguridad";
         }
     }
+
+
 
     @PostMapping("/StrikeUsuario")
     public String StrikeUsuario(@RequestParam("id") String id, RedirectAttributes redirectAttributes){
@@ -762,20 +793,30 @@ public class SeguridadController {
 
     @GetMapping("/detalle_incidencia")
     public String detalleIncidencia(Model model,
-                                 @RequestParam("id") Integer id,@RequestParam("codigo") String codigo ){
-        Optional<Inicidencia> optInicidencia = inicidenciaRepository.findById(id);
-        Optional<Usuario> optUsuario = usuarioRepository.findById(codigo);
+                                 @RequestParam("id") Integer id,@RequestParam("codigo") String codigo, HttpSession session ){
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        String codigoseg = usuario.getId();
+        Optional<Usuario> optUser = usuarioRepository.findById(codigoseg);
+        if(optUser.isPresent()){
+            if(optUser.get().getValidado() == 1){
+                Optional<Inicidencia> optInicidencia = inicidenciaRepository.findById(id);
+                Optional<Usuario> optUsuario = usuarioRepository.findById(codigo);
 
-        if (optInicidencia.isPresent() && optUsuario.isPresent() ){
-            Inicidencia inicidencia = optInicidencia.get();
+                if (optInicidencia.isPresent() && optUsuario.isPresent() ){
+                    Inicidencia inicidencia = optInicidencia.get();
 
-            model.addAttribute("incidencia", inicidencia);
+                    model.addAttribute("incidencia", inicidencia);
 
-            return "seguridad/detalleid_seguridad";
+                    return "seguridad/detalleid_seguridad";
+                }else{
+                    return "redirect:/seguridad/reporte?id="+codigo;
+                }
+            }else{
+                return "redirect:/seguridad";
+            }
         }else{
-            return "redirect:/seguridad/reporte?id="+codigo;
+            return "redirect:/seguridad";
         }
-
     }
 
     public List<Urgencia> obtenerUrgencias(){
