@@ -749,6 +749,7 @@ public class SeguridadController {
                     for(UsuarioIncidencias incidencias: listaIncidencias){
                         System.out.println(incidencias.getIdinicidencia()+" "+incidencias.getTipo_incidencia()+" "+incidencias.getEstado());
                     }
+                    model.addAttribute("imgseg",perfilDao.obtenerImagen(usuario.getId()).getFileBase64());
                     model.addAttribute("usuario", usuario);
                     model.addAttribute("listaIncidencias", listaIncidencias);
                     return "seguridad/seguridad_reportar";
@@ -806,6 +807,8 @@ public class SeguridadController {
                     Inicidencia inicidencia = optInicidencia.get();
 
                     model.addAttribute("incidencia", inicidencia);
+                    model.addAttribute("imgini",perfilDao.obtenerImagen("Incidencia_"+inicidencia.getId()).getFileBase64());
+                    model.addAttribute("imgdet",perfilDao.obtenerImagen(codigo).getFileBase64());
 
                     return "seguridad/detalleid_seguridad";
                 }else{
