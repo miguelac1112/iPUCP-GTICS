@@ -132,7 +132,7 @@ public class LogController {
 
     }*/
 
-    @GetMapping("/loginGoogle")
+    /*@GetMapping("/loginGoogle")
     public String loginGoogle(HttpSession session, RedirectAttributes redirectAttributes, @RequestParam List<String> cred) {
 
         System.out.println("llegue siuuuu");
@@ -165,8 +165,8 @@ public class LogController {
             return "redirect:/redirecRol";
         }
 
-    }
-    /*@GetMapping("/loginGoogle")
+    }*/
+    @GetMapping("/loginGoogle")
     public String loginGoogle(OAuth2AuthenticationToken token, HttpSession session, RedirectAttributes redirectAttributes) {
         System.out.println("entre");
         String email = (String) token.getPrincipal().getAttributes().get("email");
@@ -178,7 +178,7 @@ public class LogController {
             session.setAttribute("usuario",usuario);
             return "redirect:/redirecRol";
         }
-    }*/
+    }
     @PostMapping("/login/ingresar_correo")
     public String ingresar_correo(Model model, @RequestParam("correo") String correo, RedirectAttributes redirectAttributes){
         List<Usuario> list_usuario = usuarioRepository.findAll();

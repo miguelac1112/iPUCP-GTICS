@@ -84,4 +84,8 @@ public class Usuario implements Serializable {
     @Column(name = "validado")
     private Byte validado;
 
+    @Enumerated(EnumType.STRING)
+    private Provider provider;
+
+
 }
