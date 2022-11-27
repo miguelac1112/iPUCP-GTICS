@@ -107,7 +107,6 @@
                 <th style="text-align: center">Tipo</th>
                 <th style="text-align: center">Urgencia</th>
                 <th style="text-align: center">Estado</th>
-                <th style="text-align: center">¿Está resuelta?</th>
                 <th style="text-align: center">Ingresar comentario</th>
                 <th style="text-align: center"></th>
                 <th style="text-align: center"></th>
@@ -132,19 +131,16 @@
                 <td style="text-align: center" th:if="${incidencia.estado == 2}">Atendida</td>
                 <td style="text-align: center" th:if="${incidencia.estado == 3}">Resuelta</td>
 
-                <td style="text-align: center" th:if="${incidencia.estado == 0 or incidencia.estado==1 or incidencia.estado==2}"><button type="button" class="btn btn-success" data-bs-toggle="modal" th:attr="data-bs-target=${'#Modal2'+incidencia.id}">Sí</button></td>
-                <td style="text-align: center" th:if="${incidencia.estado == 3}">Ya resuelta</td>
-
 
                 <td style="text-align: center" th:if="${incidencia.estado == 3}">Resuelta</td>
                 <td style="text-align: center" th:if="${incidencia.estado == 0}">Pronto podrá comentar</td>
                 <td th:if="${incidencia.estado== 1 or incidencia.estado==2}" style="text-align: center"><button type="button" class="btn btn-success" data-bs-toggle="modal" th:attr="data-bs-target=${'#Modal'+incidencia.id}">Comentar</button></td>
 
                 <td style="text-align: center" th:if="${incidencia.estado == 0}">Pronto podrás ver los comentarios</td>
-                <td th:if="${incidencia.estado== 1 or incidencia.estado== 2 or incidencia.estado==3}"><a class="btn btn-secondary" th:href="@{'/usuario/lista_comentarios?id=' + ${incidencia.id}}">Ver Comentarios</a>
+                <td th:if="${incidencia.estado== 1 or incidencia.estado== 2 or incidencia.estado==3}"><a class="btn btn-secondary" style="margin-left: 25px" th:href="@{'/usuario/lista_comentarios?id=' + ${incidencia.id}}">Ver Comentarios</a>
                 </td>
 
-                <td><a class="btn btn-secondary" th:href="@{'/usuario/detalle?id=' + ${incidencia.id}}">Ver Detalle</a>
+                <td><a class="btn btn-secondary" th:href="@{'/usuario/detalle?id=' + ${incidencia.id}}">Detalle</a>
                 </td>
             </tr>
 
