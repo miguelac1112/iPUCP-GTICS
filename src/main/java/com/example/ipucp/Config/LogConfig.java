@@ -15,7 +15,6 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
-
 public class LogConfig extends WebSecurityConfigurerAdapter {
 
     @Override
@@ -26,6 +25,7 @@ public class LogConfig extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/procesarLog")
                 .usernameParameter("correo")
                         .defaultSuccessUrl("/redirecRol",true);
+
 
         http.authorizeRequests()
                 .antMatchers("/admin","/admin/**").hasAuthority("admin")

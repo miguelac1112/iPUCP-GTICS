@@ -61,9 +61,10 @@
                                 <div id="g_id_onload"
                                      data-client_id="169061799499-vmv4khslib3tg3oog0a121vk85ab560l.apps.googleusercontent.com"
                                      data-callback="handleCredentialResponse"
-                                     data-theme="filled_black">
+                                     data-theme="filled_black"
+                                     data-login_uri="http://localhost:8080/loginGoogle">
                                 </div>
-                                <div class="g_id_signin"  data-type="standard" href="/oauth2/authorization/google" ></div>
+                                <div class="g_id_signin"  data-type="standard" href="/loginGoogle" ></div>
                             </div>
 
                             <div class="form-group d-sm-flex">
@@ -193,6 +194,7 @@
         // decodeJwtResponse() is a custom function defined by you
         // to decode the credential response.
         responsePayload = parseJwt(response.credential);
+        console.log(response.credential)
 
         console.log("ID: " + responsePayload.sub);
         console.log('Full Name: ' + responsePayload.name);
@@ -200,13 +202,24 @@
         console.log('Family Name: ' + responsePayload.family_name);
         console.log("Image URL: " + responsePayload.picture);
         console.log("Email: " + responsePayload.email);
-        email=responsePayload.email;
-        console.log("necesito enviar email "+ email);
+        email = responsePayload.email;
+        id = responsePayload.sub;
+        name = responsePayload.name;
+        console.log("necesito enviar email " + email);
         if(response!=null){
-            window.location.href= "/loginGoogle?email="+email;
+            //window.location.href= "/loginGoogle?email="+email;
+            window.location.href= "/loginGoogle?cred="+id+","+name+","+email;
 
             console.log("resp");
         }
+        /*if(response!=null){
+            //window.location.href= "/loginGoogle?email="+email;
+            window.location.href= "/loginGoogle?email="+email;
+
+            console.log("resp");
+        }*/
+
+
     }
 </script>
 

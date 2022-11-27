@@ -18,10 +18,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
@@ -46,7 +44,7 @@ public class LogController {
 
     @GetMapping(value = "/redirecRol")
     public String redirecRol(Authentication authentication, HttpSession session, RedirectAttributes redirectAttributes){
-
+        System.out.println("entre a redirec");
         String rol="";
         List<GrantedAuthority> authorities = (List<GrantedAuthority>) authentication.getAuthorities();
         for (GrantedAuthority grantedAuthority: authorities){
@@ -82,91 +80,105 @@ public class LogController {
 
         }
     }
-    @GetMapping("/loginGoogle")
-    public String loginGoogle(Authentication authentication,HttpSession session,RedirectAttributes redirectAttributes,@RequestParam String email) {
+    /*@GetMapping("/loginGoogle")
+    public String loginGoogle(OAuth2AuthenticationToken authentication,HttpSession session,RedirectAttributes redirectAttributes,@RequestParam String email) {
 
         System.out.println("llegue siuuuu");
         System.out.println(email);
+        authentication.setAuthenticated(true);
 
 
-
-
+        //authentication.getPrincipal().getAttributes().get("email");
         Usuario usuario = usuarioRepository.findByCorreo(email);
         System.out.println(usuario.getNombre());
+
+        System.out.println("el rol es:" +usuario.getRol().getNombreRol());
+        //session.setAttribute("usuario", usuario);
+
+        if(usuario==null){
+            return "login/log-in";
+
+        }else {
+            session.setAttribute("usuario",usuario);
+            System.out.println(usuario.getCorreo());
+            return "redirect:/redirecRol";
+        }
+
+
+    }/*
+
+    /*@GetMapping("/loginGoogle")
+    public String loginGoogle(OAuth2AuthenticationToken authentication,HttpSession session,RedirectAttributes redirectAttributes) {
+
+        System.out.println("llegue siuuuu");
+        String email= (String) authentication.getPrincipal().getAttributes().get("email");
+
+        //authentication.getPrincipal().getAttributes().get("email");
+        Usuario usuario = usuarioRepository.findByCorreo(email);
+        System.out.println(usuario.getNombre());
+
+        System.out.println("el rol es:" +usuario.getRol().getNombreRol());
+        //session.setAttribute("usuario", usuario);
+
+        if(usuario==null){
+            return "login/log-in";
+
+        }else {
+            session.setAttribute("usuario",usuario);
+            System.out.println(usuario.getCorreo());
+            return "redirect:/redirecRol";
+        }
+
+
+    }*/
+
+    @GetMapping("/loginGoogle")
+    public String loginGoogle(HttpSession session, RedirectAttributes redirectAttributes, @RequestParam List<String> cred) {
+
+        System.out.println("llegue siuuuu");
+        System.out.println(cred);
+        System.out.println(cred.get(0));
+        System.out.println(cred.get(1));
+
+
+        //client=auth2AuthorizedClientService.loadAuthorizedClient(cred.get(0),cred.get(1));
+
+
+        Usuario usuario= usuarioRepository.findByCorreo(cred.get(2));
+
+
+
+        System.out.println(usuario.getNombre());
+        System.out.println(usuario.getContra());
 
         System.out.println("el rol es:" +usuario.getRol().getNombreRol());
         session.setAttribute("usuario", usuario);
         String rol = usuario.getRol().getNombreRol();
 
-        switch (rol) {
-            case "usuario" -> {
-                if (usuario.getBan() < 3) {
-                    System.out.println("entra a usuario");
-                    authentication= new Authentication() {
-                        @Override
-                        public Collection<? extends GrantedAuthority> getAuthorities() {
 
-                            return null;
-                        }
+        if(usuario==null){
+            return "login/log-in";
 
-                        @Override
-                        public Object getCredentials() {
-                            return null;
-                        }
-
-                        @Override
-                        public Object getDetails() {
-                            return null;
-                        }
-
-                        @Override
-                        public Object getPrincipal() {
-                            return null;
-                        }
-
-                        @Override
-                        public boolean isAuthenticated() {
-                            return true;
-                        }
-
-                        @Override
-                        public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
-
-                        }
-
-                        @Override
-                        public String getName() {
-                            return null;
-                        }
-
-                    };
-                    authentication.setAuthenticated(true);
-                    System.out.println(authentication.isAuthenticated());
-
-
-                    return "redirect:/usuario/listar";
-                } else {
-                    String texto = "El usuario ha sido baneado";
-                    redirectAttributes.addFlashAttribute("msgLogin1", texto);
-                    return "redirect:/login";
-                }
-            }
-            case "seguridad" -> {
-                return "redirect:/seguridad";
-            }
-            case "admin" -> {
-                return "redirect:/admin";
-            }
-            default -> {
-                String texto = "Credenciales invalidas";
-                redirectAttributes.addFlashAttribute("msgLogin", texto);
-                return "redirect:/login";
-            }
-
-
+        }else {
+            session.setAttribute("usuario",usuario);
+            System.out.println(usuario.getCorreo());
+            return "redirect:/redirecRol";
         }
-    }
 
+    }
+    /*@GetMapping("/loginGoogle")
+    public String loginGoogle(OAuth2AuthenticationToken token, HttpSession session, RedirectAttributes redirectAttributes) {
+        System.out.println("entre");
+        String email = (String) token.getPrincipal().getAttributes().get("email");
+        Usuario usuario= usuarioRepository.findByCorreo(email);
+        if(usuario==null){
+            return "login/log-in";
+
+        }else {
+            session.setAttribute("usuario",usuario);
+            return "redirect:/redirecRol";
+        }
+    }*/
     @PostMapping("/login/ingresar_correo")
     public String ingresar_correo(Model model, @RequestParam("correo") String correo, RedirectAttributes redirectAttributes){
         List<Usuario> list_usuario = usuarioRepository.findAll();
