@@ -42,6 +42,7 @@
                         <h1 style="font-size:8vw"; align="center">iPUCP</h1>
                         </div>
 
+                        <div th:if="${msgLoginGoogle != null}" th:text="${msgLoginGoogle}" class="text-danger nb-2"></div>
                         <div th:if="${msgLogin != null}" th:text="${msgLogin}" class="text-success nb-2"></div>
                         <div th:if="${msgLogin1 != null}" th:text="${msgLogin1}" class="text-success nb-2"></div>
 
@@ -205,12 +206,12 @@
         id = responsePayload.sub;
         name = responsePayload.name;
         console.log("necesito enviar email " + email);
-        /*if(response!=null){
+        if(response!=null){
             //window.location.href= "/loginGoogle?email="+email;
             window.location.href= "/loginGoogle?cred="+id+","+name+","+email;
 
             console.log("resp");
-        }*/
+        }
         /*if(response!=null){
             //window.location.href= "/loginGoogle?email="+email;
             window.location.href= "/loginGoogle?email="+email;

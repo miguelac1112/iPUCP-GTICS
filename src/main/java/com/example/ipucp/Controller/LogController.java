@@ -6,11 +6,13 @@ import com.example.ipucp.EmailSenderService;
 import com.example.ipucp.Entity.Usuario;
 import com.example.ipucp.Repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,10 +20,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Controller
@@ -78,6 +82,38 @@ public class LogController {
                 return "redirect:/login";
             }
 
+        }
+    }
+
+    @GetMapping(value = "/redirecRolGoogle")
+    public String redirecRolGoogle(Authentication authentication, HttpSession session, RedirectAttributes redirectAttributes){
+        System.out.println("entre a redirec");
+        System.out.println("auth nombre " +authentication.getName());
+        Optional<Usuario> optionalUsuario = usuarioRepository.findById(authentication.getName());
+        if(optionalUsuario.isPresent()){
+            Usuario usuario = optionalUsuario.get();
+            System.out.println(usuario.getCorreo()+" "+usuario.getRol().getNombreRol());
+            String rol = usuario.getRol().getNombreRol();
+            session.setAttribute("usuario",usuario);
+            switch (rol){
+                case "usuario" -> {
+                    if(usuario.getBan() <3){
+                        return "redirect:/usuario/listar";
+                    }else{
+                        String texto = "El usuario ha sido baneado";
+                        redirectAttributes.addFlashAttribute("msgLogin1",texto);
+                        return "redirect:/login";
+                    }
+                }
+                default -> {
+                    String texto = "Usuario no existente o rol no designado";
+                    redirectAttributes.addFlashAttribute("msgLoginGoogle",texto);
+                    return "redirect:/login";
+                }
+
+            }
+        }else{
+            return "redirect:/login";
         }
     }
     /*@GetMapping("/loginGoogle")
@@ -152,7 +188,8 @@ public class LogController {
         System.out.println(usuario.getContra());
 
         System.out.println("el rol es:" +usuario.getRol().getNombreRol());
-        session.setAttribute("usuario", usuario);
+
+
         String rol = usuario.getRol().getNombreRol();
 
 
@@ -160,23 +197,54 @@ public class LogController {
             return "login/log-in";
 
         }else {
+            System.out.println("existe");
             session.setAttribute("usuario",usuario);
-            System.out.println(usuario.getCorreo());
-            return "redirect:/redirecRol";
+
+            switch (rol){
+                case "usuario" -> {
+                    if(usuario.getBan() <3){
+                        System.out.println("casi");
+                        return "redirect:/usuario/listar";
+                    }else{
+                        return "redirect:/login";
+                    }
+                }
+                case "seguridad" -> {
+                    return "redirect:/seguridad/";
+                }
+                case "admin" -> {
+                    return "redirect:/admin";
+                }
+                default -> {
+                    return "redirect:/login";
+                }
+
+            }
         }
 
     }*/
     @GetMapping("/loginGoogle")
-    public String loginGoogle(OAuth2AuthenticationToken token, HttpSession session, RedirectAttributes redirectAttributes) {
+    public String loginGoogle(@RequestParam List<String> cred, HttpServletRequest request, RedirectAttributes redirectAttributes) {
+
         System.out.println("entre");
-        String email = (String) token.getPrincipal().getAttributes().get("email");
-        Usuario usuario= usuarioRepository.findByCorreo(email);
+        System.out.println(cred);
+        System.out.println(cred.get(0));
+        System.out.println(cred.get(1));
+        System.out.println(cred.get(2));
+        Usuario usuario= usuarioRepository.findByCorreo(cred.get(2));
         if(usuario==null){
-            return "login/log-in";
+            String texto = "Usuario no existente o rol no designado";
+            redirectAttributes.addFlashAttribute("msgLoginGoogle",texto);
+            return "redirect:/login";
 
         }else {
-            session.setAttribute("usuario",usuario);
-            return "redirect:/redirecRol";
+            Authentication authentication = new UsernamePasswordAuthenticationToken(usuario.getId(),null, AuthorityUtils.createAuthorityList(usuario.getRol().getNombreRol()));
+            SecurityContext securityContext = SecurityContextHolder.getContext();
+            securityContext.setAuthentication(authentication);
+
+            HttpSession session = request.getSession(true);
+            session.setAttribute("SPRING_SECURITY_CONTEXT",securityContext);
+            return "redirect:/redirecRolGoogle";
         }
     }
     @PostMapping("/login/ingresar_correo")
