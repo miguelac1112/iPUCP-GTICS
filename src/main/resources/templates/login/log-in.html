@@ -72,6 +72,7 @@
                                 </div>
                             </div>
 
+                            <div th:if="${param.error}" class="text-danger nb-2"> Credenciales incorrectas.</div>
                             <div th:if="${msg != null}" th:text="${msg}" class="text-danger nb-2"></div>
                             <div th:if="${msg10 != null}" th:text="${msg10}" class="text-danger nb-2"></div>
                             <div th:if="${msg20 != null}" th:text="${msg20}" class="text-success nb-2"></div>
