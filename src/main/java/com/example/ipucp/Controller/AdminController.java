@@ -1,6 +1,7 @@
 package com.example.ipucp.Controller;
 
 import com.example.ipucp.Dao.CargoDao;
+import com.example.ipucp.Dao.PerfilDao;
 import com.example.ipucp.Dao.UsuarioDao;
 import com.example.ipucp.Dto.UsuarioDto;
 import com.example.ipucp.Entity.*;
@@ -14,12 +15,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 
 @Controller
@@ -40,7 +40,8 @@ public class AdminController {
 
     @Autowired
     UsuarioDao usuarioDao;
-
+    @Autowired
+    PerfilDao perfilDao;
     @GetMapping("")
     public String principal() {
         return "admin/principalAdmin";
@@ -48,8 +49,14 @@ public class AdminController {
 
     @GetMapping("/listar")
     public String listar(Model model, @ModelAttribute("usuario") Usuario usuario) {
-        model.addAttribute("listaUsuarios",usuarioRepository.findAll());
+        List<Usuario> listaUsuarios = usuarioRepository.findAll();
+        model.addAttribute("listaUsuarios",listaUsuarios);
         model.addAttribute("listaCargos",cargoRepository.findAll());
+        HashMap<Usuario,String> user = new HashMap<Usuario,String>();
+        for(Usuario u: listaUsuarios){
+            user.put(u,perfilDao.obtenerImagen(u.getId()).getFileBase64());
+        }
+        model.addAttribute("iperfi",user);
         return "admin/listar";
     }
 
@@ -335,6 +342,13 @@ public class AdminController {
 
     @GetMapping("/incidencias")
     public String incidencias(Model model, @ModelAttribute("tipo") Tipo tipo) {
+
+        List<Tipo> ListaTipo = tipoRepository.findAll();
+        HashMap<Tipo,String> ti = new HashMap<Tipo,String>();
+        for(Tipo tip: ListaTipo){
+            ti.put(tip,perfilDao.obtenerImagen("t"+String.valueOf(tip.getId())).getFileBase64());
+        }
+        model.addAttribute("hashti",ti);
         model.addAttribute("incidenciaEnReporte",tipoRepository.listaIncidencias());
         model.addAttribute("listaIncidencias",tipoRepository.findAll());
         return "admin/incidencias";
@@ -348,7 +362,7 @@ public class AdminController {
 
     @PostMapping("/updateIncident")
     public String actualizarTipoIncidencia(@ModelAttribute("tipo") @Valid Tipo tipo, BindingResult bindingResult, RedirectAttributes attr, Model model,
-                                           @RequestParam("id") int id) {
+                                           @RequestParam("id") int id,@RequestParam(name = "foti",required = false) MultipartFile img) {
         if(bindingResult.hasErrors()){
             System.out.println("----------------------------- Error detectado --------------------------");
             System.out.println(bindingResult.getFieldError());
@@ -358,14 +372,24 @@ public class AdminController {
             return "admin/incidencias";
         }else {
             tipoRepository.save(tipo);
-            attr.addFlashAttribute("msg","Tipo de incidencia actualizada correctamente");
+            try {
+                byte[] bytes = img.getBytes();
+                Perfil perfil = new Perfil();
+                perfil.setName("t"+String.valueOf(tipo.getId())+".png");
+                perfil.setFileBase64(Base64.getEncoder().encodeToString(bytes));
+                perfilDao.subirImagen(perfil);
+                attr.addFlashAttribute("mens","Tipo de incidencia actualizada correctamente");
+
+            }catch (Exception e){
+                System.out.println("Hay excepcion");
+            }
             return "redirect:/admin/incidencias";
         }
     }
 
     @PostMapping("/saveIncident")
     public String guardarTipoIncidencia(@ModelAttribute("tipo") @Valid Tipo tipo, BindingResult bindingResult,
-                                        @RequestParam("tipoIncidencia2") String tipoIncidencia2, RedirectAttributes attr, Model model) {
+                                        @RequestParam("tipoIncidencia2") String tipoIncidencia2, RedirectAttributes attr,@RequestParam(name = "foto2",required = false) MultipartFile img, Model model) {
         if(tipoIncidencia2.equals("")){
             model.addAttribute("openModalCreate","No se acepta entrada vacía");
             model.addAttribute("incidenciaEnReporte",tipoRepository.listaIncidencias());
@@ -379,7 +403,19 @@ public class AdminController {
             return "admin/incidencias";
         } else {
             tipoRepository.crearTipoIncidencia(tipoIncidencia2);
-            attr.addFlashAttribute("msg","Tipo de incidencia creada exitosamente");
+            try {
+                byte[] bytes = img.getBytes();
+                Perfil perfil = new Perfil();
+                Tipo a = tipoRepository.findAll().get(tipoRepository.findAll().size()-1);
+                perfil.setName("t"+String.valueOf(a.getId())+".png");
+                perfil.setFileBase64(Base64.getEncoder().encodeToString(bytes));
+                perfilDao.subirImagen(perfil);
+                attr.addFlashAttribute("msg","Tipo de incidencia creada exitosamente");
+
+            }catch (Exception e){
+                System.out.println("Hay excepcion");
+            }
+
             return "redirect:/admin/incidencias";
         }
 

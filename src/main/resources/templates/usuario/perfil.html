@@ -110,8 +110,6 @@
 
         </nav>
     </div>
-    </br>
-    </br>
 
 
     <form method="post" th:action="@{'/usuario/guardarImagenes'}" enctype="multipart/form-data">
@@ -126,8 +124,8 @@
         <div class="row">
             <div class="col-3">
                 <div class="contenedor">
-                        <img th:src="|data:image/png;base64,${imgperfil}|"  class="roca"  alt="...">
-
+                        <img th:if="${imgperfil != null}" th:src="|data:image/png;base64,${imgperfil}|"  class="roca"  alt="...">
+                        <img th:if="${imgperfil == null}" src="/img/avatar.png"  class="roca"  alt="...">
                         <div class="btn" style="margin-bottom: -8%">
                             <a  href="javascript:explorar();" >
                                 <div class="form-group"style="position: relative; left: -125%; top: 70%;">
@@ -197,7 +195,7 @@
                                 <option th:unless="${user.icono.getNombre() eq 'naranja'}" value="naranja">Naranja</option>
                             </select>
                             <div class="col-auto m-1">
-                                <button  class="btn btn-primary btn-sm" type="submit">Aplicar</button>
+                                <button  class="btn btn-primary btn-sm" type="submit">Actualizar</button>
                             </div>
                         </div>
 

@@ -26,7 +26,7 @@
         }
     </style>
 </head>
-<body style="background:#D3D3D3">
+<body>
 
 
 <main>
@@ -84,7 +84,6 @@
     </br>
     </br>
 
-    </br>
 
     <div class="container px-4 py-5">
         <h1 class="pb-2 border-bottom" style="text-align: center;margin-top: -5%">Mis Incidencias</h1>
@@ -93,73 +92,69 @@
             <div th:if="${msg2 != null}" th:text="${msg2}" class="alert alert-success" role="alert"></div>
             <div th:if="${msg3 != null}" th:text="${msg3}" class="alert alert-success" role="alert"></div>
             <div th:if="${msg4 != null}" th:text="${msg4}" class="alert alert-success" role="alert"></div>
-            <div class="row">
-
-                <div class="col">
-                        <input name="searchField" class="form-control mb-3" type="text" placeholder="Buscar por nombre"/>
-                </div>
-                <div class="col-auto">
-                    <a class="btn btn-dark" th:href="@{'/usuario/listar'}">Buscar</a>
-                    <a class="btn btn-secondary" th:href="@{'/usuario/listar'}">Regresar</a>
-                </div>
-            </div>
         </div>
 
-        <div class="table-responsive">
-            <table class="table table-striped display nowrap" id="tablax" style="overflow-x: auto; overflow-y: auto" width="100%">
-                <thead  class="thead-dark"style="color: #393830;background: #393830">
-                <tr class="table-info">
-                    <th style="text-align: center">#</th>
-                    <th style="text-align: center">Nombre</th>
-                    <th style="text-align: center">Tipo</th>
-                    <th style="text-align: center">Urgencia</th>
-                    <th style="text-align: center">Estado</th>
-                    <th style="text-align: center">¿Está resuelta?</th>
-                    <th style="text-align: center">Ingresar comentario</th>
-                    <th style="text-align: center"></th>
-                    <th style="text-align: center"></th>
-                </tr>
-                </thead>
 
-                <tbody th:unless="${listaIncidencias.size() == 0}">
-                <tr  th:each="incidencia,v : ${listaIncidencias}">
-                    <td>
-                        <div class="d-flex align-items-center">
-                            <div class="ms-3">
-                                <p class="fw-bold mb-1" th:text="${v.index + 1}" >1</p>
-                            </div>
+
+
+
+
+        <table class="table table-striped display nowrap" id="tablax" style="overflow-x: auto; overflow-y: auto" width="100%">
+            <thead  class="thead-dark"style="color: #393830;background: #393830">
+            <tr class="table-info">
+                <th style="text-align: center">#</th>
+                <th style="text-align: center">Nombre</th>
+                <th style="text-align: center">Tipo</th>
+                <th style="text-align: center">Urgencia</th>
+                <th style="text-align: center">Estado</th>
+                <th style="text-align: center">Ingresar comentario</th>
+                <th style="text-align: center"></th>
+                <th style="text-align: center"></th>
+            </tr>
+            </thead>
+
+            <tbody th:unless="${listaIncidencias.size() == 0}">
+            <tr  th:each="incidencia,v : ${listaIncidencias}">
+                <td>
+                    <div class="d-flex align-items-center">
+                        <div class="ms-3">
+                            <p class="fw-bold mb-1" th:text="${v.index + 1}" >1</p>
                         </div>
-                    </td>
-                    <td style="text-align: center" th:text="${incidencia.nombre}"></td>
-                    <td style="text-align: center" th:text="${incidencia.idtipo.tipoIncidencia}"></td>
-                    <td style="text-align: center" th:text="${incidencia.idurgencia.tipoUrgencia}"></td>
+                    </div>
+                </td>
+                <td style="text-align: center" th:text="${incidencia.nombre}"></td>
+                <td style="text-align: center" th:text="${incidencia.idtipo.tipoIncidencia}"></td>
+                <td style="text-align: center" th:text="${incidencia.idurgencia.tipoUrgencia}"></td>
 
-                    <td style="text-align: center" th:if="${incidencia.estado == 0}">Registrada</td>
-                    <td style="text-align: center" th:if="${incidencia.estado == 1}">En proceso</td>
-                    <td style="text-align: center" th:if="${incidencia.estado == 2}">Atendida</td>
-                    <td style="text-align: center" th:if="${incidencia.estado == 3}">Resuelta</td>
-
-                    <td style="text-align: center" th:if="${incidencia.estado == 0 or incidencia.estado==1 or incidencia.estado==2}"><button type="button" class="btn btn-success" data-bs-toggle="modal" th:attr="data-bs-target=${'#Modal2'+incidencia.id}">Sí</button></td>
-                    <td style="text-align: center" th:if="${incidencia.estado == 3}">Ya resuelta</td>
+                <td style="text-align: center" th:if="${incidencia.estado == 0}">Registrada</td>
+                <td style="text-align: center" th:if="${incidencia.estado == 1}">En proceso</td>
+                <td style="text-align: center" th:if="${incidencia.estado == 2}">Atendida</td>
+                <td style="text-align: center" th:if="${incidencia.estado == 3}">Resuelta</td>
 
 
-                    <td style="text-align: center" th:if="${incidencia.estado == 3}">Resuelta</td>
-                    <td style="text-align: center" th:if="${incidencia.estado == 0}">Pronto podrá comentar</td>
-                    <td th:if="${incidencia.estado== 1 or incidencia.estado==2}" style="text-align: center"><button type="button" class="btn btn-success" data-bs-toggle="modal" th:attr="data-bs-target=${'#Modal'+incidencia.id}">Comentar</button></td>
+                <td style="text-align: center" th:if="${incidencia.estado == 3}">Resuelta</td>
+                <td style="text-align: center" th:if="${incidencia.estado == 0}">Pronto podrá comentar</td>
+                <td th:if="${incidencia.estado== 1 or incidencia.estado==2}" style="text-align: center"><button type="button" class="btn btn-success" data-bs-toggle="modal" th:attr="data-bs-target=${'#Modal'+incidencia.id}">Comentar</button></td>
 
-                    <td style="text-align: center" th:if="${incidencia.estado == 0}">Pronto podrás ver los comentarios</td>
-                    <td th:if="${incidencia.estado== 1 or incidencia.estado== 2 or incidencia.estado==3}"><a class="btn btn-secondary" th:href="@{'/usuario/lista_comentarios?id=' + ${incidencia.id}}">Ver Comentarios</a>
-                    </td>
+                <td style="text-align: center" th:if="${incidencia.estado == 0}">Pronto podrás ver los comentarios</td>
+                <td th:if="${incidencia.estado== 1 or incidencia.estado== 2 or incidencia.estado==3}"><a class="btn btn-secondary" style="margin-left: 25px" th:href="@{'/usuario/lista_comentarios?id=' + ${incidencia.id}}">Ver Comentarios</a>
+                </td>
 
-                    <td><a class="btn btn-secondary" th:href="@{'/usuario/detalle?id=' + ${incidencia.id}}">Ver Detalle</a>
-                    </td>
-                </tr>
+                <td><a class="btn btn-secondary" th:href="@{'/usuario/detalle?id=' + ${incidencia.id}}">Detalle</a>
+                </td>
+            </tr>
 
-                </tbody>
+            </tbody>
 
-            </table>
-            <p style="text-align: center" th:if="${listaIncidencias.size() == 0}">No existen incidencias registradas</p>
-        </div>
+        </table>
+        <p style="text-align: center" th:if="${listaIncidencias.size() == 0}">No existen incidencias registradas</p>
+
+
+
+
+
+
+
 
     </div>
 
@@ -256,6 +251,59 @@
     <script th:inline="javascript">
         var myModal = new bootstrap.Modal(document.getElementById('Modal'+[[${id}]]), {})
         myModal.show()
+    </script>
+
+    <!-- JQUERY -->
+    <script src="https://code.jquery.com/jquery-3.4.1.js"
+            integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous">
+    </script>
+    <!-- DATATABLES -->
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js">
+    </script>
+    <!-- BOOTSTRAP -->
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js">
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#tablax').DataTable({
+
+                scrollX:        true,
+                scrollCollapse: true,
+
+                //"bPaginate": false,
+                //"bFilter": false,
+                //"bInfo": false,
+                //"ordering": false,
+                language: {
+                    processing: "Tratamiento en curso...",
+                    search: "Búsqueda&nbsp;:",
+                    lengthMenu: "Agrupar de _MENU_",
+                    info: "Mostrando item _START_ al _END_ de _TOTAL_ en total",
+                    infoEmpty: "No existen datos.",
+                    infoFiltered: "(filtrado de _MAX_ elementos en total)",
+                    infoPostFix: "",
+                    loadingRecords: "Cargando...",
+                    zeroRecords: "No se encontraron datos con tu busqueda",
+                    emptyTable: "No hay datos disponibles en la tabla.",
+                    paginate: {
+                        first: "Primero",
+                        previous: "Anterior",
+                        next: "Siguiente",
+                        last: "Ultimo"
+                    },
+                    aria: {
+                        sortAscending: ": active para ordenar la columna en orden ascendente",
+                        sortDescending: ": active para ordenar la columna en orden descendente"
+                    }
+                },
+                scrollY: 400,
+                lengthMenu: [ [5, 10, -1], [5, 10, "All"] ],
+            });
+
+            $('.dataTables_filter input[type="search"]').css(
+                {'width':'auto','display':'inline-block'}
+            );
+        });
     </script>
 
 

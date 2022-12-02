@@ -3,6 +3,7 @@ package com.example.ipucp.Controller;
 import com.example.ipucp.Dao.PerfilDao;
 import com.example.ipucp.Entity.*;
 import com.example.ipucp.Repository.*;
+import com.nimbusds.jose.shaded.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +16,17 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.time.Instant;
 import java.util.*;
+
+import java.util.Base64;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 
 @Controller
 @RequestMapping("/usuario")
@@ -112,7 +124,8 @@ public class UsuarioController {
                     byte[] bytes = img.getBytes();
                     Perfil perfil = new Perfil();
                     perfil.setName("Incidencia_"+idInci+".png");
-                    perfil.setFileBase64(Base64.getEncoder().encodeToString(bytes));
+                    String base64utput = faceBlur(Base64.getEncoder().encodeToString(bytes));
+                    perfil.setFileBase64(base64utput);
                     System.out.println("llegue hasta aqui");
                     perfilDao.subirImagen(perfil);
                 }catch (Exception e){
@@ -274,5 +287,51 @@ public class UsuarioController {
         return "redirect:/usuario/perfil";
     }
 
+    /*Face Blur function*/
+    public String faceBlur(String base64Input) throws IOException{
+        System.out.println(base64Input);
+        String originalInput = "victor calderon:Vcalderon2009!";
+        String credentials = Base64.getEncoder().encodeToString(originalInput.getBytes());
+
+        JSONObject jo = new JSONObject();
+        jo.put("base64_Photo_String", base64Input);
+        jo.put("photo_url", "NO");
+        System.out.println(jo);
+        final String POST_PARAMS = jo.toString();
+
+        URL obj = new URL("https://www.de-vis-software.ro/FaceBlurest.aspx");
+        HttpURLConnection postConnection = (HttpURLConnection) obj.openConnection();
+        postConnection.setRequestMethod("POST");
+        postConnection.setRequestProperty("Authorization", "Basic " + credentials);
+        postConnection.setRequestProperty("Content-Type", "application/json");
+        postConnection.setRequestProperty("Accept", "application/json");
+        postConnection.setDoOutput(true);
+        OutputStream os = postConnection.getOutputStream();
+        os.write(POST_PARAMS.getBytes());
+        os.flush();
+        os.close();
+        int responseCode = postConnection.getResponseCode();
+
+        if (responseCode == 200) { //success
+            BufferedReader in = new BufferedReader(new InputStreamReader(
+                    postConnection.getInputStream()));
+            String inputLine;
+            StringBuffer response = new StringBuffer();
+            while ((inputLine = in .readLine()) != null) {
+                response.append(inputLine);
+            } in .close();
+            // print json string result
+
+            System.out.println("WORKEEEEEEEEED");
+            System.out.println(response.toString());
+            System.out.println(response.toString().length());
+            System.out.println(response.toString().substring(278, 30718));
+            return response.toString().substring(278, 30718);
+        }
+        else {
+            System.out.println("POST NOT WORKED");
+            return null;
+        }
+    }
 
 }

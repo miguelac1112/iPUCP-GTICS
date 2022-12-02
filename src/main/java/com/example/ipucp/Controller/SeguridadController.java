@@ -1,6 +1,7 @@
 package com.example.ipucp.Controller;
 
 import com.example.ipucp.Dao.PerfilDao;
+import com.example.ipucp.Dto.DtoIncidencia;
 import com.example.ipucp.Dto.IncidenciaPorMes;
 import com.example.ipucp.EmailSenderService;
 import com.example.ipucp.Entity.*;
@@ -22,6 +23,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.supercsv.io.CsvBeanWriter;
+import org.supercsv.io.ICsvBeanWriter;
+import org.supercsv.prefs.CsvPreference;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -94,6 +98,99 @@ public class SeguridadController {
 
     }
 
+
+    // Define el separador
+    private static final CsvPreference PIPE_DELIMITED = new CsvPreference.Builder('"', '|', "\n").build();
+    @GetMapping("/exportar_txt")
+    public void exportToTxt(HttpServletResponse response, @RequestParam("tipo") int idTipo ,@RequestParam("urgencia") int idUrgencia, @RequestParam("orden") int idOrden, @RequestParam("estado") int idEstad) throws IOException  {
+        response.setContentType("text/csv");
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String currentDateTime = dateFormatter.format(new Date());
+        String headerKey = "Content-Disposition";
+        // Aquí generas el nombre con el que vas a guardarlo y la extensión (.txt)
+        String headerValue = "attachment; filename=incidencias_TXT_" + currentDateTime+".txt";
+        response.setHeader(headerKey, headerValue);
+        // Auqí mandas creas la lista que vas a exportar
+        List<Inicidencia> inicidenciaList = new ArrayList<>();
+        if(idEstad==2) {
+            if (idTipo != 0) {
+                if (idUrgencia != 0) {
+                    switch (idOrden) {
+                        case 1 -> {
+                            inicidenciaList.addAll(inicidenciaRepository.filtradoTipoUrgenciaAntig(idTipo, idUrgencia));
+                        }
+                        case 0 -> {
+                            inicidenciaList.addAll(inicidenciaRepository.filtradoTipoUrgencia(idTipo, idUrgencia));
+                        }
+                    }
+                } else {
+                    switch (idOrden) {
+                        case 1 -> {
+                            inicidenciaList.addAll(inicidenciaRepository.filtradoTipoAntiguo(idTipo));
+                        }
+                        case 0 -> {
+                            inicidenciaList.addAll(inicidenciaRepository.filtradoTipo(idTipo));
+                        }
+                    }
+                }
+            } else {
+                if (idUrgencia != 0) {
+                    switch (idOrden) {
+                        case 1 -> {inicidenciaList.addAll(inicidenciaRepository.filtradoUrgenciaAntiguo(idUrgencia));
+                            }
+                        case 0 -> {
+                            inicidenciaList.addAll(inicidenciaRepository.filtradoUrgencia(idUrgencia));
+                        }
+                    }
+
+                } else {
+                    switch (idOrden) {
+                        case 1 -> {inicidenciaList.addAll(inicidenciaRepository.findAll());}
+                        case 0 -> {inicidenciaList.addAll(inicidenciaRepository.ordenNuevo());}
+                    }
+                }
+            }
+        }else{
+
+            if (idTipo != 0) {
+                if (idUrgencia != 0) {
+                    switch (idOrden) {
+                        case 1 -> {inicidenciaList.addAll(inicidenciaRepository.filtradoTipoUrgenciaAntigEstado(idTipo, idUrgencia, idEstad));}
+                        case 0 -> {inicidenciaList.addAll(inicidenciaRepository.filtradoTipoUrgenciaEstado(idTipo, idUrgencia, idEstad));}
+                    }
+                } else {
+                    switch (idOrden) {
+                        case 1 -> {inicidenciaList.addAll(inicidenciaRepository.filtradoTipoAntiguoEstado(idTipo, idEstad));}
+                        case 0 -> {inicidenciaList.addAll(inicidenciaRepository.filtradoTipoEstado(idTipo, idEstad));}
+                    }
+                }
+            } else {
+                if (idUrgencia != 0) {
+                    switch (idOrden) {
+                        case 1 -> {inicidenciaList.addAll(inicidenciaRepository.filtradoUrgenciaAntiguoEstado(idUrgencia,idEstad));}
+                        case 0 -> {inicidenciaList.addAll(inicidenciaRepository.filtradoUrgenciaEstado(idUrgencia, idEstad));}
+                    }
+
+                } else {
+                    switch (idOrden) {
+                        case 1 -> {inicidenciaList.addAll(inicidenciaRepository.ordenAntigEstaodo(idEstad));}
+                        case 0 -> {inicidenciaList.addAll(inicidenciaRepository.ordenNuevoEstaodo(idEstad));}
+                    }
+                }
+            }
+        }
+        ICsvBeanWriter csvWriter = new CsvBeanWriter(response.getWriter(), PIPE_DELIMITED);
+        String[] csvHeader ={"#", " Título ", " Tipo ", "Ubicación ", "Usuario ", " Fecha ", " Destacados "};
+        String[] nameMapping = {"id", "nombre", "idtipo", "ubicacion", "codigo", "fecha", "destacado"};
+        csvWriter.writeHeader(csvHeader);
+        for(int i=0;i<inicidenciaList.size();i++){
+            // Como debe coincidir exactamente, mejor creé un Dto para incidencias y lo asigné
+            DtoIncidencia dtoIncidencia = new DtoIncidencia(inicidenciaList.get(i), i);
+            // se asigna los valores
+            csvWriter.write(dtoIncidencia, nameMapping);
+        }
+        csvWriter.close();
+    }
 
     @GetMapping("/exportar_xlsx")
     public void exportToExcel(HttpServletResponse response, @RequestParam("tipo") int idTipo ,@RequestParam("urgencia") int idUrgencia, @RequestParam("orden") int idOrden, @RequestParam("estado") int idEstad)
@@ -465,6 +562,12 @@ public class SeguridadController {
                 model.addAttribute("ListaUrgencia", listaUrg);
                 model.addAttribute("ListaOrden", listaOrden);
                 model.addAttribute("ListaEstado",listaEstados);
+                List<Inicidencia> inicidenciaList = listIncidencias;
+                HashMap<Inicidencia, String> datos = new HashMap<Inicidencia, String>();
+                for(Inicidencia incidencia: inicidenciaList){
+                    datos.put(incidencia,perfilDao.obtenerImagen("Incidencia_"+ String.valueOf(incidencia.getId())).getFileBase64());
+                }
+                model.addAttribute("hashmap",datos);
                 return "seguridad/incidencias";
             }else{
                 return "redirect:/seguridad";
@@ -489,11 +592,13 @@ public class SeguridadController {
                 comentario2.setTextComentario("Ingrese el comentario.");
                 model.addAttribute("comentario", comentario2);
                 model.addAttribute("incidencia", inicidencia);
+                model.addAttribute("imgi",perfilDao.obtenerImagen("Incidencia_"+ id).getFileBase64());
                 return "seguridad/seguridad";
             }else{
                 if(inicidencia.getMax()<6){
                     model.addAttribute("comentario", comentario1);
                     model.addAttribute("incidencia", inicidencia);
+                    model.addAttribute("imgi",perfilDao.obtenerImagen("Incidencia_"+ id).getFileBase64());
                     return "seguridad/seguridad";
                 }else{
                     return "redirect:/seguridad/incidencias";
@@ -536,10 +641,12 @@ public class SeguridadController {
                 model.addAttribute("incidencia", incidencia);
                 return "seguridad/seguridad";
             }else{
+                String correo = usuario.getCorreo();
                 int max = incidencia.getMax();
                 max+=1;
                 inicidenciaRepository.comentarIncidencia(comentario,max,incidencia.getId());
                 comentarioRepository.comentarIncidencia(comentario, incidencia.getId());
+                senderService.sendSimpleEmail(correo,"Comentario acerca de la Incidencia con ID "+incidencia.getId(),comentario);
                 String texto = "La incidencia con ID "+incidencia.getId()+" del usuario con código "+ incidencia.getCodigo().getId()+" ha sido respondida.";
                 redirectAttributes.addFlashAttribute("msg",texto);
                 return "redirect:/seguridad/incidencias";
@@ -589,16 +696,29 @@ public class SeguridadController {
     }
 
     @GetMapping("/lista_usuarios")
-    public String listaUsuarios(Model model) {
-        List<Usuario> ListaUsuarios = usuarioRepository.listarUsuarios();
-        HashMap<Usuario,String> user = new HashMap<Usuario,String>();
-        for(Usuario usuario: ListaUsuarios){
-            user.put(usuario,perfilDao.obtenerImagen(usuario.getId()).getFileBase64());
+    public String listaUsuarios(Model model, HttpSession session) {
+        Usuario usuarioseg = (Usuario) session.getAttribute("usuario");
+        String codigo = usuarioseg.getId();
+        Optional<Usuario> optUser = usuarioRepository.findById(codigo);
+        if(optUser.isPresent()){
+            if(optUser.get().getValidado() == 1){
+                List<Usuario> ListaUsuarios = usuarioRepository.listarUsuarios();
+                HashMap<Usuario,String> user = new HashMap<Usuario,String>();
+                for(Usuario usuario: ListaUsuarios){
+                    user.put(usuario,perfilDao.obtenerImagen(usuario.getId()).getFileBase64());
+                }
+                model.addAttribute("iperfil",user);
+                model.addAttribute("listaUsuarios", ListaUsuarios);
+                return "seguridad/lista_usuarios";
+            }else{
+                return "redirect:/seguridad";
+            }
+        }else{
+            return "redirect:/seguridad";
         }
-        model.addAttribute("iperfil",user);
-        model.addAttribute("listaUsuarios", ListaUsuarios);
-        return "seguridad/lista_usuarios";
     }
+
+
 
     @PostMapping("/BuscarCategoria")
     public String buscarCategoria(@RequestParam("idcat") Integer id, Model model){
@@ -615,23 +735,36 @@ public class SeguridadController {
 
     @GetMapping("/reporte")
     public String reporteUsuario(Model model,
-                                      @RequestParam("id") String id) {
+                                      @RequestParam("id") String id, HttpSession session) {
 
-        Optional<Usuario> optUsuario = usuarioRepository.findById(id);
-
-        if (optUsuario.isPresent()) {
-            Usuario usuario = optUsuario.get();
-            List<UsuarioIncidencias> listaIncidencias = usuarioRepository.obtenerUsuarioIncidencias(id);
-            for(UsuarioIncidencias incidencias: listaIncidencias){
-                System.out.println(incidencias.getIdinicidencia()+" "+incidencias.getTipo_incidencia()+" "+incidencias.getEstado());
+        Usuario usuarioseg = (Usuario) session.getAttribute("usuario");
+        String codigo = usuarioseg.getId();
+        Optional<Usuario> optUser = usuarioRepository.findById(codigo);
+        if(optUser.isPresent()){
+            if(optUser.get().getValidado() == 1){
+                Optional<Usuario> optUsuario = usuarioRepository.findById(id);
+                if (optUsuario.isPresent()) {
+                    Usuario usuario = optUsuario.get();
+                    List<UsuarioIncidencias> listaIncidencias = usuarioRepository.obtenerUsuarioIncidencias(id);
+                    for(UsuarioIncidencias incidencias: listaIncidencias){
+                        System.out.println(incidencias.getIdinicidencia()+" "+incidencias.getTipo_incidencia()+" "+incidencias.getEstado());
+                    }
+                    model.addAttribute("imgseg",perfilDao.obtenerImagen(usuario.getId()).getFileBase64());
+                    model.addAttribute("usuario", usuario);
+                    model.addAttribute("listaIncidencias", listaIncidencias);
+                    return "seguridad/seguridad_reportar";
+                } else {
+                    return "redirect:/seguridad/lista_usuarios";
+                }
+            }else{
+                return "redirect:/seguridad";
             }
-            model.addAttribute("usuario", usuario);
-            model.addAttribute("listaIncidencias", listaIncidencias);
-            return "seguridad/seguridad_reportar";
-        } else {
-            return "redirect:/seguridad/lista_usuarios";
+        }else{
+            return "redirect:/seguridad";
         }
     }
+
+
 
     @PostMapping("/StrikeUsuario")
     public String StrikeUsuario(@RequestParam("id") String id, RedirectAttributes redirectAttributes){
@@ -640,10 +773,12 @@ public class SeguridadController {
         if (optUsuario.isPresent()){
             Usuario usuario = optUsuario.get();
             int strike = usuario.getStrikes();
+            String correo = usuario.getCorreo();
             strike+=1;
             if(strike==3){
                 usuarioRepository.strikeUsuario(strike,id);
                 usuarioRepository.banUsuario(1,id);
+                senderService.sendSimpleEmail(correo," Suspensión de la cuenta de IPUCP","Usuario. Lastimosamente su cuenta ha sido suspendida por incumplir nuestras reglas. ");
                 redirectAttributes.addFlashAttribute("msg", "El usuario "+usuario.getNombre()+" "+usuario.getApellido()+" ha sido reportado.");
                 return "redirect:/seguridad/lista_usuarios";
             }else{
@@ -659,20 +794,32 @@ public class SeguridadController {
 
     @GetMapping("/detalle_incidencia")
     public String detalleIncidencia(Model model,
-                                 @RequestParam("id") Integer id,@RequestParam("codigo") String codigo ){
-        Optional<Inicidencia> optInicidencia = inicidenciaRepository.findById(id);
-        Optional<Usuario> optUsuario = usuarioRepository.findById(codigo);
+                                 @RequestParam("id") Integer id,@RequestParam("codigo") String codigo, HttpSession session ){
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        String codigoseg = usuario.getId();
+        Optional<Usuario> optUser = usuarioRepository.findById(codigoseg);
+        if(optUser.isPresent()){
+            if(optUser.get().getValidado() == 1){
+                Optional<Inicidencia> optInicidencia = inicidenciaRepository.findById(id);
+                Optional<Usuario> optUsuario = usuarioRepository.findById(codigo);
 
-        if (optInicidencia.isPresent() && optUsuario.isPresent() ){
-            Inicidencia inicidencia = optInicidencia.get();
+                if (optInicidencia.isPresent() && optUsuario.isPresent() ){
+                    Inicidencia inicidencia = optInicidencia.get();
 
-            model.addAttribute("incidencia", inicidencia);
+                    model.addAttribute("incidencia", inicidencia);
+                    model.addAttribute("imgini",perfilDao.obtenerImagen("Incidencia_"+inicidencia.getId()).getFileBase64());
+                    model.addAttribute("imgdet",perfilDao.obtenerImagen(codigo).getFileBase64());
 
-            return "seguridad/detalleid_seguridad";
+                    return "seguridad/detalleid_seguridad";
+                }else{
+                    return "redirect:/seguridad/reporte?id="+codigo;
+                }
+            }else{
+                return "redirect:/seguridad";
+            }
         }else{
-            return "redirect:/seguridad/reporte?id="+codigo;
+            return "redirect:/seguridad";
         }
-
     }
 
     public List<Urgencia> obtenerUrgencias(){

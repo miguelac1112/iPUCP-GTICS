@@ -113,7 +113,13 @@
                     <div class="card mt-5 mb-3" th:each="incidencia : ${incidenciaList}" >
                         <div class="card-header">
                             <img
+                                    th:if="${iperfil.get(incidencia) != null}"
                                     th:src="|data:image/png;base64,${iperfil.get(incidencia)}|"  class="roca"  alt="..."
+                                    style="width: 35px; height: 35px; border-radius: 50%"
+                            />
+                            <img
+                                    th:if="${iperfil.get(incidencia) == null}"
+                                    src="/img/avatar.png"  class="roca"  alt="..."
                                     style="width: 35px; height: 35px; border-radius: 50%"
                             />
                             <span class="postuserfont" ><strong th:text="${incidencia.codigo.getNombre()+' '+incidencia.codigo.getApellido()}"></strong></span>
@@ -171,14 +177,13 @@
                   Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans',
                   'Helvetica Neue', sans-serif;
                 font-size: 14px;
-              "
-                        >
+              ">
                             <div class="container-md w-50">
                                 <ul
                                         class="list-group list-group-horizontal mt-1"
                                         style="list-style-type: none; border: 0"
                                 >
-                                    <li class="nav-item">
+                                    <li class="nav-item ms-3">
                                         <a class="nav-link" th:href="@{'/usuario/destacar?id=' + ${incidencia.id}}"
                                         ><i
                                                 class="fa-solid fa-share"
@@ -186,7 +191,7 @@
                                         ></i
                                         ></a>
                                     </li>
-                                    <li class="nav-item" data-bs-toggle="modal" data-bs-target="#exampleModal" th:attr="data-bs-target=${'#Modal'+incidencia.id}">
+                                    <li class="nav-item ms-5" data-bs-toggle="modal" data-bs-target="#exampleModal" th:attr="data-bs-target=${'#Modal'+incidencia.id}">
                                         <a class="nav-link" href="#"
                                         ><i
                                                 class="fa-solid fa-comment"
@@ -199,7 +204,7 @@
                                         ></i
                                         ></a>
                                     </li>
-                                    <li class="nav-item">
+                                    <li class="nav-item ms-5">
                                         <a class="nav-link" href="#"
                                         ><i
                                                 class="fa-solid fa-location-dot"

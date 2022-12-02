@@ -102,7 +102,9 @@
                     <div class="col-xl-4 col-lg-5">
                         <div class="contenedor justify-content-center">
                             <div class="img">
-                                <img src="/img/pantera.jpg" class="rounded float-start" style="height: 120px;width: 120px;border-radius: 3px;"  alt="...">
+                                <img th:if="${imgseg != null}" th:src="|data:image/png;base64,${imgseg}|" class="rounded float-start" style="height: 120px;width: 120px;border-radius: 3px;"  alt="...">
+                                <img th:if="${imgseg == null}" src="/img/avatar.png"  class="roca"  alt="...">
+
                                 <h3 class="postuserfont" >Foto de perfil</h3>
                             </div>
                         </div>

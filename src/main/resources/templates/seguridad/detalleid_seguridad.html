@@ -77,7 +77,13 @@
                         <div class="card">
                             <div class="card-header">
                                 <img
-                                        src="https://mdbootstrap.com/img/new/avatars/8.jpg"
+                                        th:if="${imgdet != null}" th:src="|data:image/png;base64,${imgdet}|"
+                                        alt=""
+                                        style="width: 45px; height: 45px"
+                                        class="rounded-circle"
+                                />
+                                <img
+                                        th:if="${imgdet == null}" src="/img/avatar.png"
                                         alt=""
                                         style="width: 45px; height: 45px"
                                         class="rounded-circle"
@@ -85,7 +91,7 @@
                                 <span class="postuserfont"><strong th:text="${incidencia.codigo.getId()}"></strong></span>
                             </div>
                             <img
-                                    src="https://blog.biletbayi.com/wp-content/uploads/2019/12/rize.jpg"
+                                    th:src="|data:image/png;base64,${imgini}|"
                                     class="card-img-top"
                                     alt="..."
                             />
