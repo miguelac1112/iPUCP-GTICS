@@ -442,6 +442,11 @@ public class AdminController {
             model.addAttribute("listaUsuarios", listaUsuarios);
             model.addAttribute("listaCargos",cargoRepository.findAll());
             model.addAttribute("id",id);
+            HashMap<Usuario,String> user = new HashMap<Usuario,String>();
+            for(Usuario u: listaUsuarios){
+                user.put(u,perfilDao.obtenerImagen(u.getId()).getFileBase64());
+            }
+            model.addAttribute("iperfi",user);
             return "admin/listar";
         }else{
             return "redirect:/admin/listar";
