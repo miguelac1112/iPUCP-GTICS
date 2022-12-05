@@ -3,7 +3,7 @@ package com.example.ipucp.Controller;
 import com.example.ipucp.Dao.PerfilDao;
 import com.example.ipucp.Entity.*;
 import com.example.ipucp.Repository.*;
-import com.nimbusds.jose.shaded.json.JSONObject;
+import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.time.Instant;
@@ -27,6 +28,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+
+
 
 @Controller
 @RequestMapping("/usuario")
@@ -323,10 +326,14 @@ public class UsuarioController {
             // print json string result
 
             System.out.println("WORKEEEEEEEEED");
-            System.out.println(response.toString());
-            System.out.println(response.toString().length());
-            System.out.println(response.toString().substring(278, 30718));
-            return response.toString().substring(278, 30718);
+            String str = response.toString();
+
+            String find = "final_photo";
+            int i = str.indexOf(find);
+            String outp = str.substring(i+find.length() + 3,str.length() - 2 );
+            /*System.out.println("De aqui: " + outp + "HASTA AQUIIII");*/
+
+            return outp;
         }
         else {
             System.out.println("POST NOT WORKED");
