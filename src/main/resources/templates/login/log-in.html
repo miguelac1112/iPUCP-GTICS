@@ -42,9 +42,6 @@
                         <h1 style="font-size:8vw"; align="center">iPUCP</h1>
                         </div>
 
-                        <div th:if="${msgLoginGoogle != null}" th:text="${msgLoginGoogle}" class="text-danger nb-2"></div>
-                        <div th:if="${msgLogin != null}" th:text="${msgLogin}" class="text-success nb-2"></div>
-                        <div th:if="${msgLogin1 != null}" th:text="${msgLogin1}" class="text-success nb-2"></div>
 
                         <form action="post" method="post" class="signin-form" th:action="@{/procesarLog}">
                             <div class="form-group sm-3">
@@ -76,7 +73,18 @@
                                 </div>
                             </div>
 
+                            <div th:if="${msgLoginGoogle != null}" th:text="${msgLoginGoogle}" class="text-danger nb-2"></div>
+                            <div th:if="${msgLogin != null}" th:text="${msgLogin}" class="text-success nb-2"></div>
+                            <div th:if="${msgLogin1 != null}" th:text="${msgLogin1}" class="text-success nb-2"></div>
+                            <div th:if="${msgLogin_ban != null}" th:text="${msgLogin_ban}" class="text-danger nb-2"></div>
+
                             <div th:if="${msg != null}" th:text="${msg}" class="text-danger nb-2"></div>
+                            <div th:if="${param.error}">
+                                <div class="text-danger nb-2">Usuario no existente o credenciales incorrectas.</div>
+                            </div>
+                            <div th:if="${param.logout}">
+                                <div class="text-success nb-2">Cierre de sesión exitoso.</div>
+                            </div>
                             <div th:if="${msg10 != null}" th:text="${msg10}" class="text-danger nb-2"></div>
                             <div th:if="${msg20 != null}" th:text="${msg20}" class="text-success nb-2"></div>
                             <div th:if="${msg1 != null}" th:text="${msg1}" class="text-success nb-2"></div>

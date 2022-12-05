@@ -49,39 +49,40 @@ public class LogController {
     @GetMapping(value = "/redirecRol")
     public String redirecRol(Authentication authentication, HttpSession session, RedirectAttributes redirectAttributes){
         System.out.println("entre a redirec");
-        String rol="";
-        List<GrantedAuthority> authorities = (List<GrantedAuthority>) authentication.getAuthorities();
-        for (GrantedAuthority grantedAuthority: authorities){
-            System.out.println(grantedAuthority.getAuthority());
-            rol= grantedAuthority.getAuthority();
-        }
+        System.out.println("auth nombre/correo " +authentication.getName());
+        String correo = authentication.getName();
+        Optional<Usuario> optionalUsuario = Optional.ofNullable(usuarioRepository.findByCorreo(correo));
 
-        String username= authentication.getName();
-        Usuario usuario=usuarioRepository.findByCorreo(username);
-        session.setAttribute("usuario",usuario);
-
-        switch (rol){
-            case "usuario" -> {
-                if(usuario.getBan() <3){
-                    return "redirect:/usuario/listar";
-                }else{
-                    String texto = "El usuario ha sido baneado";
-                    redirectAttributes.addFlashAttribute("msgLogin1",texto);
+        if(optionalUsuario.isPresent()){
+            Usuario usuario = optionalUsuario.get();
+            System.out.println(usuario.getCorreo()+" "+usuario.getRol().getNombreRol());
+            String rol = usuario.getRol().getNombreRol();
+            session.setAttribute("usuario",usuario);
+            switch (rol){
+                case "usuario" -> {
+                    if(usuario.getBan() <3){
+                        return "redirect:/usuario/listar";
+                    }else{
+                        String texto = "El usuario ha sido baneado";
+                        redirectAttributes.addFlashAttribute("msgLogin_ban",texto);
+                        return "redirect:/login";
+                    }
+                }
+                case "seguridad" -> {
+                    return "redirect:/seguridad/";
+                }
+                case "admin" -> {
+                    return "redirect:/admin";
+                }
+                default -> {
+                    String texto = "Usuario no existente o credenciales incorrectas";
+                    redirectAttributes.addFlashAttribute("msgLoginGoogle",texto);
                     return "redirect:/login";
                 }
-            }
-            case "seguridad" -> {
-                return "redirect:/seguridad/";
-            }
-            case "admin" -> {
-                return "redirect:/admin";
-            }
-            default -> {
-                String texto = "Credenciales invalidas";
-                redirectAttributes.addFlashAttribute("msgLogin",texto);
-                return "redirect:/login";
-            }
 
+            }
+        }else{
+            return "redirect:/login";
         }
     }
 
@@ -101,7 +102,7 @@ public class LogController {
                         return "redirect:/usuario/listar";
                     }else{
                         String texto = "El usuario ha sido baneado";
-                        redirectAttributes.addFlashAttribute("msgLogin1",texto);
+                        redirectAttributes.addFlashAttribute("msgLogin_ban",texto);
                         return "redirect:/login";
                     }
                 }
