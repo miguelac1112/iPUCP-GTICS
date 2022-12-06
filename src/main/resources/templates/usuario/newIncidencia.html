@@ -67,8 +67,8 @@
         <div class="navbar-row-container">
             <div class="nav-logo-container">
                 <div class="menu-toggle">
-                    <a th:href="@{'/usuario/listar'}"style="width: 58%;height: 120%">
-                        <img class="img-logo" th:src="@{/img/logo.jpg}" style="width: 34%;height: 80%;border-radius: 100%;margin-bottom: 2mm"/>
+                    <a th:href="@{'/usuario/listar'}">
+                        <img class="img-logo" th:src="@{/img/logo.jpg}" style="border-radius: 100%;margin-bottom: 2mm; height:60px;width:60px; margin-left: 2mm;margin-right:2mm"/>
                     </a>
                 </div>
                 <div class="a-logo" href="#inicio"><h1 id="navbar-logo"><strong>iPUCP<span style="font-size: medium">v.usuario</span></strong></h1></div>
@@ -181,7 +181,7 @@
                             <div class="col-12">
                                 <h1></h1>
                                 <label for="descripcion" class="form-label">Descripción</label>
-                                <div class="row" style="width: 200%">
+
                                     <div class="col">
                                       <textarea class="form-control m-2" type="text" id="descripcion" name="descripcion"
                                                 required style="width: 95%" placeholder="Detalle lo que ha sucedido."></textarea>
@@ -190,7 +190,7 @@
                                         <a id="btnStartRecord" style="border-radius: 20%; margin-left: -30px" class="btn btn-light material-symbols-outlined">mic</a>
                                         <a id="btnStopRecord" style="border-radius: 20%" class="btn btn-light material-symbols-outlined">stop</a>
                                     </div>
-                                </div>
+
                                 <script th:src="@{/js/microphone.js}"></script>
                                 <div class="invalid-feedback">
                                     Please enter your shipping address.
