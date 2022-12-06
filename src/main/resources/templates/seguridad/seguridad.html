@@ -26,8 +26,8 @@
           <div class="navbar-row-container">
             <div class="nav-logo-container">
               <div class="menu-toggle">
-                <a th:href="@{'/seguridad/incidencias'}"style="width: 58%;height: 120%">
-                  <img class="img-logo" th:src="@{/img/logo.jpg}" style="width: 34%;height: 80%;border-radius: 100%;margin-bottom: 2mm"/>
+                <a th:href="@{'/seguridad/incidencias'}">
+                  <img class="img-logo" th:src="@{/img/logo.jpg}" style="border-radius: 100%;margin-bottom: 2mm; height:60px;width:60px; margin-left: 2mm;margin-right:2mm"/>
                 </a>
               </div>
               <div class="a-logo" href="#inicio"><h1 id="navbar-logo"><strong>iPUCP<span style="font-size: medium">v.seguridad</span></strong></h1></div>
@@ -121,14 +121,15 @@
               <input th:value="${incidencia.id}" name="id" type="hidden"/>
               <input th:value="${incidencia.codigo.id}" name="codigo" type="hidden"/>
 
-              <textarea th:field="${incidencia.comentario}" class="form-control m-2" type="text" id="comentario" name="comentario"
-                        th:classappend="${#fields.hasErrors('incidencia.comentario')?'is-invalid':''}" required style="width: 95%"></textarea>
+              <textarea th:placeholder="${incidencia.comentario}" class="form-control" type="text" id="comentario" name="comentario"
+                        th:classappend="${#fields.hasErrors('incidencia.comentario')?'is-invalid':''}" required style="width: 95%;margin-left: 10px"></textarea>
               <div class="invalid-feedback" th:if="${#fields.hasErrors('incidencia.comentario')}"
                    th:errors="${incidencia.comentario}">
                 Please choose a username.
               </div>
 
             </div>
+            <hr>
 
 
 
