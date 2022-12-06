@@ -144,7 +144,6 @@ public class UsuarioController {
             }
             return "usuario/newIncidencia";
         }else{
-
             Usuario user = (Usuario) session.getAttribute("usuario");
             Instant fecha = inicidenciaRepository.fecha();
             incidencia.setFecha(fecha);
@@ -169,7 +168,32 @@ public class UsuarioController {
                 String idInci = String.valueOf(i);
 
                 if(img.isEmpty()){
-                    System.out.println("imagen vacia");
+                    System.out.println("######################################################################imagen vacia");
+                    model.addAttribute("imagenVacia", "imagenVacia");
+                    List<Tipo> listaTipo  =tipoRepository.findAll();
+                    List<Urgencia> listaUrgencia  =urgenciaRepository.findAll();
+                    List<Ubicacion> listaUbicacion = ubicacionRepository.findAll();
+                    model.addAttribute("listaTipo", listaTipo);
+                    model.addAttribute("listaUrgencia", listaUrgencia);
+                    model.addAttribute("listaUbicacion", listaUbicacion);
+                    model.addAttribute("errorCompany", "Ningún campo puede dejarse vacío, intente crear nuevamente por favor");
+                    if(incidencia.getIdtipo()!=null){
+                        model.addAttribute("tipoInci",incidencia.getIdtipo().getId());
+                        System.out.println(incidencia.getIdtipo().getId());
+                    }
+                    if(incidencia.getIdurgencia()!=null){
+                        model.addAttribute("tipoUrg",incidencia.getIdurgencia().getId());
+                        System.out.println(incidencia.getIdurgencia().getId());
+                    }
+                    if(incidencia.getEmMedica()!=null){
+                        model.addAttribute("emMedicaa",incidencia.getEmMedica());
+                        System.out.println(incidencia.getEmMedica());
+                    }
+                    if(incidencia.getUbicacion()!=null){
+                        model.addAttribute("ubiId",incidencia.getUbicacion().getId());
+                        System.out.println(incidencia.getUbicacion().getId());
+                    }
+                    return "usuario/newIncidencia";
                 }else{
                     try {
                         byte[] bytes = img.getBytes();
@@ -182,9 +206,7 @@ public class UsuarioController {
                     }catch (Exception e){
                         System.out.println("Hay excepcion");
                     }
-
                 }
-
                 attr.addFlashAttribute("msg","Incidencia creada exitosamente.");
                 return "redirect:/usuario/misIncidencias";
             }else{
@@ -192,55 +214,50 @@ public class UsuarioController {
                 int i = incidencia.getId();
                 String idInci = String.valueOf(i);
 
-
-
-            if(img.isEmpty()){
-                System.out.println("######################################################################imagen vacia");
-                model.addAttribute("imagenVacia", "imagenVacia");
-                List<Tipo> listaTipo  =tipoRepository.findAll();
-                List<Urgencia> listaUrgencia  =urgenciaRepository.findAll();
-                List<Ubicacion> listaUbicacion = ubicacionRepository.findAll();
-                model.addAttribute("listaTipo", listaTipo);
-                model.addAttribute("listaUrgencia", listaUrgencia);
-                model.addAttribute("listaUbicacion", listaUbicacion);
-                model.addAttribute("errorCompany", "Ningún campo puede dejarse vacío, intente crear nuevamente por favor");
-                if(incidencia.getIdtipo()!=null){
-                    model.addAttribute("tipoInci",incidencia.getIdtipo().getId());
-                    System.out.println(incidencia.getIdtipo().getId());
-                }
-                if(incidencia.getIdurgencia()!=null){
-                    model.addAttribute("tipoUrg",incidencia.getIdurgencia().getId());
-                    System.out.println(incidencia.getIdurgencia().getId());
-                }
-                if(incidencia.getEmMedica()!=null){
-                    model.addAttribute("emMedicaa",incidencia.getEmMedica());
-                    System.out.println(incidencia.getEmMedica());
-                }
-                if(incidencia.getUbicacion()!=null){
-                    model.addAttribute("ubiId",incidencia.getUbicacion().getId());
-                    System.out.println(incidencia.getUbicacion().getId());
-                }
-                return "usuario/newIncidencia";
-            }else{
-                try {
-                    byte[] bytes = img.getBytes();
-                    Perfil perfil = new Perfil();
-                    perfil.setName("Incidencia_"+idInci+".png");
-                    String base64utput = faceBlur(Base64.getEncoder().encodeToString(bytes));
-                    perfil.setFileBase64(base64utput);
-                    System.out.println("llegue hasta aqui");
-                    perfilDao.subirImagen(perfil);
-                }catch (Exception e){
-                    System.out.println("Hay excepcion");
+                if (img.isEmpty()) {
+                    System.out.println("######################################################################imagen vacia");
+                    model.addAttribute("imagenVacia", "imagenVacia");
+                    List<Tipo> listaTipo  =tipoRepository.findAll();
+                    List<Urgencia> listaUrgencia  =urgenciaRepository.findAll();
+                    List<Ubicacion> listaUbicacion = ubicacionRepository.findAll();
+                    model.addAttribute("listaTipo", listaTipo);
+                    model.addAttribute("listaUrgencia", listaUrgencia);
+                    model.addAttribute("listaUbicacion", listaUbicacion);
+                    model.addAttribute("errorCompany", "Ningún campo puede dejarse vacío, intente crear nuevamente por favor");
+                    if(incidencia.getIdtipo()!=null){
+                        model.addAttribute("tipoInci",incidencia.getIdtipo().getId());
+                        System.out.println(incidencia.getIdtipo().getId());
+                    }
+                    if(incidencia.getIdurgencia()!=null){
+                        model.addAttribute("tipoUrg",incidencia.getIdurgencia().getId());
+                        System.out.println(incidencia.getIdurgencia().getId());
+                    }
+                    if(incidencia.getEmMedica()!=null){
+                        model.addAttribute("emMedicaa",incidencia.getEmMedica());
+                        System.out.println(incidencia.getEmMedica());
+                    }
+                    if(incidencia.getUbicacion()!=null){
+                        model.addAttribute("ubiId",incidencia.getUbicacion().getId());
+                        System.out.println(incidencia.getUbicacion().getId());
+                    }
+                    return "usuario/newIncidencia";
+                } else {
+                    try {
+                        byte[] bytes = img.getBytes();
+                        Perfil perfil = new Perfil();
+                        perfil.setName("Incidencia_" + idInci + ".png");
+                        String base64utput = faceBlur(Base64.getEncoder().encodeToString(bytes));
+                        perfil.setFileBase64(base64utput);
+                        System.out.println("llegue hasta aqui");
+                        perfilDao.subirImagen(perfil);
+                    } catch (Exception e) {
+                        System.out.println("Hay excepcion");
+                    }
                 }
             }
-
-                attr.addFlashAttribute("msg","Incidencia creada exitosamente.");
-                return "redirect:/usuario/misIncidencias";
-            }
-
+            attr.addFlashAttribute("msg","Incidencia creada exitosamente.");
+            return "redirect:/usuario/misIncidencias";
         }
-
     }
 
     @GetMapping("/detalle")
