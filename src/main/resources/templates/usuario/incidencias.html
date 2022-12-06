@@ -105,8 +105,8 @@
                 <th style="text-align: center">#</th>
                 <th style="text-align: center">Nombre</th>
                 <th style="text-align: center">Tipo</th>
-                <th style="text-align: center">Urgencia</th>
                 <th style="text-align: center">Estado</th>
+                <th style="text-align: center">¿Está resuelta?</th>
                 <th style="text-align: center">Ingresar comentario</th>
                 <th style="text-align: center"></th>
                 <th style="text-align: center"></th>
@@ -124,12 +124,14 @@
                 </td>
                 <td style="text-align: center" th:text="${incidencia.nombre}"></td>
                 <td style="text-align: center" th:text="${incidencia.idtipo.tipoIncidencia}"></td>
-                <td style="text-align: center" th:text="${incidencia.idurgencia.tipoUrgencia}"></td>
 
                 <td style="text-align: center" th:if="${incidencia.estado == 0}">Registrada</td>
                 <td style="text-align: center" th:if="${incidencia.estado == 1}">En proceso</td>
                 <td style="text-align: center" th:if="${incidencia.estado == 2}">Atendida</td>
                 <td style="text-align: center" th:if="${incidencia.estado == 3}">Resuelta</td>
+
+                <td style="text-align: center" th:if="${incidencia.estado == 0 or incidencia.estado==1 or incidencia.estado==2}"><button type="button" class="btn btn-success" data-bs-toggle="modal" th:attr="data-bs-target=${'#Modal2'+incidencia.id}">No</button></td>
+                <td style="text-align: center" th:if="${incidencia.estado == 3}">Sí</td>
 
 
                 <td style="text-align: center" th:if="${incidencia.estado == 3}">Resuelta</td>
@@ -164,7 +166,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel2">¿Está seguro? La incidencia ya no podrá abrirse de nuevo.</h5>
+                        <h5 class="modal-title" id="exampleModalLabel2">La incidencia se resolvera y ya no podrá abrirse de nuevo, ¿Está seguro?</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -196,7 +198,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Comentario: </h5>
-                        <button th:unless="${#fields.hasErrors('incidencia.comentarioUsuario')}" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button th:unless="${#fields.hasErrors('incidencia.comentarioUsuario')}" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
                         <a th:if="${#fields.hasErrors('incidencia.comentarioUsuario')}" type="button" class="btn-close" th:href="@{'/usuario/misIncidencias'}" aria-label="Close"></a>
                     </div>
                     <div class="modal-body">
@@ -224,7 +226,7 @@
 
 
                                 <label for="comentarioUsuario" class="form-label">Ingrese comentario: </label>
-                                <textarea th:field="${incidencia.comentarioUsuario}" class="form-control" name="comentarioUsuario" id="comentarioUsuario" rows="4"
+                                <textarea th:placeholder="${incidencia.comentarioUsuario}" class="form-control" name="comentarioUsuario" id="comentarioUsuario" rows="4"
                                           th:classappend="${#fields.hasErrors('incidencia.comentarioUsuario')?'is-invalid':''}" required></textarea>
                                 <div class="invalid-feedback" th:if="${#fields.hasErrors('incidencia.comentarioUsuario')}"
                                      th:errors="${incidencia.comentarioUsuario}">

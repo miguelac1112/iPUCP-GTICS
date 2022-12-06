@@ -646,7 +646,7 @@ public class SeguridadController {
                 max+=1;
                 inicidenciaRepository.comentarIncidencia(comentario,max,incidencia.getId());
                 comentarioRepository.comentarIncidencia(comentario, incidencia.getId());
-                senderService.sendSimpleEmail(correo,"Comentario acerca de la Incidencia con ID "+incidencia.getId(),comentario);
+                senderService.sendSimpleEmail(correo,"Información acerca de la Incidencia con ID "+incidencia.getId(),"Estimado usuario, su incidencia pasa al estado de Atendido. Comentario del miembro de seguridad: "+comentario);
                 String texto = "La incidencia con ID "+incidencia.getId()+" del usuario con código "+ incidencia.getCodigo().getId()+" ha sido respondida.";
                 redirectAttributes.addFlashAttribute("msg",texto);
                 return "redirect:/seguridad/incidencias";

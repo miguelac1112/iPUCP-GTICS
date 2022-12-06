@@ -151,6 +151,19 @@
                                 <strong >Ubicación: </strong>
                                 <span th:text="${incidencias.ubicacion.getNombre()}"></span>
                             </p>
+                            <p class="card-text postuserfont" style="margin-top: -15px" >
+                                <strong >Urgencia: </strong>
+                                <span th:if="${incidencias.idurgencia.id == 1}">Leve</span>
+                                <span th:if="${incidencias.idurgencia.id == 2}">Moderada</span>
+                                <span th:if="${incidencias.idurgencia.id == 3}">Crítico</span>
+                            </p>
+                            <p class="card-text postuserfont" style="margin-top: -15px" >
+                                <strong >Estado: </strong>
+                                <span th:if="${incidencias.estado == 0}">Registrado</span>
+                                <span th:if="${incidencias.estado == 1}">En proceso</span>
+                                <span th:if="${incidencias.estado == 2}">Atendida</span>
+                                <span th:if="${incidencias.estado == 3}">Resuelta</span>
+                            </p>
                             <p class="card-text postuserfont" style="margin-top: -15px">
                                 <strong >Publicada por: </strong>
                                 <span th:text="${incidencias.codigo.getNombre()+' '+ incidencias.codigo.getApellido()}"></span>

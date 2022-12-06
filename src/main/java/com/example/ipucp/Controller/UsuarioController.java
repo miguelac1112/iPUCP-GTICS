@@ -1,6 +1,7 @@
 package com.example.ipucp.Controller;
 
 import com.example.ipucp.Dao.PerfilDao;
+import com.example.ipucp.EmailSenderService;
 import com.example.ipucp.Entity.*;
 import com.example.ipucp.Repository.*;
 import net.minidev.json.JSONObject;
@@ -45,7 +46,8 @@ public class UsuarioController {
     UsuarioRepository usuarioRepository;
     @Autowired
     UbicacionRepository ubicacionRepository;
-
+    @Autowired
+    private EmailSenderService senderService;
     @Autowired
     ComentarioRepository comentarioRepository;
     @Autowired
@@ -363,9 +365,11 @@ public class UsuarioController {
             max+=1;
             inicidenciaRepository.comentarIncidenciaUsuario(comentarioUsuario,max,id);
             comentarioRepository.comentarIncidenciaUsuario(comentarioUsuario,id);
+            System.out.println("El correo del usuario es +++++++++++++ " + user.getCorreo());
+            senderService.sendSimpleEmail(user.getCorreo(),"Información acerca de la Incidencia con ID "+incidencia.getId(),"Estimado usuario, su incidencia se encuentra en el estado de En Proceso. Pronto verá el nuevo comentario del miembro de seguridad. ");
             if(max==5){
                 inicidenciaRepository.cambiarEstadoIncidencia(id);
-                redirectAttributes.addFlashAttribute("msg2","Incidencia comentada. Se ha llegado al máximo de comentarios por incidencia.");
+                redirectAttributes.addFlashAttribute("msg2","Incidencia comentada. Se ha llegado al máximo de comentarios por incidencia. Estado: Resuelto.");
                 return "redirect:/usuario/misIncidencias";
             }else{
                 redirectAttributes.addFlashAttribute("msg3","Incidencia comentada. Recuerda que hay un máximo de 5 comentarios por incidencia.");
