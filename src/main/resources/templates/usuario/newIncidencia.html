@@ -150,21 +150,26 @@
                             <hr/>
                             <div class="col-12">
                                 <label for="nombre" class="form-label">Título de la incidencia </label>
-                                <input type="text"  name = "nombre" class="form-control w-100" id="nombre"
-                                       th:classappend="${#fields.hasErrors('incidencia.nombre')?'is-invalid':''}" required>
+                                <input type="text" th:field="${incidencia.nombre}" name = "nombre" class="form-control w-100" id="nombre" placeholder="Ingrese Título"
+                                       th:classappend="${#fields.hasErrors('incidencia.nombre')?'is-invalid':''}">
                                 <div th:if="${#fields.hasErrors('incidencia.nombre')}">
                                     <p style="color:red; font-size:85%;font-family:arial;" th:errors="${incidencia.nombre}">I am red</p>
                                 </div>
                             </div>
 
                             <div class="col-12">
-                                <h1></h1>
                                 <label for="tipo" class="form-label">Tipo</label>
-                                <select class="custom-select" id="tipo" name = "idtipo" th:classappend="${#fields.hasErrors('incidencia.idtipo')?'is-invalid':''}">
+                                <select class="custom-select" id="tipo" name = "idtipo" th:classappend="${#fields.hasErrors('incidencia.idtipo')?'is-invalid':''}" >
                                     <option>-</option>
                                     <option th:each="tipo : ${listaTipo}"
                                             th:text="${tipo.tipoIncidencia}"
-                                            th:value="${tipo.id}">${categatory.name}</option>
+                                            th:value="${tipo.id}" th:if="${incidencia.idtipo == null}"></option>
+
+                                    <option th:each="tipo : ${listaTipo}"
+                                            th:text="${tipo.tipoIncidencia}"
+                                            th:value="${tipo.id}"
+                                            th:selected="${tipo.id} == ${tipoInci}" th:if="${tipoInci != null}">
+                                    </option>
                                 </select>
                                 <div th:if="${#fields.hasErrors('incidencia.idtipo')}">
                                     <p style="color:red; font-size:85%;font-family:arial;">Escoja tipo de incidencia</p>
@@ -178,7 +183,11 @@
                                     <option>-</option>
                                     <option th:each="urgencia : ${listaUrgencia}"
                                             th:text="${urgencia.tipoUrgencia}"
-                                            th:value="${urgencia.id}">${categatory.name}</option>
+                                            th:value="${urgencia.id}" th:if="${incidencia.idurgencia == null}"></option>
+                                    <option th:each="urgencia : ${listaUrgencia}"
+                                            th:text="${urgencia.tipoUrgencia}"
+                                            th:value="${urgencia.id}"
+                                            th:selected="${urgencia.id} == ${tipoUrg}" th:unless="${incidencia.idurgencia == null}"></option>
                                 </select>
                                 <div th:if="${#fields.hasErrors('incidencia.idurgencia')}">
                                     <p style="color:red; font-size:85%;font-family:arial;">Escoja nivel de urgencia</p>
@@ -188,9 +197,18 @@
                                 <h1></h1>
                                 <label for="emMedica" class="form-label">¿Necesita emergencia médica?</label>
                                 <select class="custom-select" id="emMedica" name = "emMedica" th:classappend="${#fields.hasErrors('incidencia.emMedica')?'is-invalid':''}">
-                                    <option>-</option>
-                                    <option value="1">SÍ</option>
-                                    <option value="0">NO</option>
+                                    <div th:if="${incidencia.emMedica == null}">
+                                        <option>-</option>
+                                        <option value="1" >SÍ</option>
+                                        <option value="0" >NO</option>
+                                    </div>
+                                    <div th:unless="${incidencia.emMedica == null}">
+                                        <option>-</option>
+                                        <option value="1" selected th:if="${emMedicaa == 1}" >SÍ</option>
+                                        <option value="1" th:unless="${emMedicaa == 1}">SÍ</option>
+                                        <option value="1" selected th:if="${emMedicaa == 0}" >NO</option>
+                                        <option value="1" th:unless="${emMedicaa == 0}">NO</option>
+                                    </div>
                                 </select>
                                 <div th:if="${#fields.hasErrors('incidencia.emMedica')}">
                                     <p style="color:red; font-size:85%;font-family:arial;">Escoja una opción</p>
@@ -201,7 +219,7 @@
                                 <label for="descripcion" class="form-label">Descripción</label>
 
                                     <div class="col">
-                                      <textarea class="form-control m-2" type="text" id="descripcion" name="descripcion"
+                                      <textarea class="form-control m-2" type="text" id="descripcion" name="descripcion" th:field="${incidencia.descripcion}"
                                                 required style="width: 95%" placeholder="Detalle lo que ha sucedido."
                                                 th:classappend="${#fields.hasErrors('incidencia.descripcion')?'is-invalid':''}"></textarea>
                                     </div>
@@ -223,7 +241,11 @@
                                     <option>-</option>
                                     <option th:each="ubicacion : ${listaUbicacion}"
                                             th:text="${ubicacion.nombre}"
-                                            th:value="${ubicacion.id}">${categatory.name}</option>
+                                            th:value="${ubicacion.id}" th:if="${incidencia.ubicacion == null}"></option>
+                                    <option th:each="ubicacion : ${listaUbicacion}"
+                                            th:text="${ubicacion.nombre}"
+                                            th:value="${ubicacion.id}"
+                                            th:selected="${ubicacion.id} == ${ubiId}" th:unless="${incidencia.ubicacion == null}"></option>
                                 </select>
                                 <div th:if="${#fields.hasErrors('incidencia.ubicacion')}">
                                     <p style="color:red; font-size:85%;font-family:arial;">Escoja ubicación </p>
@@ -233,8 +255,12 @@
 
                         <hr>
                         <div >
-                            <label for="foto" class="form-label">Añada una imagen: </label>
-                            <input type="file" class="btn btn-primary" name="fot" style="background-color:grey; border-color:grey;max-width: 100%" id="foto" required >
+                            <label for="fot" class="form-label">Añada una imagen: </label>
+                            <input type="file" class="btn btn-primary form-control" name="fot" style="background-color:grey; border-color:grey;max-width: 100%" id="fot" th:unless="${imagenVacia == 'imagenVacia'}">
+                            <input type="file" class="btn btn-primary form-control is-invalid" name="fot" style="background-color:grey; border-color:grey;max-width: 100%" id="fot" th:if="${imagenVacia == 'imagenVacia'}">
+                        </div>
+                        <div th:if="${imagenVacia == 'imagenVacia'}">
+                            <p style="color:red; font-size:85%;font-family:arial;">Seleccione una imagen</p>
                         </div>
                         <hr class="my-4">
                         <div class="h-auto">

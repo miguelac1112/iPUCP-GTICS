@@ -120,6 +120,28 @@ public class UsuarioController {
             model.addAttribute("listaUbicacion", listaUbicacion);
             model.addAttribute("errorCompany", "Ningún campo puede dejarse vacío, intente crear nuevamente por favor");
             System.out.println(bindingResult.getFieldError());
+            if(img.isEmpty()){
+                System.out.println("######################################################################imagen vacia");
+                model.addAttribute("imagenVacia", "imagenVacia");
+            }else{
+                model.addAttribute("imagenVacia", "imagenNoVacia");
+            }
+            if(incidencia.getIdtipo()!=null){
+                model.addAttribute("tipoInci",incidencia.getIdtipo().getId());
+                System.out.println(incidencia.getIdtipo().getId());
+            }
+            if(incidencia.getIdurgencia()!=null){
+                model.addAttribute("tipoUrg",incidencia.getIdurgencia().getId());
+                System.out.println(incidencia.getIdurgencia().getId());
+            }
+            if(incidencia.getEmMedica()!=null){
+                model.addAttribute("emMedicaa",incidencia.getEmMedica());
+                System.out.println(incidencia.getEmMedica());
+            }
+            if(incidencia.getUbicacion()!=null){
+                model.addAttribute("ubiId",incidencia.getUbicacion().getId());
+                System.out.println(incidencia.getUbicacion().getId());
+            }
             return "usuario/newIncidencia";
         }else{
 
@@ -131,8 +153,35 @@ public class UsuarioController {
             int i = incidencia.getId();
             String idInci = String.valueOf(i);
 
+
+
             if(img.isEmpty()){
-                System.out.println("imagen vacia");
+                System.out.println("######################################################################imagen vacia");
+                model.addAttribute("imagenVacia", "imagenVacia");
+                List<Tipo> listaTipo  =tipoRepository.findAll();
+                List<Urgencia> listaUrgencia  =urgenciaRepository.findAll();
+                List<Ubicacion> listaUbicacion = ubicacionRepository.findAll();
+                model.addAttribute("listaTipo", listaTipo);
+                model.addAttribute("listaUrgencia", listaUrgencia);
+                model.addAttribute("listaUbicacion", listaUbicacion);
+                model.addAttribute("errorCompany", "Ningún campo puede dejarse vacío, intente crear nuevamente por favor");
+                if(incidencia.getIdtipo()!=null){
+                    model.addAttribute("tipoInci",incidencia.getIdtipo().getId());
+                    System.out.println(incidencia.getIdtipo().getId());
+                }
+                if(incidencia.getIdurgencia()!=null){
+                    model.addAttribute("tipoUrg",incidencia.getIdurgencia().getId());
+                    System.out.println(incidencia.getIdurgencia().getId());
+                }
+                if(incidencia.getEmMedica()!=null){
+                    model.addAttribute("emMedicaa",incidencia.getEmMedica());
+                    System.out.println(incidencia.getEmMedica());
+                }
+                if(incidencia.getUbicacion()!=null){
+                    model.addAttribute("ubiId",incidencia.getUbicacion().getId());
+                    System.out.println(incidencia.getUbicacion().getId());
+                }
+                return "usuario/newIncidencia";
             }else{
                 try {
                     byte[] bytes = img.getBytes();
@@ -145,7 +194,6 @@ public class UsuarioController {
                 }catch (Exception e){
                     System.out.println("Hay excepcion");
                 }
-
             }
 
             attr.addFlashAttribute("msg","Incidencia creada exitosamente.");
@@ -177,6 +225,12 @@ public class UsuarioController {
         List<Tipo> listaTipo  =tipoRepository.findAll();
         List<Urgencia> listaUrgencia  =urgenciaRepository.findAll();
         List<Ubicacion> listaUbicacion = ubicacionRepository.findAll();
+        if(incidencia.getNombre().equals("Nombre")){
+            incidencia.setNombre("");
+        }
+        if(incidencia.getDescripcion().equals("Descripcion")){
+            incidencia.setDescripcion("");
+        }
         model.addAttribute("listaTipo", listaTipo);
         model.addAttribute("listaUrgencia", listaUrgencia);
         model.addAttribute("listaUbicacion", listaUbicacion);

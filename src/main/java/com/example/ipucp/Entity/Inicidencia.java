@@ -28,6 +28,7 @@ public class Inicidencia {
 
     @Column(name = "nombre", nullable = false, length = 50)
     @NotBlank(message = "Ingrese un titulo")
+    @Size(max = 50, message = "Máximo 50 caracteres")
     private String nombre="Nombre";
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
