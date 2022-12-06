@@ -130,7 +130,13 @@
                         <strong style="margin-left: -4px; margin-right: 5px" >Tipo: </strong>
                         <span th:text="${incidencia.idtipo.getTipoIncidencia()}"></span>
                     </p>
-
+                    <p class="card-text postuserfont" style="margin-top: -15px">
+                        <strong style="margin-left: -4px; margin-right: 5px" >Estado: </strong>
+                        <span th:if="${incidencia.estado == 3 or incidencia.getMax()==5}">Resuelta</span>
+                        <span th:if="${incidencia.estado == 0}">Registrada</span>
+                        <span th:if="${incidencia.estado == 1}">En proceso</span>
+                        <span th:if="${incidencia.estado == 2}">Atendida</span>
+                    </p>
                     <p class="card-text postuserfont" style="margin-top: -15px">
                         <strong style="margin-left: -4px; margin-right: 5px"
                         >Descripción: </strong
