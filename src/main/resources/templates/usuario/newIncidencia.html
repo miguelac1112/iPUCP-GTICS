@@ -59,6 +59,23 @@
 
     <!-- Custom styles for this template -->
     <link href="form-validation.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script th:inline="javascript">
+        var data = [[${listaUbicacion}]];  //Lista obtenida de los pabellones
+        var nombres = [];
+        for (let i = 0; i < data.length; i++) {
+            nombres.push(data[i].nombre);
+        }
+        $( function() {
+            console.log(nombres)
+            $( "#tags" ).autocomplete({
+                source: nombres
+            });
+        } );
+    </script>
 </head>
 <body class="bg-light">
 
@@ -132,50 +149,51 @@
                                  role="alert"></div>
                             <hr/>
                             <div class="col-12">
-                                <label for="titulo" class="form-label">Título de la incidencia </label>
-                                <input type="text"  name = "nombre" class="form-control w-100" id="titulo" placeholder="" value="" required>
-                                <div class="invalid-feedback">
-                                    Valid first name is required.
+                                <label for="nombre" class="form-label">Título de la incidencia </label>
+                                <input type="text"  name = "nombre" class="form-control w-100" id="nombre"
+                                       th:classappend="${#fields.hasErrors('incidencia.nombre')?'is-invalid':''}" required>
+                                <div th:if="${#fields.hasErrors('incidencia.nombre')}">
+                                    <p style="color:red; font-size:85%;font-family:arial;" th:errors="${incidencia.nombre}">I am red</p>
                                 </div>
                             </div>
 
                             <div class="col-12">
                                 <h1></h1>
                                 <label for="tipo" class="form-label">Tipo</label>
-                                <select class="custom-select" id="tipo" name = "idtipo">
+                                <select class="custom-select" id="tipo" name = "idtipo" th:classappend="${#fields.hasErrors('incidencia.idtipo')?'is-invalid':''}">
                                     <option>-</option>
                                     <option th:each="tipo : ${listaTipo}"
                                             th:text="${tipo.tipoIncidencia}"
                                             th:value="${tipo.id}">${categatory.name}</option>
                                 </select>
-                                <div class="invalid-feedback">
-                                    Please select a valid country.
+                                <div th:if="${#fields.hasErrors('incidencia.idtipo')}">
+                                    <p style="color:red; font-size:85%;font-family:arial;">Escoja tipo de incidencia</p>
                                 </div>
                             </div>
 
                             <div class="col-12">
                                 <h1></h1>
                                 <label for="urgencia" class="form-label">Urgencia</label>
-                                <select class="custom-select" id="urgencia" name = "idurgencia">
+                                <select class="custom-select" id="urgencia" name = "idurgencia" th:classappend="${#fields.hasErrors('incidencia.idurgencia')?'is-invalid':''}">
                                     <option>-</option>
                                     <option th:each="urgencia : ${listaUrgencia}"
                                             th:text="${urgencia.tipoUrgencia}"
                                             th:value="${urgencia.id}">${categatory.name}</option>
                                 </select>
-                                <div class="invalid-feedback">
-                                    Please select a valid country.
+                                <div th:if="${#fields.hasErrors('incidencia.idurgencia')}">
+                                    <p style="color:red; font-size:85%;font-family:arial;">Escoja nivel de urgencia</p>
                                 </div>
                             </div>
                             <div class="col-12">
                                 <h1></h1>
                                 <label for="emMedica" class="form-label">¿Necesita emergencia médica?</label>
-                                <select class="custom-select" id="emMedica" name = "emMedica">
+                                <select class="custom-select" id="emMedica" name = "emMedica" th:classappend="${#fields.hasErrors('incidencia.emMedica')?'is-invalid':''}">
                                     <option>-</option>
                                     <option value="1">SÍ</option>
                                     <option value="0">NO</option>
                                 </select>
-                                <div class="invalid-feedback">
-                                    Please select a valid country.
+                                <div th:if="${#fields.hasErrors('incidencia.emMedica')}">
+                                    <p style="color:red; font-size:85%;font-family:arial;">Escoja una opción</p>
                                 </div>
                             </div>
                             <div class="col-12">
@@ -184,7 +202,8 @@
                                 <div class="row" style="width: 200%">
                                     <div class="col">
                                       <textarea class="form-control m-2" type="text" id="descripcion" name="descripcion"
-                                                required style="width: 95%" placeholder="Detalle lo que ha sucedido."></textarea>
+                                                required style="width: 95%" placeholder="Detalle lo que ha sucedido."
+                                                th:classappend="${#fields.hasErrors('incidencia.descripcion')?'is-invalid':''}"></textarea>
                                     </div>
                                     <div class="col">
                                         <a id="btnStartRecord" style="border-radius: 20%; margin-left: -30px" class="btn btn-light material-symbols-outlined">mic</a>
@@ -192,21 +211,22 @@
                                     </div>
                                 </div>
                                 <script th:src="@{/js/microphone.js}"></script>
-                                <div class="invalid-feedback">
-                                    Please enter your shipping address.
+                                <div th:if="${#fields.hasErrors('incidencia.descripcion')}">
+                                    <p style="color:red; font-size:85%;font-family:arial;" th:errors="${incidencia.descripcion}">I am red</p>
                                 </div>
                             </div>
+
                             <div class="col-12">
                                 <h1></h1>
                                 <label for="ubicacion" class="form-label">Ubicación</label>
-                                <select class="custom-select" id="ubicacion" name = "ubicacion">
+                                <select class="custom-select" id="ubicacion" name = "ubicacion" th:classappend="${#fields.hasErrors('incidencia.ubicacion')?'is-invalid':''}">
                                     <option>-</option>
                                     <option th:each="ubicacion : ${listaUbicacion}"
                                             th:text="${ubicacion.nombre}"
                                             th:value="${ubicacion.id}">${categatory.name}</option>
                                 </select>
-                                <div class="invalid-feedback">
-                                    Please select a valid country.
+                                <div th:if="${#fields.hasErrors('incidencia.ubicacion')}">
+                                    <p style="color:red; font-size:85%;font-family:arial;">Escoja ubicación </p>
                                 </div>
                             </div>
                         </div>

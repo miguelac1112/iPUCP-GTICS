@@ -111,7 +111,7 @@ public class UsuarioController {
     public String guardarNuevaIncidencia(@ModelAttribute("incidencia") @Valid Inicidencia incidencia, BindingResult bindingResult, Model model, RedirectAttributes attr,
                                          HttpSession session,@RequestParam(name = "fot") MultipartFile img) {
         if(bindingResult.hasErrors()){
-
+            System.out.println("############################################### Estoy Aqui");
             List<Tipo> listaTipo  =tipoRepository.findAll();
             List<Urgencia> listaUrgencia  =urgenciaRepository.findAll();
             List<Ubicacion> listaUbicacion = ubicacionRepository.findAll();

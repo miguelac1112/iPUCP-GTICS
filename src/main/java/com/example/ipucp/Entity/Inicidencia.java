@@ -16,7 +16,7 @@ public class Inicidencia {
     private Integer id;
 
     @Column(name = "descripcion", nullable = false, length = 250)
-    @NotBlank(message = "Ingrese un descripcion")
+    @NotBlank(message = "Ingrese una descripción")
     private String descripcion="Descripcion";
 
     @Column(name = "latitud", length = 45)
