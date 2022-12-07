@@ -54,8 +54,13 @@ public class UsuarioController {
     PerfilDao perfilDao;
 
     @GetMapping("/mapa")
-    public String mapa() {
+    public String mapa(Model model) {
+
+        List<Inicidencia> lista  =inicidenciaRepository.findAll();
+        model.addAttribute("listaIncidencia", lista);
+
         return "usuario/menu_mapa";
+
     }
 
     @GetMapping("/listar")
