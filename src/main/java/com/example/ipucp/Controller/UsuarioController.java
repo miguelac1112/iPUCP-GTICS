@@ -116,7 +116,7 @@ public class UsuarioController {
 
     @PostMapping("/save")
     public String guardarNuevaIncidencia(@ModelAttribute("incidencia") @Valid Inicidencia incidencia, BindingResult bindingResult, Model model, RedirectAttributes attr,
-                                         HttpSession session,@RequestParam(name = "fot") MultipartFile img) {
+                                         HttpSession session,@RequestParam(name = "fot") MultipartFile img, @RequestParam("lat") String latitud,@RequestParam("lon")String longitud) {
         if(bindingResult.hasErrors()){
             System.out.println("############################################### Estoy Aqui");
             List<Tipo> listaTipo  =tipoRepository.findAll();
@@ -151,10 +151,15 @@ public class UsuarioController {
             }
             return "usuario/newIncidencia";
         }else{
+
             Usuario user = (Usuario) session.getAttribute("usuario");
             Instant fecha = inicidenciaRepository.fecha();
             incidencia.setFecha(fecha);
             incidencia.setCodigo(user);
+            System.out.println(latitud);
+            System.out.println(longitud);
+            incidencia.setLatitud(latitud);
+            incidencia.setLongitud(longitud);
             System.out.println("El usuario es +++++ "+user);
             String descripcion = incidencia.getDescripcion();
             String codigo_pucp = String.valueOf(user.getId());
@@ -217,6 +222,7 @@ public class UsuarioController {
                 attr.addFlashAttribute("msg","Incidencia creada exitosamente.");
                 return "redirect:/usuario/misIncidencias";
             }else{
+
                 inicidenciaRepository.save(incidencia);
                 int i = incidencia.getId();
                 String idInci = String.valueOf(i);
@@ -262,6 +268,7 @@ public class UsuarioController {
                     }
                 }
             }
+
             attr.addFlashAttribute("msg","Incidencia creada exitosamente.");
             return "redirect:/usuario/misIncidencias";
         }
