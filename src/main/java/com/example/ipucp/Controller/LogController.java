@@ -71,6 +71,9 @@ public class LogController {
                 case "seguridad" -> {
                     return "redirect:/seguridad/";
                 }
+                case"seguridadSinInicio"->{
+                    return "redirect:/seguridad/establecer";
+                }
                 case "admin" -> {
                     return "redirect:/admin";
                 }

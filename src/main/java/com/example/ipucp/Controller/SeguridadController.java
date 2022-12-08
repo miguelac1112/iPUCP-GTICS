@@ -18,6 +18,7 @@ import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -65,6 +66,27 @@ public class SeguridadController {
     ComentarioRepository comentarioRepository;
 
 
+    @GetMapping("/establecer")
+    public String establerContra(HttpSession session) {
+        return "seguridad/establecer_contra";
+    }
+
+    @PostMapping("/confirmado")
+    public String nuevaPass(HttpSession session, @RequestParam("contra") String contra,@RequestParam("contra2") String contra2 ,Model model){
+        if(contra != null){
+            if(contra.equals(contra2)) {
+                Usuario usuario = (Usuario) session.getAttribute("usuario");
+                usuarioRepository.cambiarpassword(BCrypt.hashpw(contra, BCrypt.gensalt()), usuario.getCorreo());
+                usuarioRepository.cambiarSeguridad(usuario.getId());
+                senderService.sendSimpleEmail(usuario.getCorreo()," Cambio de contraseña","Se ha registrado un cambio de contraseña exitoso en la plataforma de iPUCP ");
+                return "seguridad/confirmado";
+            }else{
+                return "redirect:/establecer";
+            }
+        }else{
+            return "redirect:/establecer";
+        }
+    }
 
     @GetMapping("")
     public String principal(HttpSession session) {
@@ -908,9 +930,12 @@ public class SeguridadController {
         return cadena;
     }
 
+
     public static int numeroAleatorioEnRango(int minimo, int maximo) {
         // nextInt regresa en rango pero con límite superior exclusivo, por eso sumamos 1
         return ThreadLocalRandom.current().nextInt(minimo, maximo + 1);
     }
+
+
 
 }

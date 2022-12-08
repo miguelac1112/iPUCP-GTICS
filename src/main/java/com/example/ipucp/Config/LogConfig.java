@@ -48,6 +48,7 @@ public class LogConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/login","/oauth/**").permitAll()
                 .antMatchers("/admin","/admin/**").hasAuthority("admin")
+                .antMatchers("/seguridad/establecer","/seguridad/confirmado").hasAuthority("seguridadSinInicio")
                 .antMatchers("/seguridad", "/seguridad/**").hasAuthority("seguridad")
                 .antMatchers("/usuario","/usuario/**").access("hasAuthority('usuario')||hasAuthority('ROLE_USER')")
                 .anyRequest().permitAll();

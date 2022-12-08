@@ -289,7 +289,7 @@ public class AdminController {
             if(id == 6){
 
 
-                usuario.getRol().setId(2); //Asignando rol de seguridad
+                usuario.getRol().setId(4); //Asignando rol de seguridad
                 if(usuario.getContra().equals(pass2)){
 
                     if(esDuplicado != 0){

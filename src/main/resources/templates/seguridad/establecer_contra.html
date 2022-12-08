@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://kit.fontawesome.com/1e18eec1cd.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" th:href="@{/css/boton.css}"/>
+  <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+  <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css}" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+  <link
+          rel="stylesheet"
+          th:href="@{https://use.fontawesome.com/releases/v5.15.1/css/all.css}"
+          integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp"
+          crossorigin="anonymous"
+  />
+
+  <link rel="stylesheet" th:href="@{/css/style.css}" />
+  <link rel="stylesheet" th:href="@{/css/styleSeguridad.css}" />
+  <link rel="stylesheet" th:href="@{https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css}"/>
+  <link th:href="@{https://fonts.googleapis.com/css?family=Montserrat:500,700}" rel="stylesheet" type="text/css" />
+  <link th:href="@{https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700}" rel="stylesheet" type="text/css" />
+  <title>Bienvenida de Seguridad</title>
+
+</head>
+<body>
+<main>
+
+  <div class="nav-container">
+    <nav class="navbar">
+      <div class="navbar-row-container">
+        <div class="nav-logo-container">
+          <div class="menu-toggle">
+            <img class="img-logo" th:src="@{/img/logo.jpg}" style="border-radius: 100%;margin-bottom: 2mm; height:60px;width:60px; margin-left: 2mm;margin-right:2mm"/>
+          </div>
+          <div class="a-logo" href="#inicio"><h1 id="navbar-logo"><strong>iPUCP<span style="font-size: medium">v.seguridad</span></strong></h1></div>
+        </div>
+        <ul class="nav-menu">
+          <li>
+
+          </li>
+          <li>
+
+          </li>
+          <li>
+
+          </li>
+          <li>
+            <form th:action="@{/logout}" method="post" class="nav-links nav-links-btn">
+              <button style="border: 0; background-color: transparent"  class="fas fa-sign-out-alt nav-links-img"></button>
+            </form>
+          </li>
+        </ul>
+      </div>
+
+    </nav>
+  </div>
+
+
+  <section id="hero" class="d-flex align-items-center">
+
+    <div class="container" data-aos="zoom-out" data-aos-delay="100">
+      <div class="row">
+        <div class="col-xl-6">
+          <h1>Bienvenido a la plataforma IPUCP</h1>
+          <h2>Registre una nueva contraseña para ingresar</h2>
+
+
+          <form id="frmRegistro" method="post" class="form-group row" style="margin-right: -5px;margin-left: -5px;" th:action="@{/seguridad/confirmado}">
+            <p></p>
+            <div class="alert alert-danger error" role="alert" id="obligatorio">
+              Todos los campos son obligatorios.
+            </div>
+            <div class="alert alert-danger error" role="alert" id="clavesNoIguales">
+              Las contraseñas deben ser iguales.
+            </div>
+            <input type="password" class="form-control" id="contra" name="contra" placeholder="Ingrese nueva contraseña">
+            </br>
+            </br>
+            <input type="password" class="form-control" id="contra2" name="contra2" placeholder="Confirme nueva contraseña">
+            <button type="submit" class="btn-get-started scrollto">Confirmar</button>
+          </form>
+
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+
+
+</main>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script>
+  $(document).ready(() => {
+    $('.error').hide();
+
+    $('#frmRegistro').submit(function(evento) {
+      $('.error').hide();
+
+
+      let clave = $('#contra').val();
+      if (!clave.length) {
+        $('#obligatorio').show();
+        evento.preventDefault();
+        return;
+      }
+
+      let claveRepetir = $('#contra2').val();
+      if (!claveRepetir.length) {
+        $('#obligatorio').show();
+        evento.preventDefault();
+        return;
+      }
+
+      if (clave !== claveRepetir) {
+        $('#clavesNoIguales').show();
+        evento.preventDefault();
+        return;
+      }
+    })
+  });
+</script>
+</body>
+
+</html>
