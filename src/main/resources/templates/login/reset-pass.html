@@ -54,9 +54,8 @@
 
                 <button class="btn btn-primary btn-lg btn-block" type="submit">Reestablecer</button>
               </div>
+              <div th:if="${msg != null}" th:text="${msg}" class="text-danger nb-2" style="margin-top: -50px"></div>
             </form>
-            <div th:if="${msg != null}" th:text="${msg}" class="alert alert-warning" role="alert">
-            </div>
           </div>
         </div>
       </div>

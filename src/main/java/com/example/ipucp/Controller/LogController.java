@@ -285,7 +285,7 @@ public class LogController {
             model.addAttribute("correo",correo);
             model.addAttribute("random_code",random_code);
             String texto = "Código incorrecto. Vuelva ingresar el código que se envío a su correo.";
-            redirectAttributes.addFlashAttribute("msg",texto);
+            model.addAttribute("msg",texto);
             return "login/random-code-resetp";
         }
     }
@@ -302,7 +302,7 @@ public class LogController {
         }else{
             model.addAttribute("correo",correo);
             String texto = "Las contraseñas puestas no son iguales.";
-            redirectAttributes.addFlashAttribute("msg20",texto);
+            model.addAttribute("msg",texto);
             return "login/reset-pass";
         }
 
