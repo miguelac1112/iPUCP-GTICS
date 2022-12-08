@@ -18,7 +18,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, String> {
             nativeQuery = true)
     List<Usuario> buscarUsuarioPorCat(Integer id);
 
-    @Query(value = "select inc.idinicidencia, tip.tipo_incidencia, inc.estado\n" +
+    @Query(value = "select inc.idinicidencia, tip.tipo_incidencia, inc.estado, inc.nombre\n" +
             "from inicidencia inc, tipo tip\n" +
             "where inc.idtipo=tip.idtipo\n" +
             "and inc.codigo=?1",

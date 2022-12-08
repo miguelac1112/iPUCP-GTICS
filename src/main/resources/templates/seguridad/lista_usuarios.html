@@ -100,11 +100,12 @@
                         <div class="row">
                             <div class="col-auto">
                                 <select class="form-select m-1" aria-label="Default select example" name="idcat" id="idcat">
-                                    <option selected value="0">Filtrar por categoría</option>
-                                    <option value="1">Alumno</option>
-                                    <option value="3">Jefe de Práctica</option>
-                                    <option value="4">Profesor</option>
-                                    <option value="5">Egresado</option>
+                                    <option value="0">Todos</option>
+                                    <option th:each="cargo : ${listaCargos}"
+                                            th:text="${cargo.nombreCargo}"
+                                            th:value="${cargo.id}"
+                                            th:selected="${cargo.id} eq ${id}">
+                                    </option>
                                 </select>
                             </div>
                             <div class="col-auto" style="margin-top: 5px">

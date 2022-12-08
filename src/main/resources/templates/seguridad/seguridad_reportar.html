@@ -147,21 +147,21 @@
                             <table class="table table-striped display nowrap" id="tablax" style="overflow-x: auto; overflow-y: auto" width="100%">
                                 <thead style="color: #0095f6">
                                     <tr class="table-info">
-                                        <th style="text-align: center">ID</th>
-                                        <th style="text-align: center">Tipo</th>
+                                        <th style="text-align: center">#</th>
+                                        <th style="text-align: center">Nombre</th>
                                         <th style="text-align: center">Estado</th>
                                         <th style="text-align: center">Detalle</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr th:each="incidencias : ${listaIncidencias}">
-                                        <td th:text="${incidencias.getIdinicidencia()}"></td>
-                                        <td th:text="${incidencias.getTipo_incidencia()}"></td>
+                                    <tr th:each="incidencias, v  : ${listaIncidencias}">
+                                        <td th:text="${v.index + 1}" style="align-content: center"></td>
+                                        <td th:text="${incidencias.getNombre()}" style="align-content: center"></td>
                                         <div th:switch="${incidencias.getEstado()}">
-                                            <td th:case="0">Registrado</td>
-                                            <td th:case="1">En proceso</td>
-                                            <td th:case="2">Atendida</td>
-                                            <td th:case="3">Resuelta</td>
+                                            <td th:case="0" style="align-content: center">Registrado</td>
+                                            <td th:case="1" style="align-content: center">En proceso</td>
+                                            <td th:case="2" style="align-content: center">Atendida</td>
+                                            <td th:case="3" style="align-content: center">Resuelta</td>
                                         </div>
                                         <td style="text-align: center"><a type="button" class="fa-sharp fa-solid fa-arrow-right" style="color: black;
                                         position: relative;

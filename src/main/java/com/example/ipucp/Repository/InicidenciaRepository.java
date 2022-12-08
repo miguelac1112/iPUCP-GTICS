@@ -21,6 +21,8 @@ public interface InicidenciaRepository extends JpaRepository<Inicidencia, Intege
     @Query(value="select * from inicidencia where codigo= ?1 order by fecha desc;",nativeQuery = true)
     List<Inicidencia> userIncidencias(String codigo);
 
+    @Query(value="select * from inicidencia where (idinicidencia= ?1 and codigo =?2) ;",nativeQuery = true)
+    Inicidencia obtenerIncidenciaUsuario(int id, String codigo);
 
     @Query(value="SELECT estado, count(idinicidencia) as cantidad FROM inicidencia group by estado order by estado desc", nativeQuery = true)
     List<IncidenciaEstado> bucarEstadoIncidencia();

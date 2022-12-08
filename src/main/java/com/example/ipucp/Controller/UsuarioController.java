@@ -276,8 +276,12 @@ public class UsuarioController {
 
     @GetMapping("/detalle")
     public String detalleIncidencia(Model model,
-                                    @RequestParam("id") Integer id){
-        Optional<Inicidencia> optInicidencia = inicidenciaRepository.findById(id);
+                                    @RequestParam("id") Integer id, HttpSession session){
+
+        Usuario u = (Usuario) session.getAttribute("usuario");
+        String codigo = u.getId();
+        System.out.println("El codigo es ++++ "+codigo+" y el id es "+id);
+        Optional<Inicidencia> optInicidencia = Optional.ofNullable(inicidenciaRepository.obtenerIncidenciaUsuario(id, codigo));
 
 
         if (optInicidencia.isPresent()){

@@ -731,6 +731,7 @@ public class SeguridadController {
                 }
                 model.addAttribute("iperfil",user);
                 model.addAttribute("listaUsuarios", ListaUsuarios);
+                model.addAttribute("listaCargos",cargoRepository.cargosSeguridad());
                 return "seguridad/lista_usuarios";
             }else{
                 return "redirect:/seguridad";
@@ -743,15 +744,26 @@ public class SeguridadController {
 
 
     @PostMapping("/BuscarCategoria")
-    public String buscarCategoria(@RequestParam("idcat") Integer id, Model model){
-        Optional<Cargo> optCargo = cargoRepository.findById(id);
+    public String buscarCategoria(@RequestParam("idcat") Integer id, Model model, @ModelAttribute("usuario") Usuario usuario){
 
-        if(optCargo.isPresent()){
-            List<Usuario> listaUsuarios = usuarioRepository.buscarUsuarioPorCat(id);
-            model.addAttribute("listaUsuarios", listaUsuarios);
-            return "seguridad/lista_usuarios";
-        }else{
+        if(id==2 || id==6){
             return "redirect:/seguridad/lista_usuarios";
+        }else{
+            Optional<Cargo> optCargo = cargoRepository.findById(id);
+            if(optCargo.isPresent()){
+                List<Usuario> listaUsuarios = usuarioRepository.buscarUsuarioPorCat(id);
+                model.addAttribute("listaUsuarios", listaUsuarios);
+                model.addAttribute("listaCargos",cargoRepository.cargosSeguridad());
+                model.addAttribute("id",id);
+                HashMap<Usuario,String> user = new HashMap<Usuario,String>();
+                for(Usuario u: listaUsuarios){
+                    user.put(u,perfilDao.obtenerImagen(u.getId()).getFileBase64());
+                }
+                model.addAttribute("iperfil",user);
+                return "seguridad/lista_usuarios";
+            }else{
+                return "redirect:/seguridad/lista_usuarios";
+            }
         }
     }
 
