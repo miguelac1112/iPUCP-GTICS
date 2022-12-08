@@ -405,7 +405,7 @@ public class LogController {
         }else{
             model.addAttribute("random_code",random_code);
             String texto = "Código incorrecto. Vuelva ingresar el código que se envío a su correo.";
-            redirectAttributes.addFlashAttribute("msg",texto);
+            model.addAttribute("msg",texto);
             return "login/random-code";
         }
 
@@ -445,7 +445,7 @@ public class LogController {
             return "redirect:/login";
         }else{
             String texto = "Las contraseñas puestas no son iguales.";
-            redirectAttributes.addFlashAttribute("msg",texto);
+            model.addAttribute("msg",texto);
             return "login/new-pass";
         }
     }
