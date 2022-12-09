@@ -74,6 +74,7 @@
                             <li><a class="dropdown-item" th:href="@{'/usuario/misIncidencias'}">Incidencias</a></li>
                             <li><a class="dropdown-item" th:href="@{'/usuario/perfil'}">Perfil</a></li>
                             <li><form th:action="@{/logout}" method="post"><a class="dropdown-item"><input type="submit" class="border-0" style="background: #eeeeee; background-color: #eeeeee" value="Cerrar Sesión"></a></form></li>
+
                         </ul>
                     </li>
                 </ul>
@@ -91,32 +92,56 @@
             <div class="btns-container">
                 <a class="btn btn-dark" th:href="@{'/usuario/newInciden'}">Añadir incidencia</a>
                 <a class="btn btn-secondary" th:href="@{'/usuario/misIncidencias'}">Mis incidencias</a>
+                <input th:value="${usi.icono.getNombre()}" style="display: none" id="num_icono">
             </div>
         </div>
         </div>
     <script>
         function iniciarMap(){
+            var map;
             var coord = {lat:-12.070554432784592 ,lng: -77.0794382008826};
             var coord2 = {lat:-12.070554432784592 ,lng: -77.08065035846798};
-            var map = new google.maps.Map(document.getElementById('map'),{
-                zoom: 17,
-                center: coord
-            });
-            var marker = new google.maps.Marker({
-                position: coord,
-                map: map
-            });
-            var marker2 = new google.maps.Marker({
-                position: coord2,
-                map: map
-            });
+            if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(
+                        (position) => {
+                            const act = {
+                                lat: position.coords.latitude,
+                                lng: position.coords.longitude
+                            };
+                            map = new google.maps.Map(document.getElementById('map'),{
+                                zoom: 17,
+                                center: act
+                            });
+                            var marker = new google.maps.Marker({
+                                position: coord,
+                                map: map
+                            });
+                            var marker2 = new google.maps.Marker({
+                                position: coord2,
+                                map: map
+                            });
+
+                        },
+                    );
+            } else {
+                console.log("ffffff ya fue")
+            }
+
+            var imagen;
+
+            var ic = document.getElementById("num_icono").value;
+            console.log(ic);
+            if(ic=="pina"){
+                imagen="/img/pineapple.png";
+            }else if(ic=="naranja"){
+                imagen="/img/orange.png";
+            }else{
+                imagen="/img/watermelon.png";
+            }
             var marker3;
 
             if (navigator.geolocation) {
-
                     setInterval(() => {
-
-
                         navigator.geolocation.getCurrentPosition(
                             (position) => {
                                 const pos = {
@@ -125,11 +150,11 @@
                                 };
                                 marker3= new google.maps.Marker({
                                     position: pos,
-                                    map: map
+                                    map: map,
+                                    icon: imagen
                                 });
                                 setTimeout(()=>{
                                     marker3.setMap(null);
-                                    marker3=null;
                                 },1000);
                             },
                         );

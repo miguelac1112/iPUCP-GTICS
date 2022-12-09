@@ -54,13 +54,14 @@ public class UsuarioController {
     PerfilDao perfilDao;
 
     @GetMapping("/mapa")
-    public String mapa(Model model) {
-
+    public String mapa(Model model,HttpSession session) {
+        Usuario u = (Usuario) session.getAttribute("usuario");
+        Usuario us = usuarioRepository.userPerfil(u.getId());
         List<Inicidencia> lista  =inicidenciaRepository.findAll();
         model.addAttribute("listaIncidencia", lista);
+        model.addAttribute("usi",us);
 
         return "usuario/menu_mapa";
-
     }
 
     @GetMapping("/listar")
