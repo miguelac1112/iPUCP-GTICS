@@ -97,6 +97,8 @@
                 <div class="card mb-3" th:each="incidencias , i : ${listaIncidencia}" style="display: none">
                     <input th:value="${incidencias.longitud}" style="display: none" th:id="l+${i.index}">
                     <input th:value="${incidencias.latitud}" style="display: none" th:id="la+${i.index}">
+                    <input th:value="${incidencias.nombre}" style="display: none" th:id="n+${i.index}">
+                    <input th:value="${incidencias.descripcion}" style="display: none" th:id="d+${i.index}">
                 </div>
 
             </div>
@@ -140,6 +142,8 @@
                 features.push(nuevoMarcador);
             }
 
+            /**Info windows**/
+
 
             if (navigator.geolocation) {
                     navigator.geolocation.getCurrentPosition(
@@ -160,6 +164,15 @@
                                     icon: icons[features[i].type].icon,
                                     map: map,
                                 });
+                                var nombre = document.getElementById("n"+i).value;
+                                var descrip = document.getElementById("d"+i).value;
+                                let html = '<h5>'+nombre+'</h5><p1>'+descrip+'</p1>'
+                                const infoWindow = new google.maps.InfoWindow();
+                                google.maps.event.addListener(marker, "click", ()=>{
+                                    infoWindow.setContent(html);
+                                    infoWindow.open(map,marker)
+                                })
+                                ;
                             }
                         },
                     );
