@@ -57,8 +57,8 @@ public class UsuarioController {
     public String mapa(Model model,HttpSession session) {
         Usuario u = (Usuario) session.getAttribute("usuario");
         Usuario us = usuarioRepository.userPerfil(u.getId());
-        List<Inicidencia> lista  =inicidenciaRepository.findAll();
-        model.addAttribute("listaIncidencia", lista);
+        List<Inicidencia> listaIncidencia  =inicidenciaRepository.findAll();
+        model.addAttribute("listaIncidencia", listaIncidencia);
         model.addAttribute("usi",us);
 
         return "usuario/menu_mapa";
