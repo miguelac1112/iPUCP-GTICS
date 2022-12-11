@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.time.Instant;
@@ -21,15 +20,11 @@ import java.util.*;
 
 import java.util.Base64;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-
 
 
 @Controller
@@ -176,6 +171,8 @@ public class UsuarioController {
                 String newDescripcion3 = newDescripcion2.replace(apellido, "****");
                 String newDescripcion4 = newDescripcion3.replace(correo, "****");
                 String newDescripcion5 = newDescripcion4.replace(dni, "****");
+                incidencia.setDescripcion(newDescripcion5);
+                System.out.println("La nueva descripción es " + newDescripcion5);
                 incidencia.setDescripcion(newDescripcion5);
             }
 
@@ -352,10 +349,18 @@ public class UsuarioController {
     }
 
     @PostMapping("/incidenciaResuelta")
-    public String incidenciaResuelta(@RequestParam("id") Integer id, RedirectAttributes redirectAttributes) {
-        inicidenciaRepository.cambiarEstadoIncidencia(id);
-        redirectAttributes.addFlashAttribute("msg4","La incidencia con ID #"+id+" ha sido resuelta.");
-        return "redirect:/usuario/misIncidencias";
+    public String incidenciaResuelta(@RequestParam("id") Integer id, RedirectAttributes redirectAttributes, HttpSession session) {
+        Usuario user = (Usuario) session.getAttribute("usuario");
+        Optional<Inicidencia> optinicidencia = inicidenciaRepository.findById(id);
+        if(optinicidencia.isPresent()){
+            Inicidencia incidencia = optinicidencia.get();
+            senderService.sendSimpleEmail(user.getCorreo(),"Información acerca de la Incidencia con ID "+incidencia.getId(),"Estimado usuario, su incidencia ha pasado al estado de Resuelto. ");
+            inicidenciaRepository.cambiarEstadoIncidencia(id);
+            redirectAttributes.addFlashAttribute("msg4","La incidencia con ID #"+id+" ha sido resuelta.");
+            return "redirect:/usuario/misIncidencias";
+        }else{
+            return "usuario/misIncidencias";
+        }
     }
     @PostMapping("/guardarImagenes")
     public String imagenSave(@RequestParam("fruta") String nombre ,@RequestParam(name = "f_subir",required = false) MultipartFile img, RedirectAttributes redirectAttributes, HttpSession session){

@@ -60,7 +60,7 @@ public class LogController {
             session.setAttribute("usuario",usuario);
             switch (rol){
                 case "usuario" -> {
-                    if(usuario.getBan() <3){
+                    if(usuario.getBan() != 1){
                         return "redirect:/usuario/listar";
                     }else{
                         String texto = "El usuario ha sido baneado";

@@ -604,7 +604,7 @@ public class SeguridadController {
                                      @ModelAttribute("incidencia") Inicidencia incidencia,
                                      @ModelAttribute("comentario") Comentario comentario) {
 
-        Optional<Inicidencia> optInicidencia = inicidenciaRepository.findById(id);
+        Optional<Inicidencia> optInicidencia = Optional.ofNullable(inicidenciaRepository.obtenerIncidenciaSinResolver(id));
 
         if(optInicidencia.isPresent()){
             Inicidencia inicidencia = optInicidencia.get();

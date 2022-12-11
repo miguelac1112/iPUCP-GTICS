@@ -51,7 +51,7 @@ public class Inicidencia {
     @Column(name = "comentario")
     @Size(max = 100, message = "Máximo 100 caracteres")
     @NotBlank(message = "Ingrese el comentario")
-    private String comentario="No hay comentarios";
+    private String comentario="Aún no hay comentarios.";
 
     @Column(name = "estado", nullable = false)
     private Byte estado =0;
@@ -70,7 +70,7 @@ public class Inicidencia {
     @Column(name = "comentario_usuario")
     @Size(max = 100, message = "Máximo 100 caracteres")
     @NotBlank(message = "Ingrese el comentario")
-    private String comentarioUsuario="Escriba aquí su comentario.";
+    private String comentarioUsuario="Aún no hay comentarios.";
 
     @Column(name = "max", nullable = false)
     private int max=0;

@@ -226,7 +226,7 @@
 
 
                                 <label for="comentarioUsuario" class="form-label">Ingrese comentario: </label>
-                                <textarea th:placeholder="${incidencia.comentarioUsuario}" class="form-control" name="comentarioUsuario" id="comentarioUsuario" rows="4"
+                                <textarea th:placeholder="'El último comentario es: '+${incidencia.comentarioUsuario}" class="form-control" name="comentarioUsuario" id="comentarioUsuario" rows="4"
                                           th:classappend="${#fields.hasErrors('incidencia.comentarioUsuario')?'is-invalid':''}" required></textarea>
                                 <div class="invalid-feedback" th:if="${#fields.hasErrors('incidencia.comentarioUsuario')}"
                                      th:errors="${incidencia.comentarioUsuario}">
