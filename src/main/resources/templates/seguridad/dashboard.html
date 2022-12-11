@@ -154,11 +154,12 @@
     var listaIncidenciasEstados = /*[[${incidenciaEstado}]]*/ "Test";
     var cantidad1 = listaIncidenciasEstados[0].cantidad;
     var cantidad2 = listaIncidenciasEstados[1].cantidad;
+    var cantidad3 = listaIncidenciasEstados[2].cantidad;
 
     var listaIncidenciasUrgencia = /*[[${incidenciaUrgencia}]]*/ "Test2";
     var urgencia = listaIncidenciasUrgencia[0].cantidad;
     var urgencia2 = listaIncidenciasUrgencia[1].cantidad;
-    var urgencia2 = listaIncidenciasUrgencia[2].cantidad;
+    var urgencia3 = listaIncidenciasUrgencia[2].cantidad;
 
     var listaIncidenciastipo = /*[[${incidenciaTipo}]]*/ "Test3";
     var listaIncidenciasCantidad = /*[[${incidenciaCantidad}]]*/ "Test4";
@@ -197,14 +198,16 @@
 <script>
     const data2 = {
         labels: [
-            'Atendida',
+            'Finalizada',
+            'En Proceso',
             'Por atender'
         ],
         datasets: [{
             label: 'Incidencias',
-            data: [cantidad1, cantidad2],
+            data: [cantidad1,cantidad2, cantidad3],
             backgroundColor: [
                 'rgb(54, 162, 235)',
+                'rgb(255, 205, 86)',
                 'rgb(255, 99, 132)'
             ],
             hoverOffset: 4
@@ -232,7 +235,7 @@
         ],
         datasets: [{
             label: 'Incidencias',
-            data: [urgencia, urgencia2, urgencia2],
+            data: [urgencia, urgencia2, urgencia3],
             backgroundColor: [
                 'rgb(54, 162, 235)',
                 'rgb(255, 205, 86)',
