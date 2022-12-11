@@ -130,7 +130,9 @@
                             <a  href="javascript:explorar();" >
                                 <div class="form-group"style="position: relative; left: -125%; top: 70%;">
                                     <img src="/img/camara.png" style="width: 50px;height: 4%;border-radius: 4px;margin-top: 30%" class="camara" alt="..." title="subir imagen"id="m">
-                                    <input onchange="notif()" type="file" name="f_subir" id="f_subir" style="display:none;" >
+                                    <input onchange="notif()" type="file" name="f_subir" id="f_subir" style="display:none;" accept="image/png, image/gif, image/jpeg" >
+
+
                                 </div>
                             </a>
                         </div>
@@ -236,8 +238,18 @@
 
     }
     function notif(){
-        let n = document.getElementById("noti");
-        n.innerHTML = `<h6 style="color: #4B9A4B">Se ha seleccionado un archivo</h6>\n`;
+        var fileName = document.getElementById("f_subir").value;
+        var idxDot = fileName.lastIndexOf(".") + 1;
+        var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
+        if (extFile=="jpg" || extFile=="jpeg" || extFile=="png"){
+            //TO DO
+            let n = document.getElementById("noti");
+            n.innerHTML = `<h6 style="color: #4B9A4B">Se ha seleccionado un archivo</h6>\n`;
+        }else{
+            alert("Solo se aceptan archivos con el formato jpg/jpeg y png, intentelo de nuevo");
+            document.getElementById("f_subir").value="";
+        }
+
 
     }
 </script>

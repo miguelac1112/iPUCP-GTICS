@@ -241,8 +241,21 @@
                         <hr>
                         <div >
                             <label for="fot" class="form-label">Añada una imagen: </label>
-                            <input type="file" class="btn btn-primary form-control" name="fot" style="background-color:grey; border-color:grey;max-width: 100%" id="fot" th:unless="${imagenVacia == 'imagenVacia'}">
-                            <input type="file" class="btn btn-primary form-control is-invalid" name="fot" style="background-color:grey; border-color:grey;max-width: 100%" id="fot" th:if="${imagenVacia == 'imagenVacia'}">
+                            <input type="file" class="btn btn-primary form-control" name="fot" style="background-color:grey; border-color:grey;max-width: 100%" id="fot" th:unless="${imagenVacia == 'imagenVacia'}" accept="image/png, image/gif, image/jpeg" onchange="validateFileType()">
+                            <input type="file" class="btn btn-primary form-control is-invalid" name="fot" style="background-color:grey; border-color:grey;max-width: 100%" id="fot" th:if="${imagenVacia == 'imagenVacia'}" >
+                            <script type="text/javascript">
+                                function validateFileType(){
+                                    var fileName = document.getElementById("fot").value;
+                                    var idxDot = fileName.lastIndexOf(".") + 1;
+                                    var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
+                                    if (extFile=="jpg" || extFile=="jpeg" || extFile=="png"){
+                                        //TO DO
+                                    }else{
+                                        alert("Solo se aceptan archivos con el formato jpg/jpeg y png, intentelo de nuevo");
+                                        document.getElementById("fot").value="";
+                                    }
+                                }
+                            </script>
                         </div>
                         <div th:if="${imagenVacia == 'imagenVacia'}">
                             <p style="color:red; font-size:85%;font-family:arial;">Seleccione una imagen</p>
