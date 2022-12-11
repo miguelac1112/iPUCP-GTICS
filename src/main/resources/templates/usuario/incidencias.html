@@ -12,6 +12,8 @@
     />
     <script src="https://kit.fontawesome.com/1e18eec1cd.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
+
     <title>MisIncidencias</title>
     <style>
         @media (max-width: 777px) {
@@ -135,10 +137,10 @@
 
 
                 <td style="text-align: center" th:if="${incidencia.estado == 3}">Resuelta</td>
-                <td style="text-align: center" th:if="${incidencia.estado == 0}">Pronto podrá comentar</td>
+                <td style="text-align: center" th:if="${incidencia.estado == 0}">Pronto podrá <br>comentar</td>
                 <td th:if="${incidencia.estado== 1 or incidencia.estado==2}" style="text-align: center"><button type="button" class="btn btn-success" data-bs-toggle="modal" th:attr="data-bs-target=${'#Modal'+incidencia.id}">Comentar</button></td>
 
-                <td style="text-align: center" th:if="${incidencia.estado == 0}">Pronto podrás ver los comentarios</td>
+                <td style="text-align: center" th:if="${incidencia.estado == 0}">Pronto podrás ver<br> los comentarios</td>
                 <td th:if="${incidencia.estado== 1 or incidencia.estado== 2 or incidencia.estado==3}"><a class="btn btn-secondary" style="margin-left: 25px" th:href="@{'/usuario/lista_comentarios?id=' + ${incidencia.id}}">Ver Comentarios</a>
                 </td>
 
