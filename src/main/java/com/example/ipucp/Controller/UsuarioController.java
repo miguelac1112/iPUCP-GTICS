@@ -131,6 +131,7 @@ public class UsuarioController {
             if(img.isEmpty()){
                 System.out.println("######################################################################imagen vacia");
                 model.addAttribute("imagenVacia", "imagenVacia");
+                return "usuario/newIncidencia";
             }else{
                 model.addAttribute("imagenVacia", "imagenNoVacia");
             }
@@ -157,10 +158,9 @@ public class UsuarioController {
             Instant fecha = inicidenciaRepository.fecha();
             incidencia.setFecha(fecha);
             incidencia.setCodigo(user);
-            System.out.println(latitud);
-            System.out.println(longitud);
             incidencia.setLatitud(latitud);
             incidencia.setLongitud(longitud);
+
             System.out.println("El usuario es +++++ "+user);
             String descripcion = incidencia.getDescripcion();
             String codigo_pucp = String.valueOf(user.getId());
@@ -168,111 +168,67 @@ public class UsuarioController {
             String apellido = user.getApellido();
             String correo = user.getCorreo();
             String dni = user.getDni();
-            if(descripcion.contains(codigo_pucp) || descripcion.contains(nombre) || descripcion.contains(apellido) || descripcion.contains(correo) || descripcion.contains(dni) ){
+
+            if(descripcion.contains(codigo_pucp) || descripcion.contains(nombre) || descripcion.contains(apellido) || descripcion.contains(correo) || descripcion.contains(dni) ) {
                 System.out.println("############################################### Estoy Aqui");
-                String newDescripcion = descripcion.replace(codigo_pucp,"****");
-                String newDescripcion2 = newDescripcion.replace(nombre,"****");
-                String newDescripcion3 = newDescripcion2.replace(apellido,"****");
-                String newDescripcion4 = newDescripcion3.replace(correo,"****");
-                String newDescripcion5 = newDescripcion4.replace(dni,"****");
+                String newDescripcion = descripcion.replace(codigo_pucp, "****");
+                String newDescripcion2 = newDescripcion.replace(nombre, "****");
+                String newDescripcion3 = newDescripcion2.replace(apellido, "****");
+                String newDescripcion4 = newDescripcion3.replace(correo, "****");
+                String newDescripcion5 = newDescripcion4.replace(dni, "****");
                 incidencia.setDescripcion(newDescripcion5);
-                int i = incidencia.getId();
-                String idInci = String.valueOf(i);
+            }
 
-                if(img.isEmpty()){
-                    System.out.println("######################################################################imagen vacia");
-                    model.addAttribute("imagenVacia", "imagenVacia");
-                    List<Tipo> listaTipo  =tipoRepository.findAll();
-                    List<Urgencia> listaUrgencia  =urgenciaRepository.findAll();
-                    List<Ubicacion> listaUbicacion = ubicacionRepository.findAll();
-                    model.addAttribute("listaTipo", listaTipo);
-                    model.addAttribute("listaUrgencia", listaUrgencia);
-                    model.addAttribute("listaUbicacion", listaUbicacion);
-                    model.addAttribute("errorCompany", "Ningún campo puede dejarse vacío, intente crear nuevamente por favor");
-                    if(incidencia.getIdtipo()!=null){
-                        model.addAttribute("tipoInci",incidencia.getIdtipo().getId());
-                        System.out.println(incidencia.getIdtipo().getId());
-                    }
-                    if(incidencia.getIdurgencia()!=null){
-                        model.addAttribute("tipoUrg",incidencia.getIdurgencia().getId());
-                        System.out.println(incidencia.getIdurgencia().getId());
-                    }
-                    if(incidencia.getEmMedica()!=null){
-                        model.addAttribute("emMedicaa",incidencia.getEmMedica());
-                        System.out.println(incidencia.getEmMedica());
-                    }
-                    if(incidencia.getUbicacion()!=null){
-                        model.addAttribute("ubiId",incidencia.getUbicacion().getId());
-                        System.out.println(incidencia.getUbicacion().getId());
-                    }
-                    return "usuario/newIncidencia";
-                }else{
-                    try {
-                        byte[] bytes = img.getBytes();
-                        Perfil perfil = new Perfil();
-                        perfil.setName("Incidencia_"+idInci+".png");
-                        String base64utput = faceBlur(Base64.getEncoder().encodeToString(bytes));
-                        perfil.setFileBase64(base64utput);
-                        System.out.println("llegue hasta aqui");
-                        inicidenciaRepository.save(incidencia);
-                        perfilDao.subirImagen(perfil);
-                    }catch (Exception e){
-                        System.out.println("Hay excepcion");
-                    }
+
+            if(img.isEmpty()){
+                System.out.println("######################################################################imagen vacia");
+                model.addAttribute("imagenVacia", "imagenVacia");
+                List<Tipo> listaTipo  =tipoRepository.findAll();
+                List<Urgencia> listaUrgencia  =urgenciaRepository.findAll();
+                List<Ubicacion> listaUbicacion = ubicacionRepository.findAll();
+                model.addAttribute("listaTipo", listaTipo);
+                model.addAttribute("listaUrgencia", listaUrgencia);
+                model.addAttribute("listaUbicacion", listaUbicacion);
+                model.addAttribute("errorCompany", "Ningún campo puede dejarse vacío, intente crear nuevamente por favor");
+                if(incidencia.getIdtipo()!=null){
+                    model.addAttribute("tipoInci",incidencia.getIdtipo().getId());
+                    System.out.println(incidencia.getIdtipo().getId());
                 }
-                attr.addFlashAttribute("msg","Incidencia creada exitosamente.");
-                return "redirect:/usuario/misIncidencias";
+                if(incidencia.getIdurgencia()!=null){
+                    model.addAttribute("tipoUrg",incidencia.getIdurgencia().getId());
+                    System.out.println(incidencia.getIdurgencia().getId());
+                }
+                if(incidencia.getEmMedica()!=null){
+                    model.addAttribute("emMedicaa",incidencia.getEmMedica());
+                    System.out.println(incidencia.getEmMedica());
+                }
+                if(incidencia.getUbicacion()!=null){
+                    model.addAttribute("ubiId",incidencia.getUbicacion().getId());
+                    System.out.println(incidencia.getUbicacion().getId());
+                }
+                return "usuario/newIncidencia";
             }else{
+                try {
+                    inicidenciaRepository.save(incidencia);
+                    int i = incidencia.getId();
+                    String idInci = String.valueOf(i);
+                    byte[] bytes = img.getBytes();
+                    Perfil perfil = new Perfil();
+                    perfil.setName("Incidencia_"+idInci+".png");
+                    String base64utput = faceBlur(Base64.getEncoder().encodeToString(bytes));
+                    perfil.setFileBase64(base64utput);
+                    System.out.println("llegue hasta aqui");
 
-                inicidenciaRepository.save(incidencia);
-                int i = incidencia.getId();
-                String idInci = String.valueOf(i);
-
-                if (img.isEmpty()) {
-                    System.out.println("######################################################################imagen vacia");
-                    model.addAttribute("imagenVacia", "imagenVacia");
-                    List<Tipo> listaTipo  =tipoRepository.findAll();
-                    List<Urgencia> listaUrgencia  =urgenciaRepository.findAll();
-                    List<Ubicacion> listaUbicacion = ubicacionRepository.findAll();
-                    model.addAttribute("listaTipo", listaTipo);
-                    model.addAttribute("listaUrgencia", listaUrgencia);
-                    model.addAttribute("listaUbicacion", listaUbicacion);
-                    model.addAttribute("errorCompany", "Ningún campo puede dejarse vacío, intente crear nuevamente por favor");
-                    if(incidencia.getIdtipo()!=null){
-                        model.addAttribute("tipoInci",incidencia.getIdtipo().getId());
-                        System.out.println(incidencia.getIdtipo().getId());
-                    }
-                    if(incidencia.getIdurgencia()!=null){
-                        model.addAttribute("tipoUrg",incidencia.getIdurgencia().getId());
-                        System.out.println(incidencia.getIdurgencia().getId());
-                    }
-                    if(incidencia.getEmMedica()!=null){
-                        model.addAttribute("emMedicaa",incidencia.getEmMedica());
-                        System.out.println(incidencia.getEmMedica());
-                    }
-                    if(incidencia.getUbicacion()!=null){
-                        model.addAttribute("ubiId",incidencia.getUbicacion().getId());
-                        System.out.println(incidencia.getUbicacion().getId());
-                    }
-                    return "usuario/newIncidencia";
-                } else {
-                    try {
-                        byte[] bytes = img.getBytes();
-                        Perfil perfil = new Perfil();
-                        perfil.setName("Incidencia_" + idInci + ".png");
-                        String base64utput = faceBlur(Base64.getEncoder().encodeToString(bytes));
-                        perfil.setFileBase64(base64utput);
-                        System.out.println("llegue hasta aqui");
-                        perfilDao.subirImagen(perfil);
-                    } catch (Exception e) {
-                        System.out.println("Hay excepcion");
-                    }
+                    perfilDao.subirImagen(perfil);
+                }catch (Exception e){
+                    System.out.println("Hay excepcion");
                 }
             }
 
             attr.addFlashAttribute("msg","Incidencia creada exitosamente.");
             return "redirect:/usuario/misIncidencias";
         }
+
     }
 
     @GetMapping("/detalle")
@@ -437,7 +393,7 @@ public class UsuarioController {
     /*Face Blur function*/
     public String faceBlur(String base64Input) throws IOException{
         System.out.println(base64Input);
-        String originalInput = "victor calderon:Vcalderon2009!";
+        String originalInput = "victor aponte:$ipucp123GTICS$";
         String credentials = Base64.getEncoder().encodeToString(originalInput.getBytes());
 
         JSONObject jo = new JSONObject();
