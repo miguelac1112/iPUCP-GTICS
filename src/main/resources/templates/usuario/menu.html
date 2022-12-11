@@ -1,260 +1,260 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       xmlns="http://www.w3.org/1999/html">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-        <link
-                rel="stylesheet"
-                href="https://use.fontawesome.com/releases/v5.15.1/css/all.css"
-                integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp"
-                crossorigin="anonymous"
-        />
-        <script src="https://kit.fontawesome.com/1e18eec1cd.js" crossorigin="anonymous"></script>
-        <link rel="stylesheet" href="/css/style.css"  />
-        <title>iPUCP</title>
-        <style>
-            @media (max-width: 777px) {
-                .hidden-mobile {
-                    display: none;
-                }
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <link
+            rel="stylesheet"
+            href="https://use.fontawesome.com/releases/v5.15.1/css/all.css"
+            integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp"
+            crossorigin="anonymous"
+    />
+    <script src="https://kit.fontawesome.com/1e18eec1cd.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/css/style.css"  />
+    <title>iPUCP</title>
+    <style>
+        @media (max-width: 777px) {
+            .hidden-mobile {
+                display: none;
             }
-            @media (min-width: 777px) {
-                .show-mobile {
-                    display: none;
-                }
+        }
+        @media (min-width: 777px) {
+            .show-mobile {
+                display: none;
             }
-        </style>
-    </head>
-    <body>
+        }
+    </style>
+</head>
+<body>
 
-    <div class="nav-container">
-        <nav class="navbar">
-            <div class="navbar-row-container">
-                <div class="nav-logo-container">
-                    <div class="menu-toggle">
-                        <a th:href="@{'/usuario/listar'}">
-                            <img class="img-logo" th:src="@{/img/logo.jpg}" style="border-radius: 100%;margin-bottom: 2mm; height:60px;width:60px; margin-left: 2mm;margin-right:2mm"/>
-                        </a>
-                    </div>
-                    <div class="a-logo" href="#inicio"><h1 id="navbar-logo"><strong>iPUCP<span style="font-size: medium">v.usuario</span></strong></h1></div>
+<div class="nav-container">
+    <nav class="navbar">
+        <div class="navbar-row-container">
+            <div class="nav-logo-container">
+                <div class="menu-toggle">
+                    <a th:href="@{'/usuario/listar'}">
+                        <img class="img-logo" th:src="@{/img/logo.jpg}" style="border-radius: 100%;margin-bottom: 2mm; height:60px;width:60px; margin-left: 2mm;margin-right:2mm"/>
+                    </a>
                 </div>
-                <ul class="nav-menu">
-                    <li>
-                        <a id="abrir-modal-cotizar-menu" class="nav-links nav-links-btn" th:href="@{'/usuario/listar'}">
-                            <i class="fas fa-home nav-links-img"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="nav-links nav-links-btn" th:href="@{'/usuario/mapa'}">
-                            <i class="far fa-compass nav-links-img"
-                            ></i>
-                        </a>
-                    </li>
-                    <li class="show-mobile dropup">
-                        <button type="button" class="nav-link dropdown-toggle fw-bold btn btn-dark dropdown-toggle-split"   role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
-
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-right" >
-                            <li><span class="dropdown-item" th:text="|${session.usuario.nombre} ${session.usuario.apellido}|" style="background-color: #1d1d1d; color: #eeeeee"></span></li>
-                            <li><a class="dropdown-item" th:href="@{'/usuario/misIncidencias'}">Incidencias</a></li>
-                            <li><a class="dropdown-item" th:href="@{'/usuario/perfil'}">Perfil</a></li>
-                            <li><form th:action="@{/logout}" method="post"><a class="dropdown-item"><input type="submit" class="border-0" style="background: #eeeeee; background-color: #eeeeee" value="Cerrar Sesión"></a></form></li>
-                        </ul>
-                    </li>
-                    <li class="hidden-mobile dropdown">
-                        <button type="button" class="nav-link dropdown-toggle fw-bold btn btn-dark dropdown-toggle-split"   role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
-
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-right" >
-                            <li><span class="dropdown-item" th:text="|${session.usuario.nombre} ${session.usuario.apellido}|" style="background-color: #1d1d1d; color: #eeeeee"></span></li>
-                            <li><a class="dropdown-item" th:href="@{'/usuario/misIncidencias'}">Incidencias</a></li>
-                            <li><a class="dropdown-item" th:href="@{'/usuario/perfil'}">Perfil</a></li>
-                            <li><form th:action="@{/logout}" method="post"><a class="dropdown-item"><input type="submit" class="border-0" style="background: #eeeeee; background-color: #eeeeee" value="Cerrar Sesión"></a></form></li>
-                        </ul>
-                    </li>
-                </ul>
+                <div class="a-logo" href="#inicio"><h1 id="navbar-logo"><strong>iPUCP<span style="font-size: medium">v.usuario</span></strong></h1></div>
             </div>
+            <ul class="nav-menu">
+                <li>
+                    <a id="abrir-modal-cotizar-menu" class="nav-links nav-links-btn" th:href="@{'/usuario/listar'}">
+                        <i class="fas fa-home nav-links-img"></i>
+                    </a>
+                </li>
+                <li>
+                    <a class="nav-links nav-links-btn" th:href="@{'/usuario/mapa'}">
+                        <i class="far fa-compass nav-links-img"
+                        ></i>
+                    </a>
+                </li>
+                <li class="show-mobile dropup">
+                    <button type="button" class="nav-link dropdown-toggle fw-bold btn btn-dark dropdown-toggle-split"   role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
 
-        </nav>
-    </div>
-    </br>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-right" >
+                        <li><span class="dropdown-item" th:text="|${session.usuario.nombre} ${session.usuario.apellido}|" style="background-color: #1d1d1d; color: #eeeeee"></span></li>
+                        <li><a class="dropdown-item" th:href="@{'/usuario/misIncidencias'}">Incidencias</a></li>
+                        <li><a class="dropdown-item" th:href="@{'/usuario/perfil'}">Perfil</a></li>
+                        <li><form th:action="@{/logout}" method="post"><a class="dropdown-item"><input type="submit" class="border-0" style="background: #eeeeee; background-color: #eeeeee" value="Cerrar Sesión"></a></form></li>
+                    </ul>
+                </li>
+                <li class="hidden-mobile dropdown">
+                    <button type="button" class="nav-link dropdown-toggle fw-bold btn btn-dark dropdown-toggle-split"   role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
 
-        <div class="container mt-4 middlearea">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-auto">
-                        <a class="nav-link" th:href="@{'/usuario/newInciden'}">
-                            <button type="button" class="btn btn-dark">NUEVA INCIDENCIA</button>
-                        </a>
-                    </div>
-                    <div class="col-auto">
-                        <a class="nav-link" th:href="@{'/usuario/misIncidencias'}">
-                            <button type="button" class="btn btn-secondary">Mis Incidencias</button>
-                        </a>
-                    </div>
-                    <div class="col-auto">
-                        <form method="post" th:action="@{/usuario/listarFiltrado}">
-                            <div class="form-floating">
-                                <label for="orden" class="form-label">Ordenar:</label>
-                                <select class="form-select" id="orden" name="orden" required>
-                                    <option value="1">Reciente</option>
-                                    <option value="2">Más Popular</option>
-                                </select>
-                                <div class="col-auto m-1">
-                                    <button  class="btn btn-primary btn-sm" type="submit">Aplicar</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-right" >
+                        <li><span class="dropdown-item" th:text="|${session.usuario.nombre} ${session.usuario.apellido}|" style="background-color: #1d1d1d; color: #eeeeee"></span></li>
+                        <li><a class="dropdown-item" th:href="@{'/usuario/misIncidencias'}">Incidencias</a></li>
+                        <li><a class="dropdown-item" th:href="@{'/usuario/perfil'}">Perfil</a></li>
+                        <li><form th:action="@{/logout}" method="post"><a class="dropdown-item"><input type="submit" class="border-0" style="background: #eeeeee; background-color: #eeeeee" value="Cerrar Sesión"></a></form></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    </nav>
+</div>
+</br>
+
+<div class="container mt-4 middlearea">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-auto">
+                <a class="nav-link" th:href="@{'/usuario/newInciden'}">
+                    <button type="button" class="btn btn-dark">NUEVA INCIDENCIA</button>
+                </a>
             </div>
-            <div class="row justify-content-center">
-                <div class="col-10 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                    <div class="card mt-5 mb-3" th:each="incidencia : ${incidenciaList}" >
-                        <div class="card-header">
-                            <img
-                                    th:if="${iperfil.get(incidencia) != null}"
-                                    th:src="|data:image/png;base64,${iperfil.get(incidencia)}|"  class="roca"  alt="..."
-                                    style="width: 35px; height: 35px; border-radius: 50%"
-                            />
-                            <img
-                                    th:if="${iperfil.get(incidencia) == null}"
-                                    src="/img/avatar.png"  class="roca"  alt="..."
-                                    style="width: 35px; height: 35px; border-radius: 50%"
-                            />
-                            <span class="postuserfont" ><strong th:text="${incidencia.codigo.getNombre()+' '+incidencia.codigo.getApellido()}"></strong></span>
+            <div class="col-auto">
+                <a class="nav-link" th:href="@{'/usuario/misIncidencias'}">
+                    <button type="button" class="btn btn-secondary">Mis Incidencias</button>
+                </a>
+            </div>
+            <div class="col-auto">
+                <form method="post" th:action="@{/usuario/listarFiltrado}">
+                    <div class="form-floating">
+                        <label for="orden" class="form-label">Ordenar:</label>
+                        <select class="form-select" id="orden" name="orden" required>
+                            <option value="1">Reciente</option>
+                            <option value="2">Más Popular</option>
+                        </select>
+                        <div class="col-auto m-1">
+                            <button  class="btn btn-primary btn-sm" type="submit">Aplicar</button>
                         </div>
-                        <img
-                                th:src="|data:image/png;base64,${hashmap.get(incidencia)}|"
-                                class="card-img-top"
-                                alt="..."
-                        />
-                        <ul
-                                class="list-group list-group-horizontal mt-1"
-                                style="list-style-type: none; border: 0"
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-10 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+            <div class="card mt-5 mb-3" th:each="incidencia : ${incidenciaList}" >
+                <div class="card-header">
+                    <img
+                            th:if="${iperfil.get(incidencia) != null}"
+                            th:src="|data:image/png;base64,${iperfil.get(incidencia)}|"  class="roca"  alt="..."
+                            style="width: 35px; height: 35px; border-radius: 50%"
+                    />
+                    <img
+                            th:if="${iperfil.get(incidencia) == null}"
+                            src="/img/avatar.png"  class="roca"  alt="..."
+                            style="width: 35px; height: 35px; border-radius: 50%"
+                    />
+                    <span class="postuserfont" ><strong th:text="${incidencia.codigo.getNombre()+' '+incidencia.codigo.getApellido()}"></strong></span>
+                </div>
+                <img
+                        th:src="|data:image/png;base64,${hashmap.get(incidencia)}|"
+                        class="card-img-top"
+                        alt="..."
+                />
+                <ul
+                        class="list-group list-group-horizontal mt-1"
+                        style="list-style-type: none; border: 0"
+                >
+                </ul>
+                <div class="card-body" style="margin-top: -15px">
+                    <p class="card-text postuserfont">
+                        <strong style="margin-left: -4px; margin-right: 5px" th:text="${incidencia.nombre}"
+                        ></strong>
+                    </p>
+                    <p class="card-text postuserfont" style="margin-top: -15px">
+                        <strong style="margin-left: -4px; margin-right: 5px" >Ubicación: </strong>
+                        <span th:text="${incidencia.ubicacion.getNombre()}"></span>
+                    </p>
+                    <p class="card-text postuserfont" style="margin-top: -15px">
+                        <strong style="margin-left: -4px; margin-right: 5px" >Tipo: </strong>
+                        <span th:text="${incidencia.idtipo.getTipoIncidencia()}"></span>
+                    </p>
+                    <p class="card-text postuserfont" style="margin-top: -15px">
+                        <strong style="margin-left: -4px; margin-right: 5px" >Estado: </strong>
+                        <span th:if="${incidencia.estado == 3 or incidencia.getMax()==5}">Resuelta</span>
+                        <span th:if="${incidencia.estado == 0}">Registrada</span>
+                        <span th:if="${incidencia.estado == 1}">En proceso</span>
+                        <span th:if="${incidencia.estado == 2}">Atendida</span>
+                    </p>
+                    <p class="card-text postuserfont" style="margin-top: -15px" >
+                        <strong style="margin-left: -4px; margin-right: 5px"
+                        >Descripción: </strong
                         >
-                        </ul>
-                        <div class="card-body" style="margin-top: -15px">
-                            <p class="card-text postuserfont">
-                                <strong style="margin-left: -4px; margin-right: 5px" th:text="${incidencia.nombre}"
-                                ></strong>
-                            </p>
-                            <p class="card-text postuserfont" style="margin-top: -15px">
-                                <strong style="margin-left: -4px; margin-right: 5px" >Ubicación: </strong>
-                                <span th:text="${incidencia.ubicacion.getNombre()}"></span>
-                            </p>
-                            <p class="card-text postuserfont" style="margin-top: -15px">
-                                <strong style="margin-left: -4px; margin-right: 5px" >Tipo: </strong>
-                                <span th:text="${incidencia.idtipo.getTipoIncidencia()}"></span>
-                            </p>
-                            <p class="card-text postuserfont" style="margin-top: -15px">
-                                <strong style="margin-left: -4px; margin-right: 5px" >Estado: </strong>
-                                <span th:if="${incidencia.estado == 3 or incidencia.getMax()==5}">Resuelta</span>
-                                <span th:if="${incidencia.estado == 0}">Registrada</span>
-                                <span th:if="${incidencia.estado == 1}">En proceso</span>
-                                <span th:if="${incidencia.estado == 2}">Atendida</span>
-                            </p>
-                            <p class="card-text postuserfont" style="margin-top: -15px" >
-                                <strong style="margin-left: -4px; margin-right: 5px"
-                                >Descripción: </strong
-                                >
-                            </p>
-                            <p class="card-text postuserfont" style="margin-top: -15px"  th:text="${incidencia.descripcion}">
-                            <p class="card-text" style="
+                    </p>
+                    <p class="card-text postuserfont" style="margin-top: -15px"  th:text="${incidencia.descripcion}">
+                    <p class="card-text" style="
                   margin-top: -10px;
                   margin-left: -4px;
                   font-size: 12px;
                   color: rgb(139, 133, 133);
                 " th:text="${'Destacado '+incidencia.destacado+' veces'}"></p>
 
-                            <p class="card-text" style="
+                    <p class="card-text" style="
                   margin-top: -10px;
                   margin-left: -4px;
                   font-size: 12px;
                   color: rgb(139, 133, 133);
                 " th:text="${'Publicado el '+incidencia.fecha.toString().split('T')[0].split('-')[2]+'/'+incidencia.fecha.toString().split('T')[0].split('-')[1]+'/'+incidencia.fecha.toString().split('T')[0].split('-')[0]}"></p>
 
-                        </div>
-                        <div
-                                class="card-footer"
-                                style="
+                </div>
+                <div
+                        class="card-footer"
+                        style="
                 color: rgb(139, 133, 133);
                 font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI',
                   Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans',
                   'Helvetica Neue', sans-serif;
                 font-size: 14px;
               ">
-                            <div class="container-md w-50">
-                                <ul
-                                        class="list-group list-group-horizontal mt-1"
-                                        style="list-style-type: none; border: 0"
-                                >
-                                    <li class="nav-item ms-3">
-                                        <a class="nav-link" th:href="@{'/usuario/destacar?id=' + ${incidencia.id}}"
-                                        ><i
-                                                class="fa-solid fa-share"
-                                                style="color: black; position: relative; font-size: 23px"
-                                        ></i
-                                        ></a>
-                                    </li>
-                                    <li class="nav-item ms-5" data-bs-toggle="modal" data-bs-target="#exampleModal" th:attr="data-bs-target=${'#Modal'+incidencia.id}">
-                                        <a class="nav-link" href="#"
-                                        ><i
-                                                class="fa-solid fa-comment"
-                                                style="
+                    <div class="container-md w-50">
+                        <ul
+                                class="list-group list-group-horizontal mt-1"
+                                style="list-style-type: none; border: 0"
+                        >
+                            <li class="nav-item ms-3">
+                                <a class="nav-link" th:href="@{'/usuario/destacar?id=' + ${incidencia.id}}"
+                                ><i
+                                        class="fa-solid fa-share"
+                                        style="color: black; position: relative; font-size: 23px"
+                                ></i
+                                ></a>
+                            </li>
+                            <li class="nav-item ms-5" data-bs-toggle="modal" data-bs-target="#exampleModal" th:attr="data-bs-target=${'#Modal'+incidencia.id}">
+                                <a class="nav-link" href="#"
+                                ><i
+                                        class="fa-solid fa-comment"
+                                        style="
                       color: black;
                       position: relative;
                       font-size: 23px;
                       margin-left: -11px;
                     "
-                                        ></i
-                                        ></a>
-                                    </li>
-                                    <li class="nav-item ms-5">
-                                        <a class="nav-link" href="#"
-                                        ><i
-                                                class="fa-solid fa-location-dot"
-                                                style="
+                                ></i
+                                ></a>
+                            </li>
+                            <li class="nav-item ms-5">
+                                <a class="nav-link" href="#"
+                                ><i
+                                        class="fa-solid fa-location-dot"
+                                        style="
                       color: black;
                       position: relative;
                       font-size: 23px;
                       margin-left: -11px;
                     "
-                                        ></i
-                                        ></a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
+                                ></i
+                                ></a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Modal -->
-        <div th:each="incidencia : ${incidenciaList}">
-            <div class="modal fade" th:id="${'Modal'+incidencia.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Comentario de Seguridad</h5>
-                        </div>
-                        <div class="modal-body">
-                            <strong style="margin-left: -4px; margin-right: 5px"
-                                    th:if="${incidencia.comentario ==null}"
-                            > La incidencia todavía no ha sido resuelta</strong>
-                            <strong style="margin-left: -4px; margin-right: 5px"
-                                    th:text="${incidencia.comentario}"
-                            ></strong>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
-                        </div>
-                    </div>
+    </div>
+</div>
+<!-- Modal -->
+<div th:each="incidencia : ${incidenciaList}">
+    <div class="modal fade" th:id="${'Modal'+incidencia.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Comentario de Seguridad</h5>
+                </div>
+                <div class="modal-body">
+                    <strong style="margin-left: -4px; margin-right: 5px"
+                            th:if="${incidencia.comentario ==null}"
+                    > La incidencia todavía no ha sido resuelta</strong>
+                    <strong style="margin-left: -4px; margin-right: 5px"
+                            th:text="${incidencia.comentario}"
+                    ></strong>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
-    </body>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+</body>
 </html>
