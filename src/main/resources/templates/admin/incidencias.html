@@ -78,7 +78,7 @@
             <h1 class="pb-2 border-bottom" style="text-align: center">Gestión de incidencias</h1>
             </br>
 
-            <div th:if="${mens != null}" th:text="${mens}" class="alert alert-success" role="alert" ></div>
+            <div th:if="${msg != null}" th:text="${msg}" class="alert alert-success" role="alert" ></div>
 
             <div class="container">
                 <div class="container">
@@ -245,21 +245,24 @@
                         <div class="mb-3">
                             <label for="tipoIncidencia2" class="form-label">Nombre de incidencia:</label>
 
-                            <div th:if="${openModalCreate != null}">
+                            <div th:if="${openModalCreate != null && openModalCreate != 'Imagen vacia'}">
                                 <input type="text" id="tipoIncidencia2" name="tipoIncidencia2" class="form-control is-invalid" th:value="${corregir}"/>
                                 <div class="invalid-feedback" th:text="${openModalCreate}">
                                     Campo obligatorio
                                 </div>
                             </div>
 
-                            <div th:unless="${openModalCreate != null}">
+                            <div th:unless="${openModalCreate != null && openModalCreate != 'Imagen vacia'}">
                                 <input type="text" id="tipoIncidencia2" name="tipoIncidencia2" class="form-control"/>
-
                             </div>
                         </div>
                         <div class="mb-3">
                             <label for="foto2" class="form-label">Imagen de incidencia:</label>
-                            <input type="file" class="btn btn-primary" name="foto2" style="background-color:grey; border-color:grey" id="foto2">
+                            <input type="file" class="btn btn-primary form-control is-invalid" name="foto2" style="background-color:grey; border-color:grey;max-width: 100%" id="foto2" th:if="${openModalCreate != null && openModalCreate != 'No se acepta entrada vacía' && openModalCreate != 'Máximo 45 caracteres'}">
+                            <input type="file" class="btn btn-primary form-control" name="foto2" style="background-color:grey; border-color:grey;max-width: 100%" id="foto2" th:unless="${openModalCreate != null && openModalCreate != 'No se acepta entrada vacía' && openModalCreate != 'Máximo 45 caracteres'}">
+                            <div th:if="${openModalCreate == 'Imagen vacia'}">
+                                <p style="color:red; font-size:85%;font-family:arial;">Seleccione una imagen</p>
+                            </div>
                         </div>
                     </form>
 

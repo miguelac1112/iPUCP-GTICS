@@ -378,11 +378,11 @@ public class AdminController {
                 perfil.setName("t"+String.valueOf(tipo.getId())+".png");
                 perfil.setFileBase64(Base64.getEncoder().encodeToString(bytes));
                 perfilDao.subirImagen(perfil);
-                attr.addFlashAttribute("mens","Tipo de incidencia actualizada correctamente");
 
             }catch (Exception e){
                 System.out.println("Hay excepcion");
             }
+            attr.addFlashAttribute("msg","Tipo de incidencia actualizada correctamente");
             return "redirect:/admin/incidencias";
         }
     }
@@ -390,18 +390,30 @@ public class AdminController {
     @PostMapping("/saveIncident")
     public String guardarTipoIncidencia(@ModelAttribute("tipo") @Valid Tipo tipo, BindingResult bindingResult,
                                         @RequestParam("tipoIncidencia2") String tipoIncidencia2, RedirectAttributes attr,@RequestParam(name = "foto2",required = false) MultipartFile img, Model model) {
-        if(tipoIncidencia2.equals("")){
-            model.addAttribute("openModalCreate","No se acepta entrada vacía");
-            model.addAttribute("incidenciaEnReporte",tipoRepository.listaIncidencias());
-            model.addAttribute("listaIncidencias",tipoRepository.findAll());
+        if(tipoIncidencia2.equals("") || tipoIncidencia2.length() >= 45 || img.isEmpty()){
+            List<Tipo> ListaTipo = tipoRepository.findAll();
+            HashMap<Tipo,String> ti = new HashMap<Tipo,String>();
+            for(Tipo tip: ListaTipo){
+                ti.put(tip,perfilDao.obtenerImagen("t"+String.valueOf(tip.getId())).getFileBase64());
+            }
+            model.addAttribute("hashti",ti);
+            if(tipoIncidencia2.equals("")){
+                model.addAttribute("openModalCreate","No se acepta entrada vacía");
+                model.addAttribute("incidenciaEnReporte",tipoRepository.listaIncidencias());
+                model.addAttribute("listaIncidencias",tipoRepository.findAll());
+            }if(tipoIncidencia2.length() >= 45) {
+                model.addAttribute("openModalCreate", "Máximo 45 caracteres");
+                model.addAttribute("corregir",tipoIncidencia2);
+                model.addAttribute("incidenciaEnReporte", tipoRepository.listaIncidencias());
+                model.addAttribute("listaIncidencias", tipoRepository.findAll());
+            }if(img.isEmpty()){
+                model.addAttribute("openModalCreate", "Imagen vacia");
+                model.addAttribute("corregir",tipoIncidencia2);
+                model.addAttribute("incidenciaEnReporte", tipoRepository.listaIncidencias());
+                model.addAttribute("listaIncidencias", tipoRepository.findAll());
+            }
             return "admin/incidencias";
-        }if(tipoIncidencia2.length() >= 45) {
-            model.addAttribute("openModalCreate", "Máximo 45 caracteres");
-            model.addAttribute("corregir",tipoIncidencia2);
-            model.addAttribute("incidenciaEnReporte", tipoRepository.listaIncidencias());
-            model.addAttribute("listaIncidencias", tipoRepository.findAll());
-            return "admin/incidencias";
-        } else {
+        }else {
             tipoRepository.crearTipoIncidencia(tipoIncidencia2);
             try {
                 byte[] bytes = img.getBytes();
@@ -410,12 +422,11 @@ public class AdminController {
                 perfil.setName("t"+String.valueOf(a.getId())+".png");
                 perfil.setFileBase64(Base64.getEncoder().encodeToString(bytes));
                 perfilDao.subirImagen(perfil);
-                attr.addFlashAttribute("msg","Tipo de incidencia creada exitosamente");
 
             }catch (Exception e){
                 System.out.println("Hay excepcion");
             }
-
+            attr.addFlashAttribute("msg","Tipo de incidencia creada exitosamente");
             return "redirect:/admin/incidencias";
         }
 
