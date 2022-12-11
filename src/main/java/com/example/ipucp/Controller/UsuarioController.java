@@ -90,13 +90,23 @@ public class UsuarioController {
                 user.put(incidencia,perfilDao.obtenerImagen(incidencia.getCodigo().getId()).getFileBase64());
             }
         }
-        else{
+        else if(form ==1){
             List<Inicidencia> lista  =inicidenciaRepository.orderReciente();
             model.addAttribute("incidenciaList", lista);
             for(Inicidencia incidencia: lista){
                 datos.put(incidencia,perfilDao.obtenerImagen("Incidencia_"+ String.valueOf(incidencia.getId())).getFileBase64());
                 user.put(incidencia,perfilDao.obtenerImagen(incidencia.getCodigo().getId()).getFileBase64());
             }
+        }else{
+            List<Inicidencia> lista  =inicidenciaRepository.orderReciente();
+            model.addAttribute("incidenciaList", lista);
+            for(Inicidencia incidencia: lista){
+                datos.put(incidencia,perfilDao.obtenerImagen("Incidencia_"+ String.valueOf(incidencia.getId())).getFileBase64());
+                user.put(incidencia,perfilDao.obtenerImagen(incidencia.getCodigo().getId()).getFileBase64());
+            }
+            model.addAttribute("hashmap",datos);
+            model.addAttribute("iperfil",user);
+            return "usuario/menu";
         }
         model.addAttribute("hashmap",datos);
         model.addAttribute("iperfil",user);
@@ -104,9 +114,21 @@ public class UsuarioController {
     }
 
     @GetMapping("/destacar")
-    public String destacarIncidencia(@RequestParam("id") Integer id) {
-        inicidenciaRepository.destacarIncidencia(id);
-        return "redirect:/usuario/listar";
+    public String destacarIncidencia(@RequestParam("id") Integer id, RedirectAttributes attr) {
+        Optional<Inicidencia> optInicidencia = inicidenciaRepository.findById(id);
+        if(optInicidencia.isPresent()){
+            Inicidencia incidencia = optInicidencia.get();
+            if(incidencia.getDestacado()!=3){
+                inicidenciaRepository.destacarIncidencia(id);
+                attr.addFlashAttribute("msg","La incidencia con título: '"+incidencia.getNombre()+"' ha recibido un nuevo destacado.");
+                return "redirect:/usuario/listar";
+            }else{
+                return "redirect:/usuario/listar";
+            }
+        }else{
+            return "redirect:/usuario/listar";
+        }
+
     }
 
 

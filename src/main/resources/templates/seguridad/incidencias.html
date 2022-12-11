@@ -174,7 +174,7 @@
                                 </svg>
                                 Ubicar
                             </button>
-                            <a th:if="${incidencias.estado == 3 or incidencias.getMax()==5}"  class="btn btn-success">Resuelta</a>
+                            <button th:if="${incidencias.estado == 3 or incidencias.getMax()==5}" class="btn btn-success" disabled>Resuelta</button>
                             <a th:if="${incidencias.estado == 0}" th:href="@{'/seguridad/comentar_incidencia' + '?id=' + ${incidencias.id}}" class="btn btn-primary">Atender</a>
                             <a th:if="${incidencias.estado == 1 or incidencias.estado==2}" th:href="@{'/seguridad/comentar_incidencia' + '?id=' + ${incidencias.id}}" class="btn btn-info">Revisar</a>
                             <a th:if="${incidencias.estado == 1 or incidencias.estado==2 or incidencias.estado==3 }" th:href="@{'/seguridad/lista_comentarios' + '?id=' + ${incidencias.id}}" class="btn btn-info">Ver comentarios</a>
