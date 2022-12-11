@@ -86,7 +86,7 @@ public interface InicidenciaRepository extends JpaRepository<Inicidencia, Intege
     @Query(value = "SELECT * FROM inicidencia where idtipo = ?1 and idurgencia = ?2 order by idinicidencia;",nativeQuery = true)
     List<Inicidencia> filtradoTipoUrgenciaAntig(int idTipo, int idUrgencia);
 
-    @Query(value = "select now();",nativeQuery = true)
+    @Query(value = "SELECT DATE_SUB(now(), INTERVAL 5 HOUR);",nativeQuery = true)
     Instant fecha();
 
     @Query(value = "SELECT month(fecha) as 'mes',count(idinicidencia) as 'cantidad' FROM ipucp.inicidencia group by month(fecha) ",nativeQuery = true)

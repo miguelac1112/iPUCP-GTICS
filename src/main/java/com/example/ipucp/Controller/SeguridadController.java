@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.net.http.HttpHeaders;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import javax.servlet.http.HttpServletResponse;
@@ -660,14 +661,16 @@ public class SeguridadController {
             incidencia.setUbicacion(inicidencia_flotante.getUbicacion());
 
             if (bindingResult.hasErrors()) {
+                model.addAttribute("imgi",perfilDao.obtenerImagen("Incidencia_"+ id).getFileBase64());
                 model.addAttribute("incidencia", incidencia);
                 return "seguridad/seguridad";
             }else{
                 String correo = usuario.getCorreo();
                 int max = incidencia.getMax();
                 max+=1;
+                Instant fecha = inicidenciaRepository.fecha();
                 inicidenciaRepository.comentarIncidencia(comentario,max,incidencia.getId());
-                comentarioRepository.comentarIncidencia(comentario, incidencia.getId());
+                comentarioRepository.comentarIncidencia(comentario, fecha,incidencia.getId());
                 senderService.sendSimpleEmail(correo,"Información acerca de la Incidencia con ID "+incidencia.getId(),"Estimado usuario, su incidencia pasa al estado de Atendido. Comentario del miembro de seguridad: "+comentario);
                 String texto = "La incidencia con ID "+incidencia.getId()+" del usuario con código "+ incidencia.getCodigo().getId()+" ha sido respondida.";
                 redirectAttributes.addFlashAttribute("msg",texto);

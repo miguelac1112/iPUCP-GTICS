@@ -18,7 +18,7 @@ public interface ComentarioRepository extends JpaRepository<Comentario, Integer>
     @Query(value = "select * from comentarios  where idinicidencia=?1 and cargo = '0' order by fecha asc;",nativeQuery = true)
     List<Comentario> IncidenciasComentariosUsuario(int idIncidencia);
 
-    @Query(value = "select now();",nativeQuery = true)
+    @Query(value = "SELECT DATE_SUB(now(), INTERVAL 5 HOUR);",nativeQuery = true)
     Instant fecha();
 
     @Query(value = "select * from comentarios\n" +
@@ -27,11 +27,11 @@ public interface ComentarioRepository extends JpaRepository<Comentario, Integer>
 
     @Transactional
     @Modifying
-    @Query(value = "INSERT INTO `comentarios` (`text_comentario`, `cargo`, `idinicidencia`) VALUES (?1, '1', ?2);",nativeQuery = true)
-    void comentarIncidencia(String comentario, int id);
+    @Query(value = "INSERT INTO `comentarios` (`text_comentario`, `fecha`, `cargo`, `idinicidencia`) VALUES (?1, ?2,'1', ?3);",nativeQuery = true)
+    void comentarIncidencia(String comentario,Instant fecha ,int id);
 
     @Transactional
     @Modifying
-    @Query(value = "INSERT INTO `comentarios` (`text_comentario`, `cargo`, `idinicidencia`) VALUES (?1, '0', ?2);",nativeQuery = true)
-    void comentarIncidenciaUsuario(String comentario, int id);
+    @Query(value = "INSERT INTO `comentarios` (`text_comentario`,`fecha`, `cargo`, `idinicidencia`) VALUES (?1, ?2,'0', ?3);",nativeQuery = true)
+    void comentarIncidenciaUsuario(String comentario, Instant fecha, int id);
 }

@@ -333,8 +333,9 @@ public class UsuarioController {
         }else {
             int max = incidencia.getMax_usuario();
             max+=1;
+            Instant fecha = inicidenciaRepository.fecha();
             inicidenciaRepository.comentarIncidenciaUsuario(comentarioUsuario,max,id);
-            comentarioRepository.comentarIncidenciaUsuario(comentarioUsuario,id);
+            comentarioRepository.comentarIncidenciaUsuario(comentarioUsuario, fecha,id);
             System.out.println("El correo del usuario es +++++++++++++ " + user.getCorreo());
             senderService.sendSimpleEmail(user.getCorreo(),"Información acerca de la Incidencia con ID "+incidencia.getId(),"Estimado usuario, su incidencia se encuentra en el estado de En Proceso. Pronto verá el nuevo comentario del miembro de seguridad. ");
             if(max==5){
