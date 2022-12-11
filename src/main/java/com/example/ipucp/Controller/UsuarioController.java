@@ -329,7 +329,7 @@ public class UsuarioController {
             System.out.println(bindingResult.getFieldError());
             model.addAttribute("id",id);
             model.addAttribute("listaIncidencias",inicidenciaRepository.userIncidencias(user.getId()));
-            return "usuario/misIncidencias";
+            return "usuario/incidencias";
         }else {
             int max = incidencia.getMax_usuario();
             max+=1;
