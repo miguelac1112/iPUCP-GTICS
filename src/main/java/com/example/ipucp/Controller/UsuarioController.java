@@ -176,7 +176,6 @@ public class UsuarioController {
                 String newDescripcion4 = newDescripcion3.replace(correo,"****");
                 String newDescripcion5 = newDescripcion4.replace(dni,"****");
                 incidencia.setDescripcion(newDescripcion5);
-                inicidenciaRepository.save(incidencia);
                 int i = incidencia.getId();
                 String idInci = String.valueOf(i);
 
@@ -215,6 +214,7 @@ public class UsuarioController {
                         String base64utput = faceBlur(Base64.getEncoder().encodeToString(bytes));
                         perfil.setFileBase64(base64utput);
                         System.out.println("llegue hasta aqui");
+                        inicidenciaRepository.save(incidencia);
                         perfilDao.subirImagen(perfil);
                     }catch (Exception e){
                         System.out.println("Hay excepcion");
