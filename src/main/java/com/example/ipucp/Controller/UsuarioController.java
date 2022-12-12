@@ -70,7 +70,7 @@ public class UsuarioController {
         int finalIndex;
         int inicialIndex;
         // Condiciones index final:
-        if((index+1)*paso <= lista1.size()){
+        if((index+1)*paso < lista1.size()){
             finalIndex = (index+1)*paso;
         }else{
             finalIndex = lista1.size();
@@ -83,6 +83,14 @@ public class UsuarioController {
             inicialIndex = 0;
             model.addAttribute("disableAnterior","disableAnterior");
         }
+        // Condiciones para el boton ">>":
+        int ultimo;
+        if(lista1.size()%paso > 0){
+            ultimo = ((lista1.size()-(lista1.size()%paso))/paso);
+        }else{
+            ultimo = lista1.size()/paso;
+        }
+        model.addAttribute("ultimo",ultimo);
 
         if(inicialIndex<finalIndex){
             List<Inicidencia> lista = lista1.subList(inicialIndex, finalIndex);
@@ -126,7 +134,7 @@ public class UsuarioController {
         int finalIndex;
         int inicialIndex;
         // Condiciones index final:
-        if((index+1)*paso <= lista1.size()){
+        if((index+1)*paso < lista1.size()){
             finalIndex = (index+1)*paso;
         }else{
             finalIndex = lista1.size();
@@ -139,21 +147,34 @@ public class UsuarioController {
             inicialIndex = 0;
             model.addAttribute("disableAnterior","disableAnterior");
         }
-
-        List<Inicidencia> lista = lista1.subList(inicialIndex, finalIndex);
-        model.addAttribute("index",index);
-        model.addAttribute("listarFiltrado","listarFiltrado");
-
-
-        model.addAttribute("incidenciaList", lista);
-        for(Inicidencia incidencia: lista){
-            datos.put(incidencia,perfilDao.obtenerImagen("Incidencia_"+ String.valueOf(incidencia.getId())).getFileBase64());
-            user.put(incidencia,perfilDao.obtenerImagen(incidencia.getCodigo().getId()).getFileBase64());
+        // Condiciones para el boton ">>":
+        int ultimo;
+        if(lista1.size()%paso > 0){
+            ultimo = ((lista1.size()-(lista1.size()%paso))/paso);
+        }else{
+            ultimo = lista1.size()/paso;
         }
+        model.addAttribute("ultimo",ultimo);
 
-        model.addAttribute("hashmap",datos);
-        model.addAttribute("iperfil",user);
-        return "usuario/menu";
+        if(inicialIndex<finalIndex){
+            List<Inicidencia> lista = lista1.subList(inicialIndex, finalIndex);
+            model.addAttribute("index",index);
+            model.addAttribute("listarFiltrado","listarFiltrado");
+
+
+            model.addAttribute("incidenciaList", lista);
+            for(Inicidencia incidencia: lista){
+                datos.put(incidencia,perfilDao.obtenerImagen("Incidencia_"+ String.valueOf(incidencia.getId())).getFileBase64());
+                user.put(incidencia,perfilDao.obtenerImagen(incidencia.getCodigo().getId()).getFileBase64());
+            }
+
+            model.addAttribute("hashmap",datos);
+            model.addAttribute("iperfil",user);
+            return "usuario/menu";
+        }else{
+        //Esto por si algun usuario chistoso pone en el link un index que supera el numero de incidencias
+            return "redirect:/usuario/listarFiltrado?index=0";
+        }
     }
 
     @GetMapping("/destacar")
