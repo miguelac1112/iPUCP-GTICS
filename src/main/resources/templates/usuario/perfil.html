@@ -159,7 +159,7 @@
                     <input class="form-control" type="text" th:value="${session.usuario.cargo.nombreCargo}" disabled >
                 </div>
             </div>
-            <div class="col-5">
+            <div class="col-4">
                 <span class="postuserfont"><strong>Correo:</strong></span>
                 <div class="form-group popo">
                     <input class="form-control" id="" type="text" th:value="${session.usuario.correo}"  disabled>
@@ -169,7 +169,10 @@
                 <div class="form-group" style="margin-bottom: 12%">
                     <input class="form-control" id="nombre_funcion" type="text" th:value="${session.usuario.dni}"  disabled>
                 </div>
-
+                <span class="postuserfont"><strong>CELULAR:</strong></span>
+                <div class="form-group" style="margin-bottom: 12%">
+                    <input class="form-control" id="celular" name="celular" type="text" maxlength="9" minlength="9" pattern="[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]" th:value="${user.celular}"  required >
+                </div>
 
             </div>
 
