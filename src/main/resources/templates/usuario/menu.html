@@ -235,8 +235,10 @@
     </div>
     <div class="row justify-content-center">
         <div>
-            <button type="button" class="btn btn-primary">Anterior</button>
-            <a class="btn btn-primary" th:href="@{'/usuario/listar?index=' + ${index+1}}">Siguiente</a>
+            <a class="btn btn-primary" th:href="@{'/usuario/listar?index=' + ${index - 1}}" th:if="${disableAnterior == null}">Anterior</a>
+            <button class="btn btn-primary" disabled="" th:unless="${disableAnterior == null}">Anterior</button>
+            <a class="btn btn-primary" th:href="@{'/usuario/listar?index=' + ${index+1}}" th:if="${disableSiguiente == null}">Siguiente</a>
+            <button class="btn btn-primary" disabled="" th:unless="${disableSiguiente == null}">Siguiente</button>
         </div>
     </div>
 </div>

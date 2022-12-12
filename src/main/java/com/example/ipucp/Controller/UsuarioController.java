@@ -66,23 +66,41 @@ public class UsuarioController {
         HashMap<Inicidencia,String> user = new HashMap<Inicidencia,String>();
         List<Inicidencia> lista1  =inicidenciaRepository.orderReciente_Usuario();
 
-        int paso = 15;
         //List<Inicidencia> lista1  =inicidenciaRepository.orderReciente();
         //System.out.println("---------------------------------------------------------------"+lista1.size());
-        List<Inicidencia> lista = lista1.subList(index*paso, (index+1)*paso);
-        //System.out.println("---------------------------------------------------------------"+lista.size());
-        model.addAttribute("index",0);
 
-
-        model.addAttribute("incidenciaList", lista);
-
-        for(Inicidencia incidencia: lista){
-            datos.put(incidencia,perfilDao.obtenerImagen("Incidencia_"+ String.valueOf(incidencia.getId())).getFileBase64());
-            user.put(incidencia,perfilDao.obtenerImagen(incidencia.getCodigo().getId()).getFileBase64());
+        int paso = 10; //Cuantos publicaciones por vista
+        int finalIndex;
+        int inicialIndex;
+        if((index+1)*paso <= lista1.size()){
+            finalIndex = (index+1)*paso;
+        }else{
+            finalIndex = lista1.size();
+            model.addAttribute("disableSiguiente","disableSiguiente");
         }
-        model.addAttribute("hashmap",datos);
-        model.addAttribute("iperfil",user);
-        return "usuario/menu";
+        if(index*paso > 0){
+            inicialIndex = index*paso;
+        }else{
+            inicialIndex = 0;
+            model.addAttribute("disableAnterior","disableAnterior");
+        }
+
+        if(inicialIndex<finalIndex){
+            List<Inicidencia> lista = lista1.subList(inicialIndex, finalIndex);
+            model.addAttribute("index",index);
+            model.addAttribute("incidenciaList", lista);
+
+            for(Inicidencia incidencia: lista){
+                datos.put(incidencia,perfilDao.obtenerImagen("Incidencia_"+ String.valueOf(incidencia.getId())).getFileBase64());
+                user.put(incidencia,perfilDao.obtenerImagen(incidencia.getCodigo().getId()).getFileBase64());
+            }
+            model.addAttribute("hashmap",datos);
+            model.addAttribute("iperfil",user);
+            return "usuario/menu";
+        }else{
+            //Esto por si algun usuario chistoso pone en el link un index que supera el numero de incidencias
+            return "redirect:/usuario/listar?index=0";
+        }
     }
 
     @PostMapping("/listarFiltrado")
