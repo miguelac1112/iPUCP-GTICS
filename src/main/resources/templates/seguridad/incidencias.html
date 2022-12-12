@@ -189,7 +189,7 @@
 
 
             <div class="row justify-content-center" style="padding-bottom: 7%">
-                <div th:if="${soloListar == 'soloListar'}">
+                <div th:if="${soloListar == 'soloListar'}" style="text-align:center ">
                     <button class="btn btn-primary btn-lg" disabled="" th:unless="${disableAnterior == null}" th:text="${'<<'}"></button>
                     <a class="btn btn-primary btn-lg" th:href="@{'/seguridad/incidencias?index=' + ${0}}" th:if="${disableAnterior == null}" th:text="${'<<'}"></a>
                     <a class="btn btn-primary btn-lg" th:href="@{'/seguridad/incidencias?index=' + ${index - 1}}" th:if="${disableAnterior == null}"> 🢀 </a>
@@ -199,7 +199,7 @@
                     <button class="btn btn-primary btn-lg" disabled="" th:unless="${disableSiguiente == null}" th:text="${'>>'}"></button>
                     <a class="btn btn-primary btn-lg" th:href="@{'/seguridad/incidencias?index=' + ${ultimo}}" th:if="${disableSiguiente == null}" th:text="${'>>'}"></a>
                 </div>
-                <div th:if="${listarFiltrado == 'listarFiltrado'}">
+                <div th:if="${listarFiltrado == 'listarFiltrado'}" style="text-align:center ">
                     <button class="btn btn-primary btn-lg" disabled="" th:unless="${disableAnterior == null}" th:text="${'<<'}"></button>
                     <a class="btn btn-primary btn-lg" th:href="@{'/seguridad/incidenciasFiltrado?index=' + ${0} + '&tipo=' + ${idtipoI} + '&urgencia=' + ${idUrgI} + '&estado=' + ${idEstad} + '&orden=' + ${idOrdenI}}" th:if="${disableAnterior == null}" th:text="${'<<'}"></a>
                     <a class="btn btn-primary btn-lg" th:href="@{'/seguridad/incidenciasFiltrado?index=' + ${index - 1} + '&tipo=' + ${idtipoI} + '&urgencia=' + ${idUrgI} + '&estado=' + ${idEstad} + '&orden=' + ${idOrdenI}}" th:if="${disableAnterior == null}"> 🢀 </a>
