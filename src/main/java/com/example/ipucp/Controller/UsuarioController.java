@@ -87,8 +87,9 @@ public class UsuarioController {
         if(inicialIndex<finalIndex){
             List<Inicidencia> lista = lista1.subList(inicialIndex, finalIndex);
             model.addAttribute("index",index);
-            model.addAttribute("incidenciaList", lista);
+            model.addAttribute("soloListar","soloListar");
 
+            model.addAttribute("incidenciaList", lista);
             for(Inicidencia incidencia: lista){
                 datos.put(incidencia,perfilDao.obtenerImagen("Incidencia_"+ String.valueOf(incidencia.getId())).getFileBase64());
                 user.put(incidencia,perfilDao.obtenerImagen(incidencia.getCodigo().getId()).getFileBase64());
@@ -102,25 +103,54 @@ public class UsuarioController {
         }
     }
 
-    @PostMapping("/listarFiltrado")
-    public String listarFiltrado(Model model, @RequestParam("orden") int form) {
+    @PostMapping("/listarIntermedio")
+    public String listarIntermedio(Model model, @RequestParam("orden") int form){
+        if(form == 1){
+            return "redirect:/usuario/listar?index=0";
+        }else if (form == 2){
+            return "redirect:/usuario/listarFiltrado?index=0";
+        }else {
+            return "redirect:/usuario/listar?index=0";
+        }
+    }
+
+    @GetMapping("/listarFiltrado")
+    public String listarFiltrado(Model model,@RequestParam("index") Integer index) {
         List<Inicidencia> listIncidencias = new ArrayList<>();
         HashMap<Inicidencia, String> datos = new HashMap<Inicidencia, String>();
         HashMap<Inicidencia,String> user = new HashMap<Inicidencia,String>();
 
-        if (form == 2){
-            List<Inicidencia> lista  =inicidenciaRepository.orderMaspopular();
-            model.addAttribute("incidenciaList", lista);
-            for(Inicidencia incidencia: lista){
-                datos.put(incidencia,perfilDao.obtenerImagen("Incidencia_"+ String.valueOf(incidencia.getId())).getFileBase64());
-                user.put(incidencia,perfilDao.obtenerImagen(incidencia.getCodigo().getId()).getFileBase64());
-            }
-        }
-        else if(form ==1){
-            return "redirect:/usuario/listar?index=0";
+        List<Inicidencia> lista1  =inicidenciaRepository.orderMaspopular();
+
+        int paso = 10; //Cuantos publicaciones por vista
+        int finalIndex;
+        int inicialIndex;
+        // Condiciones index final:
+        if((index+1)*paso <= lista1.size()){
+            finalIndex = (index+1)*paso;
         }else{
-            return "redirect:/usuario/listar?index=0";
+            finalIndex = lista1.size();
+            model.addAttribute("disableSiguiente","disableSiguiente");
         }
+        // Condiciones index inicial:
+        if(index*paso > 0){
+            inicialIndex = index*paso;
+        }else{
+            inicialIndex = 0;
+            model.addAttribute("disableAnterior","disableAnterior");
+        }
+
+        List<Inicidencia> lista = lista1.subList(inicialIndex, finalIndex);
+        model.addAttribute("index",index);
+        model.addAttribute("listarFiltrado","listarFiltrado");
+
+
+        model.addAttribute("incidenciaList", lista);
+        for(Inicidencia incidencia: lista){
+            datos.put(incidencia,perfilDao.obtenerImagen("Incidencia_"+ String.valueOf(incidencia.getId())).getFileBase64());
+            user.put(incidencia,perfilDao.obtenerImagen(incidencia.getCodigo().getId()).getFileBase64());
+        }
+
         model.addAttribute("hashmap",datos);
         model.addAttribute("iperfil",user);
         return "usuario/menu";
