@@ -176,40 +176,32 @@
 
             </div>
 
+            <div class="col-4">
+                <img th:if="${user.icono.getNombre() eq 'pina'}" src="/img/avatar1.jpg"   class="avatar" alt="..." style="margin-left: -90px">
+                <img th:if="${user.icono.getNombre() eq 'sandia'}" src="/img/avatar2.jpg"   class="avatar" alt="..." style="margin-left: -90px">
+                <img th:if="${user.icono.getNombre() eq 'naranja'}" src="/img/avatar3.jpg"   class="avatar" alt="..." style="margin-left: -90px">
+
+                <div class="sel" style="margin-top: -60px; margin-left: 160px">
+                    <select onchange=cambiar_imagen() class="form-select form-select-sm" aria-label=".form-select-sm example" style="margin-right: 5%" name="fruta" id="fruta">
+                        <option selected th:if="${user.icono.getNombre() eq 'pina'}" th:value="${user.icono.nombre}">Piña</option>
+                        <option selected th:if="${user.icono.getNombre() eq 'sandia'}" th:value="${user.icono.nombre}">Sandía</option>
+                        <option selected th:if="${user.icono.getNombre() eq 'naranja'}" th:value="${user.icono.nombre}">Naranja</option>
+                        <option th:unless="${user.icono.getNombre() eq 'pina'}" value="pina">Piña</option>
+                        <option th:unless="${user.icono.getNombre() eq 'sandia'}" value="sandia">Sandía</option>
+                        <option th:unless="${user.icono.getNombre() eq 'naranja'}" value="naranja">Naranja</option>
+                    </select>
+                    <div class="col-auto m-1">
+                        <button  class="btn btn-primary btn-sm" type="submit">Actualizar</button>
+                    </div>
+                </div>
+
+            </div>
+
         </div>
 
         </br>
 
-        <div class="row justify-content-center ultima" >
-            <div class="col-md-6" style="margin-left:450px">
-                <div class="row">
-                    <div class="col" id="img">
-                        <img th:if="${user.icono.getNombre() eq 'pina'}" src="/img/avatar1.jpg"   class="avatar" alt="...">
-                        <img th:if="${user.icono.getNombre() eq 'sandia'}" src="/img/avatar2.jpg"   class="avatar" alt="...">
-                        <img th:if="${user.icono.getNombre() eq 'naranja'}" src="/img/avatar3.jpg"   class="avatar" alt="...">
 
-                    </div>
-                    <div class="col">
-                        <div class="sel">
-                            <select onchange=cambiar_imagen() class="form-select form-select-sm" aria-label=".form-select-sm example" style="margin-right: 5%" name="fruta" id="fruta">
-                                <option selected th:if="${user.icono.getNombre() eq 'pina'}" th:value="${user.icono.nombre}">Piña</option>
-                                <option selected th:if="${user.icono.getNombre() eq 'sandia'}" th:value="${user.icono.nombre}">Sandía</option>
-                                <option selected th:if="${user.icono.getNombre() eq 'naranja'}" th:value="${user.icono.nombre}">Naranja</option>
-                                <option th:unless="${user.icono.getNombre() eq 'pina'}" value="pina">Piña</option>
-                                <option th:unless="${user.icono.getNombre() eq 'sandia'}" value="sandia">Sandía</option>
-                                <option th:unless="${user.icono.getNombre() eq 'naranja'}" value="naranja">Naranja</option>
-                            </select>
-                            <div class="col-auto m-1">
-                                <button  class="btn btn-primary btn-sm" type="submit">Actualizar</button>
-                            </div>
-                        </div>
-
-                    </div>
-
-                </div>
-
-                </div>
-        </div>
 
     </div>
     </form>
