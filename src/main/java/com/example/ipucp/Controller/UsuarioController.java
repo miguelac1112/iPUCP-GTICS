@@ -64,7 +64,7 @@ public class UsuarioController {
 
         HashMap<Inicidencia, String> datos = new HashMap<Inicidencia, String>();
         HashMap<Inicidencia,String> user = new HashMap<Inicidencia,String>();
-        List<Inicidencia> lista  =inicidenciaRepository.orderReciente();
+        List<Inicidencia> lista  =inicidenciaRepository.orderReciente_Usuario();
         model.addAttribute("incidenciaList", lista);
 
         for(Inicidencia incidencia: lista){
@@ -91,14 +91,14 @@ public class UsuarioController {
             }
         }
         else if(form ==1){
-            List<Inicidencia> lista  =inicidenciaRepository.orderReciente();
+            List<Inicidencia> lista  =inicidenciaRepository.orderReciente_Usuario();
             model.addAttribute("incidenciaList", lista);
             for(Inicidencia incidencia: lista){
                 datos.put(incidencia,perfilDao.obtenerImagen("Incidencia_"+ String.valueOf(incidencia.getId())).getFileBase64());
                 user.put(incidencia,perfilDao.obtenerImagen(incidencia.getCodigo().getId()).getFileBase64());
             }
         }else{
-            List<Inicidencia> lista  =inicidenciaRepository.orderReciente();
+            List<Inicidencia> lista  =inicidenciaRepository.orderReciente_Usuario();
             model.addAttribute("incidenciaList", lista);
             for(Inicidencia incidencia: lista){
                 datos.put(incidencia,perfilDao.obtenerImagen("Incidencia_"+ String.valueOf(incidencia.getId())).getFileBase64());
