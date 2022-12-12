@@ -105,7 +105,6 @@
             <tr class="table-info">
                 <th style="text-align: center">#</th>
                 <th style="text-align: center">Nombre</th>
-                <th style="text-align: center">Tipo</th>
                 <th style="text-align: center">Estado</th>
                 <th style="text-align: center">¿Está resuelta?</th>
                 <th style="text-align: center">Ingresar comentario</th>
@@ -124,7 +123,6 @@
                     </div>
                 </td>
                 <td style="text-align: center" th:text="${incidencia.nombre}"></td>
-                <td style="text-align: center" th:text="${incidencia.idtipo.tipoIncidencia}"></td>
 
                 <td style="text-align: center" th:if="${incidencia.estado == 0}">Registrada</td>
                 <td style="text-align: center" th:if="${incidencia.estado == 1}">En proceso</td>
@@ -167,7 +165,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel2">La incidencia se resolvera y ya no podrá abrirse de nuevo, ¿Está seguro?</h5>
+                        <h5 class="modal-title" id="exampleModalLabel2">¿Desea resolverla? Puede hacerlo si gusta, no obstante, ya no podrá abrirla de nuevo</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -175,7 +173,7 @@
                         <form method="post"  th:action="@{'/usuario/incidenciaResuelta'}" class="mt-2" >
                             <div class="mb-3" style="text-align: center">
                                 <input th:value="${incidencia.id}" name="id" type="hidden"/>
-                                <button type="submit" class="btn btn-success"  >Registrar</button>
+                                <button type="submit" class="btn btn-success"  >Resolver</button>
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Regresar</button>
                             </div>
                         </form>

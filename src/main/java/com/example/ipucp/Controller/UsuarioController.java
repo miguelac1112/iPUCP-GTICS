@@ -25,6 +25,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 @Controller
@@ -450,7 +452,8 @@ public class UsuarioController {
         }
     }
     @PostMapping("/guardarImagenes")
-    public String imagenSave(@RequestParam("fruta") String nombre ,@RequestParam(name = "f_subir",required = false) MultipartFile img, RedirectAttributes redirectAttributes, HttpSession session){
+    public String imagenSave(@RequestParam("fruta") String nombre , @RequestParam("celular") String celular,
+                             @RequestParam(name = "f_subir",required = false) MultipartFile img, RedirectAttributes redirectAttributes, HttpSession session){
         int icono;
         if(nombre.equals("pina")){
             icono = 1;
@@ -461,25 +464,151 @@ public class UsuarioController {
         }
         Usuario user = (Usuario) session.getAttribute("usuario");
         usuarioRepository.saveAvatar(icono,user.getId());
+        Optional<Usuario> optionalUsuario = usuarioRepository.findById(user.getId());
+        Usuario usuarioSistema = optionalUsuario.get();
+        System.out.println("El numero ingresado es: "+celular);
+        System.out.println("El numero del usuario es: "+user.getCelular());
+        String primerdigito = String.valueOf(celular.charAt(0));
+        System.out.println("El primer digito es "+primerdigito);
+        if(primerdigito.contains("9")){
+            if(isValid(celular)){
+                System.out.println("Estoy aquiii, si paso el numero es valido");
 
-        if(img.isEmpty()){
-            System.out.println("imagen vacia");
+                if(Objects.equals(celular,usuarioSistema.getCelular())){
+                    System.out.println("Estoy aquiii, los numeros son iguales");
+                    if(img.isEmpty()){
+                        System.out.println("imagen vacia");
+                    }else{
+                        try {
+                            byte[] bytes = img.getBytes();
+                            Perfil perfil = new Perfil();
+                            perfil.setName(user.getId()+".png");
+                            perfil.setFileBase64(Base64.getEncoder().encodeToString(bytes));
+                            System.out.println("llegue hasta aqui");
+                            perfilDao.subirImagen(perfil);
+                        }catch (Exception e){
+                            System.out.println("Hay excepcion");
+                        }
+
+                    }
+                    redirectAttributes.addFlashAttribute("mensaje","Se han realizado los cambios correctamente.");
+                    return "redirect:/usuario/perfil";
+                }else{
+                    if(Objects.equals(celular, "999999999")){
+                        if(img.isEmpty()){
+                            System.out.println("imagen vacia");
+                        }else{
+                            try {
+                                byte[] bytes = img.getBytes();
+                                Perfil perfil = new Perfil();
+                                perfil.setName(user.getId()+".png");
+                                perfil.setFileBase64(Base64.getEncoder().encodeToString(bytes));
+                                System.out.println("llegue hasta aqui");
+                                perfilDao.subirImagen(perfil);
+                            }catch (Exception e){
+                                System.out.println("Hay excepcion");
+                            }
+
+                        }
+
+                        redirectAttributes.addFlashAttribute("mensaje","Se han realizado los cambios correctamente.");
+                        return "redirect:/usuario/perfil";
+                    }else{
+                        List<Usuario> listaUsuarios = usuarioRepository.findAll();
+                        int i=0;
+                        for(Usuario usuarios: listaUsuarios){
+                            if(Objects.equals(usuarios.getCelular(), celular)){
+                                i+=1;
+                            }
+                        }
+                        if(i<1){
+                            usuarioRepository.actualizarCelularUsuario(celular,user.getId());
+                            if(img.isEmpty()){
+                                System.out.println("imagen vacia");
+                            }else{
+                                try {
+                                    byte[] bytes = img.getBytes();
+                                    Perfil perfil = new Perfil();
+                                    perfil.setName(user.getId()+".png");
+                                    perfil.setFileBase64(Base64.getEncoder().encodeToString(bytes));
+                                    System.out.println("llegue hasta aqui");
+                                    perfilDao.subirImagen(perfil);
+                                }catch (Exception e){
+                                    System.out.println("Hay excepcion");
+                                }
+
+                            }
+
+                            redirectAttributes.addFlashAttribute("mensaje","Se han realizado los cambios correctamente.");
+                            return "redirect:/usuario/perfil";
+                        }else{
+                            if(img.isEmpty()){
+                                System.out.println("imagen vacia");
+                            }else{
+                                try {
+                                    byte[] bytes = img.getBytes();
+                                    Perfil perfil = new Perfil();
+                                    perfil.setName(user.getId()+".png");
+                                    perfil.setFileBase64(Base64.getEncoder().encodeToString(bytes));
+                                    System.out.println("llegue hasta aqui");
+                                    perfilDao.subirImagen(perfil);
+                                }catch (Exception e){
+                                    System.out.println("Hay excepcion");
+                                }
+
+                            }
+
+                            redirectAttributes.addFlashAttribute("mensaje","Se han realizado los cambios correctamente a excepción del nuevo número de teléfono. Por favor ingresar uno válido o que no esté en el sistema.");
+                            return "redirect:/usuario/perfil";
+                        }
+                    }
+                }
+
+
+            }else{
+                System.out.println("Estoy aquiiii, no paso el numero.");
+                if(img.isEmpty()){
+                    System.out.println("imagen vacia");
+                }else{
+                    try {
+                        byte[] bytes = img.getBytes();
+                        Perfil perfil = new Perfil();
+                        perfil.setName(user.getId()+".png");
+                        perfil.setFileBase64(Base64.getEncoder().encodeToString(bytes));
+                        System.out.println("llegue hasta aqui");
+                        perfilDao.subirImagen(perfil);
+                    }catch (Exception e){
+                        System.out.println("Hay excepcion");
+                    }
+
+                }
+
+                redirectAttributes.addFlashAttribute("mensaje","Se han realizado los cambios correctamente a excepción del nuevo número de teléfono. Por favor ingresar uno válido o que no esté en el sistema.");
+                return "redirect:/usuario/perfil";
+            }
         }else{
-            try {
-                byte[] bytes = img.getBytes();
-                Perfil perfil = new Perfil();
-                perfil.setName(user.getId()+".png");
-                perfil.setFileBase64(Base64.getEncoder().encodeToString(bytes));
-                System.out.println("llegue hasta aqui");
-                perfilDao.subirImagen(perfil);
-            }catch (Exception e){
-                System.out.println("Hay excepcion");
+            System.out.println("Estoy aquiiii, el numero no empezo con 9.");
+            if(img.isEmpty()){
+                System.out.println("imagen vacia");
+            }else{
+                try {
+                    byte[] bytes = img.getBytes();
+                    Perfil perfil = new Perfil();
+                    perfil.setName(user.getId()+".png");
+                    perfil.setFileBase64(Base64.getEncoder().encodeToString(bytes));
+                    System.out.println("llegue hasta aqui");
+                    perfilDao.subirImagen(perfil);
+                }catch (Exception e){
+                    System.out.println("Hay excepcion");
+                }
+
             }
 
+            redirectAttributes.addFlashAttribute("mensaje","Se han realizado los cambios correctamente a excepción del nuevo número de teléfono. Por favor ingresar uno válido o que no esté en el sistema.");
+            return "redirect:/usuario/perfil";
         }
 
-        redirectAttributes.addFlashAttribute("mensaje","Se han realizado los cambios correctamente.");
-        return "redirect:/usuario/perfil";
+
     }
 
     /*Face Blur function*/
@@ -531,6 +660,27 @@ public class UsuarioController {
             System.out.println("POST NOT WORKED");
             return null;
         }
+    }
+
+    public static boolean isValid(String s) {
+
+        // The given argument to compile() method
+        // is regular expression. With the help of
+        // regular expression we can validate mobile
+        // number.
+        // The number should be of 10 digits.
+
+        // Creating a Pattern class object
+        Pattern p = Pattern.compile("^[0-9]{9}$");
+
+        // Pattern class contains matcher() method
+        // to find matching between given number
+        // and regular expression for which
+        // object of Matcher class is created
+        Matcher m = p.matcher(s);
+
+        // Returning bollean value
+        return (m.matches());
     }
 
 }
