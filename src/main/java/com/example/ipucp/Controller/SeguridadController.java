@@ -542,7 +542,7 @@ public class SeguridadController {
     }
 
     @GetMapping("/incidenciasFiltrado")
-    public String listaFiltrada(Model model,@RequestParam("tipo") int idTipo ,@RequestParam("urgencia") int idUrgencia, @RequestParam("orden") int idOrden, @RequestParam("estado") int idEstad, HttpSession session) {
+    public String listaFiltrada(Model model,@RequestParam("tipo") int idTipo ,@RequestParam("urgencia") int idUrgencia, @RequestParam("orden") int idOrden, @RequestParam("estado") int idEstad, HttpSession session,@RequestParam("index") Integer index) {
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         String codigo = usuario.getId();
         Optional<Usuario> optUser = usuarioRepository.findById(codigo);
@@ -620,18 +620,65 @@ public class SeguridadController {
                 model.addAttribute("idUrgI",idUrgencia);
                 model.addAttribute("idOrdenI",idOrden);
                 model.addAttribute("idEstad",idEstad);
-                model.addAttribute("ListaIncidencias",listIncidencias);
+                //model.addAttribute("ListaIncidencias",listIncidencias);
                 model.addAttribute("ListaTipos", listaTipos);
                 model.addAttribute("ListaUrgencia", listaUrg);
                 model.addAttribute("ListaOrden", listaOrden);
                 model.addAttribute("ListaEstado",listaEstados);
-                List<Inicidencia> inicidenciaList = listIncidencias;
-                HashMap<Inicidencia, String> datos = new HashMap<Inicidencia, String>();
-                for(Inicidencia incidencia: inicidenciaList){
-                    datos.put(incidencia,perfilDao.obtenerImagen("Incidencia_"+ String.valueOf(incidencia.getId())).getFileBase64());
+
+
+                //------------------------------------------------------------------------------------------------------
+                //Paginación:
+                List<Inicidencia> inicidenciaList1 = listIncidencias;
+                System.out.println("-------------------------------------------------------------------------------------------------"+inicidenciaList1.size());
+                int paso = 10; //Cuantos publicaciones por vista
+                int finalIndex;
+                int inicialIndex;
+                // Condiciones index final:
+                if((index+1)*paso < inicidenciaList1.size()){
+                    finalIndex = (index+1)*paso;
+                }else{
+                    finalIndex = inicidenciaList1.size();
+                    model.addAttribute("disableSiguiente","disableSiguiente");
                 }
-                model.addAttribute("hashmap",datos);
-                return "seguridad/incidencias";
+                // Condiciones index inicial:
+                if(index*paso > 0){
+                    inicialIndex = index*paso;
+                }else{
+                    inicialIndex = 0;
+                    model.addAttribute("disableAnterior","disableAnterior");
+                }
+                // Condiciones para el boton ">>":
+                int ultimo;
+                if(inicidenciaList1.size()%paso > 0){
+                    ultimo = ((inicidenciaList1.size()-(inicidenciaList1.size()%paso))/paso);
+                }else{
+                    ultimo = inicidenciaList1.size()/paso;
+                }
+                model.addAttribute("ultimo",ultimo);
+                //------------------------------------------------------------------------------------------------------
+
+                // -----------------------------------------------------------------------------------------------------
+                if(inicialIndex<finalIndex){
+                    List<Inicidencia> inicidenciaList = inicidenciaList1.subList(inicialIndex, finalIndex);
+                    model.addAttribute("ListaIncidencias",inicidenciaList);
+                    System.out.println("-------------------------------------------------------------------------------------------------"+inicidenciaList.size());
+                    model.addAttribute("index",index);
+                    model.addAttribute("listarFiltrado","listarFiltrado");
+                    //----------------------------------------------------------------------------------------------
+
+
+                    HashMap<Inicidencia, String> datos = new HashMap<Inicidencia, String>();
+                    for(Inicidencia incidencia: inicidenciaList){
+                        datos.put(incidencia,perfilDao.obtenerImagen("Incidencia_"+ String.valueOf(incidencia.getId())).getFileBase64());
+                    }
+                    model.addAttribute("hashmap",datos);
+                    return "seguridad/incidencias";
+                }else{
+                    //Esto por si algun usuario chistoso pone en el link un index que supera el numero de incidencias
+                    return "redirect:/seguridad/incidenciasFiltrado?index=0";
+                }
+                // -----------------------------------------------------------------------------------------------------
             }else{
                 return "redirect:/seguridad";
             }

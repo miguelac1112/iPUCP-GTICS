@@ -77,6 +77,7 @@
 
         <div class="container">
             <form method="get" th:action="@{/seguridad/incidenciasFiltrado}">
+                <input value="0" name="index" type="hidden"/>
                 <div class="row">
                     <div class="col-auto">
                         <div class="form-floating">
@@ -197,6 +198,16 @@
                     <button class="btn btn-primary btn-lg" disabled="" th:unless="${disableSiguiente == null}"> 🢂 </button>
                     <button class="btn btn-primary btn-lg" disabled="" th:unless="${disableSiguiente == null}" th:text="${'>>'}"></button>
                     <a class="btn btn-primary btn-lg" th:href="@{'/seguridad/incidencias?index=' + ${ultimo}}" th:if="${disableSiguiente == null}" th:text="${'>>'}"></a>
+                </div>
+                <div th:if="${listarFiltrado == 'listarFiltrado'}">
+                    <button class="btn btn-primary btn-lg" disabled="" th:unless="${disableAnterior == null}" th:text="${'<<'}"></button>
+                    <a class="btn btn-primary btn-lg" th:href="@{'/seguridad/incidenciasFiltrado?index=' + ${0} + '&tipo=' + ${idtipoI} + '&urgencia=' + ${idUrgI} + '&estado=' + ${idEstad} + '&orden=' + ${idOrdenI}}" th:if="${disableAnterior == null}" th:text="${'<<'}"></a>
+                    <a class="btn btn-primary btn-lg" th:href="@{'/seguridad/incidenciasFiltrado?index=' + ${index - 1} + '&tipo=' + ${idtipoI} + '&urgencia=' + ${idUrgI} + '&estado=' + ${idEstad} + '&orden=' + ${idOrdenI}}" th:if="${disableAnterior == null}"> 🢀 </a>
+                    <button class="btn btn-primary btn-lg" disabled="" th:unless="${disableAnterior == null}"> 🢀 </button>
+                    <a class="btn btn-primary btn-lg" th:href="@{'/seguridad/incidenciasFiltrado?index=' + ${index+1} + '&tipo=' + ${idtipoI} + '&urgencia=' + ${idUrgI} + '&estado=' + ${idEstad} + '&orden=' + ${idOrdenI}}" th:if="${disableSiguiente == null}"> 🢂 </a>
+                    <button class="btn btn-primary btn-lg" disabled="" th:unless="${disableSiguiente == null}"> 🢂 </button>
+                    <button class="btn btn-primary btn-lg" disabled="" th:unless="${disableSiguiente == null}" th:text="${'>>'}"></button>
+                    <a class="btn btn-primary btn-lg" th:href="@{'/seguridad/incidenciasFiltrado?index=' + ${ultimo} + '&tipo=' + ${idtipoI} + '&urgencia=' + ${idUrgI} + '&estado=' + ${idEstad} + '&orden=' + ${idOrdenI}}" th:if="${disableSiguiente == null}" th:text="${'>>'}"></a>
                 </div>
             </div>
 
