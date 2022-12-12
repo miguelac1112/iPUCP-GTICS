@@ -67,10 +67,10 @@ public class UsuarioController {
 
         HashMap<Inicidencia, String> datos = new HashMap<Inicidencia, String>();
         HashMap<Inicidencia,String> user = new HashMap<Inicidencia,String>();
-        List<Inicidencia> lista  =inicidenciaRepository.orderReciente_Usuario();
+        List<Inicidencia> lista1  =inicidenciaRepository.orderReciente_Usuario();
 
 
-        List<Inicidencia> lista1  =inicidenciaRepository.orderReciente();
+        //List<Inicidencia> lista1  =inicidenciaRepository.orderReciente();
         //System.out.println("---------------------------------------------------------------"+lista1.size());
         List<Inicidencia> lista = lista1.subList(index*paso, (index+1)*paso);
         //System.out.println("---------------------------------------------------------------"+lista.size());
