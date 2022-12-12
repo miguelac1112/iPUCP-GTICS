@@ -236,7 +236,7 @@
     <div class="row justify-content-center">
         <div>
             <button type="button" class="btn btn-primary">Anterior</button>
-            <button type="button" class="btn btn-primary">Siguiente</button>
+            <a class="btn btn-primary" th:href="@{'/usuario/listar?index=' + ${index+1}}">Siguiente</a>
         </div>
     </div>
 </div>

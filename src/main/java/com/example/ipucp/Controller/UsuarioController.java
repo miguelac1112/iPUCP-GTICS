@@ -59,9 +59,6 @@ public class UsuarioController {
         return "usuario/menu_mapa";
     }
 
-    int i = 0;
-    int paso = 15;
-
     @GetMapping("/listar")
     public String listar(Model model,@RequestParam("index") Integer index) {
 
@@ -69,11 +66,12 @@ public class UsuarioController {
         HashMap<Inicidencia,String> user = new HashMap<Inicidencia,String>();
         List<Inicidencia> lista1  =inicidenciaRepository.orderReciente_Usuario();
 
-
+        int paso = 15;
         //List<Inicidencia> lista1  =inicidenciaRepository.orderReciente();
         //System.out.println("---------------------------------------------------------------"+lista1.size());
         List<Inicidencia> lista = lista1.subList(index*paso, (index+1)*paso);
         //System.out.println("---------------------------------------------------------------"+lista.size());
+        model.addAttribute("index",0);
 
 
         model.addAttribute("incidenciaList", lista);
