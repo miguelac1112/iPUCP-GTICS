@@ -120,4 +120,7 @@ public interface InicidenciaRepository extends JpaRepository<Inicidencia, Intege
 
     @Query(value="SELECT * FROM inicidencia where estado = ?1 order by idinicidencia asc",nativeQuery = true)
     List<Inicidencia> ordenAntigEstaodo(int estado);
+
+    @Query(value="SELECT * FROM ipucp.inicidencia where estado !=3",nativeQuery = true)
+    List<Inicidencia> incidenciaNoResueltas();
 }

@@ -18,6 +18,12 @@
     <link th:href="@{https://fonts.googleapis.com/css?family=Montserrat:500,700}" rel="stylesheet" type="text/css" />
     <link th:href="@{https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700}" rel="stylesheet" type="text/css" />
     <title>Lista de incidencias</title>
+    <style>
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
 <main>
@@ -132,8 +138,8 @@
 
     </br>
     <div class="container">
-
-            <div class="card mb-3" th:each="incidencias : ${ListaIncidencias}">
+        <input th:value="${ListaIncidencias.size}" style="display: none" th:id="incidenciasSize">
+            <div class="card mb-3" th:each="incidencias, i: ${ListaIncidencias}">
                 <div class="row g-0">
                     <div class="col-md-4 d-flex flex-row">
                         <img th:src="|data:image/png;base64,${hashmap.get(incidencias)}|"  class="img-fluid rounded-start" alt="...">
@@ -169,7 +175,7 @@
                                 <strong >Publicada por: </strong>
                                 <span th:text="${incidencias.codigo.getNombre()+' '+ incidencias.codigo.getApellido()}"></span>
                             </p>
-                            <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#exampleModal" th:id="${i.index}" >
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
                                     <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"></path>
                                 </svg>
@@ -182,6 +188,8 @@
                             <p class="card-text">
                             <small class="text-muted" th:text="${'Publicado el '+incidencias.fecha.toString().split('T')[0].split('-')[2]+'/'+incidencias.fecha.toString().split('T')[0].split('-')[1]+'/'+incidencias.fecha.toString().split('T')[0].split('-')[0]}"></small></p>
                             <p class="card-text" style="margin-top: -15px"><small class="text-muted" th:text="${'Destacado '+incidencias.destacado+' veces'}"></small></p>
+                            <input th:value="${incidencias.latitud}" style="display: none" th:id="la+${i.index}">
+                            <input th:value="${incidencias.longitud}" style="display: none" th:id="lo+${i.index}">
                         </div>
                     </div>
                 </div>
@@ -212,6 +220,7 @@
             </div>
 
         <p1 th:if="${ListaIncidencias.isEmpty()}"> No hay incidencias </p1>
+
         </br>
         </br>
     </div>
@@ -223,16 +232,12 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ubicacion de incidencia 00456</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Ubicacion de incidencia </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="contact-details-container">
-                        <div class="contact-map">
-                            <a class="contact-map-container" href="https://www.google.com/maps/place/ALEX/data=!3m1!4b1!4m2!3m1!1s0x910dd360cdb0b639:0x48d55a1bf4142203" target="_blank" rel="noopener noreferrer" >
-                                <iframe class="map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1950.8119483829007!2d-77.08063057045574!3d-12.069378222604536!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9105c912d40840a5%3A0xd7a0bfb797e5862e!2sPontificia%20Universidad%20Cat%C3%B3lica%20del%20Per%C3%BA!5e0!3m2!1ses!2spe!4v1663553899963!5m2!1ses!2spe" width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                            </a>
-                        </div>
+                            <div id="map"></div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -286,7 +291,49 @@
     </div>
 
 </main>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+<script>
+    function Marcador(lat,lng){
+        this.lat=lat;
+        this.lng=lng;
+    }
+
+    var cantidad = document.getElementById("incidenciasSize").value;
+    for(let i = 0; i < cantidad; i++)
+        $("#"+i).click(function(){
+            var latitud = parseFloat(document.getElementById("la"+i).value);
+            var longitud = parseFloat(document.getElementById("lo"+i).value);
+            nuevoMarcador = new Marcador(latitud,longitud);
+            console.log(nuevoMarcador)
+            var map = new google.maps.Map(document.getElementById('map'),{
+                zoom: 17,
+                center: nuevoMarcador
+            });
+            var marker = new google.maps.Marker({
+                position: nuevoMarcador,
+                map: map
+            });
+        });
+
+    function iniciarMap(){
+        var coord = {lat:-12.072735 ,lng: -77.081416};
+        var map = new google.maps.Map(document.getElementById('map'),{
+            zoom: 17,
+            center: coord
+        });
+        var marker = new google.maps.Marker({
+            position: coord,
+            map: map
+        });
+    }
+
+</script>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script async
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyApfnCEswuRjYhGp_TS6-B5aYTqEC9PL1w&v=beta&libraries=marker&callback=iniciarMap">
+</script>
+
 </body>
 
 </html>

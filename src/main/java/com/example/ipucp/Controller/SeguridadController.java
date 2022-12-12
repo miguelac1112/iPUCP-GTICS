@@ -986,12 +986,16 @@ public class SeguridadController {
         listaEstados.add(todo);
         Orden atendido = new Orden();
         atendido.setIdOrdern(1);
-        atendido.setTexto("Atendida");
+        atendido.setTexto("En Proceso");
         listaEstados.add(atendido);
         Orden porAtender = new Orden();
         porAtender.setIdOrdern(0);
-        porAtender.setTexto("Por atender");
+        porAtender.setTexto("Registrada");
         listaEstados.add(porAtender);
+        Orden finalizada = new Orden();
+        finalizada.setIdOrdern(3);
+        finalizada.setTexto("Finalizada");
+        listaEstados.add(finalizada);
         return listaEstados;
     }
 
