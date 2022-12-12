@@ -511,7 +511,7 @@ public class UsuarioController {
 
                         }
 
-                        redirectAttributes.addFlashAttribute("mensaje","Se han realizado los cambios correctamente.");
+                        redirectAttributes.addFlashAttribute("mensaje","Se han realizado los cambios correctamente a excepción del número de telefono que es igual al predeterminado.");
                         return "redirect:/usuario/perfil";
                     }else{
                         List<Usuario> listaUsuarios = usuarioRepository.findAll();
@@ -558,7 +558,8 @@ public class UsuarioController {
 
                             }
 
-                            redirectAttributes.addFlashAttribute("mensaje","Se han realizado los cambios correctamente a excepción del nuevo número de teléfono. Por favor ingresar uno válido o que no esté en el sistema.");
+                            redirectAttributes.addFlashAttribute("mensaje","Se han realizado los cambios correctamente a excepción del nuevo número de teléfono.");
+                            redirectAttributes.addFlashAttribute("mensaje_errorcel1","Tiene que escoger un número válido o que no esté en el sistema si desea cambiarlo.");
                             return "redirect:/usuario/perfil";
                         }
                     }
@@ -583,7 +584,8 @@ public class UsuarioController {
 
                 }
 
-                redirectAttributes.addFlashAttribute("mensaje","Se han realizado los cambios correctamente a excepción del nuevo número de teléfono. Por favor ingresar uno válido o que no esté en el sistema.");
+                redirectAttributes.addFlashAttribute("mensaje","Se han realizado los cambios correctamente a excepción del nuevo número de teléfono.");
+                redirectAttributes.addFlashAttribute("mensaje_errorcel2","Tiene que escoger un número válido de 9 dígitos si desea cambiarlo.");
                 return "redirect:/usuario/perfil";
             }
         }else{
@@ -604,7 +606,8 @@ public class UsuarioController {
 
             }
 
-            redirectAttributes.addFlashAttribute("mensaje","Se han realizado los cambios correctamente a excepción del nuevo número de teléfono. Por favor ingresar uno válido o que no esté en el sistema.");
+            redirectAttributes.addFlashAttribute("mensaje","Se han realizado los cambios correctamente a excepción del nuevo número de teléfono.");
+            redirectAttributes.addFlashAttribute("mensaje_errorcel3","Tiene que escoger un número de inicio válido igual a '9' si desea cambiarlo.");
             return "redirect:/usuario/perfil";
         }
 

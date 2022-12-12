@@ -171,7 +171,16 @@
                 </div>
                 <span class="postuserfont"><strong>CELULAR:</strong></span>
                 <div class="form-group" style="margin-bottom: 12%">
-                    <input class="form-control" id="celular" name="celular" type="text" maxlength="9" minlength="9" pattern="[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]" th:value="${user.celular}"  required >
+                    <input class="form-control" id="celular" name="celular" type="text" maxlength="9" minlength="9" pattern="[9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]" th:value="${user.celular}"  required >
+                </div>
+                <div th:if="${mensaje_errorcel1 != null}">
+                    <p style="color:red; font-size:85%;font-family:arial; margin-top: -20px">Tiene que escoger un número válido o que no esté en el sistema si desea cambiarlo.</p>
+                </div>
+                <div th:if="${mensaje_errorcel2 != null}">
+                    <p style="color:red; font-size:85%;font-family:arial; margin-top: -20px">Tiene que escoger un número válido de 9 dígitos si desea cambiarlo.</p>
+                </div>
+                <div th:if="${mensaje_errorcel3 != null}">
+                    <p style="color:red; font-size:85%;font-family:arial; margin-top: -20px">Tiene que escoger un número de inicio válido igual a '9' si desea cambiarlo.</p>
                 </div>
 
             </div>
