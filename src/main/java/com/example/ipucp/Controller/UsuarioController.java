@@ -469,134 +469,16 @@ public class UsuarioController {
         }else{
             icono = 3;
         }
+
         Usuario user = (Usuario) session.getAttribute("usuario");
         usuarioRepository.saveAvatar(icono,user.getId());
         Optional<Usuario> optionalUsuario = usuarioRepository.findById(user.getId());
         Usuario usuarioSistema = optionalUsuario.get();
         System.out.println("El numero ingresado es: "+celular);
         System.out.println("El numero del usuario es: "+user.getCelular());
-        String primerdigito = String.valueOf(celular.charAt(0));
-        System.out.println("El primer digito es "+primerdigito);
-        if(primerdigito.contains("9")){
-            if(isValid(celular)){
-                System.out.println("Estoy aquiii, si paso el numero es valido");
 
-                if(Objects.equals(celular,usuarioSistema.getCelular())){
-                    System.out.println("Estoy aquiii, los numeros son iguales");
-                    if(img.isEmpty()){
-                        System.out.println("imagen vacia");
-                    }else{
-                        try {
-                            byte[] bytes = img.getBytes();
-                            Perfil perfil = new Perfil();
-                            perfil.setName(user.getId()+".png");
-                            perfil.setFileBase64(Base64.getEncoder().encodeToString(bytes));
-                            System.out.println("llegue hasta aqui");
-                            perfilDao.subirImagen(perfil);
-                        }catch (Exception e){
-                            System.out.println("Hay excepcion");
-                        }
-
-                    }
-                    redirectAttributes.addFlashAttribute("mensaje","Se han realizado los cambios correctamente.");
-                    return "redirect:/usuario/perfil";
-                }else{
-                    if(Objects.equals(celular, "999999999")){
-                        if(img.isEmpty()){
-                            System.out.println("imagen vacia");
-                        }else{
-                            try {
-                                byte[] bytes = img.getBytes();
-                                Perfil perfil = new Perfil();
-                                perfil.setName(user.getId()+".png");
-                                perfil.setFileBase64(Base64.getEncoder().encodeToString(bytes));
-                                System.out.println("llegue hasta aqui");
-                                perfilDao.subirImagen(perfil);
-                            }catch (Exception e){
-                                System.out.println("Hay excepcion");
-                            }
-
-                        }
-
-                        redirectAttributes.addFlashAttribute("mensaje","Se han realizado los cambios correctamente a excepción del número de telefono que es igual al predeterminado.");
-                        return "redirect:/usuario/perfil";
-                    }else{
-                        List<Usuario> listaUsuarios = usuarioRepository.findAll();
-                        int i=0;
-                        for(Usuario usuarios: listaUsuarios){
-                            if(Objects.equals(usuarios.getCelular(), celular)){
-                                i+=1;
-                            }
-                        }
-                        if(i<1){
-                            usuarioRepository.actualizarCelularUsuario(celular,user.getId());
-                            if(img.isEmpty()){
-                                System.out.println("imagen vacia");
-                            }else{
-                                try {
-                                    byte[] bytes = img.getBytes();
-                                    Perfil perfil = new Perfil();
-                                    perfil.setName(user.getId()+".png");
-                                    perfil.setFileBase64(Base64.getEncoder().encodeToString(bytes));
-                                    System.out.println("llegue hasta aqui");
-                                    perfilDao.subirImagen(perfil);
-                                }catch (Exception e){
-                                    System.out.println("Hay excepcion");
-                                }
-
-                            }
-
-                            redirectAttributes.addFlashAttribute("mensaje","Se han realizado los cambios correctamente.");
-                            return "redirect:/usuario/perfil";
-                        }else{
-                            if(img.isEmpty()){
-                                System.out.println("imagen vacia");
-                            }else{
-                                try {
-                                    byte[] bytes = img.getBytes();
-                                    Perfil perfil = new Perfil();
-                                    perfil.setName(user.getId()+".png");
-                                    perfil.setFileBase64(Base64.getEncoder().encodeToString(bytes));
-                                    System.out.println("llegue hasta aqui");
-                                    perfilDao.subirImagen(perfil);
-                                }catch (Exception e){
-                                    System.out.println("Hay excepcion");
-                                }
-
-                            }
-
-                            redirectAttributes.addFlashAttribute("mensaje","Se han realizado los cambios correctamente a excepción del nuevo número de teléfono.");
-                            redirectAttributes.addFlashAttribute("mensaje_errorcel1","Tiene que escoger un número válido o que no esté en el sistema si desea cambiarlo.");
-                            return "redirect:/usuario/perfil";
-                        }
-                    }
-                }
-
-
-            }else{
-                System.out.println("Estoy aquiiii, no paso el numero.");
-                if(img.isEmpty()){
-                    System.out.println("imagen vacia");
-                }else{
-                    try {
-                        byte[] bytes = img.getBytes();
-                        Perfil perfil = new Perfil();
-                        perfil.setName(user.getId()+".png");
-                        perfil.setFileBase64(Base64.getEncoder().encodeToString(bytes));
-                        System.out.println("llegue hasta aqui");
-                        perfilDao.subirImagen(perfil);
-                    }catch (Exception e){
-                        System.out.println("Hay excepcion");
-                    }
-
-                }
-
-                redirectAttributes.addFlashAttribute("mensaje","Se han realizado los cambios correctamente a excepción del nuevo número de teléfono.");
-                redirectAttributes.addFlashAttribute("mensaje_errorcel2","Tiene que escoger un número válido de 9 dígitos si desea cambiarlo.");
-                return "redirect:/usuario/perfil";
-            }
-        }else{
-            System.out.println("Estoy aquiiii, el numero no empezo con 9.");
+        if(Objects.equals(celular, "")){
+            System.out.println("Estoy aquiiii, porque el celular es nulo.");
             if(img.isEmpty()){
                 System.out.println("imagen vacia");
             }else{
@@ -614,9 +496,153 @@ public class UsuarioController {
             }
 
             redirectAttributes.addFlashAttribute("mensaje","Se han realizado los cambios correctamente a excepción del nuevo número de teléfono.");
-            redirectAttributes.addFlashAttribute("mensaje_errorcel3","Tiene que escoger un número de inicio válido igual a '9' si desea cambiarlo.");
+            redirectAttributes.addFlashAttribute("mensaje_errorcel2","Tiene que escoger un número válido de 9 dígitos si desea cambiarlo.");
             return "redirect:/usuario/perfil";
+        }else{
+            String primerdigito = String.valueOf(celular.charAt(0));
+            System.out.println("El primer digito es "+primerdigito);
+            if(primerdigito.contains("9")){
+                if(isValid(celular)){
+                    System.out.println("Estoy aquiii, si paso el numero es valido");
+
+                    if(Objects.equals(celular,usuarioSistema.getCelular())){
+                        System.out.println("Estoy aquiii, los numeros son iguales");
+                        if(img.isEmpty()){
+                            System.out.println("imagen vacia");
+                        }else{
+                            try {
+                                byte[] bytes = img.getBytes();
+                                Perfil perfil = new Perfil();
+                                perfil.setName(user.getId()+".png");
+                                perfil.setFileBase64(Base64.getEncoder().encodeToString(bytes));
+                                System.out.println("llegue hasta aqui");
+                                perfilDao.subirImagen(perfil);
+                            }catch (Exception e){
+                                System.out.println("Hay excepcion");
+                            }
+
+                        }
+                        redirectAttributes.addFlashAttribute("mensaje","Se han realizado los cambios correctamente.");
+                        return "redirect:/usuario/perfil";
+                    }else{
+                        if(Objects.equals(celular, "999999999")){
+                            if(img.isEmpty()){
+                                System.out.println("imagen vacia");
+                            }else{
+                                try {
+                                    byte[] bytes = img.getBytes();
+                                    Perfil perfil = new Perfil();
+                                    perfil.setName(user.getId()+".png");
+                                    perfil.setFileBase64(Base64.getEncoder().encodeToString(bytes));
+                                    System.out.println("llegue hasta aqui");
+                                    perfilDao.subirImagen(perfil);
+                                }catch (Exception e){
+                                    System.out.println("Hay excepcion");
+                                }
+
+                            }
+
+                            redirectAttributes.addFlashAttribute("mensaje","Se han realizado los cambios correctamente a excepción del número de telefono que es igual al predeterminado.");
+                            return "redirect:/usuario/perfil";
+                        }else{
+                            List<Usuario> listaUsuarios = usuarioRepository.findAll();
+                            int i=0;
+                            for(Usuario usuarios: listaUsuarios){
+                                if(Objects.equals(usuarios.getCelular(), celular)){
+                                    i+=1;
+                                }
+                            }
+                            if(i<1){
+                                usuarioRepository.actualizarCelularUsuario(celular,user.getId());
+                                if(img.isEmpty()){
+                                    System.out.println("imagen vacia");
+                                }else{
+                                    try {
+                                        byte[] bytes = img.getBytes();
+                                        Perfil perfil = new Perfil();
+                                        perfil.setName(user.getId()+".png");
+                                        perfil.setFileBase64(Base64.getEncoder().encodeToString(bytes));
+                                        System.out.println("llegue hasta aqui");
+                                        perfilDao.subirImagen(perfil);
+                                    }catch (Exception e){
+                                        System.out.println("Hay excepcion");
+                                    }
+
+                                }
+
+                                redirectAttributes.addFlashAttribute("mensaje","Se han realizado los cambios correctamente.");
+                                return "redirect:/usuario/perfil";
+                            }else{
+                                if(img.isEmpty()){
+                                    System.out.println("imagen vacia");
+                                }else{
+                                    try {
+                                        byte[] bytes = img.getBytes();
+                                        Perfil perfil = new Perfil();
+                                        perfil.setName(user.getId()+".png");
+                                        perfil.setFileBase64(Base64.getEncoder().encodeToString(bytes));
+                                        System.out.println("llegue hasta aqui");
+                                        perfilDao.subirImagen(perfil);
+                                    }catch (Exception e){
+                                        System.out.println("Hay excepcion");
+                                    }
+
+                                }
+
+                                redirectAttributes.addFlashAttribute("mensaje","Se han realizado los cambios correctamente a excepción del nuevo número de teléfono.");
+                                redirectAttributes.addFlashAttribute("mensaje_errorcel1","Tiene que escoger un número válido o que no esté en el sistema si desea cambiarlo.");
+                                return "redirect:/usuario/perfil";
+                            }
+                        }
+                    }
+
+
+                }else{
+                    System.out.println("Estoy aquiiii, no paso el numero.");
+                    if(img.isEmpty()){
+                        System.out.println("imagen vacia");
+                    }else{
+                        try {
+                            byte[] bytes = img.getBytes();
+                            Perfil perfil = new Perfil();
+                            perfil.setName(user.getId()+".png");
+                            perfil.setFileBase64(Base64.getEncoder().encodeToString(bytes));
+                            System.out.println("llegue hasta aqui");
+                            perfilDao.subirImagen(perfil);
+                        }catch (Exception e){
+                            System.out.println("Hay excepcion");
+                        }
+
+                    }
+
+                    redirectAttributes.addFlashAttribute("mensaje","Se han realizado los cambios correctamente a excepción del nuevo número de teléfono.");
+                    redirectAttributes.addFlashAttribute("mensaje_errorcel2","Tiene que escoger un número válido de 9 dígitos si desea cambiarlo.");
+                    return "redirect:/usuario/perfil";
+                }
+            }else{
+                System.out.println("Estoy aquiiii, el numero no empezo con 9.");
+                if(img.isEmpty()){
+                    System.out.println("imagen vacia");
+                }else{
+                    try {
+                        byte[] bytes = img.getBytes();
+                        Perfil perfil = new Perfil();
+                        perfil.setName(user.getId()+".png");
+                        perfil.setFileBase64(Base64.getEncoder().encodeToString(bytes));
+                        System.out.println("llegue hasta aqui");
+                        perfilDao.subirImagen(perfil);
+                    }catch (Exception e){
+                        System.out.println("Hay excepcion");
+                    }
+
+                }
+
+                redirectAttributes.addFlashAttribute("mensaje","Se han realizado los cambios correctamente a excepción del nuevo número de teléfono.");
+                redirectAttributes.addFlashAttribute("mensaje_errorcel3","Tiene que escoger un número de inicio válido igual a '9' si desea cambiarlo.");
+                return "redirect:/usuario/perfil";
+            }
         }
+
 
 
     }
