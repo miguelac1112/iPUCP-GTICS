@@ -108,7 +108,7 @@ public class SeguridadController {
         Optional<Inicidencia> incidenciaopt = inicidenciaRepository.findById(id);
         if(incidenciaopt.isPresent()){
             if(listaComentariosSeguridad.size()==0){
-                return "redirect:/seguridad/incidencias";
+                return "redirect:/seguridad/incidencias?index=0";
             }else{
                 model.addAttribute("id", id);
                 model.addAttribute("listaComentariosSeguridad", listaComentariosSeguridad);
@@ -116,7 +116,7 @@ public class SeguridadController {
                 return "seguridad/lista_comentarios";
             }
         }else{
-            return "redirect:/seguridad/incidencias";
+            return "redirect:/seguridad/incidencias?index=0";
         }
 
     }
@@ -449,7 +449,7 @@ public class SeguridadController {
         if(optionalUsuario.isPresent()){
             if(codigo.equals(optionalUsuario.get().getFactordoble())){
                 usuarioRepository.validarSeguridad(id);
-                return "redirect:/seguridad/incidencias";
+                return "redirect:/seguridad/incidencias?index=0";
             }else{
                 String texto = "Código incorrecto, se le ha enviado otro a su correo";
                 redirectAttributes.addFlashAttribute("msg",texto);
@@ -462,7 +462,7 @@ public class SeguridadController {
     }
 
     @GetMapping("/incidencias")
-    public String lista(Model model, HttpSession session) {
+    public String lista(Model model, HttpSession session,@RequestParam("index") Integer index) {
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         String codigo = usuario.getId();
         Optional<Usuario> optUser = usuarioRepository.findById(codigo);
@@ -476,23 +476,63 @@ public class SeguridadController {
                 List<Orden> listaOrden = this.obtenerOrden();
                 /*Estado*/
                 List<Orden> listaEstados = this.obtenerEstado();
-                List<Inicidencia> inicidenciaList = inicidenciaRepository.orderReciente();
-                model.addAttribute("idtipoI",0);
-                model.addAttribute("idUrgI",0);
-                model.addAttribute("idOrdenI",0);
-                model.addAttribute("idEstad",2);
-                model.addAttribute("ListaIncidencias", inicidenciaList);
+                List<Inicidencia> inicidenciaList1 = inicidenciaRepository.orderReciente();
 
-                HashMap<Inicidencia, String> datos = new HashMap<Inicidencia, String>();
-                for(Inicidencia incidencia: inicidenciaList){
-                    datos.put(incidencia,perfilDao.obtenerImagen("Incidencia_"+ String.valueOf(incidencia.getId())).getFileBase64());
+                //----------------------------------------------------------------------------------------------
+                //Paginación:
+                int paso = 10; //Cuantos publicaciones por vista
+                int finalIndex;
+                int inicialIndex;
+                // Condiciones index final:
+                if((index+1)*paso < inicidenciaList1.size()){
+                    finalIndex = (index+1)*paso;
+                }else{
+                    finalIndex = inicidenciaList1.size();
+                    model.addAttribute("disableSiguiente","disableSiguiente");
                 }
-                model.addAttribute("hashmap",datos);
-                model.addAttribute("ListaTipos", listaTipos);
-                model.addAttribute("ListaUrgencia", listaUrg);
-                model.addAttribute("ListaOrden", listaOrden);
-                model.addAttribute("ListaEstado",listaEstados);
-                return "seguridad/incidencias";
+                // Condiciones index inicial:
+                if(index*paso > 0){
+                    inicialIndex = index*paso;
+                }else{
+                    inicialIndex = 0;
+                    model.addAttribute("disableAnterior","disableAnterior");
+                }
+                // Condiciones para el boton ">>":
+                int ultimo;
+                if(inicidenciaList1.size()%paso > 0){
+                    ultimo = ((inicidenciaList1.size()-(inicidenciaList1.size()%paso))/paso);
+                }else{
+                    ultimo = inicidenciaList1.size()/paso;
+                }
+                model.addAttribute("ultimo",ultimo);
+                //----------------------------------------------------------------------------------------------
+
+                if(inicialIndex<finalIndex){
+                    List<Inicidencia> inicidenciaList = inicidenciaList1.subList(inicialIndex, finalIndex);
+                    model.addAttribute("index",index);
+                    model.addAttribute("soloListar","soloListar");
+                    //----------------------------------------------------------------------------------------------
+
+                    model.addAttribute("idtipoI",0);
+                    model.addAttribute("idUrgI",0);
+                    model.addAttribute("idOrdenI",0);
+                    model.addAttribute("idEstad",2);
+                    model.addAttribute("ListaIncidencias", inicidenciaList);
+
+                    HashMap<Inicidencia, String> datos = new HashMap<Inicidencia, String>();
+                    for(Inicidencia incidencia: inicidenciaList){
+                        datos.put(incidencia,perfilDao.obtenerImagen("Incidencia_"+ String.valueOf(incidencia.getId())).getFileBase64());
+                    }
+                    model.addAttribute("hashmap",datos);
+                    model.addAttribute("ListaTipos", listaTipos);
+                    model.addAttribute("ListaUrgencia", listaUrg);
+                    model.addAttribute("ListaOrden", listaOrden);
+                    model.addAttribute("ListaEstado",listaEstados);
+                    return "seguridad/incidencias";
+                }else{
+                    //Esto por si algun usuario chistoso pone en el link un index que supera el numero de incidencias
+                    return "redirect:/seguridad/incidencias?index=0";
+                }
             }else{
                 return "redirect:/seguridad";
             }
@@ -624,12 +664,12 @@ public class SeguridadController {
                     model.addAttribute("imgi",perfilDao.obtenerImagen("Incidencia_"+ id).getFileBase64());
                     return "seguridad/seguridad";
                 }else{
-                    return "redirect:/seguridad/incidencias";
+                    return "redirect:/seguridad/incidencias?index=0";
                 }
             }
 
         }else{
-            return "redirect:/seguridad/incidencias";
+            return "redirect:/seguridad/incidencias?index=0";
         }
     }
 
@@ -674,10 +714,10 @@ public class SeguridadController {
                 senderService.sendSimpleEmail(correo,"Información acerca de la Incidencia con ID "+incidencia.getId(),"Estimado usuario, su incidencia pasa al estado de Atendido. Comentario del miembro de seguridad: "+comentario);
                 String texto = "La incidencia con ID "+incidencia.getId()+" del usuario con código "+ incidencia.getCodigo().getId()+" ha sido respondida.";
                 redirectAttributes.addFlashAttribute("msg",texto);
-                return "redirect:/seguridad/incidencias";
+                return "redirect:/seguridad/incidencias?index=0";
             }
         }else{
-            return "redirect:/seguridad/incidencias";
+            return "redirect:/seguridad/incidencias?index=0";
         }
     }
 
