@@ -122,7 +122,7 @@
               <input th:value="${incidencia.codigo.id}" name="codigo" type="hidden"/>
 
               <textarea th:placeholder="'El último comentario es: '+${incidencia.comentario}" class="form-control" type="text" id="comentario" name="comentario"
-                        th:classappend="${#fields.hasErrors('incidencia.comentario')?'is-invalid':''}" required style="width: 95%;margin-left: 10px"></textarea>
+                        th:classappend="${#fields.hasErrors('incidencia.comentario')?'is-invalid':''}" maxlength="100" required style="width: 95%;margin-left: 10px"></textarea>
               <div class="invalid-feedback" th:if="${#fields.hasErrors('incidencia.comentario')}"
                    th:errors="${incidencia.comentario}">
                 Please choose a username.
