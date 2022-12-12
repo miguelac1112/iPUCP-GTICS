@@ -95,12 +95,16 @@
                 </a>
             </div>
             <div class="col-auto">
-                <form method="post" th:action="@{/usuario/listarFiltrado}">
+                <form method="post" th:action="@{/usuario/listarIntermedio}">
                     <div class="form-floating">
                         <label for="orden" class="form-label">Ordenar:</label>
-                        <select class="form-select" id="orden" name="orden" required>
-                            <option value="1">Reciente</option>
+                        <select class="form-select" id="orden" name="orden" required th:if="${soloListar == 'soloListar'}">
+                            <option selected value="1">Reciente</option>
                             <option value="2">Más Popular</option>
+                        </select>
+                        <select class="form-select" id="orden" name="orden" required th:if="${listarFiltrado == 'listarFiltrado'}">
+                            <option value="1">Reciente</option>
+                            <option selected value="2">Más Popular</option>
                         </select>
                         <div class="col-auto m-1">
                             <button  class="btn btn-primary btn-sm" type="submit" style="margin-left: -20px">Aplicar</button>
@@ -234,10 +238,16 @@
         </div>
     </div>
     <div class="row justify-content-center" style="padding-bottom: 18%">
-        <div>
+        <div th:if="${soloListar == 'soloListar'}">
             <a class="btn btn-primary" th:href="@{'/usuario/listar?index=' + ${index - 1}}" th:if="${disableAnterior == null}">Anterior</a>
             <button class="btn btn-primary" disabled="" th:unless="${disableAnterior == null}">Anterior</button>
             <a class="btn btn-primary" th:href="@{'/usuario/listar?index=' + ${index+1}}" th:if="${disableSiguiente == null}">Siguiente</a>
+            <button class="btn btn-primary" disabled="" th:unless="${disableSiguiente == null}">Siguiente</button>
+        </div>
+        <div th:if="${listarFiltrado == 'listarFiltrado'}">
+            <a class="btn btn-primary" th:href="@{'/usuario/listarFiltrado?index=' + ${index - 1}}" th:if="${disableAnterior == null}">Anterior</a>
+            <button class="btn btn-primary" disabled="" th:unless="${disableAnterior == null}">Anterior</button>
+            <a class="btn btn-primary" th:href="@{'/usuario/listarFiltrado?index=' + ${index+1}}" th:if="${disableSiguiente == null}">Siguiente</a>
             <button class="btn btn-primary" disabled="" th:unless="${disableSiguiente == null}">Siguiente</button>
         </div>
     </div>
