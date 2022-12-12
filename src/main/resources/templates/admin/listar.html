@@ -98,7 +98,7 @@
                         </div>
                     </form>
                     <div class="col-sm-6 mb-4" style="display: flex; justify-content: flex-end">
-                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#Modal2">Acciones sobre usuario</button>
+                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#Modal2" >Acciones sobre usuario</button>
                     </div>
 
                 </div>
@@ -108,7 +108,7 @@
         <div th:if="${msg != null}" th:text="${msg}" class="alert alert-success" role="alert"></div>
         <div th:if="${msg2 != null}" th:text="${msg2}" class="alert alert-danger" role="alert"></div>
 
-        <div>
+        <div style="padding-bottom: 5%">
             <table class="table table-striped display nowrap" id="tablax" style="overflow-x: auto; overflow-y: auto" width="100%">
                 <thead style="color: #0095f6">
                 <tr class="table-info">
@@ -195,7 +195,7 @@
 
                                 <label for="justificacion" class="form-label">Ingrese justificación: </label>
                                 <textarea th:field="${usuario.justificacion}" class="form-control" name="justificacion" id="justificacion" rows="4"
-                                          th:classappend="${#fields.hasErrors('usuario.justificacion')?'is-invalid':''}"></textarea>
+                                          th:classappend="${#fields.hasErrors('usuario.justificacion')?'is-invalid':''}" minlength="10"></textarea>
                                 <div class="invalid-feedback" th:if="${#fields.hasErrors('usuario.justificacion')}"
                                      th:errors="${usuario.justificacion}">
                                     Please choose a username.
@@ -207,12 +207,14 @@
                     <div class="modal-footer">
                         <button th:unless="${#fields.hasErrors('usuario.justificacion')}" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Regresar</button>
                         <a th:if="${#fields.hasErrors('usuario.justificacion')}" type="button" class="btn btn-secondary" th:href="@{'/admin/listar'}">Regresar</a>
-                        <button type="submit" class="btn btn-danger" th:form="${'form'+usuario.id}">Aceptar</button>
+                        <button type="submit" class="btn btn-danger" th:form="${'form'+usuario.id}" id="aceptarSubmitt">Aceptar</button>
                     </div>
+
                 </div>
             </div>
         </div>
     </div>
+
 
     <script th:inline="javascript">
         var myModal = new bootstrap.Modal(document.getElementById('Modal'+[[${id}]]), {})
@@ -251,6 +253,7 @@
             </div>
         </div>
     </div>
+
 
 
     <!-- JQUERY -->
@@ -305,6 +308,7 @@
             );
         });
     </script>
+
 
 </main>
 

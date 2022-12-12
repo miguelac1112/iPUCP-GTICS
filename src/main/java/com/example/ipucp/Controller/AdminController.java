@@ -67,8 +67,14 @@ public class AdminController {
             System.out.println("----------------------------- Error detectado --------------------------");
             System.out.println(bindingResult.getFieldError());
             model.addAttribute("id",codigo);
-            model.addAttribute("listaUsuarios",usuarioRepository.findAll());
+            List<Usuario> listaUsuarios = usuarioRepository.findAll();
+            model.addAttribute("listaUsuarios",listaUsuarios);
             model.addAttribute("listaCargos",cargoRepository.findAll());
+            HashMap<Usuario,String> user = new HashMap<Usuario,String>();
+            for(Usuario u: listaUsuarios){
+                user.put(u,perfilDao.obtenerImagen(u.getId()).getFileBase64());
+            }
+            model.addAttribute("iperfi",user);
             return "admin/listar";
         }else {
             usuarioRepository.suspenderUsuario(justificacion,codigo);
