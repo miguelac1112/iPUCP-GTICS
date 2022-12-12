@@ -99,7 +99,14 @@
                     <input th:value="${incidencias.latitud}" style="display: none" th:id="la+${i.index}">
                     <input th:value="${incidencias.nombre}" style="display: none" th:id="n+${i.index}">
                     <input th:value="${incidencias.descripcion}" style="display: none" th:id="d+${i.index}">
+                    <input th:value="${incidencias.idtipo.getTipoIncidencia()}" style="display: none" th:id="idtipo+${i.index}">
                 </div>
+                <input th:value="${hashti.size()}" style="display: none" th:id="tamañoinc">
+                <div class="card mb-3" th:each="tipo , i : ${listaTipos}" style="display: none">
+                    <input th:value="${hashti.get(tipo)}" style="display: none" th:id="t+${i.index}">
+                    <input th:value="${tipo.tipoIncidencia}" style="display: none" th:id="tnombre+${i.index}">
+                </div>
+
 
             </div>
         </div>
@@ -108,20 +115,24 @@
 
         function iniciarMap(){
 
-            const iconBase =
-                "https://developers.google.com/maps/documentation/javascript/examples/full/images/";
+            function Icono(icon){
+                this.icon=icon;
+            }
+
             const icons = {
                 parking: {
                     icon: "/img/pineapple.png",
-                },
-                library: {
-                    icon: iconBase + "library_maps.png",
-                },
-                info: {
-                    icon: "/img/pineapple.png",
-                },
+                }
             };
 
+            var cantidadtipo = document.getElementById("tamañoinc").value;
+
+            for(let i = 0; i < cantidadtipo; i++){
+                var imagenico = document.getElementById("t"+i).value;
+                var nombreicon = document.getElementById("tnombre"+i).value;
+                nuevoicono= new Icono("data:image/png;base64,"+imagenico);
+                icons[nombreicon] = nuevoicono ;
+            }
             var map;
 
             const features = []
@@ -138,7 +149,8 @@
             for (let i = 0; i < numinc; i++) {
                 var log = document.getElementById("l"+i).value;
                 var lat = document.getElementById("la"+i).value;
-                nuevoMarcador = new Marcador(new google.maps.LatLng(lat,log),"info");
+                var idtipo = document.getElementById("idtipo"+i).value;
+                nuevoMarcador = new Marcador(new google.maps.LatLng(lat,log),idtipo);
                 features.push(nuevoMarcador);
             }
 

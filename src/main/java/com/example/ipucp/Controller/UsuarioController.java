@@ -54,8 +54,15 @@ public class UsuarioController {
     public String mapa(Model model,HttpSession session) {
         Usuario u = (Usuario) session.getAttribute("usuario");
         Usuario us = usuarioRepository.userPerfil(u.getId());
-        List<Inicidencia> listaIncidencia  =inicidenciaRepository.findAll();
+        List<Tipo> ListaTipo = tipoRepository.findAll();
+        HashMap<Tipo,String> ti = new HashMap<Tipo,String>();
+        for(Tipo tip: ListaTipo){
+            ti.put(tip,perfilDao.obtenerImagen("t"+String.valueOf(tip.getId())).getFileBase64());
+        }
+        model.addAttribute("hashti",ti);
+        List<Inicidencia> listaIncidencia  =inicidenciaRepository.incidenciaNoResueltas();
         model.addAttribute("listaIncidencia", listaIncidencia);
+        model.addAttribute("listaTipos",tipoRepository.findAll());
         model.addAttribute("usi",us);
 
         return "usuario/menu_mapa";
