@@ -66,18 +66,17 @@ public class UsuarioController {
         HashMap<Inicidencia,String> user = new HashMap<Inicidencia,String>();
         List<Inicidencia> lista1  =inicidenciaRepository.orderReciente_Usuario();
 
-        //List<Inicidencia> lista1  =inicidenciaRepository.orderReciente();
-        //System.out.println("---------------------------------------------------------------"+lista1.size());
-
         int paso = 10; //Cuantos publicaciones por vista
         int finalIndex;
         int inicialIndex;
+        // Condiciones index final:
         if((index+1)*paso <= lista1.size()){
             finalIndex = (index+1)*paso;
         }else{
             finalIndex = lista1.size();
             model.addAttribute("disableSiguiente","disableSiguiente");
         }
+        // Condiciones index inicial:
         if(index*paso > 0){
             inicialIndex = index*paso;
         }else{
@@ -118,22 +117,9 @@ public class UsuarioController {
             }
         }
         else if(form ==1){
-            List<Inicidencia> lista  =inicidenciaRepository.orderReciente_Usuario();
-            model.addAttribute("incidenciaList", lista);
-            for(Inicidencia incidencia: lista){
-                datos.put(incidencia,perfilDao.obtenerImagen("Incidencia_"+ String.valueOf(incidencia.getId())).getFileBase64());
-                user.put(incidencia,perfilDao.obtenerImagen(incidencia.getCodigo().getId()).getFileBase64());
-            }
+            return "redirect:/usuario/listar?index=0";
         }else{
-            List<Inicidencia> lista  =inicidenciaRepository.orderReciente_Usuario();
-            model.addAttribute("incidenciaList", lista);
-            for(Inicidencia incidencia: lista){
-                datos.put(incidencia,perfilDao.obtenerImagen("Incidencia_"+ String.valueOf(incidencia.getId())).getFileBase64());
-                user.put(incidencia,perfilDao.obtenerImagen(incidencia.getCodigo().getId()).getFileBase64());
-            }
-            model.addAttribute("hashmap",datos);
-            model.addAttribute("iperfil",user);
-            return "usuario/menu";
+            return "redirect:/usuario/listar?index=0";
         }
         model.addAttribute("hashmap",datos);
         model.addAttribute("iperfil",user);
