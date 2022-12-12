@@ -59,12 +59,22 @@ public class UsuarioController {
         return "usuario/menu_mapa";
     }
 
+    int i = 0;
+    int paso = 15;
+
     @GetMapping("/listar")
-    public String listar(Model model) {
+    public String listar(Model model,@RequestParam("index") Integer index) {
 
         HashMap<Inicidencia, String> datos = new HashMap<Inicidencia, String>();
         HashMap<Inicidencia,String> user = new HashMap<Inicidencia,String>();
-        List<Inicidencia> lista  =inicidenciaRepository.orderReciente();
+
+
+        List<Inicidencia> lista1  =inicidenciaRepository.orderReciente();
+        //System.out.println("---------------------------------------------------------------"+lista1.size());
+        List<Inicidencia> lista = lista1.subList(index*paso, (index+1)*paso);
+        //System.out.println("---------------------------------------------------------------"+lista.size());
+
+
         model.addAttribute("incidenciaList", lista);
 
         for(Inicidencia incidencia: lista){
@@ -121,12 +131,12 @@ public class UsuarioController {
             if(incidencia.getDestacado()!=3){
                 inicidenciaRepository.destacarIncidencia(id);
                 attr.addFlashAttribute("msg","La incidencia con título: '"+incidencia.getNombre()+"' ha recibido un nuevo destacado.");
-                return "redirect:/usuario/listar";
+                return "redirect:/usuario/listar?index=0";
             }else{
-                return "redirect:/usuario/listar";
+                return "redirect:/usuario/listar?index=0";
             }
         }else{
-            return "redirect:/usuario/listar";
+            return "redirect:/usuario/listar?index=0";
         }
 
     }

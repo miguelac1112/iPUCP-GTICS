@@ -61,7 +61,7 @@ public class LogController {
             switch (rol){
                 case "usuario" -> {
                     if(usuario.getBan() != 1){
-                        return "redirect:/usuario/listar";
+                        return "redirect:/usuario/listar?index=0";
                     }else{
                         String texto = "El usuario ha sido baneado";
                         redirectAttributes.addFlashAttribute("msgLogin_ban",texto);
@@ -102,7 +102,7 @@ public class LogController {
             switch (rol){
                 case "usuario" -> {
                     if(usuario.getBan() <3){
-                        return "redirect:/usuario/listar";
+                        return "redirect:/usuario/listar?index=0";
                     }else{
                         String texto = "El usuario ha sido baneado";
                         redirectAttributes.addFlashAttribute("msgLogin_ban",texto);
