@@ -792,12 +792,23 @@ public class SeguridadController {
     }
 
     @GetMapping("/mapa_incidencias")
-    public String mapa(HttpSession session) {
+    public String mapa(HttpSession session, Model model) {
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         String codigo = usuario.getId();
+        Usuario us = usuarioRepository.userPerfil(usuario.getId());
         Optional<Usuario> optUser = usuarioRepository.findById(codigo);
         if(optUser.isPresent()){
             if(optUser.get().getValidado() == 1){
+                List<Tipo> ListaTipo = tipoRepository.findAll();
+                HashMap<Tipo,String> ti = new HashMap<Tipo,String>();
+                for(Tipo tip: ListaTipo){
+                    ti.put(tip,perfilDao.obtenerImagen("t"+String.valueOf(tip.getId())).getFileBase64());
+                }
+                model.addAttribute("hashti",ti);
+                List<Inicidencia> listaIncidencia  =inicidenciaRepository.incidenciaNoResueltas();
+                model.addAttribute("listaIncidencia", listaIncidencia);
+                model.addAttribute("listaTipos",tipoRepository.findAll());
+                model.addAttribute("usi",us);
                 return "seguridad/seguridad_mapa";
             }else{
                 return "redirect:/seguridad";
