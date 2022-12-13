@@ -13,6 +13,7 @@
     />
     <script src="https://kit.fontawesome.com/1e18eec1cd.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/css/style.css"  />
+    <link rel="stylesheet" th:href="@{https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css}"/>
     <title>iPUCP</title>
     <style>
         @media (max-width: 777px) {
@@ -24,6 +25,10 @@
             .show-mobile {
                 display: none;
             }
+        }
+        #map {
+            height: 400px;
+            width: 100%;
         }
     </style>
 </head>
@@ -118,7 +123,10 @@
     </div>
     <div class="row justify-content-center">
         <div class="col-10 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-            <div class="card mt-5 mb-3" th:each="incidencia : ${incidenciaList}" >
+            <input th:value="${incidenciaList.size}" style="display: none" th:id="incidenciasSize">
+            <div class="card mt-5 mb-3" th:each="incidencia, i: ${incidenciaList}" >
+                <input th:value="${incidencia.latitud}" style="display: none" th:id="la+${i.index}">
+                <input th:value="${incidencia.longitud}" style="display: none" th:id="lo+${i.index}">
                 <div class="card-header">
                     <img
                             th:if="${iperfil.get(incidencia) != null}"
@@ -174,14 +182,12 @@
                   font-size: 12px;
                   color: rgb(139, 133, 133);
                 " th:text="${'Destacado '+incidencia.destacado+' veces'}"></p>
-
                     <p class="card-text" style="
                   margin-top: -10px;
                   margin-left: -4px;
                   font-size: 12px;
                   color: rgb(139, 133, 133);
                 " th:text="${'Publicado el '+incidencia.fecha.toString().split('T')[0].split('-')[2]+'/'+incidencia.fecha.toString().split('T')[0].split('-')[1]+'/'+incidencia.fecha.toString().split('T')[0].split('-')[0]}"></p>
-
                 </div>
                 <div
                         class="card-footer"
@@ -205,7 +211,7 @@
                                 ></i
                                 ></a>
                             </li>
-                            <li class="nav-item ms-5" data-bs-toggle="modal" data-bs-target="#exampleModal" th:attr="data-bs-target=${'#Modal'+incidencia.id}">
+                            <li  class="nav-item ms-5" data-bs-toggle="modal" data-bs-target="#exampleModal" th:attr="data-bs-target=${'#Modal'+incidencia.id}">
                                 <a class="nav-link" href="#"
                                 ><i
                                         class="fa-solid fa-comment"
@@ -218,8 +224,8 @@
                                 ></i
                                 ></a>
                             </li>
-                            <li class="nav-item ms-5">
-                                <a class="nav-link" href="#"
+                            <li th:id="${i.index}" class="nav-item ms-5" data-bs-toggle="modal" data-bs-target="#modalListarIncidencias" >
+                                <a class="nav-link" onclick="funu()"
                                 ><i
                                         class="fa-solid fa-location-dot"
                                         style="
@@ -283,6 +289,71 @@
         </div>
     </div>
 </div>
+<!---MODAL UBI-->
+
+<div class="modal fade"  id="modalListarIncidencias" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel1">Ubicación de la incidencia</h5>
+            </div>
+            <div class="modal-body">
+                <div class="contact-details-container">
+                    <div id="map"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script>
+    function funu(){
+        document.getElementById("modalListarIncidencias").style.display="block";
+    }
+
+</script>
+<script>
+    function Marcador(lat,lng){
+        this.lat=lat;
+        this.lng=lng;
+    }
+
+    var cantidad = document.getElementById("incidenciasSize").value;
+    for(let i = 0; i < cantidad; i++)
+        $("#"+i).click(function(){
+            var latitud = parseFloat(document.getElementById("la"+i).value);
+            var longitud = parseFloat(document.getElementById("lo"+i).value);
+            nuevoMarcador = new Marcador(latitud,longitud);
+            console.log(nuevoMarcador)
+            var map = new google.maps.Map(document.getElementById('map'),{
+                zoom: 17,
+                center: nuevoMarcador
+            });
+            var marker = new google.maps.Marker({
+                position: nuevoMarcador,
+                map: map
+            });
+        });
+
+    function iniciarMap(){
+        var coord = {lat:-12.072735 ,lng: -77.081416};
+        var map = new google.maps.Map(document.getElementById('map'),{
+            zoom: 17,
+            center: coord
+        });
+        var marker = new google.maps.Marker({
+            position: coord,
+            map: map
+        });
+    }
+
+</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+<script async
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyApfnCEswuRjYhGp_TS6-B5aYTqEC9PL1w&v=beta&libraries=marker&callback=iniciarMap">
+</script>
 </body>
 </html>
