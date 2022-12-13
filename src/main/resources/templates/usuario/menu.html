@@ -247,20 +247,20 @@
         <div th:if="${soloListar == 'soloListar'}">
             <button class="btn btn-primary btn-lg" disabled="" th:unless="${disableAnterior == null}" th:text="${'<<'}"></button>
             <a class="btn btn-primary btn-lg" th:href="@{'/usuario/listar?index=' + ${0}}" th:if="${disableAnterior == null}" th:text="${'<<'}"></a>
-            <a class="btn btn-primary btn-lg" th:href="@{'/usuario/listar?index=' + ${index - 1}}" th:if="${disableAnterior == null}"> 🢀 </a>
-            <button class="btn btn-primary btn-lg" disabled="" th:unless="${disableAnterior == null}"> 🢀 </button>
-            <a class="btn btn-primary btn-lg" th:href="@{'/usuario/listar?index=' + ${index+1}}" th:if="${disableSiguiente == null}"> 🢂 </a>
-            <button class="btn btn-primary btn-lg" disabled="" th:unless="${disableSiguiente == null}"> 🢂 </button>
+            <a class="btn btn-primary btn-lg" th:href="@{'/usuario/listar?index=' + ${index - 1}}" th:if="${disableAnterior == null}"> atras </a>
+            <button class="btn btn-primary btn-lg" disabled="" th:unless="${disableAnterior == null}"> atras </button>
+            <a class="btn btn-primary btn-lg" th:href="@{'/usuario/listar?index=' + ${index+1}}" th:if="${disableSiguiente == null}"> sgte </a>
+            <button class="btn btn-primary btn-lg" disabled="" th:unless="${disableSiguiente == null}"> sgte </button>
             <button class="btn btn-primary btn-lg" disabled="" th:unless="${disableSiguiente == null}" th:text="${'>>'}"></button>
             <a class="btn btn-primary btn-lg" th:href="@{'/usuario/listar?index=' + ${ultimo}}" th:if="${disableSiguiente == null}" th:text="${'>>'}"></a>
         </div>
         <div th:if="${listarFiltrado == 'listarFiltrado'}">
             <button class="btn btn-primary btn-lg" disabled="" th:unless="${disableAnterior == null}" th:text="${'<<'}"></button>
             <a class="btn btn-primary btn-lg" th:href="@{'/usuario/listarFiltrado?index=' + ${0}}" th:if="${disableAnterior == null}" th:text="${'<<'}"></a>
-            <a class="btn btn-primary btn-lg" th:href="@{'/usuario/listarFiltrado?index=' + ${index - 1}}" th:if="${disableAnterior == null}"> 🢀 </a>
-            <button class="btn btn-primary btn-lg" disabled="" th:unless="${disableAnterior == null}"> 🢀 </button>
-            <a class="btn btn-primary btn-lg" th:href="@{'/usuario/listarFiltrado?index=' + ${index+1}}" th:if="${disableSiguiente == null}"> 🢂 </a>
-            <button class="btn btn-primary btn-lg" disabled="" th:unless="${disableSiguiente == null}"> 🢂 </button>
+            <a class="btn btn-primary btn-lg" th:href="@{'/usuario/listarFiltrado?index=' + ${index - 1}}" th:if="${disableAnterior == null}"> atras </a>
+            <button class="btn btn-primary btn-lg" disabled="" th:unless="${disableAnterior == null}"> atras </button>
+            <a class="btn btn-primary btn-lg" th:href="@{'/usuario/listarFiltrado?index=' + ${index+1}}" th:if="${disableSiguiente == null}"> sgte </a>
+            <button class="btn btn-primary btn-lg" disabled="" th:unless="${disableSiguiente == null}"> sgte </button>
             <button class="btn btn-primary btn-lg" disabled="" th:unless="${disableSiguiente == null}" th:text="${'>>'}"></button>
             <a class="btn btn-primary btn-lg" th:href="@{'/usuario/listarFiltrado?index=' + ${ultimo}}" th:if="${disableSiguiente == null}" th:text="${'>>'}"></a>
         </div>
