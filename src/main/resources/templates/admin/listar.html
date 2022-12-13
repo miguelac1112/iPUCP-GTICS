@@ -195,7 +195,7 @@
 
                                 <label for="justificacion" class="form-label">Ingrese justificación: </label>
                                 <textarea th:field="${usuario.justificacion}" class="form-control" name="justificacion" id="justificacion" rows="4"
-                                          th:classappend="${#fields.hasErrors('usuario.justificacion')?'is-invalid':''}" minlength="10"></textarea>
+                                          th:classappend="${#fields.hasErrors('usuario.justificacion')?'is-invalid':''}" minlength="10" required></textarea>
                                 <div class="invalid-feedback" th:if="${#fields.hasErrors('usuario.justificacion')}"
                                      th:errors="${usuario.justificacion}">
                                     Please choose a username.
