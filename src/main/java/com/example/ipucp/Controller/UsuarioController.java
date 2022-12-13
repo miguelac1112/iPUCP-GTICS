@@ -650,14 +650,14 @@ public class UsuarioController {
 
     /*Face Blur function*/
     public String faceBlur(String base64Input) throws IOException{
-        /*System.out.println(base64Input);*/
+        //System.out.println(base64Input);
         String originalInput = "victor aponte:$ipucp123GTICS$";
         String credentials = Base64.getEncoder().encodeToString(originalInput.getBytes());
 
         JSONObject jo = new JSONObject();
         jo.put("base64_Photo_String", base64Input);
         jo.put("photo_url", "NO");
-        /*System.out.println(jo);*/
+        //System.out.println(jo);
         final String POST_PARAMS = jo.toString();
 
         URL obj = new URL("https://www.de-vis-software.ro/FaceBlurest.aspx");
@@ -689,7 +689,12 @@ public class UsuarioController {
             String find = "final_photo";
             int i = str.indexOf(find);
             String outp = str.substring(i+find.length() + 3,str.length() - 2 );
-            /*System.out.println("De aqui: " + outp + "HASTA AQUIIII");*/
+            //System.out.println("De aqui: " + outp + "HASTA AQUIIII");/
+            if(outp.length()<100){
+                outp=base64Input;
+            }
+
+            System.out.println(str);
 
             return outp;
         }
