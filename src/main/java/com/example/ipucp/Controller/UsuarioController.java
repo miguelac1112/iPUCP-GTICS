@@ -384,7 +384,8 @@ public class UsuarioController {
     }
 
     @GetMapping("/lista_comentarios")
-    public String listacomentarios(HttpSession session, Model model, @RequestParam("id") Integer id, @ModelAttribute("comentario") Comentario comentario ) {
+    public String listacomentarios(HttpSession session, Model model, @RequestParam("id") Integer id, @ModelAttribute("comentario") Comentario comentario
+    , RedirectAttributes attr) {
         List<Comentario> listaComentariosSeguridad = comentarioRepository.IncidenciasComentariosSeguridad(id);
         List<Comentario> listaComentariosUsuario = comentarioRepository.IncidenciasComentariosUsuario(id);
 
@@ -400,6 +401,7 @@ public class UsuarioController {
             }
 
             if (listaComentariosSeguridad.size() == 0 || i == 0) {
+                attr.addFlashAttribute("msg_nullcomentario","No existen comentarios de esta incidencia.");
                 return "redirect:/usuario/misIncidencias";
             } else {
                 model.addAttribute("id", id);

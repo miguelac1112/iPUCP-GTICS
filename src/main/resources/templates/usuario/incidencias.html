@@ -89,6 +89,7 @@
     <div class="container px-4 py-5">
         <h1 class="pb-2 border-bottom" style="text-align: center;margin-top: -5%">Mis Incidencias</h1>
         <div class="container">
+            <div th:if="${msg_nullcomentario != null}" th:text="${msg_nullcomentario}" class="text-danger nb-2" role="alert"></div>
             <div th:if="${msg != null}" th:text="${msg}" class="alert alert-success" role="alert"></div>
             <div th:if="${msg2 != null}" th:text="${msg2}" class="alert alert-success" role="alert"></div>
             <div th:if="${msg3 != null}" th:text="${msg3}" class="alert alert-success" role="alert"></div>
