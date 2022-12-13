@@ -96,14 +96,7 @@
                                 <div class="g_id_signin"  data-type="standard" th:href="@{/oauth2/authorization/google}"></div>
                             </div>
 
-                            <div class="form-group d-sm-flex">
-                                <div class="text-left">
-                                    <label class="checkbox-wrap checkbox-primary mb-0">Recordarme
-                                        <input type="checkbox" checked>
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </div>
-                            </div>
+
 
                             <div th:if="${msgLoginGoogle != null}" th:text="${msgLoginGoogle}" class="text-danger nb-2"></div>
                             <div th:if="${msgLogin != null}" th:text="${msgLogin}" class="text-success nb-2"></div>
