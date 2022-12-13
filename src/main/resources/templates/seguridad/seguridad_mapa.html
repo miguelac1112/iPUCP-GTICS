@@ -41,7 +41,7 @@
       <div class="navbar-row-container">
         <div class="nav-logo-container">
           <div class="menu-toggle">
-            <a th:href="@{'/usuario/listar?index=0'}">
+            <a th:href="@{'/seguridad/incidencias?index=0'}">
               <img class="img-logo" th:src="@{/img/logo.jpg}" style="border-radius: 100%;margin-bottom: 2mm; height:60px;width:60px; margin-left: 2mm;margin-right:2mm"/>
             </a>
           </div>
@@ -225,7 +225,7 @@
                       position: pos,
                       map: map,
                       icon: imagen,
-                      draggable:true
+                      //draggable:true
                     });
                     setTimeout(()=>{
                       marker3.setMap(null);
@@ -236,7 +236,7 @@
 
           );
 
-        },1100);
+        },3000);
       } else {
         // Browser doesn't support Geolocation
         console.log("ffffff ya fue");
