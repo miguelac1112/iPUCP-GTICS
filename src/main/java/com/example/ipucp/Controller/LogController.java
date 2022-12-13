@@ -27,6 +27,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Controller
 public class LogController {
@@ -294,14 +296,21 @@ public class LogController {
     public String reset(Model model,@RequestParam("contrasenha1") String contrasenha1, @RequestParam("contrasenha2") String contrasenha2,
                         @RequestParam("correo") String correo,
                         RedirectAttributes redirectAttributes) {
-        if(Objects.equals(contrasenha1, contrasenha2)){
-            usuarioRepository.cambiarpassword(BCrypt.hashpw(contrasenha1, BCrypt.gensalt()),correo);
-            String texto = "Se ha cambiado exitósamente de contraseña.";
-            redirectAttributes.addFlashAttribute("msg20",texto);
-            return "redirect:/login";
+        if(isValid(contrasenha1) && isValid(contrasenha2)){
+            if(Objects.equals(contrasenha1, contrasenha2)){
+                usuarioRepository.cambiarpassword(BCrypt.hashpw(contrasenha1, BCrypt.gensalt()),correo);
+                String texto = "Se ha cambiado exitósamente de contraseña.";
+                redirectAttributes.addFlashAttribute("msg20",texto);
+                return "redirect:/login";
+            }else{
+                model.addAttribute("correo",correo);
+                String texto = "Las contraseñas puestas no son iguales.";
+                model.addAttribute("msg",texto);
+                return "login/reset-pass";
+            }
         }else{
             model.addAttribute("correo",correo);
-            String texto = "Las contraseñas puestas no son iguales.";
+            String texto = "La contraseña debe tener al menos un dígito, al menos una letra minúscula y mayúscula, y caracteres especiales.";
             model.addAttribute("msg",texto);
             return "login/reset-pass";
         }
@@ -418,36 +427,44 @@ public class LogController {
                             @ModelAttribute("usuario") @Valid Usuario usuario, BindingResult bindingResult,
                             RedirectAttributes redirectAttributes){
 
-        if(Objects.equals(contrasenha1, contrasenha2)){
-            //usuarioRepository.registrar(BCrypt.hashpw(contrasenha1, BCrypt.gensalt()), codigo);
-            System.out.println(codigo);
-            System.out.println(nombre);
-            System.out.println(apellido);
-            System.out.println(correo);
-            System.out.println(dni);
+        if(isValid(contrasenha1) && isValid(contrasenha2)){
+            if(Objects.equals(contrasenha1, contrasenha2)){
+                //usuarioRepository.registrar(BCrypt.hashpw(contrasenha1, BCrypt.gensalt()), codigo);
+                System.out.println(codigo);
+                System.out.println(nombre);
+                System.out.println(apellido);
+                System.out.println(correo);
+                System.out.println(dni);
 
-            String nombre1="";
-            String apellido1="";
-            List<UsuarioDto> lista= usuarioDao.listarUsuarios();
-            for(UsuarioDto usuario1: lista){
-                if(Objects.equals(usuario1.getCodigo(), codigo) && Objects.equals(usuario1.getCorreo(),correo)){
-                    System.out.println("casi ");
-                    nombre1= usuario1.getNombre();
-                    apellido1 = usuario1.getApellido();
-                    break;
-                    //usuarioRepository.add_db(Integer.parseInt(usuario1.getCodigo()),usuario1.getNombre(),usuario1.getApellido(),usuario1.getCorreo(),usuario1.getDni());
+                String nombre1="";
+                String apellido1="";
+                List<UsuarioDto> lista= usuarioDao.listarUsuarios();
+                for(UsuarioDto usuario1: lista){
+                    if(Objects.equals(usuario1.getCodigo(), codigo) && Objects.equals(usuario1.getCorreo(),correo)){
+                        System.out.println("casi ");
+                        nombre1= usuario1.getNombre();
+                        apellido1 = usuario1.getApellido();
+                        break;
+                        //usuarioRepository.add_db(Integer.parseInt(usuario1.getCodigo()),usuario1.getNombre(),usuario1.getApellido(),usuario1.getCorreo(),usuario1.getDni());
+                    }
                 }
-            }
 
-            usuarioRepository.add_db(codigo,nombre1,apellido1,correo,BCrypt.hashpw(contrasenha1, BCrypt.gensalt()),dni);
-            String texto = "Usuario registrado.";
-            redirectAttributes.addFlashAttribute("msg1",texto);
-            return "redirect:/login";
+                usuarioRepository.add_db(codigo,nombre1,apellido1,correo,BCrypt.hashpw(contrasenha1, BCrypt.gensalt()),dni);
+                String texto = "El usuario fue registrado.";
+                redirectAttributes.addFlashAttribute("msg1",texto);
+                return "redirect:/login";
+            }else{
+                String texto = "Las contraseñas puestas no son iguales.";
+                model.addAttribute("msg",texto);
+                return "login/new-pass";
+            }
         }else{
-            String texto = "Las contraseñas puestas no son iguales.";
+            String texto = "La contraseña debe tener al menos un dígito, al menos una letra minúscula y mayúscula, y caracteres especiales.";
             model.addAttribute("msg",texto);
             return "login/new-pass";
         }
+
+
     }
 
 
@@ -467,5 +484,30 @@ public class LogController {
     public static int numeroAleatorioEnRango(int minimo, int maximo) {
         // nextInt regresa en rango pero con límite superior exclusivo, por eso sumamos 1
         return ThreadLocalRandom.current().nextInt(minimo, maximo + 1);
+    }
+
+    public static boolean isValid(String s) {
+
+        /*
+        * (? =. * [0-9]) representa que un dígito debe aparecer al menos una vez.
+        (? =. * [az]) representa que el alfabeto en minúsculas debe aparecer al menos una vez.
+        (? =. * [AZ]) representa un alfabeto en mayúsculas que debe aparecer al menos una vez.
+        (? =. * [@ # $% ^ & - + =()] representa un carácter especial que debe aparecer al menos una vez.
+        (? = \\ S + $) no se permiten espacios en blanco en toda la string.
+        {5, 20} representa al menos 5 caracteres y como máximo 20 caracteres.*/
+
+        Pattern p = Pattern.compile("^(?=.*[0-9])"
+                + "(?=.*[a-z])(?=.*[A-Z])"
+                + "(?=.*[@#$%^&+=])"
+                + "(?=\\S+$).{5,20}$");
+
+        // Pattern class contains matcher() method
+        // to find matching between given number
+        // and regular expression for which
+        // object of Matcher class is created
+        Matcher m = p.matcher(s);
+
+        // Returning bollean value
+        return (m.matches());
     }
 }
