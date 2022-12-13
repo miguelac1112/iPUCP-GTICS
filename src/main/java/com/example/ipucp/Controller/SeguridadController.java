@@ -480,7 +480,7 @@ public class SeguridadController {
 
                 //----------------------------------------------------------------------------------------------
                 //Paginación:
-                int paso = 10; //Cuantos publicaciones por vista
+                int paso = 6; //Cuantos publicaciones por vista
                 int finalIndex;
                 int inicialIndex;
                 // Condiciones index final:
@@ -631,7 +631,7 @@ public class SeguridadController {
                 //Paginación:
                 List<Inicidencia> inicidenciaList1 = listIncidencias;
                 System.out.println("-------------------------------------------------------------------------------------------------"+inicidenciaList1.size());
-                int paso = 10; //Cuantos publicaciones por vista
+                int paso = 6; //Cuantos publicaciones por vista
                 int finalIndex;
                 int inicialIndex;
                 // Condiciones index final:

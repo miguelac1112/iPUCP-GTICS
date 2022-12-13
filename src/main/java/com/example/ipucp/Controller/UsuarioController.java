@@ -75,7 +75,7 @@ public class UsuarioController {
         HashMap<Inicidencia,String> user = new HashMap<Inicidencia,String>();
         List<Inicidencia> lista1  =inicidenciaRepository.orderReciente_Usuario();
 
-        int paso = 10; //Cuantos publicaciones por vista
+        int paso = 6; //Cuantos publicaciones por vista
         int finalIndex;
         int inicialIndex;
         // Condiciones index final:
@@ -139,7 +139,7 @@ public class UsuarioController {
 
         List<Inicidencia> lista1  =inicidenciaRepository.orderMaspopular();
 
-        int paso = 10; //Cuantos publicaciones por vista
+        int paso = 6; //Cuantos publicaciones por vista
         int finalIndex;
         int inicialIndex;
         // Condiciones index final:
